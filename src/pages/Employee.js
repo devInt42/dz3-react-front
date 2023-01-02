@@ -1,47 +1,97 @@
-import React, { useState, useEffect } from 'react';
-import { useSearchParams } from "react-router-dom";
-import {Table, Row, Col, Button, Container} from 'react-bootstrap';
-import axios from 'axios';
-import { StyledComponent } from 'styled-components';
-const Employee = () => {
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Button, Container, Row } from "react-bootstrap";
+import styled from "styled-components";
+
+function Employee() {
   const [employeeId, setEmployeeId] = useState("");
   const [employeeName, setEmployeeName] = useState("");
   const [resId, setResId] = useState("");
   const [resName, setResName] = useState("");
   const baseUrl = "http://localhost:8080";
   const [res, setRes] = useState("");
-
-  const getById = (e) =>{
-    axios({
-      baseURL : baseUrl,
-      url : "/employee/"+employeeId,
-    }).then((response)=>{
-      console.log(response.data);
-    }).catch((error) => console.log(error));
-  }
-
-  async function testAxios() {
+  async function getEmployeeList() {
+    const url = baseUrl + "/employee/emplist";
     const data = {
       employeeId: employeeId,
       employeeName: employeeName,
     };
-
+    console.log(JSON.stringify(data));
+    axios({
+      method: "get",
+      url: url,
+    }).then((res) => {
+      console.log(res.data);
+      setRes(res.data);
+    });
+  }
+  async function getEmployeeById() {
+    const url = baseUrl + "/employee/emplist/" + employeeId;
+    axios({
+      method: "get",
+      url: url,
+    })
+      .then((res) => {
+        console.log(res.data);
+        setRes(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  async function removeEmployee() {
+    const url = baseUrl + "/employee/emplist/" + employeeId;
+    axios({
+      method: "delete",
+      url: url,
+    })
+      .then((res) => {
+        console.log(res.data);
+        setRes(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  async function updateEmployee() {
+    const url = baseUrl + "/employee/emplist/" + employeeId;
+    const data = {
+      employeeId: employeeId,
+      employeeName: employeeName,
+    };
+    axios({
+      method: "patch",
+      url: url,
+      data: JSON.stringify(data),
+    })
+      .then((res) => {
+        console.log(res.data);
+        setRes(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  async function addEmployee() {
+    const url = baseUrl + "/employee";
+    const data = {
+      employeeName: employeeName,
+    };
     console.log(JSON.stringify(data));
 
- 
-    
     axios({
-      headers: { contentType: "application/json" },
-      url: "/employee/emplist",
-      method: "get",
+      method: "post",
+      url: url,
       data: JSON.stringify(data),
-      baseURL: baseUrl,
+      headers: { "Content-Type": "application/json" },
     })
-      .then((response) => {
-        console.log(response.data);
-        setRes(response.data);
+      .then((res) => {
+        console.log(res.data);
+        setRes(res.data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   const changeId = (e) => {
@@ -54,14 +104,47 @@ const Employee = () => {
   return (
     <>
       <Container>
-        <div>백엔드에서 가져온 데이터입니다 : {JSON.stringify(res)}</div>
-        사번 : <input type="text" onChange={changeId} id="empId" />
-        이름 : <input type="text" onChange={changeName} id="empName" />
-        <Row style={{justifyContent:'center'}}>
-        <Button variant="primary" onClick={testAxios} style={{width:'100px'}}>
-          리스트
-        </Button>
-        <Button variant="danger"style={{width:'100px'} } onClick={getById}>특정 직원</Button>
+        <Row>
+          <div>백엔드에서 가져온 데이터입니다 : {JSON.stringify(res)}</div>
+          사번 : <input type="text" onChange={changeId} id="empId" />
+          이름 : <input type="text" onChange={changeName} id="empName" />
+        </Row>
+        <Row>
+          <Button
+            variant="primary"
+            onClick={getEmployeeList}
+            style={{ width: "100px" }}
+          >
+            전체 조회
+          </Button>
+          <Button
+            variant="warning"
+            onClick={getEmployeeById}
+            style={{ width: "100px" }}
+          >
+            사번 조회
+          </Button>
+          <Button
+            variant="danger"
+            onClick={removeEmployee}
+            style={{ width: "100px" }}
+          >
+            삭제
+          </Button>{" "}
+          <Button
+            variant="success"
+            onClick={updateEmployee}
+            style={{ width: "100px" }}
+          >
+            수정
+          </Button>{" "}
+          <Button
+            variant="light"
+            onClick={addEmployee}
+            style={{ width: "100px" }}
+          >
+            추가
+          </Button>
         </Row>
         <div>사번 : {employeeId}</div>
         <div>이름 : {employeeName}</div>
