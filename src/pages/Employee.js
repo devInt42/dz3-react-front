@@ -62,6 +62,7 @@ function Employee() {
     axios({
       method: "patch",
       url: url,
+      headers: { "Content-Type": "application/json" },
       data: JSON.stringify(data),
     })
       .then((res) => {
