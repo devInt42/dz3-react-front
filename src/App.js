@@ -1,7 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Proxytest from "./components/Proxytest";
+import Home from "./pages/HomePage";
+import Employee from "./pages/Employee";
 
 function App() {
+
     const baseUrl = "http://localhost:8080"
 //    const [hello, setHello] = useState('')
 
@@ -18,26 +21,38 @@ function App() {
 //         </div>
 //     );
 
-    const [user2, setUser2] = useState([]);
-    useEffect(()=>{
-        axios.get(baseUrl+'/user/userlist').then(response => setUser2(response.data)).catch(error => console.log(error))
-    }, []);
+    // const [user2, setUser2] = useState([]);
+    // useEffect(()=>{
+    //     axios.get(baseUrl+'/user/userlist').then(response => setUser2(response.data)).catch(error => console.log(error))
+    // }, []);
 
-    return(
-        <div>
-            {user2.map((user2, i)=>{
-                return(
-                <div key={i}>
-                    <div>id : {user2.id}</div><br />
-                    <div>이름 : {user2.name}</div><br />
-                    <div>회사 : {user2.company}</div><br />
-                    <hr />
-                </div>
-                );
-            })}
+    // return(
+    //     <div>
+    //         {user2.map((user2, i)=>{
+    //             return(
+    //             <div key={i}>
+    //                 <div>id : {user2.id}</div><br />
+    //                 <div>이름 : {user2.name}</div><br />
+    //                 <div>회사 : {user2.company}</div><br />
+    //                 <hr />
+    //             </div>
+    //             );
+    //         })}
             
-        </div>
-    );
+    //     </div>
+    // );
+  return (
+    <Router>
+      <Routes>
+        <Route path="/dz3/">
+          <Route path="" element={<Home />} />
+          <Route path="test" element={<Proxytest />} />
+          <Route path="employee" element={<Employee/>}/>
+        </Route>
+      </Routes>
+    </Router>
+  );
+
 }
 
 export default App;
