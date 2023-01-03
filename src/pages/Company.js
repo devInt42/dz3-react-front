@@ -1,12 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.css';
+import Button from 'react-bootstrap/Button';
 
 function Company() {
     const [companyCode,setCompanyCode] = useState('');
     const [companyName,setCompanyName] = useState('');
     const [res, setRes] = useState('');
     const baseUrl = "http://localhost:8080";
- 
+    
+// Get 은 가져온다는 개념
+// Post 는 수행한다는 개념
+
     function CompanyList() {
         const url= baseUrl+"/api/company/companyList";
         axios({
@@ -86,16 +91,16 @@ function Company() {
     return (
         <>
          백엔드에서 가져온 데이터입니다 : {JSON.stringify(res)} <hr />
-         코드 : <input type="text" onChange={changeCode} id="companyCode" />
-         이름 : <input type="text" onChange={changeName} id="companyName" />
+         회사코드 : <input type="text" onChange={changeCode} id="companyCode" />&nbsp;
+         회사명: <input type="text" onChange={changeName} id="companyName" />
          <hr />
-         <button onClick={CompanyList}>CompanyList</button>
-         <button onClick={remove}>remove</button>
-         <button onClick={searchOne}>searchOne</button>
-         <button onClick={update}>update</button>
-         <button onClick={add}>add</button>
+
+        <Button variant="primary" onClick={CompanyList}>CompanyList</Button>{' '}
+        <Button variant="success"  onClick={searchOne}>searchOne</Button>{' '}
+        <Button variant="warning" onClick={update}>update</Button>{' '}
+        <Button variant="danger" onClick={add}>add</Button>{' '}
+        <Button variant="secondary"  onClick={remove}>remove</Button>{' '}
         </>
-        
     );
 }
 
