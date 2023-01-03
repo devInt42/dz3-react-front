@@ -4,13 +4,14 @@ import axios from 'axios';
 
 const Company = () => {
     let [companydata, setCompanydata] = useState([]);
+    const baseUrl = "http://localhost:8080";
     
+
     useEffect( () => {
         console.log("company 페이지입니다.")
-        axios.get("/api/company/info")
+        axios.get(`${baseUrl}/api/company/info`)
         .then(res => setCompanydata(res.data))
         .catch(error => console.log(error))
-        
     }, [])
 
     return (
@@ -21,16 +22,15 @@ const Company = () => {
             <table border = "1">
                 <th>회사 코드</th>
                 <th>회사 이름</th>
-                <th>회사 약칭</th>
-                <th>설립일</th>
-                <th>폐업일</th>
+                <th>업태</th>
+                <th>대표자명</th>
+                <th>주소</th>
                 {companydata.map((company) => {
                     return(
-                        
                             <tr>
                                 <td>{company.company_code}</td><td>{company.company_name}</td>
-                                <td>{company.company_abbreviation}</td>
-                                <td>{company.company_startdate}</td><td>{company.company_close}</td>
+                                <td>{company.company_category}</td>
+                                <td>{company.company_president}</td><td>{company.company_addr}</td>
                             </tr>
                     )
                 })}
