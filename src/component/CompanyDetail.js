@@ -13,6 +13,7 @@ const CompanyDetail = () => {
         // console.log(Object.keys(companyInfo));
     },[])
     
+
     return (
         companyInfo && <div>
             <h2>11번 회사</h2>
@@ -38,6 +39,7 @@ const CompanyDetail = () => {
                         <td>{Object.values(companyInfo)[7]}</td>
                         <td>{Object.values(companyInfo)[8]}</td>
                         <td>{Object.values(companyInfo)[9]}</td>
+                        
                     </tr>
                 </table>
             </div>
