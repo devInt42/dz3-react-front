@@ -14,6 +14,9 @@ const Company = () => {
         .catch(error => console.log(error))
     }, [])
 
+    const deletecompany = (company_code) => {
+        axios.get(`${baseUrl}/api/company/delete/${company_code}`)
+    }
     return (
         <div>
             <h1>회사 정보</h1>
@@ -31,6 +34,7 @@ const Company = () => {
                                 <td>{company.company_code}</td><td>{company.company_name}</td>
                                 <td>{company.company_category}</td>
                                 <td>{company.company_president}</td><td>{company.company_addr}</td>
+                                <td><button onClick = {() => deletecompany(company.company_code)}>삭제</button></td>
                             </tr>
                     )
                 })}

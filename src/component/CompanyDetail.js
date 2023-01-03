@@ -13,6 +13,9 @@ const CompanyDetail = () => {
         // console.log(Object.keys(companyInfo));
     },[])
     
+    const deletecompany = () => {
+        axios.get(`${baseUrl}/api/company/delete/${companyCode}`)
+    }
 
     return (
         companyInfo && <div>
@@ -39,7 +42,7 @@ const CompanyDetail = () => {
                         <td>{Object.values(companyInfo)[7]}</td>
                         <td>{Object.values(companyInfo)[8]}</td>
                         <td>{Object.values(companyInfo)[9]}</td>
-                        
+                        <td><button onClick = {deletecompany}></button></td>
                     </tr>
                 </table>
             </div>
