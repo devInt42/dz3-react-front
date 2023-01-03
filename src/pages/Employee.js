@@ -4,7 +4,7 @@ import { Button, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
 
 function Employee() {
-  const [employeeId, setEmployeeId] = useState("");
+  const [employeeCode, setEmployeeCode] = useState("");
   const [employeeName, setEmployeeName] = useState("");
   const [resId, setResId] = useState("");
   const [resName, setResName] = useState("");
@@ -13,7 +13,7 @@ function Employee() {
   async function getEmployeeList() {
     const url = baseUrl + "/employee/emplist";
     const data = {
-      employeeId: employeeId,
+      employeeCode: employeeCode,
       employeeName: employeeName,
     };
     console.log(JSON.stringify(data));
@@ -25,8 +25,8 @@ function Employee() {
       setRes(res.data);
     });
   }
-  async function getEmployeeById() {
-    const url = baseUrl + "/employee/emplist/" + employeeId;
+  async function getEmployeeByCode() {
+    const url = baseUrl + "/employee/emplist/" + employeeCode;
     axios({
       method: "get",
       url: url,
@@ -40,7 +40,7 @@ function Employee() {
       });
   }
   async function removeEmployee() {
-    const url = baseUrl + "/employee/emplist/" + employeeId;
+    const url = baseUrl + "/employee/emplist/" + employeeCode;
     axios({
       method: "delete",
       url: url,
@@ -54,9 +54,9 @@ function Employee() {
       });
   }
   async function updateEmployee() {
-    const url = baseUrl + "/employee/emplist/" + employeeId;
+    const url = baseUrl + "/employee/emplist/" + employeeCode;
     const data = {
-      employeeId: employeeId,
+      employeedCode: employeeCode,
       employeeName: employeeName,
     };
     axios({
@@ -95,8 +95,8 @@ function Employee() {
       });
   }
 
-  const changeId = (e) => {
-    setEmployeeId(e.target.value);
+  const changeCode = (e) => {
+    setEmployeeCode(e.target.value);
   };
   const changeName = (e) => {
     setEmployeeName(e.target.value);
@@ -107,7 +107,7 @@ function Employee() {
       <Container>
         <Row>
           <div>백엔드에서 가져온 데이터입니다 : {JSON.stringify(res)}</div>
-          사번 : <input type="text" onChange={changeId} id="empId" />
+          사번 : <input type="text" onChange={changeCode} id="empId" />
           이름 : <input type="text" onChange={changeName} id="empName" />
         </Row>
         <Row>
@@ -120,7 +120,7 @@ function Employee() {
           </Button>
           <Button
             variant="warning"
-            onClick={getEmployeeById}
+            onClick={getEmployeeByCode}
             style={{ width: "100px" }}
           >
             사번 조회
@@ -147,7 +147,7 @@ function Employee() {
             추가
           </Button>
         </Row>
-        <div>사번 : {employeeId}</div>
+        <div>사번 : {employeeCode}</div>
         <div>이름 : {employeeName}</div>
       </Container>
     </>
