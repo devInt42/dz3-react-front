@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from 'axios';
-
+import CompanyList from './CompanyList';
 
 const Company = () => {
     let [companydata, setCompanydata] = useState([]);
@@ -19,6 +19,7 @@ const Company = () => {
     }
     return (
         <div>
+            <CompanyList/>
             <h1>회사 정보</h1>
             <br/>
             <br/>
@@ -30,7 +31,7 @@ const Company = () => {
                 <th>주소</th>
                 {companydata.map((company) => {
                     return(
-                            <tr>
+                            <tr key = {company}>
                                 <td>{company.company_code}</td><td>{company.company_name}</td>
                                 <td>{company.company_category}</td>
                                 <td>{company.company_president}</td><td>{company.company_addr}</td>
