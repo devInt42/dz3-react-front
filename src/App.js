@@ -5,6 +5,7 @@ import Proxytest from "./components/Proxytest";
 import Home from "./pages/HomePage";
 import Employee from "./pages/Employee";
 import Dept from "./pages/Dept"
+import Menu from "./pages/Menu"
 
 function App() {
 
@@ -52,6 +53,7 @@ function App() {
           <Route path="test" element={<Proxytest />} />
           <Route path="employee" element={<Employee/>}/>
           <Route path="dept" element={<Dept />} />
+          <Route path="menu" element={<Menu />} />
         </Route>
       </Routes>
     </Router>
