@@ -1,7 +1,6 @@
 import { BsPersonCircle } from "react-icons/bs";
 import React, { useState } from 'react';
 import Modal from '../components/Modals/Modal.js'
-
 const Home = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -16,12 +15,9 @@ const Home = () => {
     <React.Fragment>
     <BsPersonCircle onClick={openModal}></BsPersonCircle>
     <Modal open={modalOpen} close={closeModal} header="조직도">
-      <p className={'open1'}>
-      팝업창 testzzzzzzzzzzzzzstzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaastzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaastzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaastzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaazzzzzzzzzzzzzzzzzzzzzz
-      </p>
-      <div>
-      팝업창 test
-      </div>
+
+    children값받아옴
+ 
     </Modal>
   </React.Fragment>
 
