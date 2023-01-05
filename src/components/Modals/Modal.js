@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
+import { BsTelephonePlus } from "react-icons/bs";
 
 const Modal = (props) => {
   const { open, close, header } = props;
@@ -92,10 +93,12 @@ const Modal = (props) => {
 
                                 <Container>
                                     <Row>
-                                    <Col sm={3} > 부서이름 : {deptList.departmentName}</Col>
-                                    <Col sm={3}>  카테고리 : {deptList.departmentCategory}</Col>
-                                    <Col sm={3} >  전화번호 : {deptList.departmentCall}</Col>
-                                    <Col sm={3} > 위치 : {deptList.departmentLoc} </Col>
+                                    <Col sm={3} > image </Col>
+                                    <Col sm={9}>
+                                        <Row className="name">위치 : {deptList.departmentLoc}</Row>
+                                        <Row className="stage">카테고리 : {deptList.departmentCategory}</Row>
+                                        <Row className="phnum"><div style={{width:'30px', marginRight:'5px'}}><BsTelephonePlus /></div>{deptList.departmentCall} </Row>
+                                     </Col>
                                     </Row>
                                 <hr />
                                 </Container>
