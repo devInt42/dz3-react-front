@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import "../Modals/Modal.css";
 import Container from "react-bootstrap/Container";
@@ -10,16 +10,44 @@ const Modal = (props) => {
   const { open, close, header } = props;
   const baseUrl = "http://localhost:8080";
   const [deptNameList, setDeptNameList] = useState([]);
+  const [deptList, setDeptList] = useState([]);
 
-  function DeptNameList() {
-    const url = baseUrl + "/dept/deptNameList";
-    axios({
-      method: "get",
-      url: url,
-    }).then((res) => {
-      setDeptNameList(res.data);
-    });
-  }
+  useEffect( ()=> {
+   
+        const url = baseUrl + "/department/deptnamelist";
+        axios({
+          method: "get",
+          url: url,
+        }).then((res) => {
+          setDeptNameList(res.data);
+        });
+
+  },[]);
+
+//부서값에 해당되는 직원 list로 출력하는 함수
+    function test() {
+
+        const url = baseUrl + "/department/deptnamelist";
+        axios({
+          method: "get",
+          url: url,
+        }).then((res) => {
+            // console.log(res.data)
+            setDeptList(res.data);
+        });
+
+    }
+    
+    // useEffect( ()=> {
+    //     const url = baseUrl + "/department/deptnamelist";
+    //     axios({
+    //         method: "get",
+    //         url: url,
+    //       }).then((res) => {
+    //         setDeptList(res.data);
+    //         console.log(res.data);
+    //       });
+    //     },[]);
 
   return (
     //open 누르면 openModal 클래스 생성
@@ -39,13 +67,13 @@ const Modal = (props) => {
               <Row>
                 {/* <Button variant="primary" onClick={DeptNameList}>DeptNameList</Button>{' '} */}
                 <Col sm={3} className="test1">
-                  {props.children}
-                  {DeptNameList()}
+                  {/* {props.children} */}
 
                   {deptNameList.map((deptNameList, i) => {
                     return (
                       deptNameList && (
-                        <div key={i}>- {deptNameList.deptName}</div>
+                        <div key={i}>- <span onClick={ (() => test())}>{deptNameList.departmentName}</span></div>
+                        // <div key={i}>- {deptNameList.departmentName}</div>
                       )
                     );
                   })}
@@ -55,7 +83,28 @@ const Modal = (props) => {
                 </Col>
 
                 <Col sm={5} className="test2">
-                  값2
+                 {/* {JSON.stringify(deptList)} */}
+
+                 {deptList.map ( (deptList, i) => {
+                    return(
+                        deptList && (
+                            <div key={i}>
+
+                                <Container>
+                                    <Row>
+                                    <Col sm={3} > 부서이름 : {deptList.departmentName}</Col>
+                                    <Col sm={3}>  카테고리 : {deptList.departmentCategory}</Col>
+                                    <Col sm={3} >  전화번호 : {deptList.departmentCall}</Col>
+                                    <Col sm={3} > 위치 : {deptList.departmentLoc} </Col>
+                                    </Row>
+                                <hr />
+                                </Container>
+                            </div>
+                        )
+                    )
+
+                 })}
+
                 </Col>
 
                 <Col sm={4} className="test3">
@@ -69,5 +118,7 @@ const Modal = (props) => {
     </div>
   );
 };
+
+
 
 export default Modal;
