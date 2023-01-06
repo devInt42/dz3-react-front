@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import GNB from "../components/GNB";
+import LNB from "../components/LNB";
 
-function Menu(){
+function Menu() {
 
     const baseUrl = "http://localhost:8080";
     const [menu, setMenu] = useState([]);
@@ -10,10 +12,11 @@ function Menu(){
         axios.get(baseUrl + '/menu/menulist').then(response => setMenu(response.data)).catch(error => console.log(error))
     }, []);
     console.log(menu)
-    return(
+    return (
         <div>
-            {menu.map((menu, i) => {
-                return(
+            <GNB />
+            {/* {menu.map((menu, i) => {
+                return (
                     <div key={i}>
                         <div>{menu.menu_id}</div>
                         <div>{menu.menu_name}</div>
@@ -22,7 +25,7 @@ function Menu(){
                         <hr />
                     </div>
                 );
-            })}
+            })} */}
         </div>
     );
 
