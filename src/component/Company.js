@@ -1,45 +1,65 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import CompanyList from './CompanyList';
-
+import "../css/Company.css";
+import { GrAddCircle } from "react-icons/gr";
+import { GiCancel } from "react-icons/gi"
+import CompanyNotSelect from "./CompanyNotSelect";
+import CompanyInsert from "./CompanyInsert";
 const Company = () => {
     let [companydata, setCompanydata] = useState([]);
     const baseUrl = "http://localhost:8080";
-    
+    let [addflag, setAddflag] = useState(false);
 
-    useEffect( () => {
+    useEffect(() => {
         console.log("company 페이지입니다.")
-        axios.get(`${baseUrl}/api/company/info`)
-        .then(res => setCompanydata(res.data))
-        .catch(error => console.log(error))
+        axios.get(`${baseUrl}/company/info`)
+            .then(res => setCompanydata(res.data))
+            .catch(error => console.log(error))
     }, [])
 
-    const deletecompany = (company_code) => {
-        axios.get(`${baseUrl}/api/company/delete/${company_code}`)
+
+    
+    const addorcancel = () => {
+        if (!addflag) {
+            return (
+                <span id="addfont"><GrAddCircle />추가</span>
+            )
+        }
+        if (addflag) {
+            return (
+                <span id="addfont"><GiCancel />취소</span>
+            )
+        }
     }
     return (
+
+        companydata &&
         <div>
-            <CompanyList/>
-            <h1>회사 정보</h1>
-            <br/>
-            <br/>
-            <table border = "1">
-                <th>회사 코드</th>
-                <th>회사 이름</th>
-                <th>업태</th>
-                <th>대표자명</th>
-                <th>주소</th>
-                {companydata.map((company) => {
-                    return(
-                            <tr key = {company}>
-                                <td>{company.company_code}</td><td>{company.company_name}</td>
-                                <td>{company.company_category}</td>
-                                <td>{company.company_president}</td><td>{company.company_addr}</td>
-                                <td><button onClick = {() => deletecompany(company.company_code)}>삭제</button></td>
-                            </tr>
-                    )
-                })}
-            </table>
+            <h2>회사 정보</h2>
+            <hr class="line"></hr>
+            <div id="companyform">
+                <div>
+                    <CompanyList />
+                    <div id="idaddbox">
+                        <button id="idaddbutton" onClick={() => setAddflag(!addflag)}>
+                            {addorcancel()}
+                        </button>
+                    </div>
+                </div>
+                {
+                addflag === false ? 
+                <div id="companynotselectform">
+                    <div>
+                        <CompanyNotSelect />
+                    </div>
+                </div> 
+                :
+                <div class = "companyinfo">
+                    <CompanyInsert setAddflag = {setAddflag}/>
+                </div>
+                 }
+            </div>
         </div>
     )
 }

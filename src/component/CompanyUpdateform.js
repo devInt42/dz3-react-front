@@ -65,7 +65,7 @@ const CompanyUpdateform = () => {
 function updateCompanyInfo(data,companyCode) {
     const baseUrl = "http://localhost:8080";
     console.log(data);
-    axios.post(`${baseUrl}/api/company/update/${companyCode}`,JSON.stringify(data), {
+    axios.post(`${baseUrl}/company/update/${companyCode}`,JSON.stringify(data), {
         headers: {
             "Content-Type": 'application/json'
         }

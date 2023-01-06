@@ -7,7 +7,7 @@ const CompanyDetail = () => {
     let [companyInfo, setCompanyInfo] = useState();
 
     useEffect( () => {
-        axios.get(`${baseUrl}/api/company/info/${companyCode}`)
+        axios.get(`${baseUrl}/company/info/${companyCode}`)
         .then(res => setCompanyInfo(res.data))
         .catch(error => console.log(error));
         // console.log(Object.keys(companyInfo));
