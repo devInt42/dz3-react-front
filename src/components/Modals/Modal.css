@@ -16,18 +16,24 @@
 .name{
   font-size: large;
   font-weight: bolder;
+  padding-left: 10px;
+  padding-top: 20px;
+}
+
+.image{
   padding-top: 10px;
 }
 
 .stage{
   font-size: small;
+  padding-left: 10px; 
 }
 
 .phnum{
   font-size: medium;
   color: #999;
   padding-top: 15px;
-  float: left;
+  
 }
 
 .modal {
