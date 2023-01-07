@@ -1,7 +1,6 @@
 import { BsPersonCircle } from "react-icons/bs";
 import React, { useState } from "react";
 import Modal from "../components/Modals/Modal.js";
-import axios from "axios";
 
 const Home = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -16,6 +15,7 @@ const Home = () => {
   return (
     <React.Fragment>
       <BsPersonCircle size="30" onClick={openModal}></BsPersonCircle>
+
       <Modal open={modalOpen} close={closeModal} header="조직도">
         {/* children */}
       </Modal>

@@ -13,10 +13,16 @@ const Modal = (props) => {
   const [deptNameList, setDeptNameList] = useState([]);
   const [deptList, setDeptList] = useState([]);
   const [deptDetail, setDeptDetail] = useState([]);
+  const [companySeq, setCompanySeq] = useState("2");
+  const [workplaceSeq, setWorkplaceSeq] = useState();
+  const [departmentSeq, setDepartmentSeq] = useState();
+  const [startPgNum, setStartPgNum] = useState();
+  const [endPgNum, setEndPgNum] = useState();
+  const [test, setTest] = useState();
 
   //부서 전체 출력
   useEffect(() => {
-    const url = baseUrl + "/department/list";
+    const url = baseUrl + "/department/list/" + companySeq;
     axios({
       method: "get",
       url: url,
@@ -26,27 +32,47 @@ const Modal = (props) => {
   }, []);
 
   //부서값에 해당되는 직원 list로 출력하는 함수
-  function test() {
-    const url = baseUrl + "/department/list";
+  function ListPage(workplaceSeq, departmentSeq) {
+    // setWorkplaceSeq(deptNameList.workplaceSeq);
+    // setDepartmentSeq(deptNameList.departmentSeq);
+    // console.log(deptNameList.workplaceSeq);
+
+    // console.log(workplaceSeq);
+    // console.log(departmentSeq);
+    const url =
+      baseUrl +
+      "/department-employee/page/1?companySeq=" +
+      companySeq +
+      "&workplaceSeq=" +
+      workplaceSeq +
+      "&departmentSeq=" +
+      departmentSeq;
     axios({
-      method: "get",
+      type: "get",
       url: url,
-    }).then((res) => {
-      // console.log(res.data)
-      setDeptList(res.data);
-    });
+    })
+      .then((res) => {
+        // console.log(res.data)
+        setDeptList(res.data);
+        // console.log(res.data);
+      })
+      .catch(() => {
+        console.log("error");
+      });
   }
 
+  console.log(deptList);
   //리스트값에 해당되는 직원의 상세페이지
-  function test2() {
-    const url = baseUrl + "/department/list";
+  function DetailPage(employeeSeq) {
+    console.log(employeeSeq);
+    const url = baseUrl + "/employee/emplist/" + employeeSeq;
     axios({
       method: "get",
       url: url,
     }).then((res) => {
       // console.log(res.data)
       setDeptDetail(res.data);
-      console.log(deptDetail);
+      // console.log(deptDetail);
     });
   }
   // useEffect( ()=> {
@@ -85,7 +111,13 @@ const Modal = (props) => {
                       deptNameList && (
                         <div key={i}>
                           -{" "}
-                          <span onClick={() => test()}>
+                          <span
+                            onClick={() =>
+                              ListPage(
+                                deptNameList.workplaceSeq,
+                                deptNameList.departmentSeq
+                              )
+                            }>
                             {deptNameList.departmentName}
                           </span>
                         </div>
@@ -93,7 +125,6 @@ const Modal = (props) => {
                       )
                     );
                   })}
-
                   {/* {JSON.stringify(deptNameList.deptName)} */}
                   {/* {JSON.stringify(deptNameList)} */}
                 </Col>
@@ -105,7 +136,8 @@ const Modal = (props) => {
                       deptList && (
                         <div key={i}>
                           <Container>
-                            <Row onClick={() => test2()}>
+                            <Row
+                              onClick={() => DetailPage(deptList.employeeSeq)}>
                               <Col sm={3} classname="image">
                                 {" "}
                                 <div style={{ padding: "25px" }}>
@@ -115,16 +147,17 @@ const Modal = (props) => {
                               </Col>
                               <Col sm={9}>
                                 <Row className="name">
-                                  위치 : {deptList.departmentLoc}
+                                  {deptList.employeeName} |{" "}
+                                  {deptList.employeeId}
                                 </Row>
                                 <Row className="stage">
-                                  카테고리 : {deptList.departmentCategory}
+                                  부서번호 : {deptList.workplaceSeq}
                                 </Row>
                                 <Row className="phnum">
                                   <div style={{ width: "35px" }}>
                                     <BsTelephonePlus />
                                   </div>
-                                  {deptList.departmentCall}{" "}
+                                  {deptList.employeePh}{" "}
                                 </Row>
                               </Col>
                             </Row>
@@ -140,26 +173,34 @@ const Modal = (props) => {
                   <Col sm={4} className="test3">
                     <div>
                       <Row>
-                        <Col sm={9}>이미지1</Col>
-                        <Col sm={3}>이미지2</Col>
-                      </Row>
-                      <Row>
-                        {
-                          <div>
-                            {JSON.stringify(Object.values(deptDetail[0])[1])}
+                        <Col sm={9}>
+                          {" "}
+                          <div style={{ padding: "50px" }}>
+                            <BsFillFileEarmarkPersonFill size="60" />
                           </div>
-                        }
-                        {/* {JSON.stringify(Object.values(Object.values(deptDetail)))} */}
+                        </Col>
+                        <Col sm={3}>logo</Col>
+                        <hr />
                       </Row>
-                      <Row>a</Row>
-                      <Row>a</Row>
+                      <Row>{deptDetail.employeeName}</Row>
+                      <Row>{deptDetail.employeeId}</Row>
+                      <Row>{deptDetail.employeeBirth}</Row>
+                      <hr />
                     </div>
-                    <hr />
+
                     <div>
-                      <Row>a</Row>
-                      <Row>a</Row>
-                      <Row>a</Row>
-                      <Row>a</Row>
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          부서번호 : {deptList.workplaceSeq}
+                        </li>
+                        <li class="list-group-item">{deptDetail.employeePh}</li>
+                        <li class="list-group-item">
+                          {deptDetail.employeeCmail}
+                        </li>
+                        <li class="list-group-item">
+                          {deptDetail.employeePmail}
+                        </li>
+                      </ul>
                     </div>
                   </Col>
                 )}
