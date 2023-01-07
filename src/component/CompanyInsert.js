@@ -21,7 +21,8 @@ const CompanyInsert = ((props) => {
     let [flag, setFlag] = useState(0);
     let [areaCode, setAreaCode] = useState("");
     let [companyFax, setCompanyFax] = useState("");
-    let [zipCode, setZipCode] = useState("");
+    let [companyZipCode, setCompanyZipCode] = useState("");
+    let [companyForeigner, setCompanyForeigner] = useState("");
     let [address, setAddress] = useState("");
     const data = {
         "companyCode": companyCode,
@@ -37,7 +38,9 @@ const CompanyInsert = ((props) => {
         "companyEstablish": companyEstablish,
         "companyClosingday": companyClosingday,
         "flag": flag,
-        "companyFax": companyFax
+        "companyFax": companyFax,
+        "companyZipCode": companyZipCode,
+        "companyForeigner": companyForeigner
     }
 
     const baseUrl = "http://localhost:8080";
@@ -60,7 +63,7 @@ const CompanyInsert = ((props) => {
             <div class="infoheader">
                 <b class="littletitle"> <BsFillOctagonFill /> 기본정보</b>
                 <div>
-                    <button type="button" onClick={() => insertCompany()}>추가</button>
+                    <button type="button" onClick={() => {insertCompany();}}>추가</button>
                     <button class="infoclosebutton" onClick={() => props.setAddflag(false)}> <TfiClose /></button>
                 </div>
             </div>
@@ -156,7 +159,7 @@ const CompanyInsert = ((props) => {
                     </div>
                     <div class="infoform">
                         <div class="info-title">외국인 여부</div>
-                        <input class="inputtag" type="text" onChange={e => setCompanyPresident(e.target.value)} />
+                        <input class="inputtag" type="text" onChange={e => setCompanyForeigner(e.target.value)} />
                     </div>
                 </div>
                 <div></div>
@@ -165,7 +168,8 @@ const CompanyInsert = ((props) => {
                         <div class="info-title-one addresstitle">회사 주소</div>
                         <div class="addressinfo">
                             <div class="address">
-                                <input class="messagenum" /> <button class="addressnumbtn">우편번호</button>
+                                <input class="messagenum" onChange = {e => setCompanyZipCode(e.target.value)} /> 
+                                <button class="addressnumbtn">우편번호</button>
                             </div>
                             <div class="address">
                                 <input class="inputtag addressinput" onChange={e => { setAddress(e.target.value) }} readOnly />
