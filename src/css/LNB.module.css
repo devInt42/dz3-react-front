@@ -1,7 +1,8 @@
 
 .lnb{
-    text-align: center;
+    text-align: left;
     float: left;
     width: 20%;
     height: 100vh;
+    background-color: rgb(211, 212, 216);
 }

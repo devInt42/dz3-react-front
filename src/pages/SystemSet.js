@@ -5,7 +5,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import SubMenu from "./SubMenu"
 
 function SystemSet(props) {
-    console.log(props.menuId)
+    
     const menuId = props.menuId;
 
     const baseUrl = "http://localhost:8080";
@@ -13,18 +13,16 @@ function SystemSet(props) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(baseUrl + '/menu/menulist' + menuId).then(response => setMenu(response.data)).catch(error => console.log(error));
-    })
-
-    // useEffect(() => {
-    //     axios.get(baseUrl + '/menu/menulist').then(response => setMenu(response.data)).catch(error => console.log(error))
-    // }, []);
+        axios.get(baseUrl + '/menu/menulist/'+menuId).then(response => setMenu(response.data)).catch(error => console.log(error));
+    }, []);
 
     // const nest = (menu, menuId = "Root", link = 'menu_parent') =>
     //     menu.filter(item => item[link] == menuId)
     //         .map(item => ({ ...item, childrens: nest(menu, item.menuId) }));
     // const tree = nest(menu)
     // console.log(tree)
+
+    const [active, setIsActive] = useState(false);
 
     return (
         <div>
@@ -34,7 +32,11 @@ function SystemSet(props) {
                         {/* {
                             menu.menu_depth == 1 && <div onClick={() => { subMenu(menu, i) }}>{menu.menu_name}<hr /></div>
                         } */}
-                        <SubMenu menu={menu} i={i} />
+                        {/* <SubMenu menu={menu} i={i} /> */}
+                        <div onClick={()=>{setIsActive(!active)}} style={{paddingLeft: menu.menu_depth*30}}>{menu.menu_name}</div>
+                        {
+                            active && <SystemSet menuId={menu.menu_id} menuDepth={menu.menu_depth}/>
+                        }
                     </div>
                 );
             })}
