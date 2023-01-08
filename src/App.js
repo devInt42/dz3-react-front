@@ -6,6 +6,7 @@ import Home from "./pages/HomePage";
 import Employee from "./pages/Employee";
 import Dept from "./pages/Dept"
 import Menu from "./pages/Menu"
+import MenuSet from "./pages/MenuSet";
 import Layout from "./components/Layout";
 import SystemSet from "./pages/SystemSet";
 
@@ -65,6 +66,7 @@ function App() {
           <Route path="employee" element={<Employee />} />
           <Route path="dept" element={<Dept />} />
           <Route path="menu" element={<Menu />} />
+          <Route path="menuset" element={<MenuSet />} />
         </Route>
       </Routes>
     </Router>
