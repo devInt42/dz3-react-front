@@ -1,8 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Proxytest from "./components/Proxytest";
 import Home from "./pages/HomePage";
-import Employee from "./pages/Employee";
-
+import Auth from "./pages/Auth";
 function App() {
   return (
     <Router>
@@ -10,7 +9,7 @@ function App() {
         <Route path="/dz3/">
           <Route path="" element={<Home />} />
           <Route path="test" element={<Proxytest />} />
-          <Route path="employee" element={<Employee/>}/>
+          <Route path="auth" element={<Auth />} />
         </Route>
       </Routes>
     </Router>
