@@ -1,9 +1,12 @@
 import axios from 'axios';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { BsFillOctagonFill } from "react-icons/bs";
 import { TfiClose } from 'react-icons/tfi'
 // import { IoMdArrowDropdown } from "react-icons/io";
 import "../css/CompanyInsert.css";
+
+import ZippopupDom from "./zipcode/ZippopupDom"; 
+import ZippopupPostCode from './zipcode/ZippopupZipCode';
 const CompanyInsert = ((props) => {
 
     let [companyCode, setCompanyCode] = useState("");
@@ -24,6 +27,7 @@ const CompanyInsert = ((props) => {
     let [companyZipCode, setCompanyZipCode] = useState("");
     let [companyForeigner, setCompanyForeigner] = useState("");
     let [address, setAddress] = useState("");
+    let [zipcodeIsOpen, setZipcodeIsOpen] = useState(false);
     const data = {
         "companyCode": companyCode,
         "companyName": companyName,
@@ -42,7 +46,6 @@ const CompanyInsert = ((props) => {
         "companyZipCode": companyZipCode,
         "companyForeigner": companyForeigner
     }
-
     const baseUrl = "http://localhost:8080";
 
     async function insertCompany() {
@@ -168,12 +171,28 @@ const CompanyInsert = ((props) => {
                         <div class="info-title-one addresstitle">회사 주소</div>
                         <div class="addressinfo">
                             <div class="address">
-                                <input class="messagenum" onChange = {e => setCompanyZipCode(e.target.value)} /> 
-                                <button class="addressnumbtn">우편번호</button>
+                                <input class="messagenum" value = {companyZipCode} onFocus = {() => setZipcodeIsOpen(true)}/> 
+                                <button class="addressnumbtn" type = "button" onClick = {() => setZipcodeIsOpen(true)}>우편번호 검색</button>
+                            </div>
+                            <div id ="zippopupdom">
+                            {
+                                zipcodeIsOpen && (
+                                <ZippopupDom>
+                                    <ZippopupPostCode 
+                                    onClose = {setZipcodeIsOpen}
+                                    setCompanyZipCode = {setCompanyZipCode}
+                                    setAddress = {setAddress}
+                                    />
+                                </ZippopupDom>
+                                )
+                            }
                             </div>
                             <div class="address">
-                                <input class="inputtag addressinput" onChange={e => { setAddress(e.target.value) }} readOnly />
-                                <input class="inputtag addressinput" onChange={e => { setCompanyAddr(address + e.target.value) }} />
+                                <input class="inputtag addressinput" value = {address} readOnly />
+                                <input class="inputtag addressinput" 
+                                onChange={e => { setCompanyAddr(address + " " + e.target.value) }} 
+                                placeholder = "상세 주소를 입력해 주십시오."
+                                />
                             </div>
                         </div>
                     </div>
