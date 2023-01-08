@@ -1,14 +1,17 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Proxytest from "./components/Proxytest";
-import Home from "./pages/HomePage";
+import Home from "../src/pages/Homepage";
+import Employee from "./pages/Employee";
+import Company from "./pages/Company";
 import Auth from "./pages/Auth";
+
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/dz3/">
           <Route path="" element={<Home />} />
-          <Route path="test" element={<Proxytest />} />
+          <Route path="employee" element={<Employee />} />
+          <Route path="company" element={<Company />} />
           <Route path="auth" element={<Auth />} />
         </Route>
       </Routes>
