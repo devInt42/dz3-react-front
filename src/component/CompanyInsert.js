@@ -74,57 +74,57 @@ const CompanyInsert = ((props) => {
 
     return (
         <div>
-            <div class="infoheader">
-                <b class="littletitle"> <BsFillOctagonFill /> 기본정보</b>
+            <div className="infoheader">
+                <b className="littletitle"> <BsFillOctagonFill /> 기본정보</b>
                 <div>
                     <button type="button" onClick={() => {insertCompany();}}>추가</button>
-                    <button class="infoclosebutton" onClick={() => props.setAddflag(false)}> <TfiClose /></button>
+                    <button className="infoclosebutton" onClick={() => props.setAddflag(false)}> <TfiClose /></button>
                 </div>
             </div>
             <div id="companyinfo">
-                <div class="info-row">
-                    <div class="infoform">
-                        <div class="info-title">회사코드</div>
+                <div className="info-row">
+                    <div className="infoform">
+                        <div className="info-title">회사코드</div>
                         <input
-                            type="text" class="inputtag"
+                            type="text" className="inputtag"
                             onChange={e => setCompanyCode(e.target.value)}
                         />
                     </div>
-                    <div class="infoform">
-                        <div class="info-title-radio">사용 여부</div>
-                        <div class="radio-box">
+                    <div className="infoform">
+                        <div className="info-title-radio">사용 여부</div>
+                        <div className="radio-box">
                             &nbsp;&nbsp;&nbsp;
                             <input type="radio" name="flagcheck" onClick={() => setFlag(0)} checked />
-                            <b class="radio-font">사용</b> &nbsp;&nbsp;&nbsp;
+                            <b className="radio-font">사용</b> &nbsp;&nbsp;&nbsp;
                             <input type="radio" name="flagcheck" onClick={() => setFlag(1)} />
-                            <b class="radio-font">미사용</b>
+                            <b className="radio-font">미사용</b>
                         </div>
                     </div>
                 </div>
-                <div class="info-row">
-                    <div class="oneinfoform">
-                        <div class="info-title-one">회사 이름</div>
+                <div className="info-row">
+                    <div className="oneinfoform">
+                        <div className="info-title-one">회사 이름</div>
                         <input
-                            type="text" class="inputtag requireinput"
+                            type="text" className="inputtag requireinput"
                             onChange={e => setCompanyName(e.target.value)}
                         ></input>
                     </div>
                 </div>
-                <div class="info-row">
-                    <div class="infoform">
-                        <div class="info-title">업태</div>
-                        <input class="inputtag" type="text" onChange={e => setCompanyBusiness(e.target.value)} /> <br />
+                <div className="info-row">
+                    <div className="infoform">
+                        <div className="info-title">업태</div>
+                        <input className="inputtag" type="text" onChange={e => setCompanyBusiness(e.target.value)} /> <br />
                     </div>
-                    <div class="infoform">
-                        <div class="info-title">종목</div>
-                        <input class="inputtag" type="text" onChange={e => setCompanyItem(e.target.value)} />
+                    <div className="infoform">
+                        <div className="info-title">종목</div>
+                        <input className="inputtag" type="text" onChange={e => setCompanyItem(e.target.value)} />
                     </div>
                 </div>
-                <div class="info-row">
-                    <div class="infoform">
-                        <div class="info-title">대표 전화</div>
-                        <div class="area-code-box">
-                            <select name="area-code" class="area-code" onChange={(e) => setAreaCode(e.target.value)}>
+                <div className="info-row">
+                    <div className="infoform">
+                        <div className="info-title">대표 전화</div>
+                        <div className="area-code-box">
+                            <select name="area-code" className="area-code" onChange={(e) => setAreaCode(e.target.value)}>
                                 <option value="" selected>직접 입력</option>
                                 <option value="010-">010</option>
                                 <option value="02-">02</option>
@@ -146,47 +146,47 @@ const CompanyInsert = ((props) => {
                                 <option value="064-">064</option>
                             </select>
                         </div>
-                        <input class="inputtag companynum" type="text"  id = "companycall"
+                        <input className="inputtag companynum" type="text"  id = "companycall"
                         onChange={e => {setCompanyCall(PhoneNumber(areaCode + e.target.value))}}
                         value = {companyCall.substring(areaCode.length)}
                             placeholder="대표전화를 입력해 주십시오."
                         />
                     </div>
-                    <div class="infoform">
-                        <div class="info-title">대표 팩스</div>
-                        <input class="inputtag" type="text" onChange={e => setCompanyFax(e.target.value)}
+                    <div className="infoform">
+                        <div className="info-title">대표 팩스</div>
+                        <input className="inputtag" type="text" onChange={e => setCompanyFax(e.target.value)}
                             placeholder="대표팩스를 입력해 주십시오."
                         />
                     </div>
                 </div>
-                <div class="info-row">
-                    <div class="infoform">
-                        <div class="info-title">사업자등록번호</div>
-                        <input class="inputtag" type="text" onChange={e => setCompanyRegist(e.target.value)} />
+                <div className="info-row">
+                    <div className="infoform">
+                        <div className="info-title">사업자등록번호</div>
+                        <input className="inputtag" type="text" onChange={e => setCompanyRegist(e.target.value)} />
                     </div>
-                    <div class="infoform">
-                        <div class="info-title">법인 번호</div>
-                        <input class="inputtag" type="text" onChange={e => setCompanyCorporate(e.target.value)} />
+                    <div className="infoform">
+                        <div className="info-title">법인 번호</div>
+                        <input className="inputtag" type="text" onChange={e => setCompanyCorporate(e.target.value)} />
                     </div>
                 </div>
-                <div class="info-row">
-                    <div class="infoform">
-                        <div class="info-title">대표자명</div>
-                        <input class="inputtag" type="text" onChange={e => setCompanyPresident(e.target.value)} />
+                <div className="info-row">
+                    <div className="infoform">
+                        <div className="info-title">대표자명</div>
+                        <input className="inputtag" type="text" onChange={e => setCompanyPresident(e.target.value)} />
                     </div>
-                    <div class="infoform">
-                        <div class="info-title">외국인 여부</div>
-                        <input class="inputtag" type="text" onChange={e => setCompanyForeigner(e.target.value)} />
+                    <div className="infoform">
+                        <div className="info-title">외국인 여부</div>
+                        <input className="inputtag" type="text" onChange={e => setCompanyForeigner(e.target.value)} />
                     </div>
                 </div>
                 <div></div>
-                <div class="info-row">
-                    <div class="oneinfoform addressform">
-                        <div class="info-title-one addresstitle">회사 주소</div>
-                        <div class="addressinfo">
-                            <div class="address">
-                                <input class="messagenum" value = {companyZipCode} onFocus = {() => setZipcodeIsOpen(true)}/> 
-                                <button class="addressnumbtn" type = "button" onClick = {() => setZipcodeIsOpen(true)}>우편번호 검색</button>
+                <div className="info-row">
+                    <div className="oneinfoform addressform">
+                        <div className="info-title-one addresstitle">회사 주소</div>
+                        <div className="addressinfo">
+                            <div className="address">
+                                <input className="messagenum" value = {companyZipCode} onFocus = {() => setZipcodeIsOpen(true)}/> 
+                                <button className="addressnumbtn" type = "button" onClick = {() => setZipcodeIsOpen(true)}>우편번호 검색</button>
                             </div>
                             <div id ="zippopupdom">
                             {
@@ -201,11 +201,11 @@ const CompanyInsert = ((props) => {
                                 )
                             }
                             </div>
-                            <div class="address">
-                                <input class="inputtag addressinput" value = {address} 
+                            <div className="address">
+                                <input className="inputtag addressinput" value = {address} 
                                 onFocus = {() => setZipcodeIsOpen(true)}
                                 readOnly />
-                                <input class="inputtag addressinput" 
+                                <input className="inputtag addressinput" 
                                 onChange={e => { setCompanyAddr(address + " " + e.target.value) }} 
                                 placeholder = "상세 주소를 입력해 주십시오."
                                 />
@@ -213,19 +213,19 @@ const CompanyInsert = ((props) => {
                         </div>
                     </div>
                 </div>
-                <div class = "info-row">
-                    <div class = "oneinfoform">
-                        <div class = "info-title-one">홈페이지 주소</div>
-                        <input class ="inputtag" onChange = {e => setCompanyHomepage(e.target.value)}/>
+                <div className = "info-row">
+                    <div className = "oneinfoform">
+                        <div className = "info-title-one">홈페이지 주소</div>
+                        <input className ="inputtag" onChange = {e => setCompanyHomepage(e.target.value)}/>
                     </div>
                 </div>
-                <div class = "info-row">
-                    <div class = "infoform">
-                        <div class = "info-title">설립일</div>
+                <div className = "info-row">
+                    <div className = "infoform">
+                        <div className = "info-title">설립일</div>
                         <input type = "date" onChange = {e => setCompanyEstablish(e.target.value)}/>
                     </div>
-                    <div class = "infoform">
-                        <div class = "info-title">폐업일</div>
+                    <div className = "infoform">
+                        <div className = "info-title">폐업일</div>
                         <input type = "date" onChange = {e => setCompanyClosingday(e.target.value)} />
                     </div>
                 </div>
