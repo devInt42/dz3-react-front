@@ -65,6 +65,8 @@ const CompanyInsert = ((props) => {
     }
 
     let [callStyle, setCallStyle] = useState(false);
+
+    //값이 바뀔때마다 유효성 검사를 하기 위함
     useEffect(() => {
         
         if(companyCall.length > 0) {
@@ -72,6 +74,8 @@ const CompanyInsert = ((props) => {
         }
         console.log(callStyle)
     },[companyCall])
+
+    
 
     return (
         <div>
@@ -157,8 +161,9 @@ const CompanyInsert = ((props) => {
                     </div>
                     <div className="infoform">
                         <div className="info-title">대표 팩스</div>
-                        <input className="inputtag" type="text" onChange={e => setCompanyFax(e.target.value)}
-                            placeholder="대표팩스를 입력해 주십시오."
+                        <input className="inputtag" type="text" onChange={e => {setCompanyFax(FaxNumber(e.target.value));}}
+                        value = {companyFax}
+                        placeholder="대표팩스를 입력해 주십시오."
                         />
                     </div>
                 </div>
@@ -240,6 +245,7 @@ const CompanyInsert = ((props) => {
     
 })
 
+//자동으로 하이픈 삽입
 function PhoneNumber(value) {
     if(!value) {
         return "";
@@ -250,6 +256,7 @@ function PhoneNumber(value) {
     let result = [];
     let restNumber = "";
 
+    
     //지역 번호가 없는 경우
     if(value.startsWith("02")) {
         //서울 지역번호
@@ -278,7 +285,38 @@ function PhoneNumber(value) {
       return result.filter((val) => val).join("-");
 }
 
-function PhoneNumberCheck(value) {
+function FaxNumber(value) {
+    if(!value) { return "";}
+
+    value = value.replace(/[^0-9]/g, "");
+    let result = [];
+    let restNumber = "";
+
+    if(value.startsWith("02")) {
+        result.push(value.substring(0,2));
+        restNumber = value.substring(2);
+    } else if(value.startsWith("0505") || value.startsWith("0504")) {
+        result.push(value.substring(0,4));
+        restNumber = value.substring(4);
+    }
+    else {
+        result.push(value.substring(0,3));
+        restNumber = value.substring(3);
+    }
+
+    if (restNumber.length === 7) {
+        result.push(restNumber.substring(0, 3));
+        result.push(restNumber.substring(3));
+      } else {
+        result.push(restNumber.substring(0, 4));
+        result.push(restNumber.substring(4));
+      }
+    return result.filter((val) => val).join("-");
+}
+
+
+//유효성 검사를 하기 위한 함수
+function PhoneNumberCheck(value) { //대표번호 유효성 검사
     const check = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
     return check.test(value);
 }
