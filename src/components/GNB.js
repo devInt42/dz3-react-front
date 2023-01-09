@@ -38,6 +38,7 @@ function GNB() {
                             })
                         }
                         <Nav.Link href="#pricing5" onClick={() => { setShow(false); navigate(`/dz3`); }}>닫기</Nav.Link>
+                        <button onClick={() => { navigate(`/dz3/menuset`); }}>menusetting</button>
                     </Nav>
                 </Container>
             </Navbar>
