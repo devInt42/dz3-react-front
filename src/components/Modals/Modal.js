@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useState } from "react";
 import "../Modals/Modal.css";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { BsTelephonePlus } from "react-icons/bs";
 import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+
 const Modal = (props) => {
   const { open, close, header } = props;
   const baseUrl = "http://localhost:8080";
@@ -18,7 +16,20 @@ const Modal = (props) => {
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [departmentSeq, setDepartmentSeq] = useState();
   const [page, setPage] = useState(1);
-  const [test, setTest] = useState();
+  const [deptCheck, setDeptCheck] = useState();
+
+  //페이지 처리
+  useEffect(() => {
+    // console.log(ListPage(workplaceSeq, departmentSeq));
+    if (workplaceSeq == null) {
+      return;
+    } else {
+      return ListPage(workplaceSeq, departmentSeq);
+    }
+  }, [page]);
+  // console.log(page);
+
+  //부서별 페이지 저장 deptNameList.departmentSeq
 
   //부서 전체 출력
   useEffect(() => {
@@ -31,15 +42,18 @@ const Modal = (props) => {
     });
   }, []);
 
+  // useCallback(() => {}, [page]);
+  // console.log(page + "값 입니다!!");
+
   //부서값에 해당되는 직원 list로 출력하는 함수
   function ListPage(workplaceSeq, departmentSeq) {
     // setWorkplaceSeq(deptNameList.workplaceSeq);
     // setDepartmentSeq(deptNameList.departmentSeq);
     // console.log(deptNameList.workplaceSeq);
+    // console.log("List page:" + page);
+    // console.log("workplaceSeq:" + workplaceSeq);
+    // console.log("departmentSeq:" + departmentSeq);
 
-    // console.log(workplaceSeq);
-    // console.log(departmentSeq);
-    // console.log(page);
     const url = `${baseUrl}/department-employee/page/${page}?companySeq=${companySeq}&workplaceSeq=${workplaceSeq}&departmentSeq=${departmentSeq}`;
     setWorkplaceSeq(workplaceSeq);
     setDepartmentSeq(departmentSeq);
@@ -47,6 +61,7 @@ const Modal = (props) => {
     axios({
       type: "get",
       url: url,
+      Page: page,
     })
       .then((res) => {
         // console.log(res.data)
@@ -142,6 +157,7 @@ const Modal = (props) => {
                               )
                             }>
                             {deptNameList.departmentName}
+                            {console.log(deptNameList.departmentSeq)}
                           </span>
                         </div>
                         // <div key={i}>- {deptNameList.departmentName}</div>
@@ -191,16 +207,17 @@ const Modal = (props) => {
                       )
                     );
                   })}
+
                   <div>
                     <button
                       className="btn"
                       onClick={() => {
+                        // console.log("바뀐값" + page);
                         setPage(page + 1);
-                        ListPage(workplaceSeq, departmentSeq);
+                        // console.log("함수실행후" + page);
                       }}>
                       ˅
                     </button>
-                    {console.log(page)}
                     <br />
                   </div>
                 </Col>

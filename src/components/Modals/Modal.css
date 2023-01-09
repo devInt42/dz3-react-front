@@ -3,6 +3,7 @@
   border: 1px solid #bcbcbc;
   border-radius: 5px;
   margin-right: 15px;
+  height: 550px;
 }
 
 .btn {
@@ -39,6 +40,7 @@
   border-radius: 5px;
   margin-right: 15px;
   border-top: medium solid darkslategrey;
+  height: 550px;
 }
 
 hr {
@@ -93,7 +95,7 @@ hr {
 .modal > section {
   width: 100%;
   max-width: 75%;
-  max-height: 80%;
+  height: 747px;
   margin: 0 auto;
   border-radius: 0.3rem;
   background-color: #fff;
@@ -125,6 +127,7 @@ hr {
   padding: 16px;
   border-bottom: 1px solid #dee2e6;
   border-top: 1px solid #dee2e6;
+  height: 1000px;
 }
 
 .modal > section > footer {
