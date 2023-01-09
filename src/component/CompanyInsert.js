@@ -64,12 +64,13 @@ const CompanyInsert = ((props) => {
             .catch(error => console.log(error));
     }
 
-    
+    let [callStyle, setCallStyle] = useState(false);
     useEffect(() => {
         
-        if(PhoneNumberCheck(companyCall)) {
-            
-        };
+        if(companyCall.length > 0) {
+            PhoneNumberCheck(companyCall) ? setCallStyle(true) : setCallStyle(false);
+        }
+        console.log(callStyle)
     },[companyCall])
 
     return (
@@ -146,10 +147,12 @@ const CompanyInsert = ((props) => {
                                 <option value="064-">064</option>
                             </select>
                         </div>
-                        <input className="inputtag companynum" type="text"  id = "companycall"
+                        <input 
+                        className={`inputtag companynum ${companyCall.length === 0 ? '' : callStyle ? 'successcall' : 'failcall'}`}
+                        type="text"  id = "companycall"
                         onChange={e => {setCompanyCall(PhoneNumber(areaCode + e.target.value))}}
                         value = {companyCall.substring(areaCode.length)}
-                            placeholder="대표전화를 입력해 주십시오."
+                        placeholder="대표전화를 입력해 주십시오."
                         />
                     </div>
                     <div className="infoform">
