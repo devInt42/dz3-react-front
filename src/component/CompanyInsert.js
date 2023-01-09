@@ -75,6 +75,11 @@ const CompanyInsert = ((props) => {
         console.log(callStyle)
     },[companyCall])
 
+    useEffect(() => {
+        if(companyFax.length > 0) {
+            console.log(FaxNumberCheck(companyFax));
+        }
+    }, [companyFax])
     
 
     return (
@@ -318,6 +323,11 @@ function FaxNumber(value) {
 //유효성 검사를 하기 위한 함수
 function PhoneNumberCheck(value) { //대표번호 유효성 검사
     const check = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
+    return check.test(value);
+}
+
+function FaxNumberCheck(value) {
+    const check = /(^02[0-9]{0}|^01[0-9]{1}|050[0-9]{1}|[0-9]{3})-[0-9]{3,4}-[0-9]{4}$/;
     return check.test(value);
 }
 
