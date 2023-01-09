@@ -34,7 +34,7 @@
   font-weight: bolder;
 }
 .employeeList {
-  /* width: 40%; */
+  width: 39%;
   /* background-color: pink; */
   border: 1px solid #bcbcbc;
   border-radius: 5px;
@@ -95,7 +95,7 @@ hr {
 .modal > section {
   width: 100%;
   max-width: 75%;
-  height: 747px;
+  height: 740px;
   margin: 0 auto;
   border-radius: 0.3rem;
   background-color: #fff;
@@ -127,7 +127,8 @@ hr {
   padding: 16px;
   border-bottom: 1px solid #dee2e6;
   border-top: 1px solid #dee2e6;
-  height: 1000px;
+  /* height: 1000px; */
+  height: 685px;
 }
 
 .modal > section > footer {

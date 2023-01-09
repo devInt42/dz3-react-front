@@ -29,7 +29,14 @@ const Modal = (props) => {
   }, [page]);
   // console.log(page);
 
-  //부서별 페이지 저장 deptNameList.departmentSeq
+  // 부서별 페이지 저장 deptNameList.departmentSeq
+  useEffect(() => {
+    if (page === 1) {
+      return console.log("작동안함");
+    } else {
+      return console.log("작동함"); //deptcheck값 바뀔때로
+    }
+  }, [page]);
 
   //부서 전체 출력
   useEffect(() => {
@@ -47,12 +54,16 @@ const Modal = (props) => {
 
   //부서값에 해당되는 직원 list로 출력하는 함수
   function ListPage(workplaceSeq, departmentSeq) {
+    // setDeptCheck(departmentSeq);
     // setWorkplaceSeq(deptNameList.workplaceSeq);
     // setDepartmentSeq(deptNameList.departmentSeq);
     // console.log(deptNameList.workplaceSeq);
     // console.log("List page:" + page);
     // console.log("workplaceSeq:" + workplaceSeq);
+    // console.log("check");
+    // console.log(deptNameList.departmentSeq);
     // console.log("departmentSeq:" + departmentSeq);
+    // console.log("workplaceSeq:" + departmentSeq);
 
     const url = `${baseUrl}/department-employee/page/${page}?companySeq=${companySeq}&workplaceSeq=${workplaceSeq}&departmentSeq=${departmentSeq}`;
     setWorkplaceSeq(workplaceSeq);
@@ -119,27 +130,6 @@ const Modal = (props) => {
 
             <Container>
               <Row>
-                <Col sm={3}>
-                  <select
-                    class="form-select"
-                    aria-label="Default select example">
-                    <option selected>전체</option>
-                    <option value="1">회사명</option>
-                    <option value="2">사업자명</option>
-                    <option value="3">부서명</option>
-                  </select>
-                </Col>
-                <Col sm={9}>
-                  <div class="mb-3">
-                    <textarea
-                      class="form-control"
-                      id="exampleFormControlTextarea1"
-                      rows="1"></textarea>
-                  </div>
-                </Col>
-              </Row>
-
-              <Row>
                 {/* <Button variant="primary" onClick={DeptNameList}>DeptNameList</Button>{' '} */}
                 <Col className="deptList">
                   {/* {props.children} */}
@@ -157,7 +147,8 @@ const Modal = (props) => {
                               )
                             }>
                             {deptNameList.departmentName}
-                            {console.log(deptNameList.departmentSeq)}
+
+                            {/* {console.log(deptNameList.departmentSeq)} */}
                           </span>
                         </div>
                         // <div key={i}>- {deptNameList.departmentName}</div>
