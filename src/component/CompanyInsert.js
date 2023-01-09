@@ -68,25 +68,28 @@ const CompanyInsert = ((props) => {
 
     //값이 바뀔때마다 유효성 검사를 하기 위함
     useEffect(() => {
-        
-        if(companyCall.length > 0) {
-            PhoneNumberCheck(companyCall) ? setCallStyle(true) : setCallStyle(false);
-        }
-        console.log(callStyle)
+
+        companyCall < 0 ? companyCall = '' : PhoneNumberCheck(companyCall) ? setCallStyle(true) : setCallStyle(false);
+
     },[companyCall])
 
     useEffect(() => {
-        if(companyFax.length > 0) {
-            console.log(FaxNumberCheck(companyFax));
-        }
+        
+        companyFax < 0 ? companyFax = '' :  console.log(FaxNumberCheck(companyFax));
+        
     }, [companyFax])
     
     useEffect(() => {
-        if(companyRegist.length > 0) {
-            console.log(registNumberCheck(companyRegist))
-        }
+        
+        companyRegist < 0 ? companyRegist = '' :  console.log(registNumberCheck(companyRegist))
+       
     }, [companyRegist])
 
+    useEffect(() => {
+        
+        companyCorporate < 0 ? companyCorporate = '' : console.log(corporateNumberCheck(companyCorporate))
+        console.log(companyCorporate);
+    }, [companyCorporate])
     return (
         <div>
             <div className="infoheader">
@@ -187,7 +190,11 @@ const CompanyInsert = ((props) => {
                     </div>
                     <div className="infoform">
                         <div className="info-title">법인 번호</div>
-                        <input className="inputtag" type="text" onChange={e => setCompanyCorporate(e.target.value)} />
+                        <input 
+                        className="inputtag" type="text" 
+                        onChange={e => setCompanyCorporate(corporateNumber(e.target.value))}
+                        value = {companyCorporate}
+                        />
                     </div>
                 </div>
                 <div className="info-row">
@@ -206,7 +213,11 @@ const CompanyInsert = ((props) => {
                         <div className="info-title-one addresstitle">회사 주소</div>
                         <div className="addressinfo">
                             <div className="address">
-                                <input className="messagenum" value = {companyZipCode} onFocus = {() => setZipcodeIsOpen(true)}/> 
+                                <input 
+                                className="messagenum" value = {companyZipCode} 
+                                onFocus = {() => {
+                                    companyZipCode.length > 0 ? setZipcodeIsOpen(false) : setZipcodeIsOpen(true);
+                                    }}/> 
                                 <button className="addressnumbtn" type = "button" onClick = {() => setZipcodeIsOpen(true)}>우편번호 검색</button>
                             </div>
                             <div id ="zippopupdom">
@@ -223,8 +234,11 @@ const CompanyInsert = ((props) => {
                             }
                             </div>
                             <div className="address">
-                                <input className="inputtag addressinput" value = {address} 
-                                onFocus = {() => setZipcodeIsOpen(true)}
+                                <input 
+                                className="inputtag addressinput" value = {address} 
+                                onFocus = {() => 
+                                    address.length === 0 && setZipcodeIsOpen(true)
+                                }
                                 readOnly />
                                 <input className="inputtag addressinput" 
                                 onChange={e => { setCompanyAddr(address + " " + e.target.value) }} 
@@ -345,6 +359,21 @@ function registNumber(value) {
     
     return result.filter((val) => val).join("-");
 }
+function corporateNumber(value) {
+    if(!value) {return "";}
+
+    value = value.replace(/[^0-9]/g, "");
+    let result = [];
+    let restNumber = "";
+
+    result.push(value.substring(0,6));
+    restNumber = value.substring(6);
+
+    result.push(restNumber.substring(0,7));
+    restNumber = value.substring(7);
+
+    return result.filter(val => val).join("-");
+}
 
 //유효성 검사를 하기 위한 함수
 function PhoneNumberCheck(value) { //대표번호 유효성 검사
@@ -359,6 +388,11 @@ function FaxNumberCheck(value) {
 
 function registNumberCheck(value) {
     const check = /^[0-9]{3}-[0-9]{2}-[0-9]{5}$/;
+    return check.test(value);
+}
+
+function corporateNumberCheck(value) {
+    const check = /^[0-9]{6}-[0-9]{7}$/;
     return check.test(value);
 }
 
