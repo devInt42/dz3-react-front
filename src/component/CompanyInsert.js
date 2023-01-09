@@ -81,6 +81,11 @@ const CompanyInsert = ((props) => {
         }
     }, [companyFax])
     
+    useEffect(() => {
+        if(companyRegist.length > 0) {
+            console.log(registNumberCheck(companyRegist))
+        }
+    }, [companyRegist])
 
     return (
         <div>
@@ -332,13 +337,12 @@ function registNumber(value) {
     result.push(value.substring(0,3));
     restNumber = value.substring(3);
 
-   
     result.push(restNumber.substring(0,2));
     restNumber = restNumber.substring(2);
 
     result.push(restNumber.substring(0,5));
     restNumber = restNumber.substring(5);
-    console.log(restNumber);
+    
     return result.filter((val) => val).join("-");
 }
 
@@ -350,6 +354,11 @@ function PhoneNumberCheck(value) { //대표번호 유효성 검사
 
 function FaxNumberCheck(value) {
     const check = /(^02[0-9]{0}|^01[0-9]{1}|050[0-9]{1}|[0-9]{3})-[0-9]{3,4}-[0-9]{4}$/;
+    return check.test(value);
+}
+
+function registNumberCheck(value) {
+    const check = /^[0-9]{3}-[0-9]{2}-[0-9]{5}$/;
     return check.test(value);
 }
 
