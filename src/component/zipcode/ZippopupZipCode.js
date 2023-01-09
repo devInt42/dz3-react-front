@@ -1,5 +1,6 @@
 import DaumPostCode from 'react-daum-postcode';
-
+import Modal from "react-modal";
+import './ZippopupZipCode.css'
 const ZippopupZipCode = (props) => {
     console.log("ZippopupZipCode")
     const handleZipCode = (data) => {
@@ -13,10 +14,9 @@ const ZippopupZipCode = (props) => {
             props.onClose(false);
     }
     return (
-        <div>
+        <Modal isOpen = {true} id = "modal">
             <DaumPostCode onComplete={(data) => handleZipCode(data)} className="post-code"/>
-            <button onClick={() => props.onClose()}>닫기</button>
-        </div>
+        </Modal>
     )
 }
 

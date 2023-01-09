@@ -28,7 +28,8 @@ const CompanyInsert = ((props) => {
     let [companyForeigner, setCompanyForeigner] = useState("");
     let [address, setAddress] = useState("");
     let [zipcodeIsOpen, setZipcodeIsOpen] = useState(false);
-    const data = {
+
+    const data = {  // 서버로 보낼 데이터
         "companyCode": companyCode,
         "companyName": companyName,
         "companyBusiness": companyBusiness,
@@ -48,7 +49,7 @@ const CompanyInsert = ((props) => {
     }
     const baseUrl = "http://localhost:8080";
 
-    async function insertCompany() {
+    async function insertCompany() {  //회사 추가
         await axios.post(
             `${baseUrl}/company/insert`
             , JSON.stringify(data)
@@ -61,6 +62,7 @@ const CompanyInsert = ((props) => {
             .then(res => console.log(res.data))
             .catch(error => console.log(error));
     }
+
     return (
         <div>
             <div class="infoheader">
@@ -115,6 +117,7 @@ const CompanyInsert = ((props) => {
                         <div class="area-code-box">
                             <select name="area-code" class="area-code" onChange={(e) => setAreaCode(e.target.value)}>
                                 <option value="" selected>직접 입력</option>
+                                <option value="010-">010</option>
                                 <option value="02-">02</option>
                                 <option value="031-">031</option>
                                 <option value="032-">032</option>
@@ -134,7 +137,10 @@ const CompanyInsert = ((props) => {
                                 <option value="064-">064</option>
                             </select>
                         </div>
-                        <input class="inputtag companynum" type="text" onChange={e => setCompanyCall(areaCode + e.target.value)}
+                        <input class="inputtag companynum" type="text" 
+                        // onChange={e => setCompanyCall(areaCode + e.target.value)}
+                        onChange={(e) => {setCompanyCall(PhoneNumber(areaCode + e.target.value))}}
+                        value = {companyCall.substring(areaCode.length)}
                             placeholder="대표전화를 입력해 주십시오."
                         />
                     </div>
@@ -188,7 +194,9 @@ const CompanyInsert = ((props) => {
                             }
                             </div>
                             <div class="address">
-                                <input class="inputtag addressinput" value = {address} readOnly />
+                                <input class="inputtag addressinput" value = {address} 
+                                onFocus = {() => setZipcodeIsOpen(true)}
+                                readOnly />
                                 <input class="inputtag addressinput" 
                                 onChange={e => { setCompanyAddr(address + " " + e.target.value) }} 
                                 placeholder = "상세 주소를 입력해 주십시오."
@@ -218,6 +226,51 @@ const CompanyInsert = ((props) => {
             </div>
         </div>
     )
+    
+    function PhoneNumber(value) {
+        if(!value) {
+            return "";
+        }
 
+        value = value.replace(/[^0-9]/g,"");
+
+        let result = [];
+        let restNumber = "";
+
+        //지역 번호가 없는 경우
+        if(value.startsWith("02")) {
+            //서울 지역번호
+            result.push(value.substr(0,2));
+            restNumber = value.substring(2);
+        }
+        else if (value.startsWith("1")) {
+            // 지역 번호가 없는 경우
+            // 1xxx-yyyy
+            restNumber = value;
+          } else {
+            // 나머지 3자리 지역번호
+            // 0xx-yyyy-zzzz
+            result.push(value.substr(0, 3));
+            restNumber = value.substring(3);
+          }
+        
+          if (restNumber.length === 7) {
+            // 7자리만 남았을 때는 xxx-yyyy
+            result.push(restNumber.substring(0, 3));
+            result.push(restNumber.substring(3));
+          } else {
+            result.push(restNumber.substring(0, 4));
+            result.push(restNumber.substring(4));
+          }
+          return result.filter((val) => val).join("-");
+    }
+
+    // function PhoneNumberCheck(value) {
+    //     const check = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
+    //     console.log(check.test(value));
+    //     return check.test(value);
+    // }
+
+     
 })
 export default CompanyInsert;
