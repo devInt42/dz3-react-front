@@ -175,7 +175,10 @@ const CompanyInsert = ((props) => {
                 <div className="info-row">
                     <div className="infoform">
                         <div className="info-title">사업자등록번호</div>
-                        <input className="inputtag" type="text" onChange={e => setCompanyRegist(e.target.value)} />
+                        <input 
+                        className="inputtag" type="text" 
+                        onChange={e => setCompanyRegist(registNumber(e.target.value))}
+                        value = {companyRegist} />
                     </div>
                     <div className="infoform">
                         <div className="info-title">법인 번호</div>
@@ -262,7 +265,7 @@ function PhoneNumber(value) {
     let restNumber = "";
 
     
-    //지역 번호가 없는 경우
+    
     if(value.startsWith("02")) {
         //서울 지역번호
         result.push(value.substr(0,2));
@@ -319,6 +322,25 @@ function FaxNumber(value) {
     return result.filter((val) => val).join("-");
 }
 
+function registNumber(value) {
+    if(!value) {return "";}
+
+    value = value.replace(/[^0-9]/g,"");
+    let result = [];
+    let restNumber = "";
+
+    result.push(value.substring(0,3));
+    restNumber = value.substring(3);
+
+   
+    result.push(restNumber.substring(0,2));
+    restNumber = restNumber.substring(2);
+
+    result.push(restNumber.substring(0,5));
+    restNumber = restNumber.substring(5);
+    console.log(restNumber);
+    return result.filter((val) => val).join("-");
+}
 
 //유효성 검사를 하기 위한 함수
 function PhoneNumberCheck(value) { //대표번호 유효성 검사
@@ -330,7 +352,5 @@ function FaxNumberCheck(value) {
     const check = /(^02[0-9]{0}|^01[0-9]{1}|050[0-9]{1}|[0-9]{3})-[0-9]{3,4}-[0-9]{4}$/;
     return check.test(value);
 }
-
-
 
 export default CompanyInsert;
