@@ -4,10 +4,11 @@ import "../components/Modals/Modal.css";
 import { Container, Row, Col } from "react-bootstrap";
 import AllGroup from "../components/Modals/AllGroup";
 import MyGroup from "../components/Modals/MyGroup";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
 const Modal = (props) => {
   const { open, close, header } = props;
-  const { viewAllGroup, setViewAllGroup } = useState(true);
 
   return (
     //open 누르면 openModal 클래스 생성
@@ -21,26 +22,21 @@ const Modal = (props) => {
             </button>
           </header>
           <main>
-            <div className="br">
-              <span className="hover">
-                <button
-                  className="groupChoice"
-                  onClick={() => setViewAllGroup(true)}>
-                  전체그룹
-                </button>{" "}
-              </span>{" "}
-              |{" "}
-              <span className="hover">
-                <button
-                  className="groupChoice"
-                  onClick={() => setViewAllGroup(false)}>
-                  {" "}
-                  마이그룹
-                </button>
-              </span>
+            <div>
+              <Tabs
+                defaultActiveKey="home"
+                transition={false}
+                id="noanim-tab-example"
+                className="mb-3">
+                <Tab eventKey="home" title="전체그룹">
+                  <AllGroup />
+                </Tab>
+                <Tab eventKey="profile" title="마이그룹">
+                  <MyGroup />
+                </Tab>
+              </Tabs>
             </div>
-            <hr />
-            <div>{setViewAllGroup ? <AllGroup /> : <MyGroup />}</div>
+
             {/* <MyGroup /> */}
           </main>
         </section>
