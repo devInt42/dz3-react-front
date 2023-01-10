@@ -3,6 +3,7 @@ import Home from "./pages/Homepage.js";
 import Employee from "./pages/Employee";
 import Company from "./pages/Company";
 import Auth from "./pages/Auth";
+import Login from "./pages/Login.js";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="employee" element={<Employee />} />
           <Route path="company" element={<Company />} />
           <Route path="auth" element={<Auth />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </Router>

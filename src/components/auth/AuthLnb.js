@@ -50,7 +50,6 @@ const AuthLnb = (props) => {
   }
   function pageActive(e) {
     setActive(e);
-
     axios({
       url:
         baseUrl +
@@ -117,87 +116,90 @@ const AuthLnb = (props) => {
     });
   }, []);
   return (
-    <Row
-      className="AuthLnb"
-      style={{
-        width: "15%",
-        height: "700px",
-        float: "left",
-        border: "1px solid #efefef",
-        backgroundColor: "#f9f9f9",
-        justifyContent: "center",
-      }}
-    >
-      <div style={{ backgroundColor: "#f0f0f0" }}>
-        <input
-          type="text"
-          id="searchAuth"
-          style={{ width: "80%" }}
-          placeholder="권한명을 검색하세요."
-        />
-      </div>
-      <div>
-        <span>그룹 : </span>
-        <span style={{ color: "#00AAFF" }}>{countAuth}</span>개
-      </div>
-      <Nav
-        variant="pills"
+    <>
+      {" "}
+      <Row
+        className="AuthLnb"
         style={{
+          width: "100%",
+          height: "700px",
+          float: "left",
           border: "1px solid #efefef",
           backgroundColor: "#f9f9f9",
-          margin: "0 auto",
-          display: "flex",
           justifyContent: "center",
-          height: "550px",
         }}
       >
-        {authList &&
-          authList.map((aList) => (
-            <Nav.Item
-              key={aList.authSeq}
-              style={{
-                width: "90%",
-              }}
-              onClick={() => sendAuthSeq(aList.authSeq)}
-            >
-              <Nav.Link
-                className="authLnb"
-                eventKey={aList.authSeq}
+        <div style={{ backgroundColor: "#f0f0f0" }}>
+          <input
+            type="text"
+            id="searchAuth"
+            style={{ width: "80%" }}
+            placeholder="권한명을 검색하세요."
+          />
+        </div>
+        <div>
+          <span>그룹 : </span>
+          <span style={{ color: "#00AAFF" }}>{countAuth}</span>개
+        </div>
+        <Nav
+          variant="pills"
+          style={{
+            border: "1px solid #efefef",
+            backgroundColor: "#f9f9f9",
+            margin: "0 auto",
+            display: "flex",
+            justifyContent: "center",
+            height: "550px",
+          }}
+        >
+          {authList &&
+            authList.map((aList) => (
+              <Nav.Item
+                key={aList.authSeq}
                 style={{
-                  width: "100%",
-                  height: "50px",
-                  margin: "0 auto",
-                  marginTop: "3px",
-                  padding: "0",
+                  width: "90%",
                 }}
+                onClick={() => sendAuthSeq(aList.authSeq)}
               >
-                <p
+                <Nav.Link
+                  className="authLnb"
+                  eventKey={aList.authSeq}
                   style={{
-                    margin: "5px",
-                    textAlign: "left",
-                    fontSize: "10px",
-                    color: "#868e96",
-                    fontWeight: "bold",
+                    width: "100%",
+                    height: "50px",
+                    margin: "0 auto",
+                    marginTop: "3px",
+                    padding: "0",
                   }}
                 >
-                  {aList.companyName}
-                </p>
-                <p
-                  style={{
-                    margin: "5px",
-                    textAlign: "left",
-                    fontSize: "13px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {aList.authName}
-                </p>
-              </Nav.Link>
-            </Nav.Item>
-          ))}
-      </Nav>
-      {paginationBasic}
-    </Row>
+                  <p
+                    style={{
+                      margin: "5px",
+                      textAlign: "left",
+                      fontSize: "10px",
+                      color: "#868e96",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {aList.companyName}
+                  </p>
+                  <p
+                    style={{
+                      margin: "5px",
+                      textAlign: "left",
+                      fontSize: "13px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {aList.authName}
+                  </p>
+                </Nav.Link>
+              </Nav.Item>
+            ))}
+        </Nav>
+        {paginationBasic}
+      </Row>
+    </>
   );
 };
 
