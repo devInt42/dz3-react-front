@@ -75,7 +75,7 @@ const CompanyInsert = ((props) => {
     let [corporateStyle, setCorporateStyle] = useState(false);
 
     //모든 필수 값이 제대로 들어갔을 때 추가 버튼 활성화
-    let [allcheck, setAllCheck] = useState(false);
+    let [allCheck, setAllCheck] = useState(false);
 
     //값이 바뀔때마다 유효성 검사를 하기 위함
     useEffect(() => {
@@ -105,15 +105,20 @@ const CompanyInsert = ((props) => {
 
     //모든 필수 사항이 제대로 입력되었을 때, 추가 버튼 활성화 구현
     useEffect(() => {
-
-    }, [companyCall, companyFax, companyRegist, companyCorporate])
+        if(registStyle && corporateStyle && codeNumberCheck(companyCode) 
+        && companyBusiness !== "" && companyItem !== "" && companyPresident !== "") {
+            setAllCheck(true);
+        }
+    }, [registStyle, corporateStyle, companyCode, companyBusiness, companyItem, companyAddr, companyPresident])
 
     return (
         <div>
             <div className="infoheader">
                 <b className="littletitle"> <BsFillOctagonFill /> 기본정보</b>
                 <div>
-                    <button type="button" onClick={() => { insertCompany(); }}>추가</button>
+                    <button className = "insertbutton" 
+                    type="button" onClick={() => {if(allCheck) {insertCompany(); props.setAddflag(false)};}} 
+                    disabled = {allCheck}>추가</button>
                     <button className="infoclosebutton" onClick={() => props.setAddflag(false)}> <TfiClose /></button>
                 </div>
             </div>
@@ -127,7 +132,9 @@ const CompanyInsert = ((props) => {
                                 placeholder="회사 코드를 입력해 주십시오."
                                 aria-label="Username"
                                 aria-describedby="basic-addon1"
-                                onChange={e => setCompanyCode(e.target.value)}
+                                onChange={e => setCompanyCode(codeNumber(e.target.value))}
+                                value = {companyCode}
+                                Style = "background-color:#ffc1c1" 
                             />
                         </InputGroup>
                     </div>
@@ -165,6 +172,7 @@ const CompanyInsert = ((props) => {
                                 aria-label="Username"
                                 aria-describedby="basic-addon1"
                                 onChange={e => setCompanyBusiness(e.target.value)}
+                                Style = "background-color:#ffc1c1"
                             />
                         </InputGroup>
                     </div>
@@ -176,6 +184,7 @@ const CompanyInsert = ((props) => {
                                 aria-label="Username"
                                 aria-describedby="basic-addon1"
                                 onChange={e => setCompanyItem(e.target.value)}
+                                Style = "background-color:#ffc1c1" 
                             />
                         </InputGroup>
                     </div>
@@ -214,12 +223,11 @@ const CompanyInsert = ((props) => {
                                 value={companyCall.substring(areaCode.length)}
                                 isValid = {callStyle}
                                 isInvalid = {companyCall.length < 1 ? '' : callStyle ? false: true}
-                                Style = "z-index:1"
+                                Style = "z-index:0;"
                             />
                         </InputGroup>
                     </div>
                     <div className="infoform">
-
                         <InputGroup className="mb-3">
                             <InputGroup.Text id="basic-addon1">대표 팩스</InputGroup.Text>
                             <Form.Control
@@ -229,7 +237,7 @@ const CompanyInsert = ((props) => {
                                 value={companyFax}
                                 isValid = {faxStyle}
                                 isInvalid = {companyFax.length < 1 ? '' : faxStyle ? false: true}
-                                Style = "z-index:1"
+                                Style = "z-index:0"
                             />
                         </InputGroup>
                     </div>
@@ -245,7 +253,7 @@ const CompanyInsert = ((props) => {
                                 value={companyRegist}
                                 isValid = {registStyle}
                                 isInvalid = {companyRegist.length < 1 ? '' : registStyle ? false: true}
-                                Style = "z-index:1"
+                                Style = "z-index:0;  background-color:#ffc1c1"
                             />
                         </InputGroup>
                     </div>
@@ -259,7 +267,7 @@ const CompanyInsert = ((props) => {
                                 value={companyCorporate}
                                 isValid = {corporateStyle}
                                 isInvalid = {companyCorporate.length < 1 ? '' : corporateStyle ? false: true}
-                                Style = "z-index:1"
+                                Style = "z-index:0;  background-color:#ffc1c1"
                             />
                         </InputGroup>
                     </div>
@@ -272,6 +280,7 @@ const CompanyInsert = ((props) => {
                                 placeholder="대표자명을 입력해 주십시오."
                                 aria-describedby="basic-addon1"
                                 onChange={e => setCompanyPresident(e.target.value)}
+                                Style = "background-color:#ffc1c1"
                             />
                         </InputGroup>
                     </div>
@@ -295,13 +304,14 @@ const CompanyInsert = ((props) => {
                     <div className="oneinfoform addressform">
                         <InputGroup.Text id="basic-addon1">회사 주소</InputGroup.Text>
                         <div className="addressinfo">
-                            <div className="address">
+                            <div className="infoform">
                                 <Form.Control
                                     aria-describedby="basic-addon1"
                                     value={companyZipCode}
                                     onFocus={() => {
                                         companyZipCode.length > 0 ? setZipcodeIsOpen(false) : setZipcodeIsOpen(true);
                                     }}
+                                    Style = "background-color:#ffc1c1"
                                 />
                                 <button className="addressnumbtn" type="button" onClick={() => setZipcodeIsOpen(true)}>우편번호 검색</button>
                             </div>
@@ -327,6 +337,7 @@ const CompanyInsert = ((props) => {
                                         }
                                         value={address}
                                         onChange = {() => setCompanyAddr(address)}
+                                        Style = "background-color:#ffc1c1"
                                         readOnly
                                     />
                                 </InputGroup>
@@ -479,6 +490,15 @@ function corporateNumber(value) {
     return result.filter(val => val).join("-");
 }
 
+function codeNumber(value) {
+    if (!value) { return ""; }
+
+    value = value.replace(/[^0-9]/g, "");
+    let result = "";
+    result = value.substring(0,4);
+    return result;
+}
+
 //유효성 검사를 하기 위한 함수
 function PhoneNumberCheck(value) { //대표번호 유효성 검사
     const check = /^0[0-9]{1,2}-[0-9]{3,4}-[0-9]{4}$/;
@@ -497,6 +517,12 @@ function registNumberCheck(value) {
 
 function corporateNumberCheck(value) {
     const check = /^[0-9]{6}-[0-9]{7}$/;
+    return check.test(value);
+}
+
+function codeNumberCheck(value) {
+    value = value.replace(/^[0-9]/g, "");
+    const check = /^[0-9]{4}$/;
     return check.test(value);
 }
 

@@ -13,7 +13,9 @@
     display: flex;
     justify-content: space-between;
 }
-
+.insertbutton:disabled {
+    background-color: #ccc;
+}
 .infoclosebutton {
     border: none;
     background-color: transparent;
@@ -122,4 +124,8 @@
 .addressnumbtn {
     height: 28px;
     margin-top: 7px;
+}
+
+#basic-addon1 {
+    width:150px;
 }
