@@ -134,7 +134,7 @@ const CompanyInsert = ((props) => {
                                 aria-describedby="basic-addon1"
                                 onChange={e => setCompanyCode(codeNumber(e.target.value))}
                                 value = {companyCode}
-                                Style = "background-color:#ffc1c1" 
+                                Style = "background-color:#ffe9e9" 
                             />
                         </InputGroup>
                     </div>
@@ -144,9 +144,9 @@ const CompanyInsert = ((props) => {
                             <Form.Check
                                 type="switch"
                                 id="custom-switch"
-                                label={`${flag === 1 ? '사용' : '미사용'}`}
                                 onChange={() => { flag === 0 ? setFlag(1) : setFlag(0); }}
                             />
+                            {flag === 1 ? (<b>사    용</b>) : (<b>미사용</b>)}
                         </InputGroup>
                     </div>
                 </div>
@@ -172,7 +172,7 @@ const CompanyInsert = ((props) => {
                                 aria-label="Username"
                                 aria-describedby="basic-addon1"
                                 onChange={e => setCompanyBusiness(e.target.value)}
-                                Style = "background-color:#ffc1c1"
+                                Style = "background-color:#ffe9e9"
                             />
                         </InputGroup>
                     </div>
@@ -184,15 +184,15 @@ const CompanyInsert = ((props) => {
                                 aria-label="Username"
                                 aria-describedby="basic-addon1"
                                 onChange={e => setCompanyItem(e.target.value)}
-                                Style = "background-color:#ffc1c1" 
+                                Style = "background-color:#ffe9e9" 
                             />
                         </InputGroup>
                     </div>
                 </div>
                 <div className="info-row">
                     <div className="infoform">
-                        <InputGroup className="mb-3" id="callinput">
-                            <InputGroup.Text>대표 전화</InputGroup.Text>
+                        <InputGroup className="mb-3 callbox" id="callinput">
+                            <InputGroup.Text id="basic-addon1">대표 전화</InputGroup.Text>
                             <div className="area-code-box">
                                 <select name="area-code" className="area-code" onChange={(e) => setAreaCode(e.target.value)}>
                                     <option value="" selected>직접 입력</option>
@@ -245,7 +245,7 @@ const CompanyInsert = ((props) => {
                 <div className="info-row">
                     <div className="infoform">
                         <InputGroup className="mb-3">
-                            <InputGroup.Text id="registinput">사업자 등록번호</InputGroup.Text>
+                            <InputGroup.Text id="basic-addon1">사업자 등록번호</InputGroup.Text>
                             <Form.Control
                                 placeholder="사업자 등록번호를 입력해 주십시오."
                                 aria-describedby="basic-addon1"
@@ -253,7 +253,7 @@ const CompanyInsert = ((props) => {
                                 value={companyRegist}
                                 isValid = {registStyle}
                                 isInvalid = {companyRegist.length < 1 ? '' : registStyle ? false: true}
-                                Style = "z-index:0;  background-color:#ffc1c1"
+                                Style = "z-index:0;  background-color:#ffe9e9"
                             />
                         </InputGroup>
                     </div>
@@ -267,7 +267,7 @@ const CompanyInsert = ((props) => {
                                 value={companyCorporate}
                                 isValid = {corporateStyle}
                                 isInvalid = {companyCorporate.length < 1 ? '' : corporateStyle ? false: true}
-                                Style = "z-index:0;  background-color:#ffc1c1"
+                                Style = "z-index:0;  background-color:#ffe9e9"
                             />
                         </InputGroup>
                     </div>
@@ -280,7 +280,7 @@ const CompanyInsert = ((props) => {
                                 placeholder="대표자명을 입력해 주십시오."
                                 aria-describedby="basic-addon1"
                                 onChange={e => setCompanyPresident(e.target.value)}
-                                Style = "background-color:#ffc1c1"
+                                Style = "background-color:#ffe9e9"
                             />
                         </InputGroup>
                     </div>
@@ -304,16 +304,17 @@ const CompanyInsert = ((props) => {
                     <div className="oneinfoform addressform">
                         <InputGroup.Text id="basic-addon1">회사 주소</InputGroup.Text>
                         <div className="addressinfo">
-                            <div className="infoform">
+                            <div className="infoform addressinfoform">
                                 <Form.Control
                                     aria-describedby="basic-addon1"
                                     value={companyZipCode}
                                     onFocus={() => {
                                         companyZipCode.length > 0 ? setZipcodeIsOpen(false) : setZipcodeIsOpen(true);
                                     }}
-                                    Style = "background-color:#ffc1c1"
+                                    Style = "background-color:#ffe9e9; width: 200px"
                                 />
-                                <button className="addressnumbtn" type="button" onClick={() => setZipcodeIsOpen(true)}>우편번호 검색</button>
+                                <button className="addressnumbtn" type="button" onClick={() => setZipcodeIsOpen(true)}>우편번호 검색
+                                </button>
                             </div>
                             <div id="zippopupdom">
                                 {
@@ -337,7 +338,7 @@ const CompanyInsert = ((props) => {
                                         }
                                         value={address}
                                         onChange = {() => setCompanyAddr(address)}
-                                        Style = "background-color:#ffc1c1"
+                                        Style = "background-color:#ffe9e9"
                                         readOnly
                                     />
                                 </InputGroup>
