@@ -7,14 +7,24 @@ const CompanyList = (props) => {
   const baseUrl = "http://localhost:8080";
   const [deptNameList, setDeptNameList] = useState([]);
   const [departmentSeq, setDepartmentSeq] = useState(null);
+  const [workplaceSeq, setWorkplaceSeq] = useState();
 
   // Modal.js로 departmentSeq값 전송
   useEffect(() => {
     props.sendDepartmentSeq(departmentSeq);
   }, [departmentSeq]);
 
+  // Modal.js로 workplaceSeq 전송
+  useEffect(() => {
+    props.sendWorkplaceSeq(workplaceSeq);
+  }, [workplaceSeq]);
+
   function sendDepartmentSeq(a) {
     setDepartmentSeq(a);
+  }
+
+  function sendWorkplaceSeq(a) {
+    setWorkplaceSeq(a);
   }
 
   //부서 전체 값 받아오기
@@ -34,8 +44,14 @@ const CompanyList = (props) => {
         deptNameList.map((dNameList) => (
           <div
             key={dNameList.departmentSeq}
-            onClick={() => sendDepartmentSeq(dNameList.departmentSeq)}>
-            - {dNameList.departmentName} {dNameList.departmentSeq}
+            onClick={() => {
+              sendDepartmentSeq(dNameList.departmentSeq);
+              sendWorkplaceSeq(dNameList.workplaceSeq);
+            }}>
+            - {dNameList.departmentName}
+            {dNameList.workplaceSeq}
+            {dNameList.departmentSeq}
+            {/* {dNameList.departmentSeq} */}
           </div>
         ))}
     </div>

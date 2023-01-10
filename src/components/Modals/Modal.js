@@ -114,50 +114,13 @@ const Modal = (props) => {
     <div className={open ? "openModal modal" : "modal"}>
       {open ? (
         <section>
-          <header>
-            {header}
-            <button className="close" onClick={close}>
-              X
-            </button>
-          </header>
           <main>
-            <div className="br">
-              <span className="hover"> 전체그룹 </span> |{" "}
-              <span className="hover">마이그룹</span>
-            </div>
-
             <hr />
 
             <Container>
               <Row>
                 {/* <Button variant="primary" onClick={DeptNameList}>DeptNameList</Button>{' '} */}
-                <Col className="deptList">
-                  {/* {props.children} */}
-
-                  {deptNameList.map((deptNameList, i) => {
-                    return (
-                      deptNameList && (
-                        <div key={i}>
-                          -{" "}
-                          <span
-                            onClick={() =>
-                              ListPage(
-                                deptNameList.workplaceSeq,
-                                deptNameList.departmentSeq
-                              )
-                            }>
-                            {deptNameList.departmentName}
-
-                            {/* {console.log(deptNameList.departmentSeq)} */}
-                          </span>
-                        </div>
-                        // <div key={i}>- {deptNameList.departmentName}</div>
-                      )
-                    );
-                  })}
-                  {/* {JSON.stringify(deptNameList.deptName)} */}
-                  {/* {JSON.stringify(deptNameList)} */}
-                </Col>
+                <Col className="deptList"></Col>
 
                 <Col sm={5} className="employeeList">
                   <br />

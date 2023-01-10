@@ -10,14 +10,25 @@ import EmployeeDetail from "../components/Modals/EmployeeDetail";
 const Modal = (props) => {
   const { open, close, header } = props;
   const [departmentSeq, setDepartmentSeq] = useState();
+  const [workplaceSeq, setWorkplaceSeq] = useState();
 
   //함수를 보냄
   const sendDepartmentSeq = (i) => {
     setDepartmentSeq(i);
-    // console.log(departmentSeq);
   };
 
-  useEffect(() => {}, [departmentSeq]);
+  //함수를 보냄
+  const sendWorkplaceSeq = (i) => {
+    setWorkplaceSeq(i);
+  };
+
+  useEffect(() => {
+    // console.log("departmentSeq:" + departmentSeq);
+  }, [departmentSeq]);
+
+  useEffect(() => {
+    // console.log("workplaceseq:" + workplaceSeq);
+  }, [workplaceSeq]);
 
   return (
     //open 누르면 openModal 클래스 생성
@@ -42,18 +53,18 @@ const Modal = (props) => {
               <Row>
                 <Col sm={3}>
                   <select
-                    class="form-select"
+                    className="form-select"
                     aria-label="Default select example">
-                    <option selected>전체</option>
+                    <option>전체</option>
                     <option value="1">회사명</option>
                     <option value="2">사업자명</option>
                     <option value="3">부서명</option>
                   </select>
                 </Col>
                 <Col sm={9}>
-                  <div class="mb-3">
+                  <div className="mb-3">
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       id="exampleFormControlTextarea1"
                       rows="1"></textarea>
                   </div>
@@ -62,10 +73,16 @@ const Modal = (props) => {
 
               <Row>
                 <Col className="deptList" sm={3}>
-                  <CompanyList sendDepartmentSeq={sendDepartmentSeq} />
+                  <CompanyList
+                    sendDepartmentSeq={sendDepartmentSeq}
+                    sendWorkplaceSeq={sendWorkplaceSeq}
+                  />
                 </Col>
                 <Col sm={5} className="employeeList">
-                  <EmployeeList departmentSeq={departmentSeq} />
+                  <EmployeeList
+                    departmentSeq={departmentSeq}
+                    workplaceSeq={workplaceSeq}
+                  />
                   <br />
                 </Col>
                 <Col sm={4} className="employeeDetail">
