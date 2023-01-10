@@ -123,14 +123,3 @@
     height: 28px;
     margin-top: 7px;
 }
-
-
-.successcall {
-    border-color: blue;
-    background-color: blue;
-}
-
-.failcall {
-    border-color: red;
-    background-color: red;
-}

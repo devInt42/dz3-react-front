@@ -12,8 +12,9 @@
 }
 
 .companylistbox {
+    overflow: scroll;
     border: 1px solid gray;
-    width: 300px;
+    width: 330px;
     height: 500px;
     background-color: #f0f0f0;
 }
@@ -41,7 +42,7 @@
     border-bottom: 1px solid gray;
     border-left: 1px solid gray;
     border-right:1px solid gray;
-    width: 300px;
+    width: 330px;
     height: 150px;
     display: flex;
     justify-content: center;

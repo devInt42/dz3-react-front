@@ -6,8 +6,12 @@ import lodash from "lodash";
 // import { IoMdArrowDropdown } from "react-icons/io";
 import "../css/CompanyInsert.css";
 
-import ZippopupDom from "./zipcode/ZippopupDom"; 
+import ZippopupDom from "./zipcode/ZippopupDom";
 import ZippopupPostCode from './zipcode/ZippopupZipCode';
+
+import InputGroup from 'react-bootstrap/InputGroup';
+import Form from 'react-bootstrap/Form';
+import 'bootstrap/dist/css/bootstrap.min.css';
 const CompanyInsert = ((props) => {
 
     let [companyCode, setCompanyCode] = useState("");
@@ -21,12 +25,12 @@ const CompanyInsert = ((props) => {
     let [companyHomepage, setCompanyHomepage] = useState("");
     let [companyAddr, setCompanyAddr] = useState("");
     let [companyEstablish, setCompanyEstablish] = useState("");
-    let [companyClosingday, setCompanyClosingday] = useState("");
+    let [companyClosingDay, setCompanyClosingday] = useState("");
     let [flag, setFlag] = useState(0);
     let [areaCode, setAreaCode] = useState("");
     let [companyFax, setCompanyFax] = useState("");
     let [companyZipCode, setCompanyZipCode] = useState("");
-    let [companyForeigner, setCompanyForeigner] = useState("");
+    let [companyForeigner, setCompanyForeigner] = useState("내국인");
     let [address, setAddress] = useState("");
     let [zipcodeIsOpen, setZipcodeIsOpen] = useState(false);
 
@@ -42,7 +46,7 @@ const CompanyInsert = ((props) => {
         "companyHomepage": companyHomepage,
         "companyAddr": companyAddr,
         "companyEstablish": companyEstablish,
-        "companyClosingday": companyClosingday,
+        "companyClosingDay": companyClosingDay,
         "flag": flag,
         "companyFax": companyFax,
         "companyZipCode": companyZipCode,
@@ -64,312 +68,412 @@ const CompanyInsert = ((props) => {
             .catch(error => console.log(error));
     }
 
+    //클래스 이름을 바꾸기 위함(css 동적으로 변경)
     let [callStyle, setCallStyle] = useState(false);
+    let [faxStyle, setFaxStyle] = useState(false);
+    let [registStyle, setRegistStyle] = useState(false);
+    let [corporateStyle, setCorporateStyle] = useState(false);
+
+    //모든 필수 값이 제대로 들어갔을 때 추가 버튼 활성화
+    let [allcheck, setAllCheck] = useState(false);
 
     //값이 바뀔때마다 유효성 검사를 하기 위함
     useEffect(() => {
 
         companyCall < 0 ? companyCall = '' : PhoneNumberCheck(companyCall) ? setCallStyle(true) : setCallStyle(false);
 
-    },[companyCall])
+    }, [companyCall])
 
     useEffect(() => {
-        
-        companyFax < 0 ? companyFax = '' :  console.log(FaxNumberCheck(companyFax));
-        
+
+        companyFax < 0 ? companyFax = '' : FaxNumberCheck(companyFax) ? setFaxStyle(true) : setFaxStyle(false);
+
     }, [companyFax])
-    
+
     useEffect(() => {
-        
-        companyRegist < 0 ? companyRegist = '' :  console.log(registNumberCheck(companyRegist))
-       
+
+        companyRegist < 0 ? companyRegist = '' : registNumberCheck(companyRegist) ? setRegistStyle(true) : setRegistStyle(false);
+
     }, [companyRegist])
 
     useEffect(() => {
-        
-        companyCorporate < 0 ? companyCorporate = '' : console.log(corporateNumberCheck(companyCorporate))
-        console.log(companyCorporate);
+
+        companyCorporate < 0 ? companyCorporate = '' : corporateNumberCheck(companyCorporate) ?
+            setCorporateStyle(true) : setCorporateStyle(false);
+
     }, [companyCorporate])
+
+    //모든 필수 사항이 제대로 입력되었을 때, 추가 버튼 활성화 구현
+    useEffect(() => {
+
+    }, [companyCall, companyFax, companyRegist, companyCorporate])
+
     return (
         <div>
             <div className="infoheader">
                 <b className="littletitle"> <BsFillOctagonFill /> 기본정보</b>
                 <div>
-                    <button type="button" onClick={() => {insertCompany();}}>추가</button>
+                    <button type="button" onClick={() => { insertCompany(); }}>추가</button>
                     <button className="infoclosebutton" onClick={() => props.setAddflag(false)}> <TfiClose /></button>
                 </div>
             </div>
+
             <div id="companyinfo">
                 <div className="info-row">
                     <div className="infoform">
-                        <div className="info-title">회사코드</div>
-                        <input
-                            type="text" className="inputtag"
-                            onChange={e => setCompanyCode(e.target.value)}
-                        />
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">회사 코드</InputGroup.Text>
+                            <Form.Control
+                                placeholder="회사 코드를 입력해 주십시오."
+                                aria-label="Username"
+                                aria-describedby="basic-addon1"
+                                onChange={e => setCompanyCode(e.target.value)}
+                            />
+                        </InputGroup>
                     </div>
                     <div className="infoform">
-                        <div className="info-title-radio">사용 여부</div>
-                        <div className="radio-box">
-                            &nbsp;&nbsp;&nbsp;
-                            <input type="radio" name="flagcheck" onClick={() => setFlag(0)} checked />
-                            <b className="radio-font">사용</b> &nbsp;&nbsp;&nbsp;
-                            <input type="radio" name="flagcheck" onClick={() => setFlag(1)} />
-                            <b className="radio-font">미사용</b>
-                        </div>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">사용 여부</InputGroup.Text>
+                            <Form.Check
+                                type="switch"
+                                id="custom-switch"
+                                label={`${flag === 1 ? '사용' : '미사용'}`}
+                                onChange={() => { flag === 0 ? setFlag(1) : setFlag(0); }}
+                            />
+                        </InputGroup>
                     </div>
                 </div>
                 <div className="info-row">
                     <div className="oneinfoform">
-                        <div className="info-title-one">회사 이름</div>
-                        <input
-                            type="text" className="inputtag requireinput"
-                            onChange={e => setCompanyName(e.target.value)}
-                        ></input>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">회사 이름</InputGroup.Text>
+                            <Form.Control
+                                placeholder="회사 이름을 입력해 주십시오."
+                                aria-label="Username"
+                                aria-describedby="basic-addon1"
+                                onChange={e => setCompanyName(e.target.value)}
+                            />
+                        </InputGroup>
                     </div>
                 </div>
                 <div className="info-row">
                     <div className="infoform">
-                        <div className="info-title">업태</div>
-                        <input className="inputtag" type="text" onChange={e => setCompanyBusiness(e.target.value)} /> <br />
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">업태</InputGroup.Text>
+                            <Form.Control
+                                placeholder="회사 업태를 입력해 주십시오."
+                                aria-label="Username"
+                                aria-describedby="basic-addon1"
+                                onChange={e => setCompanyBusiness(e.target.value)}
+                            />
+                        </InputGroup>
                     </div>
                     <div className="infoform">
-                        <div className="info-title">종목</div>
-                        <input className="inputtag" type="text" onChange={e => setCompanyItem(e.target.value)} />
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">종목</InputGroup.Text>
+                            <Form.Control
+                                placeholder="회사 종목을 입력해 주십시오."
+                                aria-label="Username"
+                                aria-describedby="basic-addon1"
+                                onChange={e => setCompanyItem(e.target.value)}
+                            />
+                        </InputGroup>
                     </div>
                 </div>
                 <div className="info-row">
                     <div className="infoform">
-                        <div className="info-title">대표 전화</div>
-                        <div className="area-code-box">
-                            <select name="area-code" className="area-code" onChange={(e) => setAreaCode(e.target.value)}>
-                                <option value="" selected>직접 입력</option>
-                                <option value="010-">010</option>
-                                <option value="02-">02</option>
-                                <option value="031-">031</option>
-                                <option value="032-">032</option>
-                                <option value="033-">033</option>
-                                <option value="041-">041</option>
-                                <option value="042-">042</option>
-                                <option value="043-">043</option>
-                                <option value="044-">044</option>
-                                <option value="051-">051</option>
-                                <option value="052-">052</option>
-                                <option value="053-">053</option>
-                                <option value="054-">054</option>
-                                <option value="055-">055</option>
-                                <option value="061-">061</option>
-                                <option value="062-">062</option>
-                                <option value="063-">063</option>
-                                <option value="064-">064</option>
+                        <InputGroup className="mb-3" id="callinput">
+                            <InputGroup.Text>대표 전화</InputGroup.Text>
+                            <div className="area-code-box">
+                                <select name="area-code" className="area-code" onChange={(e) => setAreaCode(e.target.value)}>
+                                    <option value="" selected>직접 입력</option>
+                                    <option value="010-">010</option>
+                                    <option value="02-">02</option>
+                                    <option value="031-">031</option>
+                                    <option value="032-">032</option>
+                                    <option value="033-">033</option>
+                                    <option value="041-">041</option>
+                                    <option value="042-">042</option>
+                                    <option value="043-">043</option>
+                                    <option value="044-">044</option>
+                                    <option value="051-">051</option>
+                                    <option value="052-">052</option>
+                                    <option value="053-">053</option>
+                                    <option value="054-">054</option>
+                                    <option value="055-">055</option>
+                                    <option value="061-">061</option>
+                                    <option value="062-">062</option>
+                                    <option value="063-">063</option>
+                                    <option value="064-">064</option>
+                                </select>
+                            </div>
+                            <Form.Control
+                                placeholder="대표 전화를 입력해 주십시오."
+                                aria-describedby="basic-addon1"
+                                onChange={e => { setCompanyCall(PhoneNumber(areaCode + e.target.value)) }}
+                                value={companyCall.substring(areaCode.length)}
+                                isValid = {callStyle}
+                                isInvalid = {companyCall.length < 1 ? '' : callStyle ? false: true}
+                                Style = "z-index:1"
+                            />
+                        </InputGroup>
+                    </div>
+                    <div className="infoform">
+
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">대표 팩스</InputGroup.Text>
+                            <Form.Control
+                                placeholder="대표 팩스를 입력해 주십시오."
+                                aria-describedby="basic-addon1"
+                                onChange={e => { setCompanyFax(FaxNumber(e.target.value)); }}
+                                value={companyFax}
+                                isValid = {faxStyle}
+                                isInvalid = {companyFax.length < 1 ? '' : faxStyle ? false: true}
+                                Style = "z-index:1"
+                            />
+                        </InputGroup>
+                    </div>
+                </div>
+                <div className="info-row">
+                    <div className="infoform">
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="registinput">사업자 등록번호</InputGroup.Text>
+                            <Form.Control
+                                placeholder="사업자 등록번호를 입력해 주십시오."
+                                aria-describedby="basic-addon1"
+                                onChange={e => setCompanyRegist(registNumber(e.target.value))}
+                                value={companyRegist}
+                                isValid = {registStyle}
+                                isInvalid = {companyRegist.length < 1 ? '' : registStyle ? false: true}
+                                Style = "z-index:1"
+                            />
+                        </InputGroup>
+                    </div>
+                    <div className="infoform">
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">법인 번호</InputGroup.Text>
+                            <Form.Control
+                                placeholder="법인 번호를 입력해 주십시오."
+                                aria-describedby="basic-addon1"
+                                onChange={e => setCompanyCorporate(corporateNumber(e.target.value))}
+                                value={companyCorporate}
+                                isValid = {corporateStyle}
+                                isInvalid = {companyCorporate.length < 1 ? '' : corporateStyle ? false: true}
+                                Style = "z-index:1"
+                            />
+                        </InputGroup>
+                    </div>
+                </div>
+                <div className="info-row">
+                    <div className="infoform">
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">대표자명</InputGroup.Text>
+                            <Form.Control
+                                placeholder="대표자명을 입력해 주십시오."
+                                aria-describedby="basic-addon1"
+                                onChange={e => setCompanyPresident(e.target.value)}
+                            />
+                        </InputGroup>
+                    </div>
+                    <div className="infoform">
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">외국인 여부</InputGroup.Text>
+                            <select name="area-code" className="" onChange={(e) => setCompanyForeigner(e.target.value)}>
+                                <option value="내국인" selected>내국인</option>
+                                <option value="외국인" >외국인</option>
                             </select>
-                        </div>
-                        <input 
-                        className={`inputtag companynum ${companyCall.length === 0 ? '' : callStyle ? 'successcall' : 'failcall'}`}
-                        type="text"  id = "companycall"
-                        onChange={e => {setCompanyCall(PhoneNumber(areaCode + e.target.value))}}
-                        value = {companyCall.substring(areaCode.length)}
-                        placeholder="대표전화를 입력해 주십시오."
-                        />
-                    </div>
-                    <div className="infoform">
-                        <div className="info-title">대표 팩스</div>
-                        <input className="inputtag" type="text" onChange={e => {setCompanyFax(FaxNumber(e.target.value));}}
-                        value = {companyFax}
-                        placeholder="대표팩스를 입력해 주십시오."
-                        />
-                    </div>
-                </div>
-                <div className="info-row">
-                    <div className="infoform">
-                        <div className="info-title">사업자등록번호</div>
-                        <input 
-                        className="inputtag" type="text" 
-                        onChange={e => setCompanyRegist(registNumber(e.target.value))}
-                        value = {companyRegist} />
-                    </div>
-                    <div className="infoform">
-                        <div className="info-title">법인 번호</div>
-                        <input 
-                        className="inputtag" type="text" 
-                        onChange={e => setCompanyCorporate(corporateNumber(e.target.value))}
-                        value = {companyCorporate}
-                        />
-                    </div>
-                </div>
-                <div className="info-row">
-                    <div className="infoform">
-                        <div className="info-title">대표자명</div>
-                        <input className="inputtag" type="text" onChange={e => setCompanyPresident(e.target.value)} />
-                    </div>
-                    <div className="infoform">
-                        <div className="info-title">외국인 여부</div>
-                        <input className="inputtag" type="text" onChange={e => setCompanyForeigner(e.target.value)} />
+                            <Form.Control
+                                aria-describedby="basic-addon1"
+                                value={companyForeigner}
+                                readOnly
+                            />
+                        </InputGroup>
                     </div>
                 </div>
                 <div></div>
                 <div className="info-row">
                     <div className="oneinfoform addressform">
-                        <div className="info-title-one addresstitle">회사 주소</div>
+                        <InputGroup.Text id="basic-addon1">회사 주소</InputGroup.Text>
                         <div className="addressinfo">
                             <div className="address">
-                                <input 
-                                className="messagenum" value = {companyZipCode} 
-                                onFocus = {() => {
-                                    companyZipCode.length > 0 ? setZipcodeIsOpen(false) : setZipcodeIsOpen(true);
-                                    }}/> 
-                                <button className="addressnumbtn" type = "button" onClick = {() => setZipcodeIsOpen(true)}>우편번호 검색</button>
+                                <Form.Control
+                                    aria-describedby="basic-addon1"
+                                    value={companyZipCode}
+                                    onFocus={() => {
+                                        companyZipCode.length > 0 ? setZipcodeIsOpen(false) : setZipcodeIsOpen(true);
+                                    }}
+                                />
+                                <button className="addressnumbtn" type="button" onClick={() => setZipcodeIsOpen(true)}>우편번호 검색</button>
                             </div>
-                            <div id ="zippopupdom">
-                            {
-                                zipcodeIsOpen && (
-                                <ZippopupDom>
-                                    <ZippopupPostCode 
-                                    onClose = {setZipcodeIsOpen}
-                                    setCompanyZipCode = {setCompanyZipCode}
-                                    setAddress = {setAddress}
-                                    />
-                                </ZippopupDom>
-                                )
-                            }
+                            <div id="zippopupdom">
+                                {
+                                    zipcodeIsOpen && (
+                                        <ZippopupDom>
+                                            <ZippopupPostCode
+                                                onClose={setZipcodeIsOpen}
+                                                setCompanyZipCode={setCompanyZipCode}
+                                                setAddress={setAddress}
+                                            />
+                                        </ZippopupDom>
+                                    )
+                                }
                             </div>
                             <div className="address">
-                                <input 
-                                className="inputtag addressinput" value = {address} 
-                                onFocus = {() => 
-                                    address.length === 0 && setZipcodeIsOpen(true)
-                                }
-                                readOnly />
-                                <input className="inputtag addressinput" 
-                                onChange={e => { setCompanyAddr(address + " " + e.target.value) }} 
-                                placeholder = "상세 주소를 입력해 주십시오."
-                                />
+                                <InputGroup className="mb-3">
+                                    <Form.Control
+                                        aria-describedby="basic-addon1"
+                                        onFocus={() =>
+                                            address.length === 0 && setZipcodeIsOpen(true)
+                                        }
+                                        value={address}
+                                        onChange = {() => setCompanyAddr(address)}
+                                        readOnly
+                                    />
+                                </InputGroup>
+
+                                <InputGroup className="mb-3">
+                                    <Form.Control
+                                        placeholder="상세 주소를 입력해 주십시오."
+                                        aria-label="Username"
+                                        aria-describedby="basic-addon1"
+                                        onChange={e => { setCompanyAddr(address + " " + e.target.value) }}
+                                    />
+                                </InputGroup>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className = "info-row">
-                    <div className = "oneinfoform">
-                        <div className = "info-title-one">홈페이지 주소</div>
-                        <input className ="inputtag" onChange = {e => setCompanyHomepage(e.target.value)}/>
+                <div className="info-row">
+                    <div className="oneinfoform">
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">홈페이지 주소</InputGroup.Text>
+                            <Form.Control
+                                placeholder="홈페이지 주소를 입력해 주십시오."
+                                aria-label="Username"
+                                aria-describedby="basic-addon1"
+                                onChange={e => setCompanyHomepage(e.target.value)}
+                            />
+                        </InputGroup>
                     </div>
                 </div>
-                <div className = "info-row">
-                    <div className = "infoform">
-                        <div className = "info-title">설립일</div>
-                        <input type = "date" onChange = {e => setCompanyEstablish(e.target.value)}/>
+                <div className="info-row">
+                    <div className="infoform">
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">설립일</InputGroup.Text>
+                            <input type="date" onChange={e => setCompanyEstablish(e.target.value)} />
+                        </InputGroup>
                     </div>
-                    <div className = "infoform">
-                        <div className = "info-title">폐업일</div>
-                        <input type = "date" onChange = {e => setCompanyClosingday(e.target.value)} />
+                    <div className="infoform">
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">폐업일</InputGroup.Text>
+                            <input type="date" onChange={e => setCompanyClosingday(e.target.value)} />
+                        </InputGroup>
                     </div>
                 </div>
-                
+
 
             </div>
         </div>
     )
-    
+
 })
 
 //자동으로 하이픈 삽입
 function PhoneNumber(value) {
-    if(!value) {
+    if (!value) {
         return "";
     }
 
-    value = value.replace(/[^0-9]/g,"");
+    value = value.replace(/[^0-9]/g, "");
 
     let result = [];
     let restNumber = "";
 
-    
-    
-    if(value.startsWith("02")) {
+    if (value.startsWith("02")) {
         //서울 지역번호
-        result.push(value.substr(0,2));
+        result.push(value.substr(0, 2));
         restNumber = value.substring(2);
     }
     else if (value.startsWith("1")) {
         // 지역 번호가 없는 경우
         // 1xxx-yyyy
         restNumber = value;
-      } else {
+    } else {
         // 나머지 3자리 지역번호
         // 0xx-yyyy-zzzz
         result.push(value.substr(0, 3));
         restNumber = value.substring(3);
-      }
-    
-      if (restNumber.length === 7) {
+    }
+
+    if (restNumber.length === 7) {
         // 7자리만 남았을 때는 xxx-yyyy
         result.push(restNumber.substring(0, 3));
         result.push(restNumber.substring(3));
-      } else {
+    } else {
         result.push(restNumber.substring(0, 4));
         result.push(restNumber.substring(4));
-      }
-      return result.filter((val) => val).join("-");
+    }
+    return result.filter((val) => val).join("-");
 }
 
 function FaxNumber(value) {
-    if(!value) { return "";}
+    if (!value) { return ""; }
 
     value = value.replace(/[^0-9]/g, "");
     let result = [];
     let restNumber = "";
 
-    if(value.startsWith("02")) {
-        result.push(value.substring(0,2));
+    if (value.startsWith("02")) {
+        result.push(value.substring(0, 2));
         restNumber = value.substring(2);
-    } else if(value.startsWith("0505") || value.startsWith("0504")) {
-        result.push(value.substring(0,4));
+    } else if (value.startsWith("0505") || value.startsWith("0504")) {
+        result.push(value.substring(0, 4));
         restNumber = value.substring(4);
     }
     else {
-        result.push(value.substring(0,3));
+        result.push(value.substring(0, 3));
         restNumber = value.substring(3);
     }
 
     if (restNumber.length === 7) {
         result.push(restNumber.substring(0, 3));
         result.push(restNumber.substring(3));
-      } else {
+    } else {
         result.push(restNumber.substring(0, 4));
         result.push(restNumber.substring(4));
-      }
+    }
     return result.filter((val) => val).join("-");
 }
 
 function registNumber(value) {
-    if(!value) {return "";}
-
-    value = value.replace(/[^0-9]/g,"");
-    let result = [];
-    let restNumber = "";
-
-    result.push(value.substring(0,3));
-    restNumber = value.substring(3);
-
-    result.push(restNumber.substring(0,2));
-    restNumber = restNumber.substring(2);
-
-    result.push(restNumber.substring(0,5));
-    restNumber = restNumber.substring(5);
-    
-    return result.filter((val) => val).join("-");
-}
-function corporateNumber(value) {
-    if(!value) {return "";}
+    if (!value) { return ""; }
 
     value = value.replace(/[^0-9]/g, "");
     let result = [];
     let restNumber = "";
 
-    result.push(value.substring(0,6));
+    result.push(value.substring(0, 3));
+    restNumber = value.substring(3);
+
+    result.push(restNumber.substring(0, 2));
+    restNumber = restNumber.substring(2);
+
+    result.push(restNumber.substring(0, 5));
+    restNumber = restNumber.substring(5);
+
+    return result.filter((val) => val).join("-");
+}
+function corporateNumber(value) {
+    if (!value) { return ""; }
+
+    value = value.replace(/[^0-9]/g, "");
+    let result = [];
+    let restNumber = "";
+
+    result.push(value.substring(0, 6));
     restNumber = value.substring(6);
 
-    result.push(restNumber.substring(0,7));
+    result.push(restNumber.substring(0, 7));
     restNumber = value.substring(7);
 
     return result.filter(val => val).join("-");
@@ -377,7 +481,7 @@ function corporateNumber(value) {
 
 //유효성 검사를 하기 위한 함수
 function PhoneNumberCheck(value) { //대표번호 유효성 검사
-    const check = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
+    const check = /^0[0-9]{1,2}-[0-9]{3,4}-[0-9]{4}$/;
     return check.test(value);
 }
 

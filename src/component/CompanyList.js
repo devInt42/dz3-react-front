@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-
+import AOS from "aos";
+import 'aos/dist/aos.css';
 function CompanyList() {
     const baseUrl = "http://localhost:8080";
 
@@ -11,6 +12,9 @@ function CompanyList() {
             .catch(error => console.log(error));
     }, [])
 
+    useEffect (() => {
+        AOS.init();
+    },[])
 
     return (
         company &&
@@ -34,7 +38,7 @@ const listcompany = ( company ) => {
             {
                 company.map((company) => {
                     return (
-                        <div class = "box">
+                        <div class = "box" data-aos = "fade-up">
                         <>
                             <li>{company.companyCode}{company.companyName}{company.companyPresident}</li>
                         </>

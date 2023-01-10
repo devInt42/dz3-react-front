@@ -6,6 +6,9 @@ import { GrAddCircle } from "react-icons/gr";
 import { GiCancel } from "react-icons/gi"
 import CompanyNotSelect from "./CompanyNotSelect";
 import CompanyInsert from "./CompanyInsert";
+
+
+
 const Company = () => {
     let [companydata, setCompanydata] = useState([]);
     const baseUrl = "http://localhost:8080";
