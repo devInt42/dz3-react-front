@@ -11,6 +11,7 @@ const Modal = (props) => {
   const { open, close, header } = props;
   const [departmentSeq, setDepartmentSeq] = useState();
   const [workplaceSeq, setWorkplaceSeq] = useState();
+  const [employeeSeq, setEmployeeSeq] = useState();
 
   //함수를 보냄
   const sendDepartmentSeq = (i) => {
@@ -22,6 +23,12 @@ const Modal = (props) => {
     setWorkplaceSeq(i);
   };
 
+  //함수를 보냄
+  const sendEmployeeSeq = (i) => {
+    setEmployeeSeq(i);
+  };
+
+  //바뀔때마다 랜더링
   useEffect(() => {
     // console.log("departmentSeq:" + departmentSeq);
   }, [departmentSeq]);
@@ -29,6 +36,10 @@ const Modal = (props) => {
   useEffect(() => {
     // console.log("workplaceseq:" + workplaceSeq);
   }, [workplaceSeq]);
+
+  useEffect(() => {
+    // console.log("employeeSeq 받아온 값:" + employeeSeq);
+  }, [employeeSeq]);
 
   return (
     //open 누르면 openModal 클래스 생성
@@ -80,20 +91,14 @@ const Modal = (props) => {
                 </Col>
                 <Col sm={5} className="employeeList">
                   <EmployeeList
+                    sendEmployeeSeq={sendEmployeeSeq}
                     departmentSeq={departmentSeq}
                     workplaceSeq={workplaceSeq}
                   />
                   <br />
                 </Col>
                 <Col sm={4} className="employeeDetail">
-                  <EmployeeDetail />
-                  {/* <Row>
-                    <Col sm={9}></Col>
-                    <Col sm={3}>logo</Col>
-                    <Row></Row> <hr />
-                    <Row> </Row>
-                    <Row> </Row>
-                  </Row> */}
+                  <EmployeeDetail employeeSeq={employeeSeq} />
                 </Col>
               </Row>
             </Container>

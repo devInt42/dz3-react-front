@@ -49,8 +49,8 @@ const CompanyList = (props) => {
               sendWorkplaceSeq(dNameList.workplaceSeq);
             }}>
             - {dNameList.departmentName}
-            {dNameList.workplaceSeq}
-            {dNameList.departmentSeq}
+            {/* {dNameList.workplaceSeq}
+            {dNameList.departmentSeq} */}
             {/* {dNameList.departmentSeq} */}
           </div>
         ))}

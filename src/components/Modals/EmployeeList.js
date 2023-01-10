@@ -7,111 +7,106 @@ import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
 const EmployeeList = (props) => {
   const [companySeq, setCompanySeq] = useState(2);
   const baseUrl = "http://localhost:8080";
-  const [departmentSeq, setDepartmentSeq] = useState();
-  const [workplaceSeq, setWorkplaceSeq] = useState();
+  const [departmentSeq, setDepartmentSeq] = useState("");
+  const [workplaceSeq, setWorkplaceSeq] = useState("");
   const [deptList, setDeptList] = useState([]);
   const [page, setPage] = useState(1);
+  const [employeeSeq, setEmployeeSeq] = useState();
 
-  //employeeList 함수
-  function ListPage() {
-    if (departmentSeq == null) {
-      return;
-    } else {
-      //부서값에 해당되는 직원 list로 출력
-      axios({
-        type: "get",
-        url: `${baseUrl}/department-employee/page/${page}?companySeq=${companySeq}&workplaceSeq=${workplaceSeq}&departmentSeq=${departmentSeq}`,
-      })
-        .then((res) => {
-          // console.log(res.data);
-          setDeptList(res.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+  //modal.js로 값이동
+  useEffect(() => {
+    props.sendEmployeeSeq(employeeSeq);
+  }, [employeeSeq]);
+
+  function sendEmployeeSeq(a) {
+    setEmployeeSeq(a);
   }
 
-  //기본값 가져오기
+  //mdoal에서 값받아서 넣기
+  //초기값 + 변경
   useEffect(() => {
-    if (departmentSeq == null) {
-      return;
-    } else {
+    // console.log(props.departmentSeq);
+    setDepartmentSeq(props.departmentSeq);
+  }, [props]);
+
+  useEffect(() => {
+    setWorkplaceSeq(props.workplaceSeq);
+  }, [props]);
+
+  useEffect(() => {
+    setPage(1);
+
+    if (departmentSeq != null) {
       axios({
         type: "get",
         url: `${baseUrl}/department-employee/page/${page}?companySeq=${companySeq}&workplaceSeq=${workplaceSeq}&departmentSeq=${departmentSeq}`,
       })
         .then((res) => {
-          // console.log(res.data);
           setDeptList(res.data);
+          // console.log(res.data);
         })
         .catch((error) => {
           console.log(error);
         });
     }
-  });
-
-  //mdoal에서 값받아서 넣기
-  useEffect(() => {
-    setDepartmentSeq(props.departmentSeq);
-    setWorkplaceSeq(props.workplaceSeq);
-    // console.log("workplaceSeq:" + workplaceSeq);
-    // console.log("departmentSeq:" + departmentSeq);
-  }, [props]);
-
-  //departmentseq가 업데이트될때마다 listpage실행
-  useEffect(() => {
-    setPage(1);
-    // console.log("page:" + page);
   }, [departmentSeq]);
 
-  //페이지 처리
   useEffect(() => {
-    ListPage();
+    if (departmentSeq != "") {
+      axios({
+        type: "get",
+        url: `${baseUrl}/department-employee/page/${page}?companySeq=${companySeq}&workplaceSeq=${workplaceSeq}&departmentSeq=${departmentSeq}`,
+      })
+        .then((res) => {
+          setDeptList(res.data);
+          // console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, [page]);
-  // console.log(page);
+
+  function plusPage() {
+    setPage(page + 1);
+    // console.log(page);
+  }
 
   return (
     <div>
       {deptList &&
-        deptList.map((deptList, i) => {
-          return (
-            <div key={i}>
-              <Container>
-                <Row>
-                  <Col sm={3} className="image">
-                    {" "}
-                    <div style={{ padding: "25px" }}>
-                      {" "}
-                      <BsFillFileEarmarkPersonFill size="70" />
-                    </div>
-                  </Col>
-                  <Col sm={9}>
-                    <Row className="name">
-                      {deptList.employeeName} | {deptList.employeeId}
-                    </Row>
-                    <Row className="stage">
-                      부서번호 : {deptList.workplaceSeq}
-                    </Row>
-                    <Row className="phnum">
-                      <div style={{ width: "35px" }}>
-                        <BsTelephonePlus />
-                      </div>
-                      {deptList.employeePh}{" "}
-                    </Row>
-                  </Col>
-                </Row>
-                <hr />
-              </Container>
-            </div>
-          );
-        })}
+        deptList.map((dList) => (
+          <Row
+            key={dList.employeeSeq}
+            onClick={() => {
+              sendEmployeeSeq(dList.employeeSeq);
+            }}>
+            <Col sm={3} className="image">
+              {" "}
+              <div style={{ padding: "25px" }}>
+                {" "}
+                <BsFillFileEarmarkPersonFill size="70" />
+              </div>
+            </Col>
+            <Col sm={9}>
+              <Row className="name">
+                {dList.employeeName} | {dList.employeeId}
+              </Row>
+              <Row className="stage">부서번호 : {dList.workplaceSeq}</Row>
+              <Row className="phnum">
+                <div style={{ width: "35px" }}>
+                  <BsTelephonePlus />
+                </div>
+                {dList.employeePh}
+              </Row>
+            </Col>
+            <hr />
+          </Row>
+        ))}
       <button
         className="btn"
         onClick={() => {
-          // console.log("바뀐값" + page);
-          setPage(page + 1);
-          // console.log(page);
+          plusPage();
         }}>
         ˅
       </button>
