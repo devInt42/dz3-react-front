@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { VscExpandAll } from "react-icons/vsc";
 import style from "../css/MenuSet.module.css"
 
 function MenuSet() {
@@ -37,18 +37,41 @@ function MenuSet() {
 
     return (
         <div>
-            메뉴 아이디 : <input type="text" onChange={insertMenuId} /><br />
-            메뉴 이름 : <input type="text" onChange={insertMenuName} /><br />
-            상위 메뉴 :
-            <select onChange={insertMenuParent} value={menuParent}>
-                {menu.map((menu, i) => (
-                    <option value={menu.menu_id} key={i}>
-                        {menu.menu_name}
-                    </option>
-                ))}
-            </select><br />
-            메뉴 레벨 : <input type="text" value={menuDepth + 1} readOnly /><br />
-            <button onClick={insertMenu}>저장</button>
+            <div className={style.wrap}>
+                <span style={{ fontSize: "25px" }}><VscExpandAll />&nbsp;&nbsp;메뉴사용설정</span><hr />
+
+                <div className={style.tableWrap}>
+                    <table className={style.setTable}>
+                        <tr>
+                            <th>메뉴 아이디</th>
+                            <td><input type="text" onChange={insertMenuId} /></td>
+                        </tr>
+                        <tr>
+                            <th>메뉴 이름</th>
+                            <td><input type="text" onChange={insertMenuName} /></td>
+                        </tr>
+                        <tr>
+                            <th>상위 메뉴</th>
+                            <td><select className={style.menu_select} onChange={insertMenuParent} value={menuParent}>
+                                {menu.map((menu, i) => (
+                                    <option value={menu.menu_id} key={i}>
+                                        {menu.menu_name}
+                                    </option>
+                                ))}
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <th>메뉴 레벨</th>
+                            <td><input style={{ backgroundColor: "rgba(250, 5, 5, 0.137)" }} type="text" value={menuDepth + 1} readOnly /></td>
+                        </tr>
+                    </table>
+                </div>
+                <div className={style.menu_btn}>
+                    <button className={style.menu_save} onClick={insertMenu}>저장</button>
+                    <button className={style.menu_delete}>삭제</button>
+                    <button className={style.menu_update}>수정</button>
+                </div>
+            </div>
         </div>
     );
 

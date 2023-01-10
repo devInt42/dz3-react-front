@@ -4,6 +4,7 @@ import GNB from "../components/GNB";
 import { Outlet, useNavigate } from "react-router-dom";
 import ListGroup from 'react-bootstrap/ListGroup';
 
+import style from "../css/SystemSet.module.css"
 import SubMenu from "./SubMenu"
 import MenuSet from "./MenuSet";
 
@@ -27,19 +28,18 @@ function SystemSet(props) {
     const alertClicked = () => {
         alert('You clicked the third ListGroupItem');
     };
-
+    if (Lmenu.length == 0) {
+        console.log("asdasdads")
+    }
     return (
         <div>
             {Lmenu.map((menu, i) => {
                 return (
-                    <div key={i}>
-                        <div style={{ paddingLeft: menu.menu_depth * 30, paddingRight: '20px' }}>
-                            <ListGroup>
-                                <ListGroup.Item action onClick={() => { setIsActive(!active); setSubMenu(menu.menu_id); }}>
-                                    {/* {subMenu == menu.menu_parent ? <div>qqqqqqqqq</div> : menu.menu_name} */}
-                                    {menu.menu_name}
-                                </ListGroup.Item>
-                            </ListGroup>
+                    <div className={style.check} key={i}>
+                        <div className={style.item} style={{ paddingLeft: menu.menu_depth * 30, paddingRight: '20px' }}>
+                            <button className={style.menu_btn} action onClick={() => { setIsActive(true); setSubMenu(menu.menu_id); }}>
+                                {menu.menu_name}
+                            </button>
                         </div>
                         {
                             subMenu == menu.menu_id && active && <SystemSet menuId={menu.menu_id} menuDepth={menu.menu_depth} />

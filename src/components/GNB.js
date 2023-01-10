@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { VscGithubInverted } from "react-icons/vsc";
+import style from "../css/GNB.module.css";
 
 import LNB from "./LNB";
 
@@ -24,24 +24,24 @@ function GNB() {
     }, []);
 
     return (
-        <div>
-            <Navbar bg="dark" variant="dark">
-                <Container>
-                    <Navbar.Brand onClick={() => { navigate(`/dz3`); }}>GNB</Navbar.Brand>
-                    <Nav className="me-auto">
-                        {
-                            menu.map((menu, i) => {
-                                return (
-                                    menu.menu_depth == 0 &&
-                                    <Nav.Link key={i} href={`#features${i}`} onClick={() => { setShow(true); setGnbNum(i); setMenuId(menu.menu_id); setMenuName(menu.menu_name); }}>{menu.menu_name}</Nav.Link>
-                                );
-                            })
-                        }
-                        <Nav.Link href="#pricing5" onClick={() => { setShow(false); navigate(`/dz3`); }}>닫기</Nav.Link>
-                        <button onClick={() => { navigate(`/dz3/menuset`); }}>menusetting</button>
-                    </Nav>
-                </Container>
-            </Navbar>
+
+        <div className={style.gnb_bar}>
+            <div style={{ height: "30px" }}><h3>Last Dance</h3></div>
+            <div className={style.gnb_content}>
+                <span onClick={() => { navigate(`/dz3`); }}>GNB</span>
+                <span className={style.gnb_menu}>
+                    {
+                        menu.map((menu, i) => {
+                            return (
+                                menu.menu_depth == 0 &&
+                                <button className={style.gnb_callLnb} key={i} onClick={() => { setShow(true); setGnbNum(i); setMenuId(menu.menu_id); setMenuName(menu.menu_name); }}><VscGithubInverted />  {menu.menu_name}</button>
+                            );
+                        })
+                    }
+                    <span onClick={() => { setShow(false); navigate(`/dz3`); }}>닫기</span>
+                    <button onClick={() => { navigate(`/dz3/menuset`); }}>menusetting</button>
+                </span>
+            </div>
 
             {
                 show == true ?
