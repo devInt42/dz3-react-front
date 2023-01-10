@@ -14,6 +14,10 @@
   margin: auto;
 }
 
+.groupChoice {
+  background-color: white;
+}
+
 .btn:hover {
   background-color: antiquewhite;
   color: black;
@@ -22,7 +26,7 @@
 .hover:hover {
   text-decoration: underline;
   transition: all 0.5s ease-in-out;
-  color: blue;
+  /* color: blue; */
 }
 
 .center {
