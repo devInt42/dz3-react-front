@@ -7,18 +7,30 @@ import "../css/Layout.module.css";
 
 function Layout() {
     return (
-        <div className="layout">
-            <GNB />
-            <div>
-                {/* <Col><LNB /></Col> */}
-                <Col>
-                    <Container>
-                        <Outlet />
-                    </Container>
+        <Container fluid>
+            <Row>
+                <Col md="auto" style={{border: "1px solid black", padding:"0px", width: "15%"}}><LNB /></Col>
+
+                <Col style={{ border: "1px solid black", padding:"0px"}}>
+                    <Row><GNB /></Row>
                 </Col>
-            </div>
-        </div>
+            </Row>
+
+        </Container>
+
     );
 }
 
 export default Layout;
+
+{/* <div className="layout">
+            <GNB />
+            <div> */}
+                {/* <Col><LNB /></Col> */}
+        //         <Col>
+        //             <Container>
+        //                 <Outlet />
+        //             </Container>
+        //         </Col>
+        //     </div>
+        // </div>

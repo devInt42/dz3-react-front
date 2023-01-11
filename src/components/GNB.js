@@ -7,7 +7,7 @@ import style from "../css/GNB.module.css";
 
 import LNB from "./LNB";
 
-function GNB() {
+function GNB(props) {
     const navigate = useNavigate();
 
     const [show, setShow] = useState(false);
@@ -25,31 +25,36 @@ function GNB() {
 
     return (
 
-        <div className={style.gnb_bar}>
-            <div style={{ height: "30px" }}><h3>Last Dance</h3></div>
-            <div className={style.gnb_content}>
-                <span onClick={() => { navigate(`/dz3`); }}>GNB</span>
-                <span className={style.gnb_menu}>
-                    {
-                        menu.map((menu, i) => {
-                            return (
-                                menu.menu_depth == 0 &&
-                                <button className={style.gnb_callLnb} key={i} onClick={() => { setShow(true); setGnbNum(i); setMenuId(menu.menu_id); setMenuName(menu.menu_name); }}><VscGithubInverted />  {menu.menu_name}</button>
-                            );
-                        })
-                    }
-                    <span onClick={() => { setShow(false); navigate(`/dz3`); }}>닫기</span>
-                    <button onClick={() => { navigate(`/dz3/menuset`); }}>menusetting</button>
-                </span>
-            </div>
-
-            {
-                show == true ?
-                    <><LNB gnbNum={gnbNum} menuId={menuId} menuName={menuName} />
-                    </> :
-                    <div>false</div>
-            }
+        <div>
+            <div style={{ height: "40px" }}><h3>Last Dance</h3></div>
+            <div className={style.gnb_bar}>{props.menuName}</div>
         </div>
+
+        // <div className={style.gnb_bar}>
+        //     <div style={{ height: "30px" }}><h3>Last Dance</h3></div>
+        //     <div className={style.gnb_content}>
+        //         <span onClick={() => { navigate(`/dz3`); }}>GNB</span>
+        //         <span className={style.gnb_menu}>
+        //             {
+        //                 menu.map((menu, i) => {
+        //                     return (
+        //                         menu.menu_depth == 0 &&
+        //                         <button className={style.gnb_callLnb} key={i} onClick={() => { setShow(true); setGnbNum(i); setMenuId(menu.menu_id); setMenuName(menu.menu_name); }}><VscGithubInverted />  {menu.menu_name}</button>
+        //                     );
+        //                 })
+        //             }
+        //             <button onClick={() => { setShow(false); navigate(`/dz3`); }}>닫기</button>
+        //             <button onClick={() => { navigate(`/dz3/menuset`); }}>menusetting</button>
+        //         </span>
+        //     </div>
+
+        //     {
+        //         show == true ?
+        //             <><LNB gnbNum={gnbNum} menuId={menuId} menuName={menuName} />
+        //             </> :
+        //             <div>false</div>
+        //     }
+        // </div>
 
 
 
