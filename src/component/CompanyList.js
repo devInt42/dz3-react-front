@@ -27,7 +27,6 @@ function CompanyList() {
 }
 
 const listcompany = (company) => {
-    console.log(company);
     return (
         <>
             {

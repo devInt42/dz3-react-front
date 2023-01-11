@@ -15,7 +15,6 @@ const Company = () => {
     let [addflag, setAddflag] = useState(false);
 
     useEffect(() => {
-        console.log("company 페이지입니다.")
         axios.get(`${baseUrl}/company/info`)
             .then(res => setCompanydata(res.data))
             .catch(error => console.log(error))
