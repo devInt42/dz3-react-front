@@ -9,9 +9,11 @@ const EmployeeList = (props) => {
   const baseUrl = "http://localhost:8080";
   const [departmentSeq, setDepartmentSeq] = useState("");
   const [workplaceSeq, setWorkplaceSeq] = useState("");
-  const [deptList, setDeptList] = useState([]);
+
   const [page, setPage] = useState(1);
+  const [deptList, setDeptList] = useState([]);
   const [employeeSeq, setEmployeeSeq] = useState();
+  const [countEmployee, setCountEmployee] = useState();
 
   //modal.js로 값이동
   useEffect(() => {
@@ -44,6 +46,18 @@ const EmployeeList = (props) => {
         .then((res) => {
           setDeptList(res.data);
           // console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      axios({
+        type: "get",
+        url: `${baseUrl}/department-employee/count/${departmentSeq}`,
+      })
+        .then((res2) => {
+          setCountEmployee(res2.data);
+          console.log(countEmployee);
         })
         .catch((error) => {
           console.log(error);

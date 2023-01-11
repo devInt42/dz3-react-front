@@ -45,6 +45,7 @@
   margin-right: 15px;
   border-top: medium solid darkslategrey;
   height: 510px;
+  overflow: auto;
 }
 
 hr {
