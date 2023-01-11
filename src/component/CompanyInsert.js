@@ -10,6 +10,7 @@ import ZippopupPostCode from './zipcode/ZippopupZipCode';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import MyAlert from './alert/MyAlert';
 const CompanyInsert = ((props) => {
     
     let [companyCode, setCompanyCode] = useState("");
@@ -73,10 +74,9 @@ const CompanyInsert = ((props) => {
     let [faxStyle, setFaxStyle] = useState(false);
     let [registStyle, setRegistStyle] = useState(false);
     let [corporateStyle, setCorporateStyle] = useState(false);
-
-    //모든 필수 값이 제대로 들어갔을 때 추가 버튼 활성화
+    
     let [allCheck, setAllCheck] = useState(false);
-
+    let [checked, setChecked] = useState(0);
     useEffect(() => {
         setCompanyAddr(address);
     }, [address])
@@ -116,16 +116,47 @@ const CompanyInsert = ((props) => {
     }, [companyCode])
     //모든 필수 사항이 제대로 입력되었을 때, 추가 버튼 활성화 구현
 
-
+    function AllCheck() {
+        setChecked(1);
+        if(codeDupliCheck!==1) {return false;}
+        if(companyName.length === 0) {
+            return false;
+        }
+        if(companyBusiness.length === 0) {
+            return false;
+        }
+        if(companyItem.length === 0) {
+            return false;
+        }
+        if(registNumberCheck(companyRegist) === false) {
+            return false;
+        }
+        if(corporateNumberCheck(companyCorporate)===false) {
+            return false;
+        }
+        if(companyName.length === 0) {
+            return false;
+        }
+        if(companyAddr.length === 0) {
+            return false;
+        }
+        setAllCheck(true);
+        props.setAddflag(false)
+        return true;
+    }
     return (
         <div>
             <div className="infoheader">
                 <b className="littletitle"> <BsFillOctagonFill /> 기본정보</b>
                 <div>
+                
                     <button className="insertbutton"
-                        type="button" onClick={() => { insertCompany(); props.setAddflag(false) ; }}
-                        disabled={allCheck}>추가</button>
+                        type="button" onClick={() => { AllCheck() ? insertCompany() : setAllCheck(false) }}
+                        >추가</button>
                     <button className="infoclosebutton" onClick={() => props.setAddflag(false)}> <TfiClose /></button>
+                    {
+                        allCheck ? console.log("success!!") : checked === 1 && <MyAlert/> //여기 고치기 
+                    }
                 </div>
             </div>
 
@@ -170,7 +201,10 @@ const CompanyInsert = ((props) => {
                                 aria-label="Username"
                                 aria-describedby="basic-addon1"
                                 onChange={e => setCompanyName(e.target.value)}
+                                
                                 Style="background-color:#ffe9e9"
+                                isValid={checked === 1 ? true : false}
+                                isInvalid={checked !== 1 ? false : companyName.length > 0 ? false : true} 
                             />
                         </InputGroup>
                     </div>
