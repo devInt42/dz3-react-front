@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import 'aos/dist/aos.css';
 function CompanyList() {
     const baseUrl = "http://localhost:8080";
 

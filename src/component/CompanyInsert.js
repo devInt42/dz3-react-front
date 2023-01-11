@@ -26,14 +26,14 @@ const CompanyInsert = ((props) => {
     let [companyAddr, setCompanyAddr] = useState("");
     let [companyEstablish, setCompanyEstablish] = useState("");
     let [companyClosingDay, setCompanyClosingday] = useState("");
-    let [flag, setFlag] = useState(0);
+    let [useYN, setUseYN] = useState("N");
     let [areaCode, setAreaCode] = useState("");
     let [companyFax, setCompanyFax] = useState("");
     let [companyZipCode, setCompanyZipCode] = useState("");
     let [companyForeigner, setCompanyForeigner] = useState("내국인");
     let [address, setAddress] = useState("");
     let [zipcodeIsOpen, setZipcodeIsOpen] = useState(false);
-
+    let [pcBuisness, setPcBuisness] = useState("");
     const data = {  // 서버로 보낼 데이터
         "companyCode": companyCode,
         "companyName": companyName,
@@ -47,10 +47,11 @@ const CompanyInsert = ((props) => {
         "companyAddr": companyAddr,
         "companyEstablish": companyEstablish,
         "companyClosingDay": companyClosingDay,
-        "flag": flag,
+        "useYN": useYN,
         "companyFax": companyFax,
         "companyZipCode": companyZipCode,
-        "companyForeigner": companyForeigner
+        "companyForeigner": companyForeigner,
+        "pcBuisness": pcBuisness
     }
     const baseUrl = "http://localhost:8080";
 
@@ -104,12 +105,7 @@ const CompanyInsert = ((props) => {
     }, [companyCorporate])
 
     //모든 필수 사항이 제대로 입력되었을 때, 추가 버튼 활성화 구현
-    useEffect(() => {
-        if(registStyle && corporateStyle && codeNumberCheck(companyCode) 
-        && companyBusiness !== "" && companyItem !== "" && companyPresident !== "") {
-            setAllCheck(true);
-        }
-    }, [registStyle, corporateStyle, companyCode, companyBusiness, companyItem, companyAddr, companyPresident])
+    
 
     return (
         <div>
@@ -144,9 +140,9 @@ const CompanyInsert = ((props) => {
                             <Form.Check
                                 type="switch"
                                 id="custom-switch"
-                                onChange={() => { flag === 0 ? setFlag(1) : setFlag(0); }}
+                                onChange={() => { useYN === "N" ? setUseYN("Y") : setUseYN("N"); }}
                             />
-                            {flag === 1 ? (<b>사    용</b>) : (<b>미사용</b>)}
+                            {useYN === "Y" ? (<b>사    용</b>) : (<b>미사용</b>)}
                         </InputGroup>
                     </div>
                 </div>
@@ -159,6 +155,7 @@ const CompanyInsert = ((props) => {
                                 aria-label="Username"
                                 aria-describedby="basic-addon1"
                                 onChange={e => setCompanyName(e.target.value)}
+                                Style = "background-color:#ffe9e9"
                             />
                         </InputGroup>
                     </div>
@@ -260,6 +257,10 @@ const CompanyInsert = ((props) => {
                     <div className="infoform">
                         <InputGroup className="mb-3">
                             <InputGroup.Text id="basic-addon1">법인 번호</InputGroup.Text>
+                            <select onChange = {e => setPcBuisness(e.target.value)}>
+                                <option value = "법인" selected>법인</option>
+                                <option value = "개인">개인</option>
+                            </select>
                             <Form.Control
                                 placeholder="법인 번호를 입력해 주십시오."
                                 aria-describedby="basic-addon1"
