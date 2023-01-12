@@ -8,7 +8,7 @@ function CompanyList() {
         axios.get(`${baseUrl}/company/info`)
             .then(res => setCompany(res.data))
             .catch(error => console.log(error));
-    }, [])
+    }, [company])
 
     return (
         company &&
