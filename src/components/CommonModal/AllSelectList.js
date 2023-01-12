@@ -1,4 +1,6 @@
-const AllSelectList = () => {
-  return <div>3</div>;
+import { useEffect, useState } from "react";
+
+const AllSelectList = (props) => {
+  return <div>test</div>;
 };
 export default AllSelectList;

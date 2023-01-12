@@ -1,17 +1,27 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 
-const CheckBox = (props) => {
-  const [departmentSeq, setDepartmentSeq] = useState("");
+const AllEmployeeList = (props) => {
+  const [departmentSeq, setDepartmentSeq] = useState();
   const baseUrl = "http://localhost:8080";
   const [page, setPage] = useState(1);
   const [deptList, setDeptList] = useState([]);
   const [checkedList, setCheckedLists] = useState([]);
 
+  //CommonModal로 checkedList값 전송
+
+  // useEffect(() => {
+  //   props.sendCheckedList(checkedList);
+  // }, [checkedList]);
+
   //값 받아서 departmentSeq 설정
   useEffect(() => {
     setDepartmentSeq(props.departmentSeq);
   }, [props]);
+
+  // function sendCheckedList(a) {
+  //   setCheckedLists(a);
+  // }
 
   useEffect(() => {
     if (departmentSeq != null) {
@@ -43,7 +53,7 @@ const CheckBox = (props) => {
     [deptList]
   );
 
-  //개별 체크 클릭시 발생하는 함수
+  //개별 클릭시 발생하는 함수
   const onCheckedElement = useCallback(
     (checked, list) => {
       if (checked) {
@@ -51,12 +61,12 @@ const CheckBox = (props) => {
       } else {
         setCheckedLists(checkedList.filter((el) => el !== list));
       }
+      console.log(checkedList);
     },
     [checkedList]
   );
 
-  console.log(checkedList);
-
+  useEffect(() => {}, [checkedList]);
   return (
     <div>
       <div className="container">
@@ -68,7 +78,9 @@ const CheckBox = (props) => {
                   <th scope="col">
                     {" "}
                     <input
+                      key={0}
                       type="checkbox"
+                      readOnly
                       onClick={(e) => onCheckedAll(e.target.checked)}
                       checked={
                         checkedList.length === 0
@@ -90,11 +102,22 @@ const CheckBox = (props) => {
               <tbody>
                 {deptList &&
                   deptList.map((deptList) => (
-                    <tr>
+                    <tr key={deptList.employeeSeq}>
                       <td>
                         <div className="custom-control custom-checkbox">
                           <input
+                            key={deptList.employeeSeq}
                             type="checkbox"
+                            // readOnly
+                            // onClick={() => {
+                            //   sendCheckedList(deptList.employeeName);
+                            // }}
+                            onChange={(e) =>
+                              onCheckedElement(e.target.checked, deptList)
+                            }
+                            checked={
+                              checkedList.includes(deptList) ? true : false
+                            }
                             className="custom-control-input"
                             id="customCheck2"></input>
                           <label
@@ -102,7 +125,7 @@ const CheckBox = (props) => {
                             htmlFor="customCheck1"></label>
                         </div>
                       </td>
-                      <td> {deptList.companyName}</td>
+                      <td>{deptList.companyName}</td>
                       <td>{deptList.workplaceName}</td>
                       <td>{deptList.title}</td>
                       <td>{deptList.employeeName}</td>
@@ -117,4 +140,4 @@ const CheckBox = (props) => {
     </div>
   );
 };
-export default CheckBox;
+export default AllEmployeeList;

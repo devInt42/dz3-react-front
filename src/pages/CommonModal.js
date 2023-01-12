@@ -1,22 +1,29 @@
 import { Row, Col } from "react-bootstrap";
-import CheckBox from "../components/CommonModal/AllEmployeeList";
 import { useEffect, useState } from "react";
 import React from "react";
 import "../components/Modals/SearchModal.css";
 import AllCompanyList from "../components/CommonModal/AllCompanyList";
 import AllSelectList from "../components/CommonModal/AllSelectList";
+import AllEmployeeList from "../components/CommonModal/AllEmployeeList";
 
 const CommonModal = (props) => {
   const { open, close, header } = props;
   const [departmentSeq, setDepartmentSeq] = useState();
+  const [checkedList, setCheckedLists] = useState([]);
 
   //함수 보냄
   const sendDepartmentSeq = (i) => {
     setDepartmentSeq(i);
   };
 
+  const sendCheckedList = (i) => {
+    setCheckedLists(i);
+    console.log(checkedList);
+  };
+
   //바뀔때마다 랜더링
   useEffect(() => {}, [departmentSeq]);
+  useEffect(() => {}, [checkedList]);
 
   return (
     //open 누르면 openModal 클래스 생성
@@ -58,12 +65,15 @@ const CommonModal = (props) => {
                   <AllCompanyList sendDepartmentSeq={sendDepartmentSeq} />
                 </Col>
                 <Col sm={7}>
-                  <Row className="AllCheckbox">
-                    <CheckBox departmentSeq={departmentSeq} />
+                  <Row sm={7} className="AllCheckbox">
+                    <AllEmployeeList
+                      departmentSeq={departmentSeq}
+                      sendCheckedList={sendCheckedList}
+                    />
                   </Row>
                   <Row>• 선택목록</Row>
-                  <Row className="AllChoiceEmp">
-                    <AllSelectList />
+                  <Row sm={4} className="AllChoiceEmp">
+                    <AllSelectList checkedList={checkedList} />
                   </Row>
                 </Col>
               </Row>

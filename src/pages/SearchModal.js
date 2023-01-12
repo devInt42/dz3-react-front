@@ -75,7 +75,7 @@ const Modal = (props) => {
                     />
                     <br />
                   </Col>
-                  <Col sm={4} className="employeeDetail">
+                  <Col sm={4} className="SearchemployeeDetail">
                     <EmployeeDetail employeeSeq={employeeSeq} />
                   </Col>
                 </Row>
