@@ -1,7 +1,6 @@
 import { BsPersonCircle } from "react-icons/bs";
-import { AiOutlinePushpin } from "react-icons/ai";
 import React, { useState } from "react";
-import Modal from "./Modal";
+import Modal from "./SearchModal";
 
 const Home = () => {
   const [modalOpen, setModalOpen] = useState(false);

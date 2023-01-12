@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Container, Row, Col } from "react-bootstrap";
 
 const CompanyList = (props) => {
   const [companySeq, setCompanySeq] = useState(2);

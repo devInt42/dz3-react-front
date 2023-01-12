@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Container, Row, Col } from "react-bootstrap";
-import { BsTelephonePlus } from "react-icons/bs";
-import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
+import { Row, Col } from "react-bootstrap";
+import { BsTelephonePlus, BsFillFileEarmarkPersonFill } from "react-icons/bs";
 
 const EmployeeList = (props) => {
   const [companySeq, setCompanySeq] = useState(2);
   const baseUrl = "http://localhost:8080";
   const [departmentSeq, setDepartmentSeq] = useState("");
   const [workplaceSeq, setWorkplaceSeq] = useState("");
-
   const [page, setPage] = useState(1);
   const [deptList, setDeptList] = useState([]);
   const [employeeSeq, setEmployeeSeq] = useState();
@@ -24,7 +22,7 @@ const EmployeeList = (props) => {
     setEmployeeSeq(a);
   }
 
-  //mdoal에서 값받아서 넣기
+  //modal에서 값받아서 넣기
   //초기값 + 변경
   useEffect(() => {
     // console.log(props.departmentSeq);
@@ -103,22 +101,22 @@ const EmployeeList = (props) => {
               </div>
             </Col>
             <Col sm={9}>
-              <Row className="name">
+              <Row className="Searchname">
                 {dList.employeeName} | {dList.employeeId}
               </Row>
-              <Row className="stage">부서번호 : {dList.workplaceSeq}</Row>
-              <Row className="phnum">
+              <Row className="Searchstage">부서번호 : {dList.workplaceSeq}</Row>
+              <Row className="Searchphnum">
                 <div style={{ width: "35px" }}>
                   <BsTelephonePlus />
                 </div>
                 {dList.employeePh}
               </Row>
             </Col>
-            <hr />
+            <hr className="Searchhr" />
           </Row>
         ))}
       <button
-        className="btn"
+        className="Searchbtn"
         onClick={() => {
           plusPage();
         }}>
@@ -127,7 +125,5 @@ const EmployeeList = (props) => {
     </div>
   );
 };
-
-// ListPage();
 
 export default EmployeeList;

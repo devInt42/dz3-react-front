@@ -1,9 +1,8 @@
 import { BsPersonCircle } from "react-icons/bs";
-import { AiOutlinePushpin } from "react-icons/ai";
 import React, { useState } from "react";
 import CommonModal from "./CommonModal";
 
-const CommonHomepage = () => {
+const Home2 = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
@@ -20,11 +19,9 @@ const CommonHomepage = () => {
       <CommonModal
         open={modalOpen}
         close={closeModal}
-        header="회사부서 사용자 선택">
-        {/* children */}
-      </CommonModal>
+        header="회사부서 사용자 선택"></CommonModal>
     </React.Fragment>
   );
 };
 
-export default CommonHomepage;
+export default Home2;

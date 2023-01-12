@@ -1,11 +1,22 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import "../components/CommonModal/CommonModal.css";
-import { Container, Row, Col } from "react-bootstrap";
-import AllCommon from "../components/CommonModal/AllCommon";
+import { Row, Col } from "react-bootstrap";
+import CheckBox from "../components/CommonModal/AllEmployeeList";
+import { useEffect, useState } from "react";
+import React from "react";
+import "../components/Modals/SearchModal.css";
+import AllCompanyList from "../components/CommonModal/AllCompanyList";
+import AllSelectList from "../components/CommonModal/AllSelectList";
 
 const CommonModal = (props) => {
   const { open, close, header } = props;
+  const [departmentSeq, setDepartmentSeq] = useState();
+
+  //함수 보냄
+  const sendDepartmentSeq = (i) => {
+    setDepartmentSeq(i);
+  };
+
+  //바뀔때마다 랜더링
+  useEffect(() => {}, [departmentSeq]);
 
   return (
     //open 누르면 openModal 클래스 생성
@@ -20,7 +31,42 @@ const CommonModal = (props) => {
           </header>
           <main>
             <div>
-              <AllCommon />
+              <Row>
+                <Col sm={3}>
+                  <select
+                    className="form-select"
+                    aria-label="Default select example">
+                    <option>사원명(ID)</option>
+                    <option value="1">TEST</option>
+                    <option value="2">TEST</option>
+                    <option value="3">TEST</option>
+                  </select>
+                </Col>
+                <Col sm={9}>
+                  <div className="mb-3">
+                    <textarea
+                      className="form-control"
+                      id="exampleFormControlTextarea1"
+                      placeholder="검색어를 입력하세요."
+                      rows="1"></textarea>
+                  </div>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col sm={5} className="AllCompanyList">
+                  <AllCompanyList sendDepartmentSeq={sendDepartmentSeq} />
+                </Col>
+                <Col sm={7}>
+                  <Row className="AllCheckbox">
+                    <CheckBox departmentSeq={departmentSeq} />
+                  </Row>
+                  <Row>• 선택목록</Row>
+                  <Row className="AllChoiceEmp">
+                    <AllSelectList />
+                  </Row>
+                </Col>
+              </Row>
             </div>
           </main>
         </section>
