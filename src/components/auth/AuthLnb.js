@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Nav, Form, Button, Row, Pagination } from "react-bootstrap";
+import { Nav, Dropdown, Button, Row, Pagination } from "react-bootstrap";
 import axios from "axios";
 import "../auth/Auth.css";
 
@@ -130,6 +130,17 @@ const AuthLnb = (props) => {
         }}
       >
         <div style={{ backgroundColor: "#f0f0f0" }}>
+          <Dropdown className="d-inline mx-2" autoClose="outside">
+            <Dropdown.Toggle id="dropdown-autoclose-outside">
+              Clickable Inside
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+              <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+              <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
           <input
             type="text"
             id="searchAuth"
