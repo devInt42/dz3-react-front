@@ -29,7 +29,7 @@ const EmployeeDetail = (props) => {
   }
 
   return (
-    <>
+    <div className="SearchDetail">
       <Container>
         <Row>
           <Col sm={9}>
@@ -44,15 +44,15 @@ const EmployeeDetail = (props) => {
         <br />
 
         <Row>
-          <span className="center">{deptDetail.employeeName}</span>
+          <span className="Searchcenter">{deptDetail.employeeName}</span>
         </Row>
         <Row>
           {" "}
-          <span className="center">{deptDetail.employeeId}</span>
+          <span className="Searchcenter">{deptDetail.employeeId}</span>
         </Row>
         <Row>
           {" "}
-          <span className="center">{deptDetail.employeeBirth}</span>
+          <span className="Searchcenter">{deptDetail.employeeBirth}</span>
         </Row>
         <div>
           <br />
@@ -67,7 +67,7 @@ const EmployeeDetail = (props) => {
           </ul>
         </div>
       </Container>
-    </>
+    </div>
   );
 };
 

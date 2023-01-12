@@ -10,7 +10,6 @@ const CheckBox = (props) => {
 
   //값 받아서 departmentSeq 설정
   useEffect(() => {
-    // console.log(props.departmentSeq);
     setDepartmentSeq(props.departmentSeq);
   }, [props]);
 
@@ -22,7 +21,6 @@ const CheckBox = (props) => {
       })
         .then((res) => {
           setDeptList(res.data);
-          // console.log("받은값" + res.data);
         })
         .catch((error) => {
           console.log(error);
@@ -43,6 +41,18 @@ const CheckBox = (props) => {
       }
     },
     [deptList]
+  );
+
+  //개별 체크 클릭시 발생하는 함수
+  const onCheckedElement = useCallback(
+    (checked, list) => {
+      if (checked) {
+        setCheckedLists([...checkedList, list]);
+      } else {
+        setCheckedLists(checkedList.filter((el) => el !== list));
+      }
+    },
+    [checkedList]
   );
 
   console.log(checkedList);

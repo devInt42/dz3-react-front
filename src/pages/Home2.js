@@ -1,9 +1,8 @@
 import { BsPersonCircle } from "react-icons/bs";
-import { AiOutlinePushpin } from "react-icons/ai";
 import React, { useState } from "react";
-import Modal from "./Modal";
+import CommonModal from "./CommonModal";
 
-const Home = () => {
+const Home2 = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
@@ -17,11 +16,12 @@ const Home = () => {
     <React.Fragment>
       <BsPersonCircle size="30" onClick={openModal}></BsPersonCircle>
 
-      <Modal open={modalOpen} close={closeModal} header="조직도">
-        {/* children */}
-      </Modal>
+      <CommonModal
+        open={modalOpen}
+        close={closeModal}
+        header="회사부서 사용자 선택"></CommonModal>
     </React.Fragment>
   );
 };
 
-export default Home;
+export default Home2;

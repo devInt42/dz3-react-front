@@ -1,4 +1,4 @@
-.deptList {
+.SearchdeptList {
   /* width: 30%; */
   border: 1px solid #bcbcbc;
   border-radius: 5px;
@@ -6,38 +6,7 @@
   height: 510px;
 }
 
-.btn {
-  align-items: center !important;
-  background-color: antiquewhite;
-  width: 80px;
-  display: block;
-  margin: auto;
-}
-
-.groupChoice {
-  background-color: white;
-}
-
-.btn:hover {
-  background-color: antiquewhite;
-  color: black;
-}
-
-.hover:hover {
-  text-decoration: underline;
-  transition: all 0.5s ease-in-out;
-  /* color: blue; */
-}
-
-.center {
-  text-align: center !important;
-  margin: auto;
-}
-
-.br {
-  font-weight: bolder;
-}
-.employeeList {
+.SearchemployeeList {
   width: 38%;
   /* background-color: pink; */
   border: 1px solid #bcbcbc;
@@ -48,40 +17,56 @@
   overflow: auto;
 }
 
-hr {
-  border-top: medium solid darkslategrey;
+.SearchDetail {
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  margin-right: 15px;
+  height: 510px;
 }
-.employeeDetail {
+
+.SearchemployeeDetail {
   /* width: 30%; */
   background-color: white;
   border-radius: 5px;
   border: 1px solid #bcbcbc;
 }
 
-.center {
+.Searchhr {
+  border-top: medium solid darkslategrey;
+}
+
+.Searchcenter {
   text-align: center;
 }
 
-.name {
+.Searchname {
   font-size: large;
   font-weight: bolder;
   padding-left: 10px;
   padding-top: 20px;
 }
 
-.image {
+.Searchimage {
   padding-top: 10px;
 }
 
-.stage {
+.Searchstage {
   font-size: small;
   padding-left: 10px;
 }
 
-.phnum {
+.Searchphnum {
   font-size: medium;
   color: #999;
   padding-top: 15px;
+}
+
+.Searchbtn {
+  align-items: center !important;
+  background-color: antiquewhite;
+  width: 80px;
+  display: block;
+  margin: auto;
 }
 
 .modal {
@@ -180,4 +165,27 @@ hr {
   to {
     opacity: 1;
   }
+}
+
+.AllCompanyList {
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  margin-right: 20px;
+  height: 510px;
+  width: 38%;
+  margin-left: 10px;
+  height: 580px;
+}
+
+.AllCheckbox {
+  border-radius: 5px;
+  height: 200px;
+  margin-bottom: 25px;
+}
+
+.AllChoiceEmp {
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  height: 250px;
+  margin-top: 10px;
 }

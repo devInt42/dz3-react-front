@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "../src/pages/Homepage";
-import Employee from "../src/pages/Employee";
-import Home2 from "../src/pages/CommonHomepage";
+import Home from "../src/pages/Home";
+import Home2 from "./pages/Home2";
 
 function App() {
   return (
@@ -10,7 +9,6 @@ function App() {
         <Route path="/dz3/">
           <Route path="main" element={<Home />} />
           <Route path="common" element={<Home2 />} />
-          <Route path="employee" element={<Employee />} />
         </Route>
       </Routes>
     </Router>
