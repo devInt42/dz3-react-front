@@ -6,13 +6,9 @@ const AllEmployeeList = (props) => {
   const baseUrl = "http://localhost:8080";
   const [page, setPage] = useState(1);
   const [deptList, setDeptList] = useState([]);
+
+  //값 저장
   const [checkedList, setCheckedLists] = useState([]);
-
-  //CommonModal로 checkedList값 전송
-
-  // useEffect(() => {
-  //   props.sendCheckedList(checkedList);
-  // }, [checkedList]);
 
   //값 받아서 departmentSeq 설정
   useEffect(() => {
@@ -61,12 +57,20 @@ const AllEmployeeList = (props) => {
       } else {
         setCheckedLists(checkedList.filter((el) => el !== list));
       }
-      console.log(checkedList);
     },
     [checkedList]
   );
 
-  useEffect(() => {}, [checkedList]);
+  useEffect(() => {}, [onCheckedAll]);
+  useEffect(() => {}, [onCheckedElement]);
+
+  // console.log(checkedList);
+  // CommonModal로 checkedList값 전송
+
+  // useEffect(() => {
+  //   props.sendCheckedList(checkedList);
+  // }, [checkedList]);
+
   return (
     <div>
       <div className="container">
@@ -100,38 +104,37 @@ const AllEmployeeList = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {deptList &&
-                  deptList.map((deptList) => (
-                    <tr key={deptList.employeeSeq}>
-                      <td>
-                        <div className="custom-control custom-checkbox">
-                          <input
-                            key={deptList.employeeSeq}
-                            type="checkbox"
-                            // readOnly
-                            // onClick={() => {
-                            //   sendCheckedList(deptList.employeeName);
-                            // }}
-                            onChange={(e) =>
-                              onCheckedElement(e.target.checked, deptList)
-                            }
-                            checked={
-                              checkedList.includes(deptList) ? true : false
-                            }
-                            className="custom-control-input"
-                            id="customCheck2"></input>
-                          <label
-                            className="custom-control-label"
-                            htmlFor="customCheck1"></label>
-                        </div>
-                      </td>
-                      <td>{deptList.companyName}</td>
-                      <td>{deptList.workplaceName}</td>
-                      <td>{deptList.title}</td>
-                      <td>{deptList.employeeName}</td>
-                      <td>{deptList.employeePmail}</td>
-                    </tr>
-                  ))}
+                {deptList.map((deptList) => (
+                  <tr key={deptList.employeeSeq}>
+                    <td>
+                      <div className="custom-control custom-checkbox">
+                        <input
+                          key={deptList.employeeSeq}
+                          type="checkbox"
+                          readOnly
+                          // onClick={() => {
+                          //   sendCheckedList(deptList.employeeName);
+                          // }}
+                          onChange={(e) =>
+                            onCheckedElement(e.target.checked, deptList)
+                          }
+                          checked={
+                            checkedList.includes(deptList) ? true : false
+                          }
+                          className="custom-control-input"
+                          id="customCheck2"></input>
+                        <label
+                          className="custom-control-label"
+                          htmlFor="customCheck1"></label>
+                      </div>
+                    </td>
+                    <td>{deptList.companyName}</td>
+                    <td>{deptList.workplaceName}</td>
+                    <td>{deptList.title}</td>
+                    <td>{deptList.employeeName}</td>
+                    <td>{deptList.employeePmail}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
