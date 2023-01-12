@@ -1,11 +1,12 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const CheckBox = (props) => {
   const [departmentSeq, setDepartmentSeq] = useState("");
   const baseUrl = "http://localhost:8080";
   const [page, setPage] = useState(1);
   const [deptList, setDeptList] = useState([]);
+  const [checkedList, setCheckedLists] = useState([]);
 
   //값 받아서 departmentSeq 설정
   useEffect(() => {
@@ -21,7 +22,7 @@ const CheckBox = (props) => {
       })
         .then((res) => {
           setDeptList(res.data);
-          console.log("받은값" + res.data);
+          // console.log("받은값" + res.data);
         })
         .catch((error) => {
           console.log(error);
@@ -29,19 +30,45 @@ const CheckBox = (props) => {
     }
   }, [departmentSeq]);
 
+  //전체 클릭시 발생하는 함수
+  const onCheckedAll = useCallback(
+    (checked) => {
+      if (checked) {
+        const checkedListArray = [];
+
+        deptList.forEach((list) => checkedListArray.push(list));
+        setCheckedLists(checkedListArray);
+      } else {
+        setCheckedLists([]);
+      }
+    },
+    [deptList]
+  );
+
+  console.log(checkedList);
+
   return (
     <div>
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <table class="table table-bordered">
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <table className="table table-bordered">
               <thead>
                 <tr>
                   <th scope="col">
                     {" "}
-                    <label
-                      class="custom-control-label"
-                      for="customCheck1"></label>
+                    <input
+                      type="checkbox"
+                      onClick={(e) => onCheckedAll(e.target.checked)}
+                      checked={
+                        checkedList.length === 0
+                          ? false
+                          : checkedList.length === deptList.length
+                          ? true
+                          : false
+                      }
+                      className="custom-control-input"
+                      id="customCheck2"></input>
                   </th>
                   <th scope="col">사업장</th>
                   <th scope="col">부서명</th>
@@ -52,24 +79,24 @@ const CheckBox = (props) => {
               </thead>
               <tbody>
                 {deptList &&
-                  deptList.map((dList) => (
+                  deptList.map((deptList) => (
                     <tr>
                       <td>
-                        <div class="custom-control custom-checkbox">
+                        <div className="custom-control custom-checkbox">
                           <input
                             type="checkbox"
-                            class="custom-control-input"
+                            className="custom-control-input"
                             id="customCheck2"></input>
                           <label
-                            class="custom-control-label"
-                            for="customCheck1"></label>
+                            className="custom-control-label"
+                            htmlFor="customCheck1"></label>
                         </div>
                       </td>
-                      <td> {dList.employeeName}</td>
-                      <td>Cristina</td>
-                      <td>aa</td>
-                      <td>3.417</td>
-                      <td>ajjh@naver.com</td>
+                      <td> {deptList.companyName}</td>
+                      <td>{deptList.workplaceName}</td>
+                      <td>{deptList.title}</td>
+                      <td>{deptList.employeeName}</td>
+                      <td>{deptList.employeePmail}</td>
                     </tr>
                   ))}
               </tbody>

@@ -13,7 +13,7 @@ const AllCommon = (props) => {
 
   //바뀔때마다 랜더링
   useEffect(() => {
-    console.log(departmentSeq);
+    // console.log(departmentSeq);
   }, [departmentSeq]);
 
   return (
