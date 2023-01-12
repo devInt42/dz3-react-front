@@ -7,7 +7,7 @@ import "../css/CompanyInsert.css";
 import ZippopupDom from "./zipcode/ZippopupDom";
 import ZippopupPostCode from './zipcode/ZippopupZipCode';
 import Form from 'react-bootstrap/Form';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css?a';
 import SaveCompanyAlert from './alert/SaveCompanyAlert';
 import SaveFailCompanyAlert from './alert/SaveFailCompanyAlert';
 const CompanyInsert = ((props) => {
@@ -168,214 +168,241 @@ const CompanyInsert = ((props) => {
             </div>
 
             {/* <div id="companyinfo"></div> */}
-            <table className = "companytable">
+            <table className="company-table">
                 <thead></thead>
                 <tbody>
-                <tr>
-                    <td>회사 코드</td>
-                    <td><Form.Control
-                        placeholder="회사 코드를 입력해 주십시오."
-                        onChange={e => {
-                            setCompanyCode(codeNumber(e.target.value));
-                        }}
-                        isValid={companyCode.length < 4 ? false : codeDupliCheck === 1 ? false : true}
-                        isInvalid={companyCode.length < 4 ? checked > 0 ? true : false : codeDupliCheck === 1 ? true : false}
-                        value={companyCode}
-                        Style="z-index: 0; background-color:#ffe9e9"
-                    /></td>
-                    <td>사용 여부</td>
-                    <td><Form.Check
-                        type="switch"
-                        id="custom-switch"
-                        onChange={() => { useYN === "N" ? setUseYN("Y") : setUseYN("N"); }}
-                    />
-                        {useYN === "Y" ? (<b>사    용</b>) : (<b>미사용</b>)}
-                    </td>
-                </tr>
-                <tr>
-                    <td>회사 이름</td>
-                    <td colSpan={3}><Form.Control
-                        placeholder="회사 이름을 입력해 주십시오."
-                        onChange={e => setCompanyName(e.target.value)}
-                        Style="z-index: 0; background-color:#ffe9e9"
-                        isValid={checked > 0 ? true : false}
-                        isInvalid={checked < 1 ? false : companyName.length > 0 ? false : true}
-                    /></td>
-                </tr>
-                <tr>
-                    <td>업태</td>
-                    <td><Form.Control
-                        placeholder="회사 업태를 입력해 주십시오."
-                        onChange={e => setCompanyBusiness(e.target.value)}
-                        isValid={checked > 0 ? true : false}
-                        isInvalid={checked < 1 ? false : companyBusiness.length > 0 ? false : true}
-                        Style="z-index:0; background-color:#ffe9e9"
-                    />
-                    </td>
-
-                    <td>종목</td>
-                    <td><Form.Control
-                        placeholder="회사 종목을 입력해 주십시오."
-                        onChange={e => setCompanyItem(e.target.value)}
-                        isValid={checked > 0 ? true : false}
-                        isInvalid={checked < 1 ? false : companyItem.length > 0 ? false : true}
-                        Style="z-index:0; background-color:#ffe9e9"
-                    />
-                    </td>
-                </tr>
-                <tr>
-                    <td>대표 전화</td>
-                    <td>
-                        <select name="area-code" className="area-code" onChange={(e) => setAreaCode(e.target.value)}>
-                            <option value="" selected>직접 입력</option>
-                            <option value="010-">010</option>
-                            <option value="02-">02</option>
-                            <option value="031-">031</option>
-                            <option value="032-">032</option>
-                            <option value="033-">033</option>
-                            <option value="041-">041</option>
-                            <option value="042-">042</option>
-                            <option value="043-">043</option>
-                            <option value="044-">044</option>
-                            <option value="051-">051</option>
-                            <option value="052-">052</option>
-                            <option value="053-">053</option>
-                            <option value="054-">054</option>
-                            <option value="055-">055</option>
-                            <option value="061-">061</option>
-                            <option value="062-">062</option>
-                            <option value="063-">063</option>
-                            <option value="064-">064</option>
-                        </select>
-                        <Form.Control
-                            placeholder="대표 전화를 입력해 주십시오."
-                            onChange={e => { setCompanyCall(PhoneNumber(areaCode + e.target.value)) }}
-                            value={companyCall.substring(areaCode.length)}
-                            isValid={callStyle}
-                            isInvalid={companyCall.length < 1 ? '' : callStyle ? false : true}
-                            Style="z-index:0;"
-                        />
-                    </td>
-                    <td>대표 팩스</td>
-                    <td><Form.Control
-                        placeholder="대표 팩스를 입력해 주십시오."
-                        onChange={e => { setCompanyFax(FaxNumber(e.target.value)); }}
-                        value={companyFax}
-                        isValid={faxStyle}
-                        isInvalid={companyFax.length < 1 ? '' : faxStyle ? false : true}
-                        Style="z-index:0"
-                    />
-                    </td>
-                </tr>
-                <tr>
-                    <td>사업자 등록번호</td>
-                    <td>
-                        <Form.Control
-                            placeholder="사업자 등록번호를 입력해 주십시오."
-                            onChange={e => setCompanyRegist(registNumber(e.target.value))}
-                            value={companyRegist}
-                            isValid={registStyle}
-                            isInvalid={companyRegist.length < 1 ? checked > 0 ? true : false : registStyle ? false : true}
-                            Style="z-index:0;  background-color:#ffe9e9"
-                        /></td>
-                    <td>법인 번호</td>
-                    <td>
-                        <select onChange={e => setPcBuisness(e.target.value)}>
-                            <option value="법인" selected>법인</option>
-                            <option value="개인">개인</option>
-                        </select>
-                        <Form.Control
-                            placeholder="법인 번호를 입력해 주십시오."
-                            aria-describedby="basic-addon1"
-                            onChange={e => setCompanyCorporate(corporateNumber(e.target.value))}
-                            value={companyCorporate}
-                            isValid={corporateStyle}
-                            isInvalid={companyCorporate.length < 1 ? checked > 0 ? true : false : corporateStyle ? false : true}
-                            Style="z-index:0;  background-color:#ffe9e9"
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>대표자명</td>
-                    <td><Form.Control
-                        placeholder="대표자명을 입력해 주십시오."
-                        onChange={e => setCompanyPresident(e.target.value)}
-                        isValid={checked > 0 ? true : false}
-                        isInvalid={checked < 1 ? false : companyPresident.length > 0 ? false : true}
-                        Style=" z-index:0; background-color:#ffe9e9"
-                    /></td>
-                    <td>외국인 여부</td>
-                    <td><select name="area-code" className="" onChange={(e) => setCompanyForeigner(e.target.value)}>
-                        <option value="내국인" selected>내국인</option>
-                        <option value="외국인" >외국인</option>
-                    </select>
-                        <Form.Control
-                            aria-describedby="basic-addon1"
-                            value={companyForeigner}
-                            readOnly
-                        /></td>
-                </tr>
-                <tr>
-                    <td>회사 주소</td>
-                    <td colSpan={3}>
-                        <Form.Control
-                            value={companyZipCode}
-                            onFocus={() => {
-                                companyZipCode.length > 0 ? setZipcodeIsOpen(false) : setZipcodeIsOpen(true);
+                    <tr>
+                        <td className="company-table-title">회사 코드</td>
+                        <td className="company-table-content"><Form.Control
+                            placeholder="회사 코드를 입력해 주십시오."
+                            onChange={e => {
+                                setCompanyCode(codeNumber(e.target.value));
                             }}
-                            isValid={checked > 0 ? true : false}
-                            isInvalid={checked < 1 ? false : companyZipCode.length > 0 ? false : true}
-                            Style="background-color:#ffe9e9; z-index:0; #ffe9e9; width: 200px"
-                        />
-                        <button className="addressnumbtn" type="button" onClick={() => setZipcodeIsOpen(true)}>우편번호 검색
-                        </button>
-
-                        <div id="zippopupdom">
-                            {
-                                zipcodeIsOpen && (
-                                    <ZippopupDom>
-                                        <ZippopupPostCode
-                                            onClose={setZipcodeIsOpen}
-                                            setCompanyZipCode={setCompanyZipCode}
-                                            setAddress={setAddress}
-                                        />
-                                    </ZippopupDom>
-                                )
-                            }
-                        </div>
-                        <Form.Control
-                            onFocus={() =>
-                                address.length === 0 && setZipcodeIsOpen(true)
-                            }
-                            value={address}
-                            onChange={(e) => { setAddress(e.target.value); }}
-                            Style=" z-index:0; background-color:#ffe9e9"
-                            isValid={checked > 0 ? true : false}
-                            isInvalid={checked < 1 ? false : address.length > 0 ? false : true}
-                            readOnly
-                        />
-                        <Form.Control
-                            placeholder="상세 주소를 입력해 주십시오."
-                            onChange={e => { setCompanyAddr(address + " " + e.target.value) }}
+                            isValid={companyCode.length < 4 ? false : codeDupliCheck === 1 ? false : true}
+                            isInvalid={companyCode.length < 4 ? checked > 0 ? true : false : codeDupliCheck === 1 ? true : false}
+                            value={companyCode}
+                            Style="z-index: 0; background-color:#ffe9e9"
                         /></td>
-                </tr>
-                <tr>
-                    <td>홈페이지 주소</td>
-                    <td>
-                        <Form.Control
-                            placeholder="홈페이지 주소를 입력해 주십시오."
-                            aria-label="Username"
-                            aria-describedby="basic-addon1"
-                            onChange={e => setCompanyHomepage(e.target.value)}
+                        <td className="company-table-title">사용 여부</td>
+                        <td>
+                            <div className="company-table-td-twocontent">
+                                <Form.Check
+                                    type="switch"
+                                    id="custom-switch"
+                                    onChange={() => { useYN === "N" ? setUseYN("Y") : setUseYN("N"); }}
+                                />
+                                {useYN === "Y" ? (<b>사    용</b>) : (<b>미사용</b>)}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="company-table-title">회사 이름</td>
+                        <td colSpan={3} className="company-table-content"><Form.Control
+                            placeholder="회사 이름을 입력해 주십시오."
+                            onChange={e => setCompanyName(e.target.value)}
+                            Style="z-index: 0; background-color:#ffe9e9"
+                            isValid={checked > 0 ? true : false}
+                            isInvalid={checked < 1 ? false : companyName.length > 0 ? false : true}
+                        /></td>
+                    </tr>
+                    <tr>
+                        <td className="company-table-title">업태</td>
+                        <td className="company-table-content"><Form.Control
+                            placeholder="회사 업태를 입력해 주십시오."
+                            onChange={e => setCompanyBusiness(e.target.value)}
+                            isValid={checked > 0 ? true : false}
+                            isInvalid={checked < 1 ? false : companyBusiness.length > 0 ? false : true}
+                            Style="z-index:0; background-color:#ffe9e9"
                         />
-                    </td>
-                </tr>
-                <tr>
-                    <td>설립일</td>
-                    <td><input type="date" onChange={e => setCompanyEstablish(e.target.value)} /></td>
-                    <td>폐업일</td>
-                    <td><input type="date" onChange={e => setCompanyClosingday(e.target.value)} /></td>
-                </tr>
+                        </td>
+
+                        <td className="company-table-title">종목</td>
+                        <td className="company-table-content"><Form.Control
+                            placeholder="회사 종목을 입력해 주십시오."
+                            onChange={e => setCompanyItem(e.target.value)}
+                            isValid={checked > 0 ? true : false}
+                            isInvalid={checked < 1 ? false : companyItem.length > 0 ? false : true}
+                            Style="z-index:0; background-color:#ffe9e9"
+                        />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="company-table-title">대표 전화</td>
+                        <td className="company-table-content">
+                            <div className="company-table-td-twocontent">
+                                <select name="area-code" className="company-select-option"
+                                    onChange={(e) => setAreaCode(e.target.value)}>
+                                    <option value="" selected>직접 입력</option>
+                                    <option value="010-">010</option>
+                                    <option value="02-">02</option>
+                                    <option value="031-">031</option>
+                                    <option value="032-">032</option>
+                                    <option value="033-">033</option>
+                                    <option value="041-">041</option>
+                                    <option value="042-">042</option>
+                                    <option value="043-">043</option>
+                                    <option value="044-">044</option>
+                                    <option value="051-">051</option>
+                                    <option value="052-">052</option>
+                                    <option value="053-">053</option>
+                                    <option value="054-">054</option>
+                                    <option value="055-">055</option>
+                                    <option value="061-">061</option>
+                                    <option value="062-">062</option>
+                                    <option value="063-">063</option>
+                                    <option value="064-">064</option>
+                                </select>
+                                <Form.Control
+                                    placeholder="대표 전화를 입력해 주십시오."
+                                    onChange={e => { setCompanyCall(PhoneNumber(areaCode + e.target.value)) }}
+                                    value={companyCall.substring(areaCode.length)}
+                                    isValid={callStyle}
+                                    isInvalid={companyCall.length < 1 ? '' : callStyle ? false : true}
+                                    Style="z-index:0;"
+                                />
+                            </div>
+                        </td>
+                        <td className="company-table-title">대표 팩스</td>
+                        <td className="company-table-content"><Form.Control
+                            placeholder="대표 팩스를 입력해 주십시오."
+                            onChange={e => { setCompanyFax(FaxNumber(e.target.value)); }}
+                            value={companyFax}
+                            isValid={faxStyle}
+                            isInvalid={companyFax.length < 1 ? '' : faxStyle ? false : true}
+                            Style="z-index:0"
+                        />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="company-table-title">사업자 등록번호</td>
+                        <td className="company-table-content">
+                            <Form.Control
+                                placeholder="사업자 등록번호를 입력해 주십시오."
+                                onChange={e => setCompanyRegist(registNumber(e.target.value))}
+                                value={companyRegist}
+                                isValid={registStyle}
+                                isInvalid={companyRegist.length < 1 ? checked > 0 ? true : false : registStyle ? false : true}
+                                Style="z-index:0;  background-color:#ffe9e9"
+                            /></td>
+                        <td className="company-table-title">법인 번호</td>
+                        <td className="company-table-content">
+                            <div className="company-table-td-twocontent">
+                                <select className="company-select-option" onChange={e => setPcBuisness(e.target.value)}>
+                                    <option value="법인" selected>법인</option>
+                                    <option value="개인">개인</option>
+                                </select>
+                                <Form.Control
+                                    placeholder="법인 번호를 입력해 주십시오."
+                                    aria-describedby="basic-addon1"
+                                    onChange={e => setCompanyCorporate(corporateNumber(e.target.value))}
+                                    value={companyCorporate}
+                                    isValid={corporateStyle}
+                                    isInvalid={companyCorporate.length < 1 ? checked > 0 ? true : false : corporateStyle ? false : true}
+                                    Style="z-index:0;  background-color:#ffe9e9"
+                                />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="company-table-title">대표자명</td>
+                        <td className="company-table-content"><Form.Control
+                            placeholder="대표자명을 입력해 주십시오."
+                            onChange={e => setCompanyPresident(e.target.value)}
+                            isValid={checked > 0 ? true : false}
+                            isInvalid={checked < 1 ? false : companyPresident.length > 0 ? false : true}
+                            Style=" z-index:0; background-color:#ffe9e9"
+                        /></td>
+                        <td className="company-table-title">외국인 여부</td>
+                        <td className="company-table-content">
+                            <div className="company-table-td-twocontent">
+                                <select name="area-code" className="company-select-option"
+                                    onChange={(e) => setCompanyForeigner(e.target.value)}>
+                                    <option value="내국인" selected>내국인</option>
+                                    <option value="외국인" >외국인</option>
+                                </select>
+                                <Form.Control
+                                    aria-describedby="basic-addon1"
+                                    value={companyForeigner}
+                                    readOnly
+                                />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="company-table-title">회사 주소</td>
+                        <td colSpan={3} className="company-table-content">
+                            <div className="company-table-td-twocontent">
+                                <Form.Control
+                                    value={companyZipCode}
+                                    onFocus={() => {
+                                        companyZipCode.length > 0 ? setZipcodeIsOpen(false) : setZipcodeIsOpen(true);
+                                    }}
+                                    isValid={checked > 0 ? true : false}
+                                    isInvalid={checked < 1 ? false : companyZipCode.length > 0 ? false : true}
+                                    Style="background-color:#ffe9e9; z-index:0; #ffe9e9; width: 200px"
+                                />
+                                <button className="addressnumbtn" type="button" onClick={() => setZipcodeIsOpen(true)}>우편번호 검색
+                                </button>
+                            </div>
+
+                            <div id="zippopupdom">
+                                {
+                                    zipcodeIsOpen && (
+                                        <ZippopupDom>
+                                            <ZippopupPostCode
+                                                onClose={setZipcodeIsOpen}
+                                                setCompanyZipCode={setCompanyZipCode}
+                                                setAddress={setAddress}
+                                            />
+                                        </ZippopupDom>
+                                    )
+                                }
+                            </div>
+                            <div className="company-table-td-address">
+                                <div className="company-table-td-address-input">
+
+                                    <Form.Control
+                                        onFocus={() =>
+                                            address.length === 0 && setZipcodeIsOpen(true)
+                                        }
+                                        value={address}
+                                        onChange={(e) => { setAddress(e.target.value); }}
+                                        Style=" z-index:0; background-color:#ffe9e9"
+                                        isValid={checked > 0 ? true : false}
+                                        isInvalid={checked < 1 ? false : address.length > 0 ? false : true}
+                                        readOnly
+                                    />
+                                </div>
+                                <div className="company-table-td-address-input">
+                                    <Form.Control
+                                        placeholder="상세 주소를 입력해 주십시오."
+                                        onChange={e => { setCompanyAddr(address + " " + e.target.value) }}
+                                    />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="company-table-title">홈페이지 주소</td>
+                        <td className="company-table-content">
+                            <Form.Control
+                                placeholder="홈페이지 주소를 입력해 주십시오."
+                                aria-label="Username"
+                                aria-describedby="basic-addon1"
+                                onChange={e => setCompanyHomepage(e.target.value)}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="company-table-title">설립일</td>
+                        <td className="company-table-content">
+                            <input type="date" onChange={e => setCompanyEstablish(e.target.value)} />
+                        </td>
+                        <td className="company-table-title">폐업일</td>
+                        <td className="company-table-content">
+                            <input type="date" onChange={e => setCompanyClosingday(e.target.value)} />
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
