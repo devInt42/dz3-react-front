@@ -133,7 +133,6 @@ const AuthLnb = (props) => {
           <Form.Group className="mb-3">
             <Form.Select disabled>
               <option>검색어를 입력해주세요</option>
-              <input></input>
             </Form.Select>
           </Form.Group>
           <input
