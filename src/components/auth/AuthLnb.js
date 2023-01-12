@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Nav, Dropdown, Row, Pagination } from "react-bootstrap";
+import { Nav, Form, Row, Pagination } from "react-bootstrap";
 import axios from "axios";
 import "../auth/Auth.css";
 
@@ -130,21 +130,12 @@ const AuthLnb = (props) => {
         }}
       >
         <div style={{ backgroundColor: "#f0f0f0" }}>
-          <Dropdown
-            className="d-inline mx-2"
-            id="authDropDown"
-            autoClose="outside"
-          >
-            <Dropdown.Toggle id="dropdown-autoclose-outside">
-              Clickable Inside
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-              <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-              <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <Form.Group className="mb-3">
+            <Form.Select disabled>
+              <option>검색어를 입력해주세요</option>
+              <input></input>
+            </Form.Select>
+          </Form.Group>
           <input
             type="text"
             id="searchAuth"

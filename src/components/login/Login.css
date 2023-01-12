@@ -1,12 +1,32 @@
 .logIn {
+  position: relative;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: url(../../../public/back.jpg);
 }
-#logInPage::before {
-  background-image: url(../../../public/backimg.png);
+.logIn .loginArea {
+  background-color: white;
+  outline: none !important;
+  width: 500px;
+  height: 500px;
+  background-color: #fff;
+  border: 1px solid #d3d3d3;
+  box-shadow: 0 0 20px #00aaff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  position: relative;
+}
+.loginArea h1 {
+  font-weight: bold;
+}
+.logIn::before {
+  content: "";
   background-repeat: no-repeat;
   background-size: cover;
   opacity: 0.5;
@@ -15,7 +35,9 @@
   left: 0px;
   right: 0px;
   bottom: 0px;
+  background-color: white;
 }
+
 .input-group {
   width: 300px;
   margin: 5px;
