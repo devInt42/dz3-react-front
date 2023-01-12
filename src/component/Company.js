@@ -39,7 +39,7 @@ const Company = () => {
         companydata &&
         <div>
             <h2>회사 정보</h2>
-            <hr class="line"></hr>
+            <hr className="line"></hr>
             <div id="companyform">
                 <div>
                     <CompanyList />
@@ -57,7 +57,7 @@ const Company = () => {
                     </div>
                 </div> 
                 :
-                <div class = "companyinfo">
+                <div className = "companyinfo">
                     <CompanyInsert setAddflag = {setAddflag}/>
                 </div>
                  }

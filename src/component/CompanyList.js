@@ -12,9 +12,9 @@ function CompanyList() {
     return (
         company &&
         <>
-            <div class="companylistbox">
-                <div class="companylistboxheader">
-                    <b>회사</b> <b class="emphasisfont">{company.length}</b> <b>건</b>
+            <div className="companylistbox">
+                <div className="companylistboxheader">
+                    <b>회사</b> <b className="emphasisfont">{company.length}</b> <b>건</b>
                 </div>
                 <ul>
                     {listcompany(company)}
@@ -31,7 +31,7 @@ const listcompany = (company) => {
             {
                 company.map((company) => {
                     return (
-                        <div class="box">
+                        <div className="box">
                             
                                 <li>{company.companyCode}{company.companyName}{company.companyPresident}</li>
                             

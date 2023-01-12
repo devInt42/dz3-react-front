@@ -450,8 +450,6 @@ const CompanyInsert = ((props) => {
                         </InputGroup>
                     </div>
                 </div>
-
-
             </div>
         </div>
     )
@@ -588,7 +586,5 @@ function corporateNumberCheck(value) {
     const check = /^[0-9]{6}-[0-9]{7}$/;
     return check.test(value);
 }
-
-
 
 export default CompanyInsert;
