@@ -141,7 +141,10 @@ const CompanyInsert = ((props) => {
             setNotRequire(<SaveFailCompanyAlert />)
             return false;
         }
-
+        if (companyPresident.length === 0) {
+            setNotRequire(<SaveFailCompanyAlert/>);
+            return false;
+        }
         if (companyAddr.length === 0) {
             setNotRequire(<SaveFailCompanyAlert />)
             return false;
