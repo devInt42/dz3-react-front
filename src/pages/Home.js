@@ -1,26 +1,42 @@
-import { BsPersonCircle } from "react-icons/bs";
-import React, { useState } from "react";
-import Modal from "./SearchModal";
+import { Outlet, useNavigate } from "react-router-dom";
+import LNB from "../components/LNB";
+import GNB from "../components/GNB";
+import SystemSet from "../pages/SystemSet";
+import { Container, Row, Col } from "react-bootstrap";
 
-const Home = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+import "../css/Layout.module.css";
+import Auth from "./Auth";
 
-  const openModal = () => {
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+function Home() {
+    return (
+        <Container fluid>
+            <Row>
+                <Col md="auto" style={{border: "1px solid black", padding:"0px", height: "100vh"}}><LNB /></Col>
 
-  return (
-    <React.Fragment>
-      <BsPersonCircle size="30" onClick={openModal}></BsPersonCircle>
+                <Col style={{ border: "1px solid black", padding:"0px"}}>
+                    <Row><GNB /></Row>
+                    <Row>
+                        <Col className="subMenu" md="auto" style={{border: "1px solid black", padding:"0px", width: "20%", height: "100vh", margin: "20px"}}><Outlet /></Col>
+                        <Col className="contents"><Outlet /></Col>
+                    </Row>
+                </Col>
+            </Row>
 
-      <Modal open={modalOpen} close={closeModal} header="조직도">
-        {/* children */}
-      </Modal>
-    </React.Fragment>
-  );
-};
+        </Container>
+
+    );
+}
 
 export default Home;
+
+{/* <div className="layout">
+            <GNB />
+            <div> */}
+                {/* <Col><LNB /></Col> */}
+        //         <Col>
+        //             <Container>
+        //                 <Outlet />
+        //             </Container>
+        //         </Col>
+        //     </div>
+        // </div>

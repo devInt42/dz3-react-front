@@ -15,8 +15,8 @@ function Layout() {
                 <Col style={{ border: "1px solid black", padding:"0px"}}>
                     <Row><GNB /></Row>
                     <Row>
-                        <Col className="subMenu" md="auto" style={{border: "1px solid black", padding:"0px", width: "20%", height: "100vh", margin: "20px"}}><Outlet /></Col>
-                        <Col className="contents"><Outlet /></Col>
+                        <Col md="auto" style={{border: "1px solid black", padding:"0px", width: "20%", height: "100vh", margin: "20px"}}><Outlet /></Col>
+                        <Col><Outlet /></Col>
                     </Row>
                 </Col>
             </Row>

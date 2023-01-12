@@ -6,6 +6,7 @@ import Main from "./pages/Main.js";
 import Home from "../src/pages/Home";
 import Home2 from "./pages/Home2";
 import Layout from "./components/Layout";
+import MenuSet from "./pages/MenuSet";
 
 function App() {
   return (
@@ -14,10 +15,11 @@ function App() {
         <Route path="/dz3/">
           <Route path="" element={<Login />} />
           <Route path="auth" element={<Auth />} />
-          <Route path="main" element={<Main />} />
+          {/* <Route path="main" element={<Home />} /> */}
           <Route path="common" element={<Home2 />} />
-          <Route path="main2" element={<Home />} />
+          {/* <Route path="main2" element={<Home />} /> */}
           <Route path="main" element={<Layout />} />
+          <Route path="menuset" element={<MenuSet />} />
         </Route>
       </Routes>
     </Router>

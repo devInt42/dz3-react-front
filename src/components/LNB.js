@@ -25,6 +25,8 @@ function LNB(props) {
         axios.get(baseUrl + '/menu/menulist').then(response => setLmenu(response.data)).catch(error => console.log(error))
     }, []);
 
+    console.log(Lmenu)
+
     return(
             <div className={style.lnb}>
                 
@@ -33,14 +35,16 @@ function LNB(props) {
                     {
                         Lmenu.map((menu, i) => {
                             return (
-                                menu.menu_depth == 0 &&<div><VscGithubInverted onClick={()=>{setMenuVisible(!menuVisible)}} className={style.lnb_menuIcon}/>
+                                menu.menuDepth == 0 &&<div key={i}><VscGithubInverted onClick={()=>{setMenuVisible(!menuVisible)}} className={style.lnb_menuIcon}/>
                                 {menuVisible &&
-                                <button className={style.lnb_callMenu} key={i} onClick={()=>{setMenuId(menu.menu_id); setMenuName(menu.menu_name); setSubcall(!subcall); navigate(`/dz3/submenu`)}}>{menu.menu_name}</button>
+                                <button className={style.lnb_callMenu} onClick={()=>{setMenuId(menu.menuCode); setMenuName(menu.menuName); setSubcall(!subcall); navigate(`/dz3/submenu`)}}>{menu.menuName}</button>
                         }
                                 </div>);
                         })
                     }
-                    <button onClick={() => { navigate(`/dz3/menuset`); }}>set</button>
+                    <button onClick={() => { navigate(`/dz3/menuset`); }}>set</button><br />
+                    <button onClick={() => { navigate(`/dz3/auth`); }}>auth</button><br />
+                    <button onClick={() => { navigate(`/dz3/common`); }}>common</button><br />
                     
                     {/* <button onClick={() => { setShow(false); navigate(`/dz3`); }}>닫기</button>
                     onClick={() => { setShow(true); setGnbNum(i); setMenuId(menu.menu_id); setMenuName(menu.menu_name); }} */}

@@ -80,7 +80,7 @@ button:hover{
 	font-weight: bold;
 }
 
-input[type=text]{
+.menu_btn_input{
 	width:100%;
 	border:3px solid #aaa;
 	border-radius:4px;
@@ -91,7 +91,7 @@ input[type=text]{
 	text-align: center;
 }
 
-input[type=text]:focus{
+.menu_btn_input:focus{
 	border-color:rgb(100, 173, 247);
 	box-shadow:0 0 10px 0.2px rgb(100, 173, 247);
 }
