@@ -5,6 +5,9 @@ function SubMenu(menuId) {
     console.log("서브메뉴옴")
     console.log(menuId)
 
+    return(
+        <div>서브메뉴옴</div>
+    );
     //console.log(childrens)
     // const baseUrl = "http://localhost:8080";
     // const [subMenu, setSubMenu] = useState([]);

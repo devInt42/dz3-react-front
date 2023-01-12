@@ -42,28 +42,33 @@ function MenuSet() {
 
                 <div className={style.tableWrap}>
                     <table className={style.setTable}>
-                        <tr>
-                            <th>메뉴 아이디</th>
-                            <td><input type="text" onChange={insertMenuId} /></td>
-                        </tr>
-                        <tr>
-                            <th>메뉴 이름</th>
-                            <td><input type="text" onChange={insertMenuName} /></td>
-                        </tr>
-                        <tr>
-                            <th>상위 메뉴</th>
-                            <td><select className={style.menu_select} onChange={insertMenuParent} value={menuParent}>
-                                {menu.map((menu, i) => (
-                                    <option value={menu.menu_id} key={i}>
-                                        {menu.menu_name}
-                                    </option>
-                                ))}
-                            </select></td>
-                        </tr>
-                        <tr>
-                            <th>메뉴 레벨</th>
-                            <td><input style={{ backgroundColor: "rgba(250, 5, 5, 0.137)" }} type="text" value={menuDepth + 1} readOnly /></td>
-                        </tr>
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>메뉴 아이디</th>
+                                <td><input type="text" onChange={insertMenuId} /></td>
+                            </tr>
+
+                            <tr>
+                                <th>메뉴 이름</th>
+                                <td><input type="text" onChange={insertMenuName} /></td>
+                            </tr>
+                            <tr>
+                                <th>상위 메뉴</th>
+                                <td><select className={style.menu_select} onChange={insertMenuParent} value={menuParent}>
+                                    {menu.map((menu, i) => (
+                                        <option value={menu.menu_id} key={i}>
+                                            {menu.menu_name}
+                                        </option>
+                                    ))}
+                                </select></td>
+                            </tr>
+                            <tr>
+                                <th>메뉴 레벨</th>
+                                <td><input style={{ backgroundColor: "rgba(250, 5, 5, 0.137)" }} type="text" value={menuDepth + 1} readOnly /></td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
                 <div className={style.menu_btn}>

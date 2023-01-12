@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { VscGithubInverted } from "react-icons/vsc";
+import { CgMenuBoxed } from "react-icons/cg";
 import style from "../css/GNB.module.css";
 
 import LNB from "./LNB";
@@ -26,8 +26,8 @@ function GNB(props) {
     return (
 
         <div>
-            <div style={{ height: "40px" }}><h3>Last Dance</h3></div>
-            <div className={style.gnb_bar}>{props.menuName}</div>
+            <div style={{ height: "40px" }}><h2>LastDanth<span style={{color:"rgba(64, 192, 228, 0.929)", fontWeight:"bolder"}}>10</span></h2></div>
+            <div className={style.gnb_bar}><CgMenuBoxed style={{width: "50px", height: "50px", margin: "10px"}}/>{props.menuName}</div>
         </div>
 
         // <div className={style.gnb_bar}>

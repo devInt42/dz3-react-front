@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { VscGithubInverted } from "react-icons/vsc";
+import { BsMenuButtonWideFill } from "react-icons/bs";
+import { Outlet, useNavigate } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
 import GNB from "./GNB";
 
 import SystemSet from "../pages/SystemSet";
@@ -10,8 +13,13 @@ function LNB(props) {
 
     const baseUrl = "http://localhost:8080";
     const [Lmenu, setLmenu] = useState([]);
+    const navigate = useNavigate();
 
     const[menuName, setMenuName] = useState("");
+    const[subcall, setSubcall] = useState(false);
+    const[menuId, setMenuId] = useState("");
+
+    const [menuVisible, setMenuVisible] = useState(false);
 
     useEffect(() => {
         axios.get(baseUrl + '/menu/menulist').then(response => setLmenu(response.data)).catch(error => console.log(error))
@@ -20,18 +28,23 @@ function LNB(props) {
     return(
             <div className={style.lnb}>
                 
+                <BsMenuButtonWideFill className={style.lnb_showDetailIcon} onClick={()=>{setMenuVisible(!menuVisible)}}/><hr style={{border:"2px solid white"}}/>
+                
                     {
                         Lmenu.map((menu, i) => {
                             return (
-                                menu.menu_depth == 0 &&
-                                <button className={style.lnb_callMenu} key={i} onClick={()=>setMenuName(menu.menu_name)}><VscGithubInverted />  {menu.menu_name}</button>
-                            );
+                                menu.menu_depth == 0 &&<div><VscGithubInverted onClick={()=>{setMenuVisible(!menuVisible)}} className={style.lnb_menuIcon}/>
+                                {menuVisible &&
+                                <button className={style.lnb_callMenu} key={i} onClick={()=>{setMenuId(menu.menu_id); setMenuName(menu.menu_name); setSubcall(!subcall); navigate(`/dz3/submenu`)}}>{menu.menu_name}</button>
+                        }
+                                </div>);
                         })
-                    }<GNB menuName={menuName}/>
+                    }
+                    <button onClick={() => { navigate(`/dz3/menuset`); }}>set</button>
+                    
                     {/* <button onClick={() => { setShow(false); navigate(`/dz3`); }}>닫기</button>
-                    <button onClick={() => { navigate(`/dz3/menuset`); }}>menusetting</button>
                     onClick={() => { setShow(true); setGnbNum(i); setMenuId(menu.menu_id); setMenuName(menu.menu_name); }} */}
-                
+              
             </div>
     );
 

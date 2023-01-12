@@ -1,5 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
 
+.lnb_showDetailIcon{
+    width: 30px;
+    height: 30px;
+    color: aliceblue;
+    margin: 8px;
+}.lnb_showDetailIcon:hover{
+    transition:.3s;
+    width: 33px;
+    height: 33px;
+}
+
+.lnb_menuIcon{
+    width: 30px;
+    height: 30px;
+    margin: 8px;
+    color: aliceblue;
+    white-space: pre-line;
+}.lnb_menuIcon:hover{
+    transition:.3s;
+    width: 33px;
+    height: 33px;
+}
+
 .lnb{
     /* text-align: left; */
     /* background-color: rgba(211, 212, 216, 0.521); */
@@ -39,6 +62,7 @@ h4{
     padding: 5px;
     border: none;
     border-radius: 8%;
+    margin: 8px;
 }
 .lnb_callMenu:hover{
     background-color: rgba(69, 72, 75, 0.63);
