@@ -3,7 +3,7 @@ import { AiOutlinePushpin } from "react-icons/ai";
 import React, { useState } from "react";
 import Modal from "./Modal";
 
-const Homepage = () => {
+const Home = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
@@ -24,4 +24,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default Home;

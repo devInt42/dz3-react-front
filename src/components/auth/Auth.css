@@ -1,4 +1,4 @@
-.nav-pills {
+.authNav.nav-pills {
   --bs-nav-pills-border-radius: 0.375rem;
   --bs-nav-pills-link-active-color: #000;
   --bs-nav-pills-link-active-bg: #e6f3fd;
@@ -17,7 +17,9 @@
   background-color: #fff;
   border: #efefef 2px solid;
 }
-
+#authDropDown {
+  width: 300px;
+}
 .nav-link.authLnb.active {
   display: block;
   padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
@@ -30,8 +32,8 @@
   border: #00aaff 2px solid;
 }
 
-.page-link.active,
-.active > .page-link {
+.authPagi .page-link.active,
+.authPagi .active > .authPagi .page-link {
   z-index: 3;
   color: var(--bs-pagination-active-color);
   background-color: #00aaff;

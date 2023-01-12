@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Nav, Dropdown, Button, Row, Pagination } from "react-bootstrap";
+import { Nav, Dropdown, Row, Pagination } from "react-bootstrap";
 import axios from "axios";
 import "../auth/Auth.css";
 
@@ -81,7 +81,7 @@ const AuthLnb = (props) => {
   }, [active]);
   const paginationBasic = (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <Pagination size="sm">
+      <Pagination className="authPagi" size="sm">
         <Pagination.Prev onClick={() => prevPage(active)} />
         {items}
         <Pagination.Next onClick={() => nextPage(active)} />
@@ -130,7 +130,11 @@ const AuthLnb = (props) => {
         }}
       >
         <div style={{ backgroundColor: "#f0f0f0" }}>
-          <Dropdown className="d-inline mx-2" autoClose="outside">
+          <Dropdown
+            className="d-inline mx-2"
+            id="authDropDown"
+            autoClose="outside"
+          >
             <Dropdown.Toggle id="dropdown-autoclose-outside">
               Clickable Inside
             </Dropdown.Toggle>
@@ -153,6 +157,7 @@ const AuthLnb = (props) => {
           <span style={{ color: "#00AAFF" }}>{countAuth}</span>개
         </div>
         <Nav
+          className="authNav"
           variant="pills"
           style={{
             border: "1px solid #efefef",
