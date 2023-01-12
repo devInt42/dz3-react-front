@@ -13,7 +13,9 @@ const EmployeeDetail = (props) => {
   }, [props]);
 
   useEffect(() => {
-    DetailPage();
+    if (employeeSeq != null) {
+      DetailPage();
+    }
   }, [employeeSeq]);
 
   function DetailPage() {
@@ -24,7 +26,7 @@ const EmployeeDetail = (props) => {
     }).then((res) => {
       // console.log(res.data)
       setDeptDetail(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     });
   }
 
@@ -56,12 +58,14 @@ const EmployeeDetail = (props) => {
         </Row>
         <div>
           <br />
-          <ul class="list-group">
-            <li class="list-group-item">전화번호 : {deptDetail.employeePh}</li>
-            <li class="list-group-item">
+          <ul className="list-group">
+            <li className="list-group-item">
+              전화번호 : {deptDetail.employeePh}
+            </li>
+            <li className="list-group-item">
               회사메일 : {deptDetail.employeeCmail}
             </li>
-            <li class="list-group-item">
+            <li className="list-group-item">
               개인메일 : {deptDetail.employeePmail}
             </li>
           </ul>
