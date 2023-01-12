@@ -18,7 +18,7 @@ const Company = () => {
         axios.get(`${baseUrl}/company/info`)
             .then(res => setCompanydata(res.data))
             .catch(error => console.log(error))
-    }, [companydata])
+    }, [])
 
 
     

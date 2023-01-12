@@ -2,13 +2,12 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 function CompanyList() {
     const baseUrl = "http://localhost:8080";
-
     const [company, setCompany] = useState();
     useEffect(() => {
         axios.get(`${baseUrl}/company/info`)
             .then(res => setCompany(res.data))
             .catch(error => console.log(error));
-    }, [company])
+    }, [])
 
     return (
         company &&

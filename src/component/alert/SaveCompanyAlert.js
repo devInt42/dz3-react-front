@@ -11,11 +11,17 @@ MySwal.fire({
   cancelButtonColor: '#d33',
   confirmButtonText: '저장',
   cancelButtonText: '취소',
+  width: '600px'
+  
 }).then(result => {
   if(result.isConfirmed) {
     Swal.fire('저장이 완료되었습니다.', '', 'success','#3085d6');
     props.insertCompany();
     props.setAddflag(false);
+  }
+
+  if(!result.isConfirmed) {
+    props.setAllCheck(false);
   }
 })
 }

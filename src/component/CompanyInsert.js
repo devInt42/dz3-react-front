@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsFillOctagonFill } from "react-icons/bs";
 import { TfiClose } from 'react-icons/tfi'
 import "../css/CompanyInsert.css";
@@ -11,8 +11,9 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SaveCompanyAlert from './alert/SaveCompanyAlert';
+import SaveFailCompanyAlert from './alert/SaveFailCompanyAlert';
 const CompanyInsert = ((props) => {
-    
+
     let [companyCode, setCompanyCode] = useState("");
     let [companyName, setCompanyName] = useState("");
     let [companyBusiness, setCompanyBusiness] = useState("");
@@ -54,7 +55,7 @@ const CompanyInsert = ((props) => {
         "pcBuisness": pcBuisness
     }
     const baseUrl = "http://localhost:8080";
-    
+
     async function insertCompany() {  //회사 추가
         await axios.post(
             `${baseUrl}/company/insert`
@@ -73,8 +74,9 @@ const CompanyInsert = ((props) => {
     let [faxStyle, setFaxStyle] = useState(false);
     let [registStyle, setRegistStyle] = useState(false);
     let [corporateStyle, setCorporateStyle] = useState(false);
-    
+
     let [allCheck, setAllCheck] = useState(false);
+    let [notRequire, setNotRequire] = useState();
     let [checked, setChecked] = useState(0);
     useEffect(() => {
         setCompanyAddr(address);
@@ -113,37 +115,39 @@ const CompanyInsert = ((props) => {
                 .catch(error => console.log(error))
         }
     }, [companyCode])
-   
-    useEffect(() => {
-        setAllCheck(false);
-    },[companyCode, companyName, companyBusiness, companyItem, companyRegist, companyCorporate,companyAddr])
-    
-     //모든 필수 사항이 제대로 입력되었을 때 저장
+
+    //모든 필수 사항이 제대로 입력되었을 때 저장
     function AllCheck() {
         setChecked(checked + 1);
-        if(codeDupliCheck===1 || companyCode.length !== 4) {return false;}
-        if(companyName.length === 0) {
+        if (codeDupliCheck === 1 || companyCode.length !== 4) { 
+            setNotRequire(<SaveFailCompanyAlert/>)
+            return false; }
+        if (companyName.length === 0) {
+            setNotRequire(<SaveFailCompanyAlert/>)
             return false;
         }
-        if(companyBusiness.length === 0) {
+        if (companyBusiness.length === 0) {
+            setNotRequire(<SaveFailCompanyAlert/>)
             return false;
         }
-        if(companyItem.length === 0) {
+        if (companyItem.length === 0) {
+            setNotRequire(<SaveFailCompanyAlert/>)
             return false;
         }
-        if(registNumberCheck(companyRegist) === false) {
+        if (registNumberCheck(companyRegist) === false) {
+            setNotRequire(<SaveFailCompanyAlert/>)
             return false;
         }
-        if(corporateNumberCheck(companyCorporate)===false) {
+        if (corporateNumberCheck(companyCorporate) === false) {
+            setNotRequire(<SaveFailCompanyAlert/>)
             return false;
         }
-        
-        if(companyAddr.length === 0) {
-            console.log("ca");
+
+        if (companyAddr.length === 0) {
+            setNotRequire(<SaveFailCompanyAlert/>)
             return false;
         }
         setAllCheck(true);
-        console.log(allCheck);
         return true;
     }
     return (
@@ -153,11 +157,14 @@ const CompanyInsert = ((props) => {
                 <div>
                     <button className="insertbutton"
                         type="button" onClick={() => AllCheck()}
-                        >추가</button>
+                    >추가</button>
                     <button className="infoclosebutton" onClick={() => props.setAddflag(false)}> <TfiClose /></button>
                     {
-                        allCheck ? <SaveCompanyAlert insertCompany = {insertCompany} setAddflag = {props.setAddflag}/>: <></>
+                        allCheck && <SaveCompanyAlert setAllCheck={setAllCheck}
+                            insertCompany={insertCompany}
+                            setAddflag={props.setAddflag} />
                     }
+                    {notRequire}
                 </div>
             </div>
 
@@ -174,7 +181,7 @@ const CompanyInsert = ((props) => {
                                     setCompanyCode(codeNumber(e.target.value));
                                 }}
                                 isValid={companyCode.length < 4 ? false : codeDupliCheck === 1 ? false : true}
-                                isInvalid={companyCode.length < 4? checked > 0 ? true : false : codeDupliCheck === 1 ? true : false}
+                                isInvalid={companyCode.length < 4 ? checked > 0 ? true : false : codeDupliCheck === 1 ? true : false}
                                 value={companyCode}
                                 Style="z-index: 0; background-color:#ffe9e9"
 
@@ -202,10 +209,10 @@ const CompanyInsert = ((props) => {
                                 aria-label="Username"
                                 aria-describedby="basic-addon1"
                                 onChange={e => setCompanyName(e.target.value)}
-                                
+
                                 Style="z-index: 0; background-color:#ffe9e9"
                                 isValid={checked > 0 ? true : false}
-                                isInvalid={checked < 1 ? false : companyName.length > 0 ? false : true} 
+                                isInvalid={checked < 1 ? false : companyName.length > 0 ? false : true}
                             />
                         </InputGroup>
                     </div>
@@ -220,7 +227,7 @@ const CompanyInsert = ((props) => {
                                 aria-describedby="basic-addon1"
                                 onChange={e => setCompanyBusiness(e.target.value)}
                                 isValid={checked > 0 ? true : false}
-                                isInvalid={checked < 1 ? false : companyBusiness.length > 0 ? false : true} 
+                                isInvalid={checked < 1 ? false : companyBusiness.length > 0 ? false : true}
                                 Style="z-index:0; background-color:#ffe9e9"
                             />
                         </InputGroup>
@@ -234,7 +241,7 @@ const CompanyInsert = ((props) => {
                                 aria-describedby="basic-addon1"
                                 onChange={e => setCompanyItem(e.target.value)}
                                 isValid={checked > 0 ? true : false}
-                                isInvalid={checked < 1 ? false : companyItem.length > 0 ? false : true} 
+                                isInvalid={checked < 1 ? false : companyItem.length > 0 ? false : true}
                                 Style="z-index:0; background-color:#ffe9e9"
                             />
                         </InputGroup>
@@ -303,7 +310,7 @@ const CompanyInsert = ((props) => {
                                 onChange={e => setCompanyRegist(registNumber(e.target.value))}
                                 value={companyRegist}
                                 isValid={registStyle}
-                                isInvalid={companyRegist.length < 1 ? checked > 0 ? true: false  : registStyle ? false : true}
+                                isInvalid={companyRegist.length < 1 ? checked > 0 ? true : false : registStyle ? false : true}
                                 Style="z-index:0;  background-color:#ffe9e9"
                             />
                         </InputGroup>
@@ -321,7 +328,7 @@ const CompanyInsert = ((props) => {
                                 onChange={e => setCompanyCorporate(corporateNumber(e.target.value))}
                                 value={companyCorporate}
                                 isValid={corporateStyle}
-                                isInvalid={companyCorporate.length < 1 ? checked > 0 ? true: false : corporateStyle ? false : true}
+                                isInvalid={companyCorporate.length < 1 ? checked > 0 ? true : false : corporateStyle ? false : true}
                                 Style="z-index:0;  background-color:#ffe9e9"
                             />
                         </InputGroup>
@@ -336,7 +343,7 @@ const CompanyInsert = ((props) => {
                                 aria-describedby="basic-addon1"
                                 onChange={e => setCompanyPresident(e.target.value)}
                                 isValid={checked > 0 ? true : false}
-                                isInvalid={checked < 1 ? false : companyPresident.length > 0 ? false : true} 
+                                isInvalid={checked < 1 ? false : companyPresident.length > 0 ? false : true}
                                 Style=" z-index:0; background-color:#ffe9e9"
                             />
                         </InputGroup>
@@ -369,7 +376,7 @@ const CompanyInsert = ((props) => {
                                         companyZipCode.length > 0 ? setZipcodeIsOpen(false) : setZipcodeIsOpen(true);
                                     }}
                                     isValid={checked > 0 ? true : false}
-                                    isInvalid={checked < 1 ? false : companyZipCode.length > 0 ? false : true} 
+                                    isInvalid={checked < 1 ? false : companyZipCode.length > 0 ? false : true}
                                     Style="background-color:#ffe9e9; z-index:0; #ffe9e9; width: 200px"
                                 />
                                 <button className="addressnumbtn" type="button" onClick={() => setZipcodeIsOpen(true)}>우편번호 검색
@@ -396,10 +403,10 @@ const CompanyInsert = ((props) => {
                                             address.length === 0 && setZipcodeIsOpen(true)
                                         }
                                         value={address}
-                                        onChange={(e) => {setAddress(e.target.value);}}
+                                        onChange={(e) => { setAddress(e.target.value); }}
                                         Style=" z-index:0; background-color:#ffe9e9"
                                         isValid={checked > 0 ? true : false}
-                                        isInvalid={checked < 1 ? false : address.length > 0 ? false : true} 
+                                        isInvalid={checked < 1 ? false : address.length > 0 ? false : true}
                                         readOnly
                                     />
                                 </InputGroup>
