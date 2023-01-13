@@ -189,3 +189,23 @@
   height: 270px;
   margin-top: 10px;
 }
+
+.AllEmployeeList .nav-link.authLnb.active {
+  display: block;
+  padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+  font-size: var(--bs-nav-link-font-size);
+  font-weight: var(--bs-nav-link-font-weight);
+  color: #000;
+  text-decoration: none;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out;
+  border: #00aaff 2px solid;
+}
+
+.AllEmployeeList .page-link.active,
+.active > .page-link {
+  z-index: 3;
+  color: var(--bs-pagination-active-color);
+  background-color: #00aaff;
+  border-color: #00aaff;
+}

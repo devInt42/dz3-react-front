@@ -7,7 +7,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import GNB from "./GNB";
 
 import SystemSet from "../pages/SystemSet";
-import style from "../css/LNB.module.css"
+import style from "../css/LNB.module.css";
 
 function LNB(props) {
     // const setParent = () => {
@@ -23,20 +23,21 @@ function LNB(props) {
     const sendParent = (menuName, menuSeq) => {
         props.getMenuInfo(menuName, menuSeq);
     }
-
-    const baseUrl = "http://localhost:8080";
-    const [Lmenu, setLmenu] = useState([]);
-    const navigate = useNavigate();
-
-    const[menuName, setMenuName] = useState("");
-    const[subcall, setSubcall] = useState(false);
+  const baseUrl = "http://localhost:8080";
+ 
+const [Lmenu, setLmenu] = useState([]);
+  const [menuName, setMenuName] = useState("");
     const[menuSeq, setMenuSeq] = useState(0);
+  const [menuVisible, setMenuVisible] = useState(false);
 
-    const [menuVisible, setMenuVisible] = useState(false);
+  useEffect(() => {
+    axios
+      .get(baseUrl + "/menu/menulist")
+      .then((response) => setLmenu(response.data))
+      .catch((error) => console.log(error));
+  }, []);
 
-    useEffect(() => {
-        axios.get(baseUrl + '/menu/menulist').then(response => setLmenu(response.data)).catch(error => console.log(error))
-    }, []);
+  console.log(Lmenu);
 
     return(
         
@@ -49,7 +50,7 @@ function LNB(props) {
                             return (
                                 menu.menuDepth == 0 &&<div id={menu.menuSeq} key={menu.menuSeq}><VscGithubInverted onClick={()=>{setMenuVisible(!menuVisible)}} className={style.lnb_menuIcon}/>
                                 {menuVisible &&
-                                <button className={style.lnb_callMenu} onClick={()=>{sendParent(menu.menuName); setMenuSeq(menu.menuSeq); setMenuName(menu.menuName); setSubcall(!subcall);}}>{menu.menuName}</button>
+                                <button className={style.lnb_callMenu} onClick={()=>{sendParent(menu.menuName); setMenuSeq(menu.menuSeq); setMenuName(menu.menuName); }}>{menu.menuName}</button>
                         }
                                 </div>);
                         })
@@ -62,27 +63,11 @@ function LNB(props) {
                     
                     <button onClick={() => { setShow(false); navigate(`/dz3`); }}>닫기</button>
                     onClick={() => { setShow(true); setGnbNum(i); setMenuId(menu.menu_id); setMenuName(menu.menu_name); }} */}
+
             </div>
-    );
+          )
 
 
-    // useEffect(() => {
-    //     axios.get(baseUrl + '/menu/menulist/' + props.menuId).then(response => setLenu(response.data)).catch(error => console.log(error));
-    // }, []);
-
-    // return (
-
-    //     <div className={style.lnb}>
-    //         {props.gnbNum == 0 && <div><hr /><h4>{props.menuName} ( {props.menuId} )</h4><hr /><SystemSet menuId={props.menuId} /></div>}
-    //         {props.gnbNum == 1 && <div><hr /><h4>{props.menuName} ( {props.menuId} )</h4><hr /><SystemSet menuId={props.menuId} /></div>}
-    //         {props.gnbNum == 2 && <div><hr /><h4>{props.menuName} ( {props.menuId} )</h4><hr /><SystemSet menuId={props.menuId} /></div>}
-    //         {props.gnbNum == 3 && <div><hr /><h4>{props.menuName} ( {props.menuId} )</h4><hr /><SystemSet menuId={props.menuId} /></div>}
-    //         {props.gnbNum == 4 && <div><hr /><h4>{props.menuName} ( {props.menuId} )</h4><hr /><SystemSet menuId={props.menuId} /></div>}
-    //         {props.gnbNum == 5 && <div><hr /><h4>{props.menuName} ( {props.menuId} )</h4><hr /><SystemSet menuId={props.menuId} /></div>}
-    //     </div>
-
-
-    // );
 }
 
 export default LNB;

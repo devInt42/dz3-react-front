@@ -7,7 +7,6 @@ import Gnb from "../components/menu/Gnb";
 import Auth from "./Auth";
 const Main = () => {
   const [open, setOpen] = useState(false);
-
   return (
     <>
       <Gnb />

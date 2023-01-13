@@ -25,7 +25,8 @@ const Login = () => {
   const changeEmpPwd = (e) => {
     setInputEmpPwd(e.target.value);
   };
-  const checkValue = (e) => {
+  const onKeyPress = (e) => {};
+  const checkValue = () => {
     if (inputComId === "") {
       alert("회사 코드를 입력해 주세요");
       return;
@@ -69,7 +70,7 @@ const Login = () => {
       <div className="loginArea">
         <Row style={{ marginBottom: "5em" }}>
           <h1>
-            LastDanth <span style={{ color: "#00aaff" }}>10</span>
+            LastDanth<span style={{ color: "#00aaff" }}>10</span>
           </h1>
         </Row>
         <Row>
@@ -80,6 +81,7 @@ const Login = () => {
             id="comCode"
             onChange={changeComId}
             placeholder="회사코드"
+            autoComplete="off"
           />
         </Row>
         <Row>
@@ -88,6 +90,7 @@ const Login = () => {
             onChange={changeEmpId}
             className="input-group"
             id="empId"
+            autoComplete="off"
             placeholder="사원ID"
           />
         </Row>
