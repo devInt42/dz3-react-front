@@ -8,10 +8,11 @@ const EmployeeList = (props) => {
   const baseUrl = "http://localhost:8080";
   const [departmentSeq, setDepartmentSeq] = useState();
   const [workplaceSeq, setWorkplaceSeq] = useState();
-  const [page, setPage] = useState(1); // 현재 페이지
   const [deptList, setDeptList] = useState([]);
-  const [employeeSeq, setEmployeeSeq] = useState(); // 총 사원수
-  const [countEmployee, setCountEmployee] = useState(null);
+  const [employeeSeq, setEmployeeSeq] = useState();
+
+  const [page, setPage] = useState(1); // 현재 페이지
+  const [countEmployee, setCountEmployee] = useState(null); // 총 사원수
   const [active, setActive] = useState(1); // 현재 페이지수
   let items = []; // 페이지 숫자 저장 < 1 2 3 4 5 >
 
