@@ -47,3 +47,19 @@ const Home = () => {
 };
 
 export default Home;
+
+{
+  /* <div className="layout">
+            <GNB />
+            <div> */
+}
+{
+  /* <Col><LNB /></Col> */
+}
+//         <Col>
+//             <Container>
+//                 <Outlet />
+//             </Container>
+//         </Col>
+//     </div>
+// </div>

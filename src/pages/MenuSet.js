@@ -47,26 +47,26 @@ function MenuSet() {
                         <tbody>
                             <tr>
                                 <th>메뉴 아이디</th>
-                                <td><input type="text" onChange={insertMenuId} /></td>
+                                <td><input type="text" className={style.menu_btn_input} onChange={insertMenuId} /></td>
                             </tr>
 
                             <tr>
                                 <th>메뉴 이름</th>
-                                <td><input type="text" onChange={insertMenuName} /></td>
+                                <td><input type="text" className={style.menu_btn_input} onChange={insertMenuName} /></td>
                             </tr>
                             <tr>
                                 <th>상위 메뉴</th>
                                 <td><select className={style.menu_select} onChange={insertMenuParent} value={menuParent}>
                                     {menu.map((menu, i) => (
-                                        <option value={menu.menu_id} key={i}>
-                                            {menu.menu_name}
+                                        <option value={menu.menuCode} key={i}>
+                                            {menu.menuName}
                                         </option>
                                     ))}
                                 </select></td>
                             </tr>
                             <tr>
                                 <th>메뉴 레벨</th>
-                                <td><input style={{ backgroundColor: "rgba(250, 5, 5, 0.137)" }} type="text" value={menuDepth + 1} readOnly /></td>
+                                <td><input className={style.menu_btn_input} style={{ backgroundColor: "rgba(250, 5, 5, 0.137)" }} type="text" value={menuDepth + 1} readOnly /></td>
                             </tr>
                         </tbody>
                     </table>
