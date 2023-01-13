@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React from "react";
-import Company from "./component/Company";
+import Company from "./components/company/Company";
 import Auth from "./pages/Auth";
 import Login from "./pages/Login.js";
 import Main from "./pages/Main.js";
@@ -8,9 +8,10 @@ import Home from "../src/pages/Home";
 import Home2 from "./pages/Home2";
 import Layout from "./components/Layout";
 import MenuSet from "./pages/MenuSet";
-import CompanyDetail from "./component/CompanyDetail";
-import CompanyInsert from "./component/CompanyInsert";
-import CompanyUpdateform from "./component/CompanyUpdateform";
+import CompanyDetail from "./components/company/CompanyDetail";
+import CompanyInsert from "./components/company/CompanyInsert";
+import CompanyUpdateform from "./components/company/CompanyUpdateform";
+
 function App() {
   return (
     <Router>
