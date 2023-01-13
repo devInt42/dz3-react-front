@@ -8,6 +8,7 @@ const EmployeeDetail = (props) => {
   const [deptDetail, setDeptDetail] = useState([]);
   const baseUrl = "http://localhost:8080";
   //modal에서 값 받아오기
+
   useEffect(() => {
     setEmployeeSeq(props.employeeSeq);
   }, [props]);
