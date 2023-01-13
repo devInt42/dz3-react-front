@@ -73,7 +73,7 @@ const CommonModal = (props) => {
                   </Row>
                   <Row>• 선택목록</Row>
                   <Row sm={4} className="AllChoiceEmp">
-                    <AllSelectList checkedList={checkedList} />
+                    <AllSelectList />
                   </Row>
                 </Col>
               </Row>
