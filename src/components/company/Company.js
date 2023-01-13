@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import CompanyList from './CompanyList';
-import "../css/Company.css";
+import "./css/Company.css";
 import { GrAddCircle } from "react-icons/gr";
 import { GiCancel } from "react-icons/gi"
 import CompanyNotSelect from "./CompanyNotSelect";

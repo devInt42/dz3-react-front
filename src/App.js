@@ -1,9 +1,9 @@
 import React from 'react';
-import Company from './component/Company';
+import Company from './components/company/Company';
 import {Route, Routes} from 'react-router-dom';
-import CompanyDetail from './component/CompanyDetail';
-import CompanyInsert from './component/CompanyInsert';
-import CompanyUpdateform from './component/CompanyUpdateform';
+import CompanyDetail from './components/company/CompanyDetail';
+import CompanyInsert from './components/company/CompanyInsert';
+import CompanyUpdateform from './components/company/CompanyUpdateform';
 function App() {
     return (
         <div>
