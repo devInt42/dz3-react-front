@@ -1,6 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
 
+.gnb_header{
+    height: 40px;
+    display: flex;
+}
+
 .gnb_bar{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 30px;
     background-color: rgba(9, 132, 247, 0.945);
     color: aliceblue;
     width: 100%;
@@ -17,8 +24,10 @@
     border-top: 3px solid rgb(49, 96, 248);
 }
 
-.gnb_menu{
-    
+.gnb_title{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 25px;
+    font-weight: bolder;
 }
 
 .gnb_callLnb{
@@ -39,4 +48,13 @@
     font-weight: bolder;
     font-size: 22px;
     text-decoration: underline 3px solid aliceblue;
+}
+
+.gnb_Imtree{
+    margin-left: auto;
+}
+
+.gnb_Imtree_btn:hover{
+    background-color: rgba(167, 228, 243, 0.945);
+    transition: .3s;
 }
