@@ -1,0 +1,22 @@
+
+.check{
+    margin: 10px;
+}
+
+.item{
+    font-size: 17px;
+}
+
+.menu_btn{
+    padding: 5px;
+    border: none;
+    border-radius: 8%;
+    
+}
+
+.menu_btn:hover{
+    background-color: rgba(69, 72, 75, 0.63);
+	transition:.3s;
+	color: aliceblue;
+	font-weight: bold;
+}

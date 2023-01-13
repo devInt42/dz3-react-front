@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
+/* 
+input[type=text]{
+	width:20%;
+	border:3px solid #aaa;
+	border-radius:4px;
+	margin: 8px 0;
+	outline: none;
+	padding:8px;
+	box-sizing: border-box;
+	transition:.3s;
+	text-align: center;
+}
+
+input[type=text]:focus{
+	border-color:dodgerBlue;
+	box-shadow:0 0 5px 5px dodgerBlue;
+}
+
+button{
+	width:70px;
+	border:2px solid #aaa;
+	border-radius:4px;
+	margin: 8px 0;
+	outline: none;
+	padding:3px;
+	box-sizing: border-box;
+	transition:.3s;
+	text-align: center;
+}
+
+button:hover{
+	 border:3px solid #4e83f7;
+	box-shadow:0 0 4px 0;
+} */
+
+.wrap {
+  margin: 30px;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+.tableWrap {
+  margin: 30px;
+}
+
+.setTable {
+  width: 100%;
+  height: 100%;
+  border: 2px solid black;
+}
+
+.setTable th {
+  text-align: center;
+  border: 1px solid rgb(8, 8, 8);
+  background-color: rgba(207, 206, 206, 0.336);
+}
+
+.setTable td {
+  border: 1px solid rgb(8, 8, 8);
+  padding: 10px;
+}
+
+.menu_btn {
+  text-align: center;
+}
+
+.menu_btn button {
+  margin: 10px;
+  width: 100px;
+  height: 40px;
+  background-color: rgba(251, 251, 252, 0.486);
+  border-radius: 10%;
+  border-color: rgb(73, 137, 231);
+}
+
+.menu_btn button:hover {
+  background-color: rgba(9, 132, 247, 0.63);
+  transition: 0.3s;
+  color: aliceblue;
+  font-weight: bold;
+}
+
+.menu_btn input[type="text"] {
+  width: 100%;
+  border: 3px solid #aaa;
+  border-radius: 4px;
+  outline: none;
+  padding: 8px;
+  box-sizing: border-box;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.menu_btn input[type="text"]:focus {
+  border-color: rgb(100, 173, 247);
+  box-shadow: 0 0 10px 0.2px rgb(100, 173, 247);
+}
+
+.menu_select {
+  width: 100%;
+}

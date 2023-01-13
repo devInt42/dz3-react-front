@@ -1,0 +1,211 @@
+.SearchdeptList {
+  /* width: 30%; */
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  margin-right: 15px;
+  height: 510px;
+}
+
+.SearchemployeeList {
+  width: 38%;
+  /* background-color: pink; */
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  margin-right: 15px;
+  border-top: medium solid darkslategrey;
+  height: 510px;
+  overflow: auto;
+}
+
+.SearchDetail {
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  margin-right: 15px;
+  height: 510px;
+}
+
+.SearchemployeeDetail {
+  /* width: 30%; */
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid #bcbcbc;
+}
+
+.Searchhr {
+  border-top: medium solid darkslategrey;
+}
+
+.Searchcenter {
+  text-align: center;
+}
+
+.Searchname {
+  font-size: large;
+  font-weight: bolder;
+  padding-left: 10px;
+  padding-top: 20px;
+}
+
+.Searchimage {
+  padding-top: 10px;
+}
+
+.Searchstage {
+  font-size: small;
+  padding-left: 10px;
+}
+
+.Searchphnum {
+  font-size: medium;
+  color: #999;
+  padding-top: 15px;
+}
+
+.Searchbtn {
+  align-items: center !important;
+  background-color: antiquewhite;
+  width: 80px;
+  display: block;
+  margin: auto;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal button {
+  outline: none;
+  cursor: pointer;
+  border: 0;
+}
+
+.modal > section {
+  width: 100%;
+  max-width: 75%;
+  height: 720px;
+  margin: 0 auto;
+  border-radius: 0.3rem;
+  background-color: #fff;
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: modal-show 0.3s;
+  overflow: hidden;
+}
+
+.modal > section > header {
+  position: relative;
+  padding: 16px 100px 16px 16px;
+  background-color: #f1f1f1;
+  font-weight: 700;
+}
+
+.modal > section > header button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  font-size: 21px;
+  font-weight: 700;
+  text-align: center;
+  color: #999;
+  background-color: transparent;
+}
+
+.modal > section > main {
+  padding: 16px;
+  border-bottom: 1px solid #dee2e6;
+  border-top: 1px solid #dee2e6;
+  /* height: 1000px; */
+  height: 685px;
+}
+
+.modal > section > footer {
+  padding: 12px 16px;
+  text-align: right;
+}
+
+.modal > section > footer button {
+  padding: 6px 12px;
+  color: #fff;
+  background-color: #6c757d;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.modal.openModal {
+  display: flex;
+  align-items: center;
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: modal-bg-show 0.3s;
+}
+
+@keyframes modal-show {
+  from {
+    opacity: 0;
+    margin-top: -50px;
+  }
+
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+
+@keyframes modal-bg-show {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.AllCompanyList {
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  margin-right: 20px;
+  height: 510px;
+  width: 38%;
+  margin-left: 10px;
+  height: 580px;
+}
+
+.AllCheckbox {
+  border-radius: 5px;
+  height: 250px;
+  margin-bottom: 25px;
+}
+
+.AllChoiceEmp {
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  height: 270px;
+  margin-top: 10px;
+}
+
+.AllEmployeeList .nav-link.authLnb.active {
+  display: block;
+  padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+  font-size: var(--bs-nav-link-font-size);
+  font-weight: var(--bs-nav-link-font-weight);
+  color: #000;
+  text-decoration: none;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out;
+  border: #00aaff 2px solid;
+}
+
+.AllEmployeeList .page-link.active,
+.active > .page-link {
+  z-index: 3;
+  color: var(--bs-pagination-active-color);
+  background-color: #00aaff;
+  border-color: #00aaff;
+}

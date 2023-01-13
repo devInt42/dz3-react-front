@@ -1,0 +1,118 @@
+.logIn {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: url(../../../public/back.jpg);
+}
+.logIn .loginArea {
+  background-color: white;
+  outline: none !important;
+  width: 500px;
+  height: 500px;
+  background-color: #fff;
+  border: 1px solid #d3d3d3;
+  box-shadow: 0 0 20px #00aaff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  position: relative;
+}
+.loginArea h1 {
+  font-weight: bold;
+}
+.logIn::before {
+  content: "";
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.5;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: white;
+}
+
+.input-group {
+  width: 300px;
+  margin: 5px;
+  height: 40px;
+  border: 1px solid #e6f3fd;
+  border-radius: 20px;
+  text-indent: 2.5em;
+}
+#comCode {
+  background-image: url(./company.svg);
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+  background-position: left;
+  background-position-x: 0.7em;
+}
+#empId {
+  background-image: url(./person.svg);
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+  background-position: left;
+  background-position-x: 0.7em;
+}
+#empPwd {
+  background-image: url(./lock.svg);
+  background-repeat: no-repeat;
+  background-size: 1.5em;
+  background-position: left;
+  background-position-x: 0.7em;
+}
+
+.input-group:focus {
+  outline: none !important;
+  border-color: #00aaff;
+  box-shadow: 0 0 10px #00aaff;
+}
+
+#btnCheck {
+  width: 300px;
+  background-color: #00aaff;
+  border: 1px;
+  border-radius: 20px;
+  height: 40px;
+  color: white;
+}
+#btnCheck:hover {
+  width: 300px;
+  background-color: #00aaff;
+  border: 1px;
+  border-radius: 20px;
+  height: 40px;
+  color: white;
+  outline: none !important;
+  border-color: #00aaff;
+  box-shadow: 0 0 10px #00aaff;
+}
+#btnCheck:focus {
+  width: 300px;
+  background-color: #00aaff;
+  border: 1px;
+  border-radius: 20px;
+  height: 40px;
+  color: white;
+  outline: none !important;
+  border-color: #00aaff;
+  box-shadow: 0 0 10px #00aaff;
+}
+#companyCode #writeText input {
+  background: #343a40;
+  /* background-image: url(list.png); */
+  background-position: 5px center;
+  padding-left: 40px;
+  border: 1px solid #2e3238;
+  width: 100%;
+  height: 30px;
+  box-sizing: border-box;
+  outline: none;
+  border-radius: 3px;
+}
