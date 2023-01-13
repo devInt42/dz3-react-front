@@ -8,13 +8,15 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import "../css/Layout.module.css";
 import { useState } from "react";
+import SubMenu from "../pages/SubMenu";
+import MenuSet from "../pages/MenuSet";
 
 function Layout() {
 
     // const [test, setTest] = useState("");
     // const getTest = (text) => {setTest(text);}
 
-    const [menuSeq, setMenuSeq] = useState("");
+    const [menuSeq, setMenuSeq] = useState(0);
     const [menuName, setMenuName] = useState("")
     const getMenuInfo = (menuName, menuSeq) => {
         setMenuSeq(menuSeq);
@@ -29,10 +31,12 @@ function Layout() {
                 </Col>
 
                 <Col style={{ border: "1px solid black", padding:"0px"}}>
-                    <Row><GNB menuName={menuName} menuSeq={menuSeq}/></Row>
+                    <Row><GNB menuName={menuName}/></Row>
                     <Row>
-                        <Col md="auto" style={{border: "1px solid black", padding:"0px", width: "20%", height: "100vh", margin: "20px"}}></Col>
-                        <Col></Col>
+                        <Col md="auto" style={{border: "1px solid black", padding:"0px", width: "20%", height: "100vh", marginTop: "10px", marginLeft:"20px"}}>
+                            <SubMenu menuSeq={menuSeq}/>
+                        </Col>
+                        <Col><Auth /></Col>
                     </Row>
                 </Col>
             </Row>
