@@ -14,32 +14,30 @@ import CompanyUpdateform from "./components/company/CompanyUpdateform";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/dz3/">
-          <Route path="" element={<Login />} />
-          <Route path="main" element={<Home />} />
-          <Route path="auth" element={<Auth />} />
-          <Route path="common" element={<Home2 />} />
-          <Route path="main2" element={<Home />} />
-          <Route path="common" element={<Home2 />} />
-          <Route path="main" element={<Layout />} />
-          <Route path="menuset" element={<MenuSet />} />
-          <Route exact path="/company/info" element={<Company />} />
-          <Route
-            exact
-            path="/company/info/:companyCode"
-            element={<CompanyDetail />}
-          />
-          <Route exact path="/company/insert" element={<CompanyInsert />} />
-          <Route
-            exact
-            path="/company/update/:companyCode"
-            element={<CompanyUpdateform />}
-          />
-        </Route>
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/dz3/">
+        <Route path="" element={<Login />} />
+        <Route path="main" element={<Home />} />
+        <Route path="auth" element={<Auth />} />
+        <Route path="common" element={<Home2 />} />
+        <Route path="main2" element={<Home />} />
+        <Route path="common" element={<Home2 />} />
+        <Route path="main" element={<Layout />} />
+        <Route path="menuset" element={<MenuSet />} />
+        <Route exact path="company/info" element={<Company />} />
+        <Route
+          exact
+          path="company/info/:companyCode"
+          element={<CompanyDetail />}
+        />
+        <Route exact path="company/insert" element={<CompanyInsert />} />
+        <Route
+          exact
+          path="company/update/:companyCode"
+          element={<CompanyUpdateform />}
+        />
+      </Route>
+    </Routes>
   );
 }
 export default App;
