@@ -8,19 +8,11 @@ const CompanyList = (props) => {
   const [departmentSeq, setDepartmentSeq] = useState();
   const [workplaceSeq, setWorkplaceSeq] = useState();
 
-  // useEffect(() => {
-  //   async function getWorkSeq() {
-  //     const data = await props.workplaceSeq;
-  //     setWorkplaceSeq(data);
-  //   }
-  //   getWorkSeq();
-  // }, [props]);
-
   // Modal.js로 departmentSeq값 전송
   useEffect(() => {
     async function getDeptSeq() {
       const result = await JSON.stringify(departmentSeq);
-      console.log("deptSeq : " + result);
+      // console.log("deptSeq : " + result);
       props.sendDepartmentSeq(result);
     }
     getDeptSeq();
@@ -32,19 +24,17 @@ const CompanyList = (props) => {
   useEffect(() => {
     async function getWorkSeq() {
       const result = await JSON.stringify(workplaceSeq);
-      console.log("workSeq: " + workplaceSeq);
+      // console.log("workSeq: " + workplaceSeq);
       props.sendWorkplaceSeq(result);
     }
     getWorkSeq();
   }, [workplaceSeq]);
 
   //클릭하면 값 저장
-
   async function sendDepartmentSeq(a) {
     setDepartmentSeq(a);
   }
   // console.log(departmentSeq);
-
   async function sendWorkplaceSeq(a) {
     setWorkplaceSeq(a);
   }
@@ -66,9 +56,13 @@ const CompanyList = (props) => {
     }
   }, [companySeq]);
 
+  //workplaceSeq로 수정
+
   useState(() => {
     getAllCompany();
   }, [companySeq]);
+
+  //workplaceSeq로 수정
 
   return (
     <div>

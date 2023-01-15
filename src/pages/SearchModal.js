@@ -11,8 +11,9 @@ const Modal = (props) => {
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [employeeSeq, setEmployeeSeq] = useState();
 
-  //함수 보냄
+  console.log("렌더링 test");
 
+  //함수 보냄
   const sendDepartmentSeq = (i) => {
     setDepartmentSeq(i);
   };
@@ -23,8 +24,6 @@ const Modal = (props) => {
     setEmployeeSeq(i);
   };
 
-  console.log("main" + departmentSeq);
-  console.log("main" + workplaceSeq);
   //처음에 실행하고 바뀔때만 렌더링
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
   const changeWorkSeq = useCallback(() => {}, [workplaceSeq]);

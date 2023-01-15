@@ -1,5 +1,5 @@
 import { Row, Col } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import React from "react";
 import "../components/Modals/SearchModal.css";
 import AllCompanyList from "../components/CommonModal/AllCompanyList";
@@ -11,6 +11,7 @@ const CommonModal = (props) => {
   const [departmentSeq, setDepartmentSeq] = useState();
   const [checkedList, setCheckedLists] = useState([]);
 
+  console.log("렌더링");
   //함수 보냄
   const sendDepartmentSeq = (i) => {
     setDepartmentSeq(i);
@@ -18,12 +19,20 @@ const CommonModal = (props) => {
 
   const sendCheckedList = (i) => {
     setCheckedLists(i);
-    console.log(checkedList);
   };
 
-  //바뀔때마다 랜더링
-  useEffect(() => {}, [departmentSeq]);
-  useEffect(() => {}, [checkedList]);
+  //처음에 실행하고 바뀔때만 렌더링
+
+  const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
+  const chagngeCheckedList = useCallback(() => {}, [checkedList]);
+
+  useEffect(() => {
+    changeDeptSeq();
+  }, [departmentSeq]);
+
+  useEffect(() => {
+    chagngeCheckedList();
+  }, [checkedList]);
 
   return (
     //open 누르면 openModal 클래스 생성

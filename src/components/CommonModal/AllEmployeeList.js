@@ -15,10 +15,9 @@ const AllEmployeeList = (props) => {
 
   //전체 선택시 데이터의 모든 아이템을 받은 배열로 checkList 생성
   //전체 선택 해제시 값을 비워준다.
-  // const [checkedList, setCheckedList] = useState(); //페이지별 체크된 리스트
   const [checkItems, setCheckItems] = useState([]); //페이지 상관없이 체크한 아이템
-  const [checkItemsPage, setCheckItemsPage] = useState(); //페이지에서 체크한 아이템 (전체선택)
-  const [users, setUsers] = useState([]); //페이지 별 전체 유저
+  const [checkItemsPage, setCheckItemsPage] = useState(); //페이지 전체선택
+  const [users, setUsers] = useState([]); //페이지 전체 유저
   const [selectableUsers, setSelectableUsers] = useState([]); //페이지에서 선택한 유저
 
   const funUserList = () => {
@@ -27,11 +26,11 @@ const AllEmployeeList = (props) => {
     };
 
     checkItems(params).then((res) => {
-      if (res.statusCode === 10000) {
+      if (res.statusCode === 1000) {
         const result = res.data;
         setUsers(result);
         //선택 가능한 유저
-        const userable = result.filter((user) => user.PARTICIPANT_YN == "N");
+        const userable = result.filter((user) => user.PARTICIPANT_YN === "N");
         let ableList = userable.map((i) => i.employeeSeq);
         setSelectableUsers(userable);
 
@@ -62,7 +61,7 @@ const AllEmployeeList = (props) => {
       var merged = checkItems.concat(temp); //원래있는 checkItems에 temp(전체선택)값을 더해줌
       var unique = merged.filter((item, pos) => merged.indexOf(item) === pos); //중복제거
       setCheckItems(unique); //중복제거된 배열 합
-      console.log("aa" + checkItems);
+      // console.log("aa" + checkItems);
       setCheckItemsPage([]); //페이지에서 선택된 값 비워줌
     } else {
       //전체 선택 해제시 checkItem을 빈 배열로 업데이트
@@ -85,23 +84,6 @@ const AllEmployeeList = (props) => {
       setCheckItemsPage(checkItemsPage.filter((item) => item !== id));
     }
   };
-  // const onCheckedElement = useCallback(
-  //   (checked, list) => {
-  //     if (checked) {
-  //       setCheckedLists([...checkedList, list]);
-  //     } else {
-  //       setCheckedLists(checkedList.filter((el) => el !== list));
-  //     }
-  //   },
-  //   [checkedList]
-  // );
-
-  // useEffect(() => {}, [onCheckedAll]);
-  // useEffect(() => {}, [onCheckedElement]);
-
-  // console.log(checkedList);
-  // console.log(JSON.stringify(deptList));
-  // CommonModal로 checkedList값 전송
 
   useEffect(() => {}, [workplaceSeq]);
 
@@ -208,12 +190,7 @@ const AllEmployeeList = (props) => {
         console.log(error);
       });
   }
-
-  console.log("checkItems" + JSON.stringify(checkItems));
-  // console.log("checkItemsPage" + checkItemsPage);
-  // console.log("users" + users);
-  // console.log("selectableUsers" + selectableUsers);
-
+  console.log(checkItems);
   return (
     <div>
       <div className="container">

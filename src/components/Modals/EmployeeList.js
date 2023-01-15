@@ -30,7 +30,7 @@ const EmployeeList = (props) => {
   useEffect(() => {
     async function getDeptSeq() {
       const result = await props.departmentSeq;
-      console.log("props deptSeq: " + props.departmentSeq);
+      // console.log("props deptSeq: " + props.departmentSeq);
       setDepartmentSeq(result);
     }
     getDeptSeq();
@@ -39,7 +39,7 @@ const EmployeeList = (props) => {
   useEffect(() => {
     async function getWorkSeq() {
       const result = await props.workplaceSeq;
-      console.log("props workSeq: " + props.workplaceSeq);
+      // console.log("props workSeq: " + props.workplaceSeq);
       setWorkplaceSeq(result);
     }
     getWorkSeq();
@@ -54,7 +54,7 @@ const EmployeeList = (props) => {
     };
     try {
       const getAllDeptResult = await axios.get(
-        `${baseUrl}/department-employee/page/${page}?companySeq=${companySeq}&workplaceSeq=${workplaceSeq}&departmentSeq=${departmentSeq}`,
+        `${baseUrl}/department-employee/page/${page}`,
         { params: deptData }
       );
       setDeptList(getAllDeptResult.data);
@@ -83,12 +83,13 @@ const EmployeeList = (props) => {
       companySeq: companySeq,
       workplaceSeq: workplaceSeq,
       departmentSeq: departmentSeq,
-      page: page,
     };
     try {
       const getPageResult = await axios.get(
-        `${baseUrl}/department-employee/page/${page}?companySeq=${companySeq}&workplaceSeq=${workplaceSeq}&departmentSeq=${departmentSeq}`,
-        { params: pageData }
+        `${baseUrl}/department-employee/page/${page}`,
+        {
+          params: pageData,
+        }
       );
       setDeptList(getPageResult.data);
     } catch (error) {
@@ -97,13 +98,23 @@ const EmployeeList = (props) => {
   }, [page]);
 
   useEffect(() => {
-    if (!workplaceSeq == null) {
-      setPage(1);
+    if (departmentSeq == null) {
+    } else {
       getAllDept();
       getEmplCount();
+    }
+  }, [departmentSeq]);
+
+  useEffect(() => {
+    if (departmentSeq == null) {
+    } else {
       getPage();
     }
-  }, []);
+  }, [page]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [departmentSeq]);
 
   for (
     let number = 1 + (active - 1) * 3;
@@ -120,6 +131,22 @@ const EmployeeList = (props) => {
         </Pagination.Item>
       );
   }
+
+  function pageActive(e) {
+    setPage(e);
+    axios({
+      type: "get",
+      url: `${baseUrl}/department-employee/page/${page}?companySeq=${companySeq}&workplaceSeq=${workplaceSeq}&departmentSeq=${departmentSeq}`,
+    })
+      .then((res) => {
+        setDeptList(res.data);
+        // console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   const paginationBasic = (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <Pagination className="authPagi" size="sm">
@@ -144,20 +171,7 @@ const EmployeeList = (props) => {
       setPage(page + 1);
     }
   }
-  function pageActive(e) {
-    setPage(e);
-    axios({
-      type: "get",
-      url: `${baseUrl}/department-employee/page/${page}?companySeq=${companySeq}&workplaceSeq=${workplaceSeq}&departmentSeq=${departmentSeq}`,
-    })
-      .then((res) => {
-        setDeptList(res.data);
-        // console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+
   return (
     <div>
       {deptList &&

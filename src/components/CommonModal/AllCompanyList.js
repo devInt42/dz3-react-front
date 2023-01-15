@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const AllCompanyList = (props) => {
   const [companySeq, setCompanySeq] = useState(2);
@@ -11,27 +11,38 @@ const AllCompanyList = (props) => {
 
   // Modal.js로 departmentSeq값 전송
   useEffect(() => {
-    props.sendDepartmentSeq(departmentSeq);
+    async function getDeptSeq() {
+      const result = await JSON.stringify(departmentSeq);
+      // console.log("deptSeq: " + result);
+      props.sendDepartmentSeq(result);
+    }
+    getDeptSeq();
   }, [departmentSeq]);
 
-  function sendDepartmentSeq(a) {
+  //클릭하면 값 저장
+  async function sendDepartmentSeq(a) {
     setDepartmentSeq(a);
   }
 
-  useEffect(() => {
-    const url = baseUrl + "/department/list/" + companySeq;
-    axios({
-      method: "get",
-      url: url,
-    })
-      .then((res) => {
-        setCompanyList(res.data);
-        // console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const getAllCompany = useCallback(async () => {
+    let companyData = {
+      companySeq,
+    };
+    try {
+      const getAllCompanyResult = await axios.get(
+        `${baseUrl}/department/list/${companySeq}`,
+        { params: companyData }
+      );
+      setCompanyList(getAllCompanyResult.data);
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
+
+  //회사가 바뀔때마다 가져오는값 달라짐
+  useEffect(() => {
+    getAllCompany();
+  }, [companySeq]);
 
   return (
     <div>
