@@ -1,41 +1,74 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
 const CompanyList = (props) => {
   const [companySeq, setCompanySeq] = useState(2);
   const baseUrl = "http://localhost:8080";
   const [deptNameList, setDeptNameList] = useState([]);
-  const [departmentSeq, setDepartmentSeq] = useState(null);
+  const [departmentSeq, setDepartmentSeq] = useState();
   const [workplaceSeq, setWorkplaceSeq] = useState();
+
+  // useEffect(() => {
+  //   async function getWorkSeq() {
+  //     const data = await props.workplaceSeq;
+  //     setWorkplaceSeq(data);
+  //   }
+  //   getWorkSeq();
+  // }, [props]);
 
   // Modal.js로 departmentSeq값 전송
   useEffect(() => {
-    props.sendDepartmentSeq(departmentSeq);
+    async function getDeptSeq() {
+      const result = await JSON.stringify(departmentSeq);
+      console.log("deptSeq : " + result);
+      props.sendDepartmentSeq(result);
+    }
+    getDeptSeq();
+    // props.sendDepartmentSeq(departmentSeq);
+    // console.log("dept??" + departmentSeq);
   }, [departmentSeq]);
 
   // Modal.js로 workplaceSeq 전송
   useEffect(() => {
-    props.sendWorkplaceSeq(workplaceSeq);
+    async function getWorkSeq() {
+      const result = await JSON.stringify(workplaceSeq);
+      console.log("workSeq: " + workplaceSeq);
+      props.sendWorkplaceSeq(result);
+    }
+    getWorkSeq();
   }, [workplaceSeq]);
 
-  function sendDepartmentSeq(a) {
+  //클릭하면 값 저장
+
+  async function sendDepartmentSeq(a) {
     setDepartmentSeq(a);
   }
+  // console.log(departmentSeq);
 
-  function sendWorkplaceSeq(a) {
+  async function sendWorkplaceSeq(a) {
     setWorkplaceSeq(a);
   }
 
   //부서 전체 값 받아오기
-  useEffect(() => {
-    const url = baseUrl + "/department/list/" + companySeq;
-    axios({
-      method: "get",
-      url: url,
-    }).then((res) => {
-      setDeptNameList(res.data);
-    });
-  }, []);
+  const getAllCompany = useCallback(async () => {
+    let companyData = {
+      companySeq,
+    };
+    try {
+      const getAllCompanyResult = await axios.get(
+        `${baseUrl}/department/list/${companySeq}`,
+        { params: companyData }
+      );
+      setDeptNameList(getAllCompanyResult.data);
+      // console.log(getAllCompanyResult.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [companySeq]);
+
+  useState(() => {
+    getAllCompany();
+  }, [companySeq]);
 
   return (
     <div>
@@ -45,12 +78,11 @@ const CompanyList = (props) => {
             key={dNameList.departmentSeq}
             onClick={() => {
               sendDepartmentSeq(dNameList.departmentSeq);
+              // console.log(dNameList.departmentSeq);
               sendWorkplaceSeq(dNameList.workplaceSeq);
+              // console.log(dNameList.departmentSeq);
             }}>
             - {dNameList.departmentName}
-            {/* {dNameList.workplaceSeq}
-            {dNameList.departmentSeq} */}
-            {/* {dNameList.departmentSeq} */}
           </div>
         ))}
     </div>

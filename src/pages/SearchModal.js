@@ -1,6 +1,6 @@
 import "../components/Modals/SearchModal.css";
 import { Row, Col } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CompanyList from "../components/Modals/CompanyList";
 import EmployeeList from "../components/Modals/EmployeeList";
 import EmployeeDetail from "../components/Modals/EmployeeDetail";
@@ -12,6 +12,7 @@ const Modal = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();
 
   //함수 보냄
+
   const sendDepartmentSeq = (i) => {
     setDepartmentSeq(i);
   };
@@ -22,10 +23,24 @@ const Modal = (props) => {
     setEmployeeSeq(i);
   };
 
-  //바뀔때마다 랜더링
-  useEffect(() => {}, [departmentSeq]);
-  useEffect(() => {}, [workplaceSeq]);
-  useEffect(() => {}, [employeeSeq]);
+  console.log("main" + departmentSeq);
+  console.log("main" + workplaceSeq);
+  //처음에 실행하고 바뀔때만 렌더링
+  const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
+  const changeWorkSeq = useCallback(() => {}, [workplaceSeq]);
+  const changeEmplSeq = useCallback(() => {}, [employeeSeq]);
+
+  useEffect(() => {
+    changeDeptSeq();
+  }, [departmentSeq]);
+
+  useEffect(() => {
+    changeWorkSeq();
+  }, [workplaceSeq]);
+
+  useEffect(() => {
+    changeEmplSeq();
+  }, [employeeSeq]);
 
   return (
     //open 누르면 openModal 클래스 생성
