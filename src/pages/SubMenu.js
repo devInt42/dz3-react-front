@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
-import style from "../css/SystemSet.module.css"
+import style from "../css/SystemSet.module.css";
 import MenuSet from "./MenuSet";
 import { Outlet, useNavigate } from "react-router-dom";
 
@@ -9,13 +9,12 @@ function SubMenu(props) {
   const navigate = useNavigate();
 
   const sendLastSeq = (lastSeq) => {
-    console.log(lastSeq)
-    console.log("여기까지는 오는데 왜 안돼 ㅅㅂ")
+    console.log(lastSeq);
+    console.log("여기까지는 오는데 왜 안돼 ㅅㅂ");
     props.getLastMenuSeq(lastSeq);
-  }
+  };
 
-
-  const menuSequence = props.menuSeq
+  const menuSequence = props.menuSeq;
 
   const baseUrl = "http://localhost:8080";
   const [subMenu, setSubMenu] = useState([]);
@@ -24,15 +23,13 @@ function SubMenu(props) {
   const [isActive, setIsActive] = useState(false);
 
   const getSubMenuList = useCallback(async () => {
-    console.log(menuSequence)
+    console.log(menuSequence);
     try {
       const apiResult = await axios({
-        url:
-          baseUrl +
-          "/menu/menulist/" + menuSequence,
+        url: baseUrl + "/menu/menulist/" + menuSequence,
         method: "get",
       });
-      console.log(apiResult.data)
+      console.log(apiResult.data);
       if (apiResult.data == 0) {
         sendLastSeq(menuSequence);
       } else {
@@ -56,28 +53,41 @@ function SubMenu(props) {
 
   return (
     <div>
-      {
-        menuSequence == 0 ? <></> :
-          <div>
-            {subMenu.map((menu) => {
-              return (
-                <div className={style.check} key={menu.menuSeq}>
-                  <div className={style.item} style={{ paddingLeft: (menu.menuDepth - 1) * 30, paddingRight: '20px' }}>
-                    <button className={style.menu_btn} onClick={() => { setIsActive(true); setChildMenu(menu.menuSeq) }}>
-                      {menu.menuName}
-                    </button>
-                  </div>
-                  {
-                    childMenu == menu.menuSeq && isActive && <SubMenu menuSeq={menu.menuSeq} />
-                  }
+      {menuSequence == 0 ? (
+        <></>
+      ) : (
+        <div>
+          {subMenu.map((menu) => {
+            return (
+              <div className={style.check} key={menu.menuSeq}>
+                <div
+                  className={style.item}
+                  style={{
+                    paddingLeft: (menu.menuDepth - 1) * 30,
+                    paddingRight: "20px",
+                  }}
+                >
+                  <button
+                    className={style.menu_btn}
+                    onClick={() => {
+                      setIsActive(true);
+                      setChildMenu(menu.menuSeq);
+                    }}
+                  >
+                    {menu.menuName}
+                  </button>
                 </div>
-              );
-            })}
-          </div>
-      }
-      <button onClick={()=> navigate(`/dz3/main/menuset`)}>set</button>
-      <button onClick={()=> navigate(`/dz3/main/auth`)}>auth</button>
-      <button onClick={()=> navigate(`/dz3/main/company/info`)}>company</button>
+                {childMenu == menu.menuSeq && isActive && (
+                  <SubMenu menuSeq={menu.menuSeq} />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+      <button onClick={() => navigate(`/dz3/menuset`)}>set</button>
+      <button onClick={() => navigate(`/dz3/auth`)}>auth</button>
+      <button onClick={() => navigate(`/dz3/company/info`)}>company</button>
     </div>
   );
 
