@@ -12,56 +12,77 @@ import SubMenu from "../pages/SubMenu";
 import MenuSet from "../pages/MenuSet";
 
 function Layout() {
+  // const [test, setTest] = useState("");
+  // const getTest = (text) => {setTest(text);}
 
-    // const [test, setTest] = useState("");
-    // const getTest = (text) => {setTest(text);}
+  const [menuSeq, setMenuSeq] = useState(0);
+  const [menuName, setMenuName] = useState("");
+  const getMenuInfo = useCallback(
+    (menuName, menuSeq) => {
+      setMenuSeq(menuSeq);
+      setMenuName(menuName);
+    },
+    [menuSeq, menuName]
+  );
 
-    const [menuSeq, setMenuSeq] = useState(0);
-    const [menuName, setMenuName] = useState("")
-    const getMenuInfo = useCallback( (menuName, menuSeq) => {
-        setMenuSeq(menuSeq);
-        setMenuName(menuName);
-    }, [menuSeq, menuName]);
+  const [lastSeq, setLastSeq] = useState(0);
+  const getLastMenuSeq = (lastSeq) => {
+    setLastSeq(lastSeq);
+  };
 
-    const [lastSeq, setLastSeq] = useState(0);
-    const getLastMenuSeq = (lastSeq) => {
-        setLastSeq(lastSeq);
-    };
+  return (
+    <Container fluid>
+      <Row>
+        <Col
+          md="auto"
+          style={{ border: "1px solid black", padding: "0px", height: "100vh" }}
+        >
+          <LNB getMenuInfo={getMenuInfo} />
+        </Col>
 
-    return (
-        <Container fluid>
-            <Row>
-                <Col md="auto" style={{border: "1px solid black", padding:"0px", height: "100vh"}}>
-                    <LNB getMenuInfo={getMenuInfo}/>
-                </Col>
-
-                <Col style={{ border: "1px solid black", padding:"0px"}}>
-                    <Row><GNB menuName={menuName}/></Row>
-                    <Row>
-                        <Col md="auto" style={{border: "1px solid black", padding:"0px", width: "20%", height: "100vh", marginTop: "10px", marginLeft:"20px"}}>
-                            <SubMenu menuSeq={menuSeq} getLastMenuSeq={getLastMenuSeq}/>
-                        </Col>
-                        <Col><Outlet /></Col>
-                    </Row>
-                </Col>
-            </Row>
-
-        </Container>
-        // <div><LNB getTest={getTest}/><div>{test}</div></div>
-
-    );
+        <Col style={{ border: "1px solid black", padding: "0px" }}>
+          <Row>
+            <GNB menuName={menuName} />
+          </Row>
+          <Row>
+            <Col
+              md="auto"
+              style={{
+                border: "1px solid black",
+                padding: "0px",
+                width: "20%",
+                height: "100vh",
+                marginTop: "10px",
+                marginLeft: "20px",
+              }}
+            >
+              <SubMenu menuSeq={menuSeq} getLastMenuSeq={getLastMenuSeq} />
+            </Col>
+            <Col>
+              <Outlet />
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </Container>
+    // <div><LNB getTest={getTest}/><div>{test}</div></div>
+  );
 }
 
 export default React.memo(Layout);
 
-{/* <div className="layout">
+{
+  /* <div className="layout">
             <GNB />
-            <div> */}
-                {/* <Col><LNB /></Col> */}
-        //         <Col>
-        //             <Container>
-        //                 <Outlet />
-        //             </Container>
-        //         </Col>
-        //     </div>
-        // </div>
+            <div> */
+}
+{
+  /* <Col><LNB /></Col> */
+}
+//         <Col>
+//             <Container>
+//                 <Outlet />
+//             </Container>
+//         </Col>
+//     </div>
+// </div>

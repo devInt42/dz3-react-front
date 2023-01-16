@@ -21,7 +21,7 @@ const Auth = () => {
   const InitCheck = useCallback(async () => {
     if (await !window.sessionStorage.getItem("empInfo")) {
       alert("로그인 후에 이용해주세요");
-      navigate("/dz3/");
+      navigate("/login");
     } else {
       let sessionItem = await JSON.parse(
         window.sessionStorage.getItem("empInfo")

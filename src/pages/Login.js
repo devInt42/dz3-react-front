@@ -55,7 +55,7 @@ const Login = () => {
         if (state) {
           navigate(state);
         } else {
-          navigate("/dz3/main");
+          navigate("/dz3/");
         }
       })
       .catch((e) => {
