@@ -1,17 +1,86 @@
-import React, { useEffect, useState } from "react";
-import { Nav, Form, Row, Pagination } from "react-bootstrap";
+import React, { useEffect, useState, useCallback } from "react";
+import { Nav, Form, Row, Pagination, Col } from "react-bootstrap";
 import axios from "axios";
 import "../auth/Auth.css";
+import { ReactComponent as Search } from "./search.svg";
 
 const AuthLnb = (props) => {
-  const [authList, setAuthList] = useState();
+  const [authList, setAuthList] = useState(null);
   const [authSeq, setAuthSeq] = useState(null);
   const [companySeq, setCompanySeq] = useState(2);
+  const [workplaceSeq, setWorkplaceSeq] = useState(null);
+  const [departmentSeq, setDepartmentSeq] = useState(null);
+
   const [page, setPage] = useState(1);
   const baseUrl = "http://localhost:8080";
   const [countAuth, setCountAuth] = useState(null);
   const [active, setActive] = useState(1);
+  const [authName, setAuthName] = useState(null);
   let items = [];
+
+  // 회사별 권한 및 해당하는 권한수 카운트 API
+  const companyAuthApiCall = useCallback(async () => {
+    let companyData = {
+      companySeq,
+      authName,
+    };
+    try {
+      const companyAuthApiResult = await axios.get(
+        `${baseUrl}/auth-employee/company/page/${page} `,
+        {
+          params: companyData,
+        }
+      );
+      const companyAuthApiCountResult = await axios.get(
+        `${baseUrl}/auth-employee/count`,
+        {
+          params: companyData,
+        }
+      );
+      setAuthList(companyAuthApiResult.data);
+      setCountAuth(companyAuthApiCountResult.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [active]);
+
+  useEffect(() => {
+    companyAuthApiCall();
+  }, []);
+
+  // 검색 API
+  const searchAuthbyName = async (e) => {
+    let sendApi = {
+      companySeq: companySeq,
+      authName: authName,
+    };
+    setPage(1);
+    try {
+      const searchAuthApiResult = await axios.get(
+        `${baseUrl}/auth-employee/company/page/${page} `,
+        {
+          params: sendApi,
+        }
+      );
+      const companyAuthApiCountResult = await axios.get(
+        `${baseUrl}/auth-employee/count/`,
+        {
+          params: sendApi,
+        }
+      );
+      setAuthList(searchAuthApiResult.data);
+      setCountAuth(companyAuthApiCountResult.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  function pageActive(e) {
+    setActive(e);
+  }
+  const changeSearchAuth = (e) => {
+    setAuthName(e.target.value);
+  };
 
   useEffect(() => {
     props.sendAuthSeq(authSeq);
@@ -48,36 +117,28 @@ const AuthLnb = (props) => {
       setActive(active + 1);
     }
   }
-  function pageActive(e) {
-    setActive(e);
-    axios({
-      url:
-        baseUrl +
-        "/auth-employee/company/page/" +
-        e +
-        "?companySeq=" +
-        companySeq,
-      method: "get",
-    })
-      .then((response) => {
-        setAuthList(response.data);
-      })
-      .catch((error) => console.log(error));
-  }
+
+  // 페이지 클릭했을때 해당 페이지 불러오기
+  const activePage = async () => {
+    let sendApi = {
+      companySeq: companySeq,
+      authName: authName,
+    };
+    try {
+      const searchAuthApiActive = await axios.get(
+        `${baseUrl}/auth-employee/company/page/${active}`,
+        {
+          params: sendApi,
+        }
+      );
+      setAuthList(searchAuthApiActive.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    axios({
-      url:
-        baseUrl +
-        "/auth-employee/company/page/" +
-        active +
-        "?companySeq=" +
-        companySeq,
-      method: "get",
-    })
-      .then((response) => {
-        setAuthList(response.data);
-      })
-      .catch((error) => console.log(error));
+    activePage();
   }, [active]);
   const paginationBasic = (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -92,91 +153,74 @@ const AuthLnb = (props) => {
     setAuthSeq(val);
   }
 
-  useEffect(() => {
-    axios({
-      url:
-        baseUrl +
-        "/auth-employee/company/page/" +
-        page +
-        "?companySeq=" +
-        companySeq,
-      method: "get",
-    })
-      .then((response) => {
-        setAuthList(response.data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-  useEffect(() => {
-    axios({
-      url: baseUrl + "/auth-employee/count/" + companySeq,
-      method: "get",
-    }).then((res) => {
-      setCountAuth(res.data);
-    });
-  }, []);
   return (
     <>
-      {" "}
-      <Row
-        className="AuthLnb"
-        style={{
-          width: "100%",
-          height: "700px",
-          float: "left",
-          border: "1px solid #efefef",
-          backgroundColor: "#f9f9f9",
-          justifyContent: "center",
-        }}
-      >
-        <div style={{ backgroundColor: "#f0f0f0" }}>
-          <Form.Group className="mb-3">
-            <Form.Select disabled>
-              <option>검색어를 입력해주세요</option>
-            </Form.Select>
-          </Form.Group>
-          <input
-            type="text"
-            id="searchAuth"
-            style={{ width: "80%" }}
-            placeholder="권한명을 검색하세요."
-          />
+      <Row className="AuthLnb" style={authLnbStyle}>
+        <div
+          style={{
+            backgroundColor: "#f0f0f0",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Row>
+            <Form.Group className="mb-3">
+              <Form.Select disabled>
+                <option>검색어를 입력해주세요</option>
+              </Form.Select>
+            </Form.Group>
+          </Row>
+          <Row style={{ float: "left", padding: "0" }}>
+            <Col xs={10} style={{ padding: "0" }}>
+              <input
+                type="text"
+                id="searchAuth"
+                style={{ width: "100%", margin: "0", padding: "0" }}
+                placeholder="권한명을 검색하세요."
+                onChange={changeSearchAuth}
+              />
+            </Col>
+            <Col
+              xs={1}
+              style={{
+                width: "20px",
+                padding: "0",
+                margin: "0",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <button
+                style={{
+                  marginLeft: "5px",
+                  display: "flex",
+                  margin: "0",
+                  border: "none",
+                }}
+                onClick={() => searchAuthbyName()}
+              >
+                <Search />
+              </button>
+            </Col>
+          </Row>
         </div>
         <div>
           <span>그룹 : </span>
           <span style={{ color: "#00AAFF" }}>{countAuth}</span>개
         </div>
-        <Nav
-          className="authNav"
-          variant="pills"
-          style={{
-            border: "1px solid #efefef",
-            backgroundColor: "#f9f9f9",
-            margin: "0 auto",
-            display: "flex",
-            justifyContent: "center",
-            height: "550px",
-          }}
-        >
+        <Nav className="authNav" variant="pills" style={navStyle}>
           {authList &&
             authList.map((aList) => (
               <Nav.Item
                 key={aList.authSeq}
-                style={{
-                  width: "90%",
-                }}
+                style={navItemStyle}
                 onClick={() => sendAuthSeq(aList.authSeq)}
               >
                 <Nav.Link
                   className="authLnb"
                   eventKey={aList.authSeq}
-                  style={{
-                    width: "100%",
-                    height: "50px",
-                    margin: "0 auto",
-                    marginTop: "3px",
-                    padding: "0",
-                  }}
+                  style={navLinkStyle}
                 >
                   <p
                     style={{
@@ -210,3 +254,34 @@ const AuthLnb = (props) => {
 };
 
 export default AuthLnb;
+const authLnbStyle = {
+  width: "100%",
+  height: "700px",
+  float: "left",
+  border: "1px solid #efefef",
+  backgroundColor: "#f9f9f9",
+  justifyContent: "center",
+};
+const navStyle = {
+  border: "1px solid #efefef",
+  backgroundColor: "#f9f9f9",
+  margin: "0 auto",
+  display: "flex",
+  justifyContent: "flex-start",
+  height: "550px",
+  flexDirection: "column",
+  alignItems: "center",
+};
+
+const navItemStyle = {
+  width: "90%",
+  height: "50px",
+};
+
+const navLinkStyle = {
+  width: "100%",
+  height: "50px",
+  margin: "0 auto",
+  marginTop: "3px",
+  padding: "0",
+};

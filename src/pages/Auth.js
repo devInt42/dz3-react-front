@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import axios from "axios";
 import AuthLnb from "../components/auth/AuthLnb";
@@ -9,7 +9,7 @@ import AuthEmployeeList from "../components/auth/AuthEmployeeList";
 const Auth = () => {
   const [item, setItem] = useState();
   const baseUrl = "http://localhost:8080";
-  const [companySeq, setCompanySeq] = useState(2);
+  const [companySeq, setCompanySeq] = useState(42);
   const [authSeq, setAuthSeq] = useState();
   const [menuSeq, setMenuSeq] = useState(0);
   const [empList, setEmpList] = useState([]);
@@ -18,13 +18,20 @@ const Auth = () => {
   const [employeeSeq, setEmployeeSeq] = useState();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!window.sessionStorage.getItem("empInfo")) {
+  const InitCheck = useCallback(async () => {
+    if (await !window.sessionStorage.getItem("empInfo")) {
       alert("로그인 후에 이용해주세요");
       navigate("/dz3/");
     } else {
-      setItem(JSON.parse(window.sessionStorage.getItem("empInfo")));
+      let sessionItem = await JSON.parse(
+        window.sessionStorage.getItem("empInfo")
+      );
+      setItem(sessionItem);
     }
+  }, []);
+
+  useEffect(() => {
+    InitCheck();
   }, []);
 
   useEffect(() => {

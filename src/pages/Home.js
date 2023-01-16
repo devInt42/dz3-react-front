@@ -14,14 +14,10 @@ const Home = () => {
         <Col
           md="auto"
           style={{ border: "1px solid black", padding: "0px", height: "100vh" }}
-        >
-          <LNB />
-        </Col>
+        ></Col>
 
         <Col style={{ border: "1px solid black", padding: "0px" }}>
-          <Row>
-            <GNB />
-          </Row>
+          <Row></Row>
           <Row>
             <Col
               className="subMenu"
