@@ -10,28 +10,27 @@ const CommonModal = (props) => {
   const { open, close, header } = props;
   const [departmentSeq, setDepartmentSeq] = useState();
   const [checkedList, setCheckedLists] = useState([]);
+  const [checkItem, setCheckItem] = useState([]);
 
   //함수 보냄
   const sendDepartmentSeq = (i) => {
     setDepartmentSeq(i);
   };
 
-  const sendCheckedList = (i) => {
-    setCheckedLists(i);
+  const sendCheckedElement = (i) => {
+    setCheckItem(i);
   };
 
   //처음에 실행하고 바뀔때만 렌더링
-
+  // console.log(checkItem);
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
-  const chagngeCheckedList = useCallback(() => {}, [checkedList]);
+  const changeCheckedList = useCallback(() => {}, [checkedList]);
 
+  //부서Seq가 바뀔때마다 실행
   useEffect(() => {
     changeDeptSeq();
+    changeCheckedList();
   }, [departmentSeq]);
-
-  useEffect(() => {
-    chagngeCheckedList();
-  }, [checkedList]);
 
   return (
     //open 누르면 openModal 클래스 생성
@@ -76,12 +75,12 @@ const CommonModal = (props) => {
                   <Row sm={7} className="AllCheckbox">
                     <AllEmployeeList
                       departmentSeq={departmentSeq}
-                      sendCheckedList={sendCheckedList}
+                      sendCheckedElement={sendCheckedElement}
                     />
                   </Row>
                   <Row>• 선택목록</Row>
                   <Row sm={4} className="AllChoiceEmp">
-                    <AllSelectList />
+                    <AllSelectList checkItem={checkItem} />
                   </Row>
                 </Col>
               </Row>

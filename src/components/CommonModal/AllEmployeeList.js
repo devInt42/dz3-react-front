@@ -8,18 +8,25 @@ const AllEmployeeList = (props) => {
   const [deptList, setDeptList] = useState([]);
 
   const [page, setPage] = useState(1); // 현재 페이지
-  const [countEmployee, setCountEmployee] = useState(); // 총 사원수
+  const [countEmployee, setCountEmployee] = useState(null); // 총 사원수
   const [active, setActive] = useState(1); // 현재 페이지수
-  const [workplaceSeq, setWorkplaceSeq] = useState();
+
   let items = []; // 페이지 숫자 저장 < 1 2 3 4 5 >
 
-  //employee 정보
-  const [users, setUsers] = useState([]); //페이지 전체 유저
-  const [selectableUsers, setSelectableUsers] = useState([]); //페이지에서 선택한 유저
+  let Allcheck = []; //체크된 아이템 저장
 
-  //체크 박스
-  const [checkItems, setCheckItems] = useState([]); //페이지 상관없이 체크한 아이템
-  const [checkItemsPage, setCheckItemsPage] = useState(); //페이지 전체선택
+  //값 저장
+  const [checkedList, setCheckedLists] = useState([]);
+
+  //값 받아서 departmentSeq 설정
+  useEffect(() => {
+    async function getDeptSeq() {
+      const result = await props.departmentSeq;
+      // console.log("props deptSeq: " + props.departmentSeq);
+      setDepartmentSeq(result);
+    }
+    getDeptSeq();
+  }, [props]);
 
   //List 가져오기
   const getDeptList = useCallback(async () => {
@@ -54,6 +61,7 @@ const AllEmployeeList = (props) => {
     }
   }, [departmentSeq]);
 
+  //page 받아오기
   const getPage = useCallback(async () => {
     if (departmentSeq != null) {
       try {
@@ -70,86 +78,12 @@ const AllEmployeeList = (props) => {
   useEffect(() => {
     getDeptList();
     getCount();
+    setPage(1);
   }, [departmentSeq]);
 
   useEffect(() => {
-    setPage(1);
     getPage();
   }, [page]);
-
-  //checkbox
-  const funUserList = () => {
-    let params = {
-      page: page,
-    };
-
-    checkItems(params).then((res) => {
-      if (res.statusCode === 1000) {
-        //1000개 까지 클릭가능
-        const result = res.data;
-        setUsers(result);
-        //선택 가능한 유저
-        const userable = result.filter((user) => user.PARTICIPANT_YN === "N");
-        let ableList = userable.map((i) => i.employeeSeq);
-        setSelectableUsers(userable);
-
-        //페이지별 체크 리스트 생성
-        let temp = [];
-        if (checkItems.length > 0) {
-          temp = checkItems.filter((item) => ableList.includes(item));
-        }
-        setCheckItemsPage(temp);
-      }
-    });
-  };
-
-  //전체 선택시
-  const checkedAll = (checked) => {
-    if (checked) {
-      const temp = []; //비어져있는 값
-      selectableUsers?.forEach((user) => {
-        temp.push(user.employeeSeq);
-      });
-
-      deptList.forEach((list) => temp.push(list)); //페이지에 해당하는 리스트를 넣음
-      setCheckItems(temp); //전체 선택한 값 넣음
-
-      // console.log(checkedList);
-      //기존 배열 + 추가배열 합치기
-
-      var merged = checkItems.concat(temp); //원래있는 checkItems에 temp(전체선택)값을 더해줌
-      var unique = merged.filter((item, pos) => merged.indexOf(item) === pos); //중복제거
-      setCheckItems(unique); //중복제거된 배열 합
-      // console.log("aa" + checkItems);
-      setCheckItemsPage([]); //페이지에서 선택된 값 비워줌
-    } else {
-      //전체 선택 해제시 checkItem을 빈 배열로 업데이트
-      setCheckItems(
-        checkItems.filter((item) => !checkItemsPage.includes(item))
-      );
-      setCheckItemsPage([]); //페이지에서 선택된 값 비워줌
-    }
-  };
-
-  //개별 선택시
-
-  const checkedElement = (checked, id) => {
-    if (checked) {
-      setCheckItems((prev) => [...prev, id]); // 단일 선택 시 체크된 아이템을 배열에 추가
-      setCheckItemsPage((prev) => [...prev, id]); //페이지에서 체크한 아이템
-    } else {
-      //개별 선택 해제시 체크된 아이템을 제외한 배열을 저장
-      setCheckItems(checkItems.filter((item) => item !== id));
-      setCheckItemsPage(checkItemsPage.filter((item) => item !== id));
-    }
-  };
-
-  useEffect(() => {}, [workplaceSeq]);
-
-  //값 받아서 departmentSeq 설정
-  useEffect(() => {
-    setDepartmentSeq(props.departmentSeq);
-  }, [props]);
 
   for (
     let number = 1 + (active - 1) * 5;
@@ -204,7 +138,67 @@ const AllEmployeeList = (props) => {
         console.log(error);
       });
   }
-  console.log("체크된 아이템:" + JSON.stringify(checkItems));
+
+  //전체 클릭시 발생하는 함수
+  const onCheckedAll = useCallback(
+    (checked) => {
+      if (checked) {
+        const checkedListArray = [];
+
+        deptList.forEach((list) => checkedListArray.push(list));
+        setCheckedLists(checkedListArray);
+        Allcheck.push(checkedListArray);
+        console.log("allcheck");
+        console.log(Allcheck);
+      } else {
+        setCheckedLists([]);
+        Allcheck = [];
+        console.log("allcheck out");
+        console.log(Allcheck);
+      }
+    },
+    [deptList]
+  );
+
+  //개별 클릭시 발생하는 함수
+  const onCheckedElement = useCallback(
+    async (checked, list) => {
+      try {
+        if (checked) {
+          setCheckedLists([...checkedList, list]);
+          let a = [...checkedList, list];
+          Allcheck.push(a);
+          console.log("개별 클릭시");
+          console.log(Allcheck);
+        } else {
+          setCheckedLists(checkedList.filter((el) => el !== list));
+          let a = checkedList.filter((el) => el !== list);
+          Allcheck.push(a);
+          console.log("개별 해제시");
+          console.log(Allcheck);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [checkedList]
+  );
+
+  // console.log(checkedList);
+
+  //부서가 바뀔때 배열값 초기화
+  useEffect(() => {
+    setCheckedLists("");
+  }, [departmentSeq]);
+
+  //check된 값 저장 배열
+  useEffect(() => {}, [checkedList]);
+
+  // console.log("사원수 : " + JSON.stringify(deptList.employeeSeq));
+  useEffect(() => {}, [onCheckedAll]);
+  useEffect(() => {}, [onCheckedElement]);
+
+  // console.log(checkItems);
   return (
     <div>
       <div className="container">
@@ -216,20 +210,19 @@ const AllEmployeeList = (props) => {
                   <th scope="col">
                     {" "}
                     <input
-                      id="customCheck2"
+                      key={0}
                       type="checkbox"
-                      className="custom-control-input"
-                      name="chkAll"
-                      onChange={(e) => checkedAll(e.target.checked)}
-                      // 데이터 개수와 체크된 아이템의 개수가 다를 경우 선택 해제 (하나라도 해제 시 선택 해제)
+                      readOnly
+                      onClick={(e) => onCheckedAll(e.target.checked)}
                       checked={
-                        users?.length == 0
+                        checkedList.length === 0
                           ? false
-                          : checkItemsPage.length === selectableUsers.length
+                          : checkedList.length === deptList.length
                           ? true
                           : false
                       }
-                    />
+                      className="custom-control-input"
+                      id="customCheck2"></input>
                   </th>
                   <th scope="col">사업장</th>
                   <th scope="col">부서명</th>
@@ -245,16 +238,19 @@ const AllEmployeeList = (props) => {
                       <div className="custom-control custom-checkbox">
                         <input
                           type="checkbox"
-                          // readOnly
+                          // onClick={() => {
+                          //   sendCheckedElement(deptList.employeeName);
+                          // }}
+                          readOnly
                           // onClick={() => {
                           //   sendCheckedList(deptList.employeeName);
                           // }}
-                          // onChange={(e) =>
-                          //   onCheckedElement(e.target.checked, deptList)
-                          // }
-                          // checked={
-                          //   checkedList.includes(deptList) ? true : false
-                          // }
+                          onChange={(e) =>
+                            onCheckedElement(e.target.checked, deptList)
+                          }
+                          checked={
+                            checkedList.includes(deptList) ? true : false
+                          }
                           className="custom-control-input"
                           id="customCheck2"></input>
                         <label
