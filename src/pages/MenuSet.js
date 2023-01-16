@@ -14,7 +14,7 @@ function MenuSet() {
 
     const [menuId, setMenuId] = useState("");
     const [menuName, setMenuName] = useState("");
-    const [menuParent, setMenuParent] = useState("SS01");
+    const [menuParent, setMenuParent] = useState(0);
     const [menuDepth, setMenuDepth] = useState(0);
 
     const insertMenuId = (e) => {
@@ -58,7 +58,7 @@ function MenuSet() {
                                 <th>상위 메뉴</th>
                                 <td><select className={style.menu_select} onChange={insertMenuParent} value={menuParent}>
                                     {menu.map((menu, i) => (
-                                        <option value={menu.menuCode} key={i}>
+                                        <option value={menu.menuSeq} key={i}>
                                             {menu.menuName}
                                         </option>
                                     ))}
@@ -83,7 +83,7 @@ function MenuSet() {
     async function insertMenu() {
         const url = baseUrl + "/menu";
         const data = {
-            menuId: menuId,
+            menuCode: menuId,
             menuName: menuName,
             menuParent: menuParent,
             menuDepth: menuDepth + 1

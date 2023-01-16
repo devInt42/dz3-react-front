@@ -15,6 +15,7 @@ import CompanyUpdateform from "./components/company/CompanyUpdateform";
 import GNB from "./components/GNB";
 import LNB from "./components/LNB";
 import SubMenu from "./pages/SubMenu";
+import NoMenu from "./pages/NoMenu";
 
 
 
@@ -23,13 +24,14 @@ function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/dz3/" element={<Layout />}>
-      <Route path="menuset" element={<MenuSet />} />
+        <Route path="menuset" element={<MenuSet />} />
         <Route path="auth" element={<Auth />} />
         <Route exact path="company/info" element={<Company />} />
         <Route path="common" element={<Home2 />} />
         <Route path="main2" element={<Home />} />
         <Route path="common" element={<Home2 />} />
-        <Route path="main" element={<Layout />} />
+        <Route path="nomenu" element={<NoMenu />} />
+        
         <Route
           exact
           path="company/info/:companyCode"

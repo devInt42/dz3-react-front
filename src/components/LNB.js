@@ -22,9 +22,13 @@ function LNB(props) {
     //     </div>
     // )
     
-    const sendParent = useCallback( (menuName, menuSeq) => {
-        props.getMenuInfo(menuName, menuSeq);
-    }, [])
+    // const sendParent = useCallback( (menuName, menuSeq) => {
+    //     props.getMenuInfo(menuName, menuSeq);
+    // }, [])
+
+    const sendParent =  (menuName, menuSeq) => {
+      props.getMenuInfo(menuName, menuSeq);
+  }
 
     const baseUrl = "http://localhost:8080";
 

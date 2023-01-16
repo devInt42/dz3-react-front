@@ -22,6 +22,12 @@ function Layout() {
         setMenuSeq(menuSeq);
         setMenuName(menuName);
     }, [menuSeq, menuName]);
+    // const getMenuInfo =  (menuName, menuSeq) => {
+    //     setMenuSeq(menuSeq);
+    //     setMenuName(menuName);
+    // };
+
+    const tttt = 10000000;
 
     const [lastSeq, setLastSeq] = useState(0);
     const getLastMenuSeq = (lastSeq) => {
@@ -39,7 +45,7 @@ function Layout() {
                     <Row><GNB menuName={menuName}/></Row>
                     <Row>
                         <Col md="auto" style={{border: "1px solid black", padding:"0px", width: "20%", height: "100vh", marginTop: "10px", marginLeft:"20px"}}>
-                            <SubMenu menuSeq={menuSeq} getLastMenuSeq={getLastMenuSeq}/>
+                            <SubMenu menuSeq={menuSeq} tttt={tttt} getLastMenuSeq={getLastMenuSeq}/>
                         </Col>
                         <Col><Outlet /></Col>
                     </Row>
