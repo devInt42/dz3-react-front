@@ -23,13 +23,11 @@ function SubMenu(props) {
   const [isActive, setIsActive] = useState(false);
 
   const getSubMenuList = useCallback(async () => {
-    console.log(menuSequence);
     try {
       const apiResult = await axios({
         url: baseUrl + "/menu/menulist/" + menuSequence,
         method: "get",
       });
-      console.log(apiResult.data);
       if (apiResult.data == 0) {
         sendLastSeq(menuSequence);
       } else {

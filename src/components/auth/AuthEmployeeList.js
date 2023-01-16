@@ -2,32 +2,38 @@ import React, { useEffect, useState } from "react";
 import { Nav, Table, Container, Row, Button } from "react-bootstrap";
 import axios from "axios";
 import { findByLabelText } from "@testing-library/react";
+import { set } from "lodash";
 
 const AuthEmployeeList = (props) => {
   const baseUrl = "http://localhost:8080";
   const [authSeq, setAuthSeq] = useState();
   const [page, setPage] = useState(1);
   const [resList, setResList] = useState([]);
-
+  const [companySeq, setCompanySeq] = useState();
   useEffect(() => {
     setAuthSeq(props.authSeq);
   }, [props]);
 
-  useEffect(() => {
-    if (authSeq != null) {
-      const url =
-        baseUrl + "/auth-employee/auth/page/" + page + "?authSeq=" + authSeq;
-      axios({
-        method: "get",
-        url: url,
-      })
-        .then((res) => {
-          setResList(res.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  const authEmployeeApiList = async () => {
+    let sendData = {
+      companySeq: companySeq,
+      authSeq: authSeq,
+    };
+    try {
+      const searchEmployeeApiList = await axios.get(
+        `${baseUrl}/auth-employee/auth/page/${page}`,
+        {
+          params: sendData,
+        }
+      );
+      setResList(searchEmployeeApiList.data);
+    } catch (error) {
+      console.log(error);
     }
+  };
+
+  useEffect(() => {
+    authEmployeeApiList();
   }, [authSeq]);
 
   return (

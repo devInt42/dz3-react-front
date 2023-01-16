@@ -7,10 +7,9 @@ import { ReactComponent as Search } from "./search.svg";
 const AuthLnb = (props) => {
   const [authList, setAuthList] = useState(null);
   const [authSeq, setAuthSeq] = useState(null);
-  const [companySeq, setCompanySeq] = useState(2);
+  const [companySeq, setCompanySeq] = useState(null);
   const [workplaceSeq, setWorkplaceSeq] = useState(null);
   const [departmentSeq, setDepartmentSeq] = useState(null);
-
   const [page, setPage] = useState(1);
   const baseUrl = "http://localhost:8080";
   const [countAuth, setCountAuth] = useState(null);
@@ -18,17 +17,33 @@ const AuthLnb = (props) => {
   const [authName, setAuthName] = useState(null);
   let items = [];
 
+  const initProps = useCallback(async () => {
+    let resProps = await props.companySeq;
+    setCompanySeq(resProps);
+
+    return companySeq;
+  }, []);
+
+  useEffect(() => {
+    initProps();
+  }, [props]);
+
   // 회사별 권한 및 해당하는 권한수 카운트 API
   const companyAuthApiCall = useCallback(async () => {
+    console.log(companySeq);
     let companyData = {
       companySeq,
       authName,
     };
+
     try {
       const companyAuthApiResult = await axios.get(
-        `${baseUrl}/auth-employee/company/page/${page} `,
+        `${baseUrl}/auth-employee/company/page/${page}`,
         {
           params: companyData,
+          headers: {
+            Authorization: window.sessionStorage.getItem("empInfo"),
+          },
         }
       );
       const companyAuthApiCountResult = await axios.get(
@@ -45,8 +60,10 @@ const AuthLnb = (props) => {
   }, [active]);
 
   useEffect(() => {
+    console.log("3");
+
     companyAuthApiCall();
-  }, []);
+  }, [companySeq]);
 
   // 검색 API
   const searchAuthbyName = async (e) => {

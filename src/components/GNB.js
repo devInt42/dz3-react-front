@@ -20,7 +20,6 @@ function GNB(props) {
 
   const baseUrl = "http://localhost:8080";
   const [menu, setMenu] = useState([]);
-
   useEffect(() => {
     axios
       .get(baseUrl + "/menu/menulist")
