@@ -37,6 +37,7 @@ const HeaderWrapper = () => {
 function App() {
   return (
     <Routes>
+      <Route path="/login" element={<Login/>}/>
       <Route path="/dz3/">
         <Route path="main" element={<Layout />}>
           <Route path="menuset" element={<MenuSet />} />
