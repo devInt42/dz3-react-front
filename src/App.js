@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 import React from "react";
-import { Row,Col,Container } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import Company from "./components/company/Company";
 import Auth from "./pages/Auth";
 import Login from "./pages/Login.js";
@@ -16,41 +16,20 @@ import GNB from "./components/GNB";
 import LNB from "./components/LNB";
 import SubMenu from "./pages/SubMenu";
 
-const HeaderWrapper = () => {
-  return (
-    <>
-      <Row>
-        <Col xs={1}>
-          <LNB />
-          <SubMenu />
-        </Col>
-        <Col>
-          <GNB />
-          <SubMenu />
-          <Outlet />
-        </Col>
-      </Row>
-    </>
-  );
-};
+
 
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={<Login/>}/>
-      <Route path="/dz3/">
-        <Route path="main" element={<Layout />}>
-          <Route path="menuset" element={<MenuSet />} />
-          <Route path="auth" element={<Auth />} />
-          <Route exact path="company/info" element={<Company />} />
-        </Route>
-        
+      <Route path="/login" element={<Login />} />
+      <Route path="/dz3/" element={<Layout />}>
+      <Route path="menuset" element={<MenuSet />} />
+        <Route path="auth" element={<Auth />} />
+        <Route exact path="company/info" element={<Company />} />
         <Route path="common" element={<Home2 />} />
         <Route path="main2" element={<Home />} />
         <Route path="common" element={<Home2 />} />
         <Route path="main" element={<Layout />} />
-        
-        
         <Route
           exact
           path="company/info/:companyCode"

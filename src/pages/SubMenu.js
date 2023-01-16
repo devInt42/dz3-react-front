@@ -75,9 +75,9 @@ function SubMenu(props) {
             })}
           </div>
       }
-      <button onClick={()=> navigate(`/dz3/main/menuset`)}>set</button>
-      <button onClick={()=> navigate(`/dz3/main/auth`)}>auth</button>
-      <button onClick={()=> navigate(`/dz3/main/company/info`)}>company</button>
+      <button onClick={()=> navigate(`/dz3/menuset`)}>set</button>
+      <button onClick={()=> navigate(`/dz3/auth`)}>auth</button>
+      <button onClick={()=> navigate(`/dz3/company/info`)}>company</button>
     </div>
   );
 
