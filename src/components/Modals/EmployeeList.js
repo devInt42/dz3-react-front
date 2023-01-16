@@ -2,7 +2,6 @@ import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Row, Col, Pagination } from "react-bootstrap";
 import { BsTelephonePlus, BsFillFileEarmarkPersonFill } from "react-icons/bs";
-import { json } from "react-router-dom";
 
 const EmployeeList = (props) => {
   const [companySeq, setCompanySeq] = useState(2);
@@ -47,69 +46,72 @@ const EmployeeList = (props) => {
 
   //해당 직원리스트
   const getAllDept = useCallback(async () => {
-    let deptData = {
-      companySeq: companySeq,
-      workplaceSeq: workplaceSeq,
-      departmentSeq: departmentSeq,
-    };
-    try {
-      const getAllDeptResult = await axios.get(
-        `${baseUrl}/department-employee/page/${page}`,
-        { params: deptData }
-      );
-      setDeptList(getAllDeptResult.data);
-    } catch (error) {
-      console.log(error);
+    if (departmentSeq == null) {
+    } else {
+      let deptData = {
+        companySeq: companySeq,
+        workplaceSeq: workplaceSeq,
+        departmentSeq: departmentSeq,
+      };
+      try {
+        const getAllDeptResult = await axios.get(
+          `${baseUrl}/department-employee/page/${page}`,
+          { params: deptData }
+        );
+        setDeptList(getAllDeptResult.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [departmentSeq]);
 
   const getEmplCount = useCallback(async () => {
-    let emplData = {
-      departmentSeq,
-    };
-    try {
-      const getEmplCountResult = await axios.get(
-        `${baseUrl}/department-employee/count/${departmentSeq}`,
-        { params: emplData }
-      );
-      setCountEmployee(getEmplCountResult.data);
-    } catch (error) {
-      console.log(error);
+    if (departmentSeq == null) {
+    } else {
+      let emplData = {
+        departmentSeq,
+      };
+      try {
+        const getEmplCountResult = await axios.get(
+          `${baseUrl}/department-employee/count/${departmentSeq}`,
+          { params: emplData }
+        );
+        setCountEmployee(getEmplCountResult.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [departmentSeq]);
 
   const getPage = useCallback(async () => {
-    let pageData = {
-      companySeq: companySeq,
-      workplaceSeq: workplaceSeq,
-      departmentSeq: departmentSeq,
-    };
-    try {
-      const getPageResult = await axios.get(
-        `${baseUrl}/department-employee/page/${page}`,
-        {
-          params: pageData,
-        }
-      );
-      setDeptList(getPageResult.data);
-    } catch (error) {
-      console.log(error);
+    if (departmentSeq == null) {
+    } else {
+      let pageData = {
+        companySeq: companySeq,
+        workplaceSeq: workplaceSeq,
+        departmentSeq: departmentSeq,
+      };
+      try {
+        const getPageResult = await axios.get(
+          `${baseUrl}/department-employee/page/${page}`,
+          {
+            params: pageData,
+          }
+        );
+        setDeptList(getPageResult.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [page]);
 
   useEffect(() => {
-    if (departmentSeq == null) {
-    } else {
-      getAllDept();
-      getEmplCount();
-    }
+    getAllDept();
+    getEmplCount();
   }, [departmentSeq]);
 
   useEffect(() => {
-    if (departmentSeq == null) {
-    } else {
-      getPage();
-    }
+    getPage();
   }, [page]);
 
   useEffect(() => {

@@ -58,7 +58,7 @@ const CompanyList = (props) => {
 
   //workplaceSeq로 수정
 
-  useState(() => {
+  useEffect(() => {
     getAllCompany();
   }, [companySeq]);
 
@@ -72,9 +72,7 @@ const CompanyList = (props) => {
             key={dNameList.departmentSeq}
             onClick={() => {
               sendDepartmentSeq(dNameList.departmentSeq);
-              // console.log(dNameList.departmentSeq);
               sendWorkplaceSeq(dNameList.workplaceSeq);
-              // console.log(dNameList.departmentSeq);
             }}>
             - {dNameList.departmentName}
           </div>

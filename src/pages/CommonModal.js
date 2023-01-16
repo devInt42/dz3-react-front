@@ -11,7 +11,6 @@ const CommonModal = (props) => {
   const [departmentSeq, setDepartmentSeq] = useState();
   const [checkedList, setCheckedLists] = useState([]);
 
-  console.log("렌더링");
   //함수 보냄
   const sendDepartmentSeq = (i) => {
     setDepartmentSeq(i);

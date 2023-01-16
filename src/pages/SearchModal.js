@@ -11,9 +11,10 @@ const Modal = (props) => {
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [employeeSeq, setEmployeeSeq] = useState();
 
-  console.log("렌더링 test");
+  // console.log("렌더링 test");
 
   //함수 보냄
+
   const sendDepartmentSeq = (i) => {
     setDepartmentSeq(i);
   };
@@ -73,7 +74,6 @@ const Modal = (props) => {
                     </div>
                   </Col>
                 </Row>
-
                 <Row>
                   <Col className="SearchdeptList" sm={3}>
                     <CompanyList

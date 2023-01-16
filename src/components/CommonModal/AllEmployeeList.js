@@ -8,18 +8,76 @@ const AllEmployeeList = (props) => {
   const [deptList, setDeptList] = useState([]);
 
   const [page, setPage] = useState(1); // 현재 페이지
-  const [countEmployee, setCountEmployee] = useState(null); // 총 사원수
+  const [countEmployee, setCountEmployee] = useState(); // 총 사원수
   const [active, setActive] = useState(1); // 현재 페이지수
   const [workplaceSeq, setWorkplaceSeq] = useState();
   let items = []; // 페이지 숫자 저장 < 1 2 3 4 5 >
 
-  //전체 선택시 데이터의 모든 아이템을 받은 배열로 checkList 생성
-  //전체 선택 해제시 값을 비워준다.
-  const [checkItems, setCheckItems] = useState([]); //페이지 상관없이 체크한 아이템
-  const [checkItemsPage, setCheckItemsPage] = useState(); //페이지 전체선택
+  //employee 정보
   const [users, setUsers] = useState([]); //페이지 전체 유저
   const [selectableUsers, setSelectableUsers] = useState([]); //페이지에서 선택한 유저
 
+  //체크 박스
+  const [checkItems, setCheckItems] = useState([]); //페이지 상관없이 체크한 아이템
+  const [checkItemsPage, setCheckItemsPage] = useState(); //페이지 전체선택
+
+  //List 가져오기
+  const getDeptList = useCallback(async () => {
+    if (departmentSeq != null) {
+      // console.log("DEPT" + departmentSeq);
+      let data = {
+        departmentSeq,
+      };
+      try {
+        const dataResult = await axios.get(
+          `${baseUrl}/department-employee/department/page/${page}`,
+          { params: data }
+        );
+        setDeptList(dataResult.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [departmentSeq]);
+
+  //사원수 count
+  const getCount = useCallback(async () => {
+    if (departmentSeq != null) {
+      try {
+        const dataResult = await axios.get(
+          `${baseUrl}/department-employee/count/${departmentSeq}`
+        );
+        setCountEmployee(dataResult.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [departmentSeq]);
+
+  const getPage = useCallback(async () => {
+    if (departmentSeq != null) {
+      try {
+        const dataResult = await axios.get(
+          `${baseUrl}/department-employee/department/page/${page}?departmentSeq=${departmentSeq}`
+        );
+        setDeptList(dataResult.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [page]);
+
+  useEffect(() => {
+    getDeptList();
+    getCount();
+  }, [departmentSeq]);
+
+  useEffect(() => {
+    setPage(1);
+    getPage();
+  }, [page]);
+
+  //checkbox
   const funUserList = () => {
     let params = {
       page: page,
@@ -27,6 +85,7 @@ const AllEmployeeList = (props) => {
 
     checkItems(params).then((res) => {
       if (res.statusCode === 1000) {
+        //1000개 까지 클릭가능
         const result = res.data;
         setUsers(result);
         //선택 가능한 유저
@@ -92,51 +151,6 @@ const AllEmployeeList = (props) => {
     setDepartmentSeq(props.departmentSeq);
   }, [props]);
 
-  useEffect(() => {
-    setPage(1);
-    if (departmentSeq != null) {
-      axios({
-        type: "get",
-        url: `${baseUrl}/department-employee/department/page/${page}?departmentSeq=${departmentSeq}`,
-      })
-        .then((res) => {
-          setDeptList(res.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      axios({
-        type: "get",
-        url: `${baseUrl}/department-employee/count/${departmentSeq}`,
-      })
-        .then((res2) => {
-          setCountEmployee(res2.data);
-          // console.log(countEmployee);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      return;
-    }
-  }, [departmentSeq]);
-
-  useEffect(() => {
-    if (departmentSeq != null) {
-      axios({
-        type: "get",
-        url: `${baseUrl}/department-employee/department/page/${page}?departmentSeq=${departmentSeq}`,
-      })
-        .then((res) => {
-          setDeptList(res.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [page]);
-
   for (
     let number = 1 + (active - 1) * 5;
     number <= 5 + (active - 1) * 5;
@@ -190,7 +204,7 @@ const AllEmployeeList = (props) => {
         console.log(error);
       });
   }
-  console.log(checkItems);
+  console.log("체크된 아이템:" + JSON.stringify(checkItems));
   return (
     <div>
       <div className="container">

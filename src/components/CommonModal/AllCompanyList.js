@@ -37,7 +37,7 @@ const AllCompanyList = (props) => {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [companySeq]);
 
   //회사가 바뀔때마다 가져오는값 달라짐
   useEffect(() => {
