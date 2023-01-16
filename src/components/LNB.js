@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { VscGithubInverted } from "react-icons/vsc";
 import { BsMenuButtonWideFill } from "react-icons/bs";
@@ -10,6 +10,7 @@ import SystemSet from "../pages/SystemSet";
 import style from "../css/LNB.module.css";
 
 function LNB(props) {
+  
     // const setParent = () => {
     //     props.getTest("go to parent");
     // }
@@ -20,20 +21,41 @@ function LNB(props) {
     //         <a onClick={()=>{setParent()}}>값 보내기</a>
     //     </div>
     // )
-    const sendParent = (menuName, menuSeq) => {
+    
+    const sendParent = useCallback( (menuName, menuSeq) => {
         props.getMenuInfo(menuName, menuSeq);
-    }
+    }, [])
+
     const baseUrl = "http://localhost:8080";
 
     const [Lmenu, setLmenu] = useState([]);
     const [menuVisible, setMenuVisible] = useState(false);
 
-    useEffect(() => {
-        axios
-            .get(baseUrl + "/menu/menulist")
-            .then((response) => setLmenu(response.data))
-            .catch((error) => console.log(error));
-    }, []);
+
+    const getMenuList = useCallback(async () => {
+        try {
+          const apiResult = await axios({
+            url:
+              baseUrl +
+              "/menu/menulist",
+            method: "get",
+          });
+          setLmenu(apiResult.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }, []);
+    
+      useEffect(() => {
+        getMenuList();
+      }, []);
+
+    // useEffect(() => {
+    //     axios
+    //         .get(baseUrl + "/menu/menulist")
+    //         .then((response) => setLmenu(response.data))
+    //         .catch((error) => console.log(error));
+    // }, []);
 
     return (
 
@@ -58,4 +80,4 @@ function LNB(props) {
 
 }
 
-export default LNB;
+export default React.memo(LNB);

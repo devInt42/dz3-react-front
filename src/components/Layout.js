@@ -7,7 +7,7 @@ import Login from "../pages/Login";
 import { Container, Row, Col } from "react-bootstrap";
 
 import "../css/Layout.module.css";
-import { useState } from "react";
+import React, { useState, useCallback } from "react";
 import SubMenu from "../pages/SubMenu";
 import MenuSet from "../pages/MenuSet";
 
@@ -18,10 +18,15 @@ function Layout() {
 
     const [menuSeq, setMenuSeq] = useState(0);
     const [menuName, setMenuName] = useState("")
-    const getMenuInfo = (menuName, menuSeq) => {
+    const getMenuInfo = useCallback( (menuName, menuSeq) => {
         setMenuSeq(menuSeq);
         setMenuName(menuName);
-    }
+    }, [menuSeq, menuName]);
+
+    const [lastSeq, setLastSeq] = useState(0);
+    const getLastMenuSeq = (lastSeq) => {
+        setLastSeq(lastSeq);
+    };
 
     return (
         <Container fluid>
@@ -34,9 +39,9 @@ function Layout() {
                     <Row><GNB menuName={menuName}/></Row>
                     <Row>
                         <Col md="auto" style={{border: "1px solid black", padding:"0px", width: "20%", height: "100vh", marginTop: "10px", marginLeft:"20px"}}>
-                            <SubMenu menuSeq={menuSeq}/>
+                            <SubMenu menuSeq={menuSeq} getLastMenuSeq={getLastMenuSeq}/>
                         </Col>
-                        <Col><Auth /></Col>
+                        <Col><Outlet /></Col>
                     </Row>
                 </Col>
             </Row>
@@ -47,7 +52,7 @@ function Layout() {
     );
 }
 
-export default Layout;
+export default React.memo(Layout);
 
 {/* <div className="layout">
             <GNB />
