@@ -7,6 +7,8 @@ import style from "../css/GNB.module.css";
 
 import LNB from "./LNB";
 
+import { ImTree } from "react-icons/im";
+
 function GNB(props) {
     const navigate = useNavigate();
 
@@ -26,8 +28,11 @@ function GNB(props) {
     return (
 
         <div>
-            <div style={{ height: "40px" }}><h2>LastDanth<span style={{color:"rgba(64, 192, 228, 0.929)", fontWeight:"bolder"}}>10</span></h2></div>
-            <div className={style.gnb_bar}><CgMenuBoxed style={{width: "50px", height: "50px", margin: "10px"}}/>{props.menuName}</div>
+            <div className={style.gnb_header}>
+                <span className={style.gnb_title}>LastDanth<span style={{color:"rgba(64, 192, 228, 0.929)", fontWeight:"bolder"}}>10</span></span>
+                <span className={style.gnb_Imtree}><button className={style.gnb_Imtree_btn}><ImTree style={{width:"25px", height: "35px"}}/></button></span>
+            </div>
+            <div className={style.gnb_bar}><CgMenuBoxed style={{width: "50px", height: "50px", margin: "10px"}}/>{props.menuName} {props.menuSeq}</div>
         </div>
 
         // <div className={style.gnb_bar}>

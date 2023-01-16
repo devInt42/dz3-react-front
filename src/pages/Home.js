@@ -1,10 +1,15 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import LNB from "../components/LNB";
 import GNB from "../components/GNB";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import SystemSet from "../pages/SystemSet";
 import { Container, Row, Col } from "react-bootstrap";
 
-import "../css/Layout.module.css";
+import style from "../css/LNB.module.css";
+
+import { VscGithubInverted } from "react-icons/vsc";
+import { BsMenuButtonWideFill } from "react-icons/bs";
 import Auth from "./Auth";
 
 const Home = () => {
@@ -43,19 +48,3 @@ const Home = () => {
 };
 
 export default Home;
-
-{
-  /* <div className="layout">
-            <GNB />
-            <div> */
-}
-{
-  /* <Col><LNB /></Col> */
-}
-//         <Col>
-//             <Container>
-//                 <Outlet />
-//             </Container>
-//         </Col>
-//     </div>
-// </div>
