@@ -67,10 +67,10 @@ function SubMenu(props) {
             {subMenu.map((menu) => {
               return (
                 <div className={style.check} key={menu.menuSeq}>
-                  <div className={style.item} style={{ paddingLeft: (menu.menuDepth - 1) * 30, paddingRight: '20px' }}>
-                    <button className={style.menu_btn} onClick={() => { setIsActive(true); setChildMenu(menu.menuSeq);}}>
+                  <div className={style.item} style={{ paddingLeft: (menu.menuDepth - 1) * 20, paddingRight: '20px' }}>
+                    <div className={style.menu_btn} onClick={() => { setIsActive(true); setChildMenu(menu.menuSeq);}}>
                       {menu.menuName}
-                    </button>
+                    </div>
                   </div>
                   {
                     childMenu == menu.menuSeq && isActive && <SubMenu menuSeq={menu.menuSeq} />

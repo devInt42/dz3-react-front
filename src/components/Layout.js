@@ -27,8 +27,6 @@ function Layout() {
     //     setMenuName(menuName);
     // };
 
-    const tttt = 10000000;
-
     const [lastSeq, setLastSeq] = useState(0);
     const getLastMenuSeq = (lastSeq) => {
         setLastSeq(lastSeq);
@@ -44,8 +42,9 @@ function Layout() {
                 <Col style={{ border: "1px solid black", padding:"0px"}}>
                     <Row><GNB menuName={menuName}/></Row>
                     <Row>
-                        <Col md="auto" style={{border: "1px solid black", padding:"0px", width: "20%", height: "100vh", marginTop: "10px", marginLeft:"20px"}}>
-                            <SubMenu menuSeq={menuSeq} tttt={tttt} getLastMenuSeq={getLastMenuSeq}/>
+                        <Col md="auto" style={{border: "1px solid black", padding:"0px", width: "15%", height: "100vh",
+                                                marginTop: "10px", marginLeft:"20px", backgroundColor:"rgba(221, 219, 216, 0.409)"}}>
+                            <SubMenu menuSeq={menuSeq}/>
                         </Col>
                         <Col><Outlet /></Col>
                     </Row>
