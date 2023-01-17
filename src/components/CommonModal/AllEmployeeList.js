@@ -94,7 +94,7 @@ const AllEmployeeList = (props) => {
     getDeptList();
     getCount();
     setPage(1);
-    // setCheckedLists(""); //부서가 바뀔때 배열값 초기화
+    //setCheckedLists(""); //부서가 바뀔때 배열값 초기화
   }, [departmentSeq]);
 
   useEffect(() => {
@@ -207,6 +207,7 @@ const AllEmployeeList = (props) => {
                       type="checkbox"
                       readOnly
                       onClick={(e) => onCheckedAll(e.target.checked)}
+                      //수정필요
                       checked={
                         checkedList.length === 0
                           ? false
