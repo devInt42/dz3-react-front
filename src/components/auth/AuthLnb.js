@@ -17,23 +17,11 @@ const AuthLnb = (props) => {
   const [authName, setAuthName] = useState(null);
   let items = [];
 
-  const initProps = useCallback(async () => {
-    let resProps = await props.companySeq;
-    setCompanySeq(resProps);
-
-    return companySeq;
-  }, []);
-
-  useEffect(() => {
-    initProps();
-  }, [props]);
-
   // 회사별 권한 및 해당하는 권한수 카운트 API
   const companyAuthApiCall = useCallback(async () => {
-    console.log(companySeq);
     let companyData = {
-      companySeq,
       authName,
+      companySeq,
     };
 
     try {
@@ -50,6 +38,9 @@ const AuthLnb = (props) => {
         `${baseUrl}/auth-employee/count`,
         {
           params: companyData,
+          headers: {
+            Authorization: window.sessionStorage.getItem("empInfo"),
+          },
         }
       );
       setAuthList(companyAuthApiResult.data);
@@ -60,16 +51,14 @@ const AuthLnb = (props) => {
   }, [active]);
 
   useEffect(() => {
-    console.log("3");
-
     companyAuthApiCall();
   }, [companySeq]);
 
   // 검색 API
   const searchAuthbyName = async (e) => {
     let sendApi = {
-      companySeq: companySeq,
-      authName: authName,
+      authName,
+      companySeq,
     };
     setPage(1);
     try {
@@ -83,6 +72,9 @@ const AuthLnb = (props) => {
         `${baseUrl}/auth-employee/count/`,
         {
           params: sendApi,
+          headers: {
+            Authorization: window.sessionStorage.getItem("empInfo"),
+          },
         }
       );
       setAuthList(searchAuthApiResult.data);
@@ -146,6 +138,9 @@ const AuthLnb = (props) => {
         `${baseUrl}/auth-employee/company/page/${active}`,
         {
           params: sendApi,
+          headers: {
+            Authorization: window.sessionStorage.getItem("empInfo"),
+          },
         }
       );
       setAuthList(searchAuthApiActive.data);

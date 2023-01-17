@@ -36,7 +36,7 @@ const Auth = (props) => {
     <Container fluid="true" className="Auth" id="AuthPage">
       <Row>
         <Col xs={2} style={{ padding: 0 }}>
-          <AuthLnb sendAuthSeq={sendAuthSeq} companySeq={companySeq} />
+          <AuthLnb sendAuthSeq={sendAuthSeq} />
         </Col>
         <Col xs={10}>
           <AuthEmployeeList authSeq={authSeq} />

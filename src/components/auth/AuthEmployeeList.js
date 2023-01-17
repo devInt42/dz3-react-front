@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Nav, Table, Container, Row, Button } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import axios from "axios";
-import { findByLabelText } from "@testing-library/react";
-import { set } from "lodash";
 
 const AuthEmployeeList = (props) => {
   const baseUrl = "http://localhost:8080";
@@ -16,7 +14,6 @@ const AuthEmployeeList = (props) => {
 
   const authEmployeeApiList = async () => {
     let sendData = {
-      companySeq: companySeq,
       authSeq: authSeq,
     };
     try {
@@ -24,6 +21,9 @@ const AuthEmployeeList = (props) => {
         `${baseUrl}/auth-employee/auth/page/${page}`,
         {
           params: sendData,
+          headers: {
+            Authorization: window.sessionStorage.getItem("empInfo"),
+          },
         }
       );
       setResList(searchEmployeeApiList.data);
