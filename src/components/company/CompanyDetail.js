@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css?a';
 import SaveCompanyAlert from '../alert/SaveCompanyAlert';
 import SaveFailCompanyAlert from '../alert/SaveFailCompanyAlert';
 import DeleteCompanyAlert from '../alert/DeleteCompanyAlert';
-
+import UpdateCompanyAlert from '../alert/UpdateCompanyAlert';
 const CompanyDetail = ((props) => {
 
     const [isOndata, setIsOndata] = useState("N");
@@ -120,9 +120,12 @@ const CompanyDetail = ((props) => {
     }
     const baseUrl = "http://localhost:8080";
 
-    function insertCompany() {  //회사 추가
+    function Update(seq) {  //회사 추가
+
+        console.log(data);
+
         axios.post(
-            `${baseUrl}/company/insert`
+            `${baseUrl}/company/update/${seq}`
             , JSON.stringify(data)
             ,
             {
@@ -232,18 +235,19 @@ const CompanyDetail = ((props) => {
 
             <div>
                 <div className="infoheader">
-                    <b className="littletitle"> <BsFillOctagonFill /> 회사추가</b>
+                    <b className="littletitle"> <BsFillOctagonFill /> 회사정보</b>
                     <div>
                         <button className="insertbutton"
                             type="button" onClick={() => AllCheck()}
-                        >추가</button>
+                        >수정</button>
                         <button className = "insertbutton" type ="button" 
                         onClick={() => {setCheckDelete(true)}}>삭제</button>
                         <button className="infoclosebutton" onClick={() => props.setDetailFlag(false)}> <TfiClose /></button>
                         {
-                            allCheck && <SaveCompanyAlert setAllCheck={setAllCheck}
-                                insertCompany={insertCompany}
-                                setAddflag={props.setAddflag} />
+                            allCheck && <UpdateCompanyAlert setAllCheck={setAllCheck}
+                                Update={Update}
+                                seq = {props.companySeq}
+                                />
                         }
                         {notRequire}
                         {
@@ -457,14 +461,14 @@ const CompanyDetail = ((props) => {
                                     <div className="company-table-td-address-input">
 
                                         <Form.Control
-                                            onFocus={() =>
+                                            onFocus={(e) =>
                                                 address.length === 0 && setZipcodeIsOpen(true)
                                             }
                                             value={companyAddr}
                                             onChange={(e) => { setAddress(e.target.value); }}
                                             Style=" z-index:0; background-color:#ffe9e9"
                                             isValid={checked > 0 ? true : false}
-                                            isInvalid={checked < 1 ? false : address.length > 0 ? false : true}
+                                            isInvalid={checked < 1 ? false : address.length > 0 ? true : false}
                                             readOnly
                                         />
                                     </div>
@@ -645,7 +649,7 @@ function corporateNumberCheck(value) {
 
 //삭제
 function Delete(seq) {
-    const baseUrl = "http://localhost:8080"
+    const baseUrl = "http://localhost:8080";
     axios.get(`${baseUrl}/company/delete/${seq}`);
 }
 
