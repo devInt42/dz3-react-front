@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css?a';
 import SaveCompanyAlert from '../alert/SaveCompanyAlert';
 import SaveFailCompanyAlert from '../alert/SaveFailCompanyAlert';
+import DeleteCompanyAlert from '../alert/DeleteCompanyAlert';
 
 const CompanyDetail = ((props) => {
 
@@ -141,6 +142,7 @@ const CompanyDetail = ((props) => {
     let [allCheck, setAllCheck] = useState(false);
     let [notRequire, setNotRequire] = useState();
     let [checked, setChecked] = useState(0);
+    let [checkDelete, setCheckDelete] = useState(false);
     useEffect(() => {
         setCompanyAddr(address);
     }, [address])
@@ -220,6 +222,8 @@ const CompanyDetail = ((props) => {
         setAllCheck(true);
         return true;
     }
+
+    
     return (
         isOndata === "N" ?
             (<div className="spinner-border text-info" role="status">
@@ -233,13 +237,22 @@ const CompanyDetail = ((props) => {
                         <button className="insertbutton"
                             type="button" onClick={() => AllCheck()}
                         >추가</button>
-                        <button className="infoclosebutton" onClick={() => props.setAddflag(false)}> <TfiClose /></button>
+                        <button className = "insertbutton" type ="button" 
+                        onClick={() => {setCheckDelete(true)}}>삭제</button>
+                        <button className="infoclosebutton" onClick={() => props.setDetailFlag(false)}> <TfiClose /></button>
                         {
                             allCheck && <SaveCompanyAlert setAllCheck={setAllCheck}
                                 insertCompany={insertCompany}
                                 setAddflag={props.setAddflag} />
                         }
                         {notRequire}
+                        {
+                            checkDelete && <DeleteCompanyAlert setCheckDelete={setCheckDelete}
+                                            Delete = {Delete}
+                                            setDetailFlag = {props.setDetailFlag}
+                                            seq = {props.companySeq}
+                                            />
+                        }
                     </div>
                 </div>
 
@@ -626,6 +639,14 @@ function registNumberCheck(value) {
 function corporateNumberCheck(value) {
     const check = /^[0-9]{6}-[0-9]{7}$/;
     return check.test(value);
+}
+
+
+
+//삭제
+function Delete(seq) {
+    const baseUrl = "http://localhost:8080"
+    axios.get(`${baseUrl}/company/delete/${seq}`);
 }
 
 export default CompanyDetail;
