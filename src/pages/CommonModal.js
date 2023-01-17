@@ -9,8 +9,7 @@ import AllEmployeeList from "../components/CommonModal/AllEmployeeList";
 const CommonModal = (props) => {
   const { open, close, header } = props;
   const [departmentSeq, setDepartmentSeq] = useState();
-  const [checkedList, setCheckedLists] = useState([]);
-  const [checkItem, setCheckItem] = useState([]);
+  const [checkItem, setCheckItem] = useState([]); //자식에서 받아올 값
 
   //함수 보냄
   const sendDepartmentSeq = (i) => {
@@ -21,10 +20,12 @@ const CommonModal = (props) => {
     setCheckItem(i);
   };
 
+  // console.log("MAIN");
+  // console.log(checkItem);
   //처음에 실행하고 바뀔때만 렌더링
   // console.log(checkItem);
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
-  const changeCheckedList = useCallback(() => {}, [checkedList]);
+  const changeCheckedList = useCallback(() => {}, [checkItem]);
 
   //부서Seq가 바뀔때마다 실행
   useEffect(() => {

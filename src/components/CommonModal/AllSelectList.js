@@ -7,24 +7,23 @@ const AllSelectList = (props) => {
   //modal에서 값 받아오기
   useEffect(() => {
     async function getEmplName() {
-      const result = await props.checkItem;
+      //console.log(props.checkItem);
+      const result = await JSON.parse(props.checkItem);
+      //const result = await props.checkItem;
+      // console.log("나오나요" + result);
       setCheckItem(result);
     }
     getEmplName();
   }, [props]);
 
-  const pushList = useCallback(async () => {
-    try {
-      items.push(checkItem);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [checkItem]);
-
-  useEffect(() => {
-    pushList();
-  }, [checkItem]);
-
-  return <div>{checkItem}</div>;
+  items.push(checkItem && checkItem.map((list) => list.employeeName));
+  // console.log(items);
+  // console.log(checkItem && checkItem.map((list) => list.employeeName));
+  return (
+    <div>
+      {items}
+      {/* {checkItem && checkItem.map((list) => list.employeeName + ",")} */}
+    </div>
+  );
 };
 export default AllSelectList;
