@@ -7,15 +7,19 @@ const AllSelectList = (props) => {
   useEffect(() => {
     async function getEmplName() {
       const result = await JSON.parse(props.checkItem);
-
       setCheckItem(result);
     }
     getEmplName();
   }, [props]);
 
-  console.log("checkItem" + JSON.stringify(checkItem));
+  const uniqueObjArr = [...new Set(checkItem.map(JSON.stringify))].map(
+    JSON.parse
+  );
+
   return (
-    <div>{checkItem && checkItem.map((list) => list.employeeName + ",")}</div>
+    <div className="AllSelectSpace">
+      {uniqueObjArr && uniqueObjArr.map((list) => list.employeeName + ",")}
+    </div>
   );
 };
 export default AllSelectList;
