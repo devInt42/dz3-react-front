@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BsFillOctagonFill } from "react-icons/bs";
 import { TfiClose } from 'react-icons/tfi'
 import "./css/CompanyInsert.css";
@@ -79,6 +79,7 @@ const CompanyInsert = ((props) => {
     useEffect(() => {
         setCompanyAddr(address);
     }, [address])
+
     //값이 바뀔때마다 유효성 검사를 하기 위함
     useEffect(() => {
 
@@ -379,7 +380,7 @@ const CompanyInsert = ((props) => {
                                 <div className="company-table-td-address-input">
                                     <Form.Control
                                         placeholder="상세 주소를 입력해 주십시오."
-                                        onChange={e => { setCompanyAddr(address + " " + e.target.value) }}
+                                        onChange={e => { setCompanyAddr(address + " / " + e.target.value) }}
                                     />
                                 </div>
                             </div>

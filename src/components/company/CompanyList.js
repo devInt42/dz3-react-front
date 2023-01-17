@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-function CompanyList() {
+function CompanyList(props) {
     const baseUrl = "http://localhost:8080";
     const [company, setCompany] = useState();
     useEffect(() => {
@@ -17,24 +17,26 @@ function CompanyList() {
                     <b>회사</b> <b className="emphasisfont">{company.length}</b> <b>건</b>
                 </div>
                 <ul>
-                    {listcompany(company)}
+                    {<Listcompany company={company} setDetailFlag = {props.setDetailFlag} setCompanySeq={props.setCompanySeq} />}
                 </ul>
             </div>
-
         </>
     )
 }
 
-const listcompany = (company) => {
+function Listcompany(props) {
     return (
         <>
             {
-                company.map((company) => {
+                props.company.map((company) => {
                     return (
-                        <div className="box">
-                            
-                                <li>{company.companyCode}{company.companyName}{company.companyPresident}</li>
-                            
+                        <div className="box"
+                            onClick={() => {
+                                props.setCompanySeq(company.companySeq);
+                                props.setDetailFlag(true);
+                            }}>
+                            <li>{company.companyCode}{company.companyName}
+                                {company.companyPresident}{company.pcBuisness}</li>
                         </div>
                     )
                 })
@@ -42,4 +44,5 @@ const listcompany = (company) => {
         </>
     )
 }
+
 export default CompanyList;

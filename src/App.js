@@ -24,18 +24,7 @@ function App() {
         <Route path="common" element={<Home2 />} />
         <Route path="main" element={<Layout />} />
         <Route path="menuset" element={<MenuSet />} />
-        <Route exact path="company/info" element={<Company />} />
-        <Route
-          exact
-          path="company/info/:companyCode"
-          element={<CompanyDetail />}
-        />
-        <Route exact path="company/insert" element={<CompanyInsert />} />
-        <Route
-          exact
-          path="company/update/:companyCode"
-          element={<CompanyUpdateform />}
-        />
+        <Route exact path="company" element={<Company />} />
       </Route>
     </Routes>
   );
