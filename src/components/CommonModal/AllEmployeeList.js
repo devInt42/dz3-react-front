@@ -13,8 +13,6 @@ const AllEmployeeList = (props) => {
 
   let items = []; // 페이지 숫자 저장 < 1 2 3 4 5 >
 
-  // let Allcheck = []; //체크된 아이템 저장
-
   //값 저장
   const [checkedList, setCheckedLists] = useState([]);
 
@@ -22,7 +20,6 @@ const AllEmployeeList = (props) => {
   useEffect(() => {
     async function getDeptSeq() {
       const result = await props.departmentSeq;
-      // console.log("props deptSeq: " + props.departmentSeq);
       setDepartmentSeq(result);
     }
     getDeptSeq();
@@ -50,7 +47,6 @@ const AllEmployeeList = (props) => {
   //List 가져오기
   const getDeptList = useCallback(async () => {
     if (departmentSeq != null) {
-      // console.log("DEPT" + departmentSeq);
       let data = {
         departmentSeq,
       };
@@ -98,6 +94,7 @@ const AllEmployeeList = (props) => {
     getDeptList();
     getCount();
     setPage(1);
+    // setCheckedLists(""); //부서가 바뀔때 배열값 초기화
   }, [departmentSeq]);
 
   useEffect(() => {
@@ -151,7 +148,6 @@ const AllEmployeeList = (props) => {
     })
       .then((res) => {
         setDeptList(res.data);
-        // console.log(res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -162,24 +158,18 @@ const AllEmployeeList = (props) => {
   const onCheckedAll = useCallback(
     (checked) => {
       if (checked) {
-        const checkedListArray = [];
+        const temp = [];
 
-        deptList.forEach((list) => checkedListArray.push(list));
-        setCheckedLists(checkedListArray);
-        // Allcheck.push(checkedListArray);
-        // console.log("allcheck");
-        // console.log(Allcheck);
+        deptList.forEach((list) => temp.push(list));
+        var merged = checkedList.concat(temp);
+        var unique = merged.filter((item, pos) => merged.indexOf(item) === pos);
+        setCheckedLists(unique);
       } else {
         setCheckedLists([]);
-        // Allcheck = [];
-        // console.log("allcheck out");
-        // console.log(Allcheck);
       }
     },
     [deptList]
   );
-
-  // console.log("chLIsts: " + JSON.stringify(checkedList));
 
   //개별 클릭시 발생하는 함수
   const onCheckedElement = useCallback(
@@ -187,16 +177,8 @@ const AllEmployeeList = (props) => {
       try {
         if (checked) {
           setCheckedLists([...checkedList, list]);
-          // let a = [...checkedList, list];
-          // Allcheck.push(a);
-          // console.log("개별 클릭시");
-          // console.log(Allcheck);
         } else {
           setCheckedLists(checkedList.filter((el) => el !== list));
-          // let a = checkedList.filter((el) => el !== list);
-          // Allcheck.push(a);
-          // console.log("개별 해제시");
-          // console.log(Allcheck);
         }
       } catch (error) {
         console.log(error);
@@ -205,21 +187,11 @@ const AllEmployeeList = (props) => {
     [checkedList]
   );
 
-  // console.log(checkedList);
-
-  //부서가 바뀔때 배열값 초기화
-  useEffect(() => {
-    setCheckedLists("");
-  }, [departmentSeq]);
-
   //check된 값 저장 배열
   useEffect(() => {}, [checkedList]);
-
-  // console.log("사원수 : " + JSON.stringify(deptList.employeeSeq));
   useEffect(() => {}, [onCheckedAll]);
   useEffect(() => {}, [onCheckedElement]);
 
-  // console.log(checkItems);
   return (
     <div>
       <div className="container">
@@ -259,13 +231,6 @@ const AllEmployeeList = (props) => {
                       <div className="custom-control custom-checkbox">
                         <input
                           type="checkbox"
-                          // onClick={() => {
-                          //   sendCheckedElement(deptList.employeeName);
-                          // }}
-                          readOnly
-                          // onClick={() => {
-                          //   sendCheckedList(deptList.employeeName);
-                          // }}
                           onChange={(e) =>
                             onCheckedElement(e.target.checked, deptList)
                           }

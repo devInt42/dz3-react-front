@@ -11,8 +11,6 @@ const Modal = (props) => {
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [employeeSeq, setEmployeeSeq] = useState();
 
-  // console.log("렌더링 test");
-
   //함수 보냄
 
   const sendDepartmentSeq = (i) => {

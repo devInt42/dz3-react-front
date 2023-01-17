@@ -15,15 +15,11 @@ const CommonModal = (props) => {
   const sendDepartmentSeq = (i) => {
     setDepartmentSeq(i);
   };
-
   const sendCheckedElement = (i) => {
     setCheckItem(i);
   };
 
-  // console.log("MAIN");
-  // console.log(checkItem);
   //처음에 실행하고 바뀔때만 렌더링
-  // console.log(checkItem);
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
   const changeCheckedList = useCallback(() => {}, [checkItem]);
 
@@ -34,7 +30,6 @@ const CommonModal = (props) => {
   }, [departmentSeq]);
 
   return (
-    //open 누르면 openModal 클래스 생성
     <div className={open ? "openModal modal" : "modal"}>
       {open ? (
         <section>
