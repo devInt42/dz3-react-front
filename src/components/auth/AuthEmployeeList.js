@@ -7,14 +7,16 @@ const AuthEmployeeList = (props) => {
   const [authSeq, setAuthSeq] = useState();
   const [page, setPage] = useState(1);
   const [resList, setResList] = useState([]);
-  const [companySeq, setCompanySeq] = useState();
+  const [pointCompanySeq, setPointCompanySeq] = useState(null);
   useEffect(() => {
     setAuthSeq(props.authSeq);
+    setPointCompanySeq(props.pointCompanySeq);
   }, [props]);
 
   const authEmployeeApiList = async () => {
     let sendData = {
       authSeq: authSeq,
+      companySeq: pointCompanySeq,
     };
     try {
       const searchEmployeeApiList = await axios.get(

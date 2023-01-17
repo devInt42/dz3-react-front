@@ -7,21 +7,23 @@ import { ReactComponent as Search } from "./search.svg";
 const AuthLnb = (props) => {
   const [authList, setAuthList] = useState(null);
   const [authSeq, setAuthSeq] = useState(null);
-  const [companySeq, setCompanySeq] = useState(null);
-  const [workplaceSeq, setWorkplaceSeq] = useState(null);
-  const [departmentSeq, setDepartmentSeq] = useState(null);
+  const [selectCompanySeq, setSelectCompanySeq] = useState(null);
+  const [pointCompanySeq, setPointCompanySeq] = useState(null);
   const [page, setPage] = useState(1);
   const baseUrl = "http://localhost:8080";
   const [countAuth, setCountAuth] = useState(null);
   const [active, setActive] = useState(1);
   const [authName, setAuthName] = useState(null);
+  const [companyList, setCompanyList] = useState(null);
   let items = [];
+
+  const [formFlag, setFormFlag] = useState(true);
 
   // 회사별 권한 및 해당하는 권한수 카운트 API
   const companyAuthApiCall = useCallback(async () => {
     let companyData = {
       authName,
-      companySeq,
+      companySeq: selectCompanySeq,
     };
 
     try {
@@ -48,17 +50,18 @@ const AuthLnb = (props) => {
     } catch (error) {
       console.log(error);
     }
-  }, [active]);
+  }, [active, selectCompanySeq]);
 
   useEffect(() => {
+    setActive(1);
     companyAuthApiCall();
-  }, [companySeq]);
+  }, [selectCompanySeq]);
 
   // 검색 API
   const searchAuthbyName = async (e) => {
     let sendApi = {
       authName,
-      companySeq,
+      companySeq: selectCompanySeq,
     };
     setPage(1);
     try {
@@ -66,6 +69,9 @@ const AuthLnb = (props) => {
         `${baseUrl}/auth-employee/company/page/${page} `,
         {
           params: sendApi,
+          headers: {
+            Authorization: window.sessionStorage.getItem("empInfo"),
+          },
         }
       );
       const companyAuthApiCountResult = await axios.get(
@@ -94,7 +100,12 @@ const AuthLnb = (props) => {
   useEffect(() => {
     props.sendAuthSeq(authSeq);
   }, [authSeq]);
-
+  useEffect(() => {
+    props.sendSelectCompanySeq(selectCompanySeq);
+  }, [selectCompanySeq]);
+  useEffect(() => {
+    props.sendPointCompanySeq(pointCompanySeq);
+  }, [pointCompanySeq]);
   for (
     let number = 1 + (page - 1) * 10;
     number <= 5 + (page - 1) * 10;
@@ -130,7 +141,7 @@ const AuthLnb = (props) => {
   // 페이지 클릭했을때 해당 페이지 불러오기
   const activePage = async () => {
     let sendApi = {
-      companySeq: companySeq,
+      companySeq: selectCompanySeq,
       authName: authName,
     };
     try {
@@ -161,10 +172,43 @@ const AuthLnb = (props) => {
       </Pagination>
     </div>
   );
+  function sendValue(authVal, comVal) {
+    sendAuthSeq(authVal);
+    sendPointCompanySeq(comVal);
+  }
   function sendAuthSeq(val) {
     setAuthSeq(val);
   }
-
+  function sendSelectCompanySeq(comVal) {
+    setSelectCompanySeq(comVal);
+  }
+  function sendPointCompanySeq(pointComVal) {
+    setPointCompanySeq(pointComVal);
+  }
+  const selectCompanyArea = async () => {
+    try {
+      const resCompany = await axios.get(`${baseUrl}/company-employee/select`, {
+        headers: {
+          Authorization: window.sessionStorage.getItem("empInfo"),
+        },
+      });
+      setCompanyList(resCompany.data);
+      if (resCompany.data[0].employeeSeq == 0);
+      setFormFlag(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const changeSelectVal = (e) => {
+    if (e.target.value == 0) {
+      setSelectCompanySeq(null);
+    } else {
+      setSelectCompanySeq(e.target.value);
+    }
+  };
+  useEffect(() => {
+    selectCompanyArea();
+  }, []);
   return (
     <>
       <Row className="AuthLnb" style={authLnbStyle}>
@@ -177,11 +221,35 @@ const AuthLnb = (props) => {
           }}
         >
           <Row>
-            <Form.Group className="mb-3">
-              <Form.Select disabled>
-                <option>검색어를 입력해주세요</option>
-              </Form.Select>
-            </Form.Group>
+            <Form.Select
+              size="sm"
+              onChange={changeSelectVal}
+              style={{ width: "200px" }}
+              disabled={formFlag}
+            >
+              <option
+                key="0"
+                value="0"
+                style={{
+                  backgroundColor: "#00aaff",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  color: "white",
+                }}
+              >
+                전체보기
+              </option>
+              {companyList &&
+                companyList.map((companyMap, i) => (
+                  <option key={i} value={companyMap.companySeq}>
+                    {companyMap.companyName}
+                  </option>
+                ))}
+              <option
+                disabled
+                style={{ backgroundColor: "#00aaff", textAlign: "center" }}
+              ></option>
+            </Form.Select>
           </Row>
           <Row style={{ float: "left", padding: "0" }}>
             <Col xs={10} style={{ padding: "0" }}>
@@ -223,11 +291,11 @@ const AuthLnb = (props) => {
         </div>
         <Nav className="authNav" variant="pills" style={navStyle}>
           {authList &&
-            authList.map((aList) => (
+            authList.map((aList, i) => (
               <Nav.Item
-                key={aList.authSeq}
+                key={i}
                 style={navItemStyle}
-                onClick={() => sendAuthSeq(aList.authSeq)}
+                onClick={() => sendValue(aList.authSeq, aList.companySeq)}
               >
                 <Nav.Link
                   className="authLnb"

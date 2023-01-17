@@ -7,21 +7,20 @@ import { useNavigate } from "react-router-dom";
 import AuthEmployeeList from "../components/auth/AuthEmployeeList";
 
 const Auth = (props) => {
-  const [empInfo, setEmpInfo] = useState([]);
   const baseUrl = "http://localhost:8080";
   const [companySeq, setCompanySeq] = useState();
   const [authSeq, setAuthSeq] = useState();
-  const [menuSeq, setMenuSeq] = useState(0);
-  const [empList, setEmpList] = useState([]);
-  const [workplaceSeq, setWorkplaceSeq] = useState();
-  const [departmentSeq, setDepartmentSeq] = useState();
-  const [employeeSeq, setEmployeeSeq] = useState();
+  const [selectCompanySeq, setSelectCompanySeq] = useState();
+  const [pointCompanySeq, setPointCompanySeq] = useState();
+
   const navigate = useNavigate();
   let sessionItem;
   const InitCheck = useCallback(async () => {
     if (!window.sessionStorage.getItem("empInfo")) {
       alert("로그인 후에 이용해주세요");
       navigate("/login");
+    } else {
+      return;
     }
   }, []);
 
@@ -29,17 +28,34 @@ const Auth = (props) => {
     InitCheck();
   }, []);
 
+  useEffect(() => {}, [selectCompanySeq]);
+  useEffect(() => {}, [pointCompanySeq]);
+
   const sendAuthSeq = (authSeq) => {
     setAuthSeq(authSeq);
+  };
+  const sendSelectCompanySeq = (selectCompanySeq) => {
+    setSelectCompanySeq(selectCompanySeq);
+  };
+  const sendPointCompanySeq = (pointCompanySeq) => {
+    setPointCompanySeq(pointCompanySeq);
+    console.log("선택된 회사번호 : " + pointCompanySeq);
   };
   return (
     <Container fluid="true" className="Auth" id="AuthPage">
       <Row>
         <Col xs={2} style={{ padding: 0 }}>
-          <AuthLnb sendAuthSeq={sendAuthSeq} />
+          <AuthLnb
+            sendAuthSeq={sendAuthSeq}
+            sendSelectCompanySeq={sendSelectCompanySeq}
+            sendPointCompanySeq={sendPointCompanySeq}
+          />
         </Col>
         <Col xs={10}>
-          <AuthEmployeeList authSeq={authSeq} />
+          <AuthEmployeeList
+            authSeq={authSeq}
+            pointCompanySeq={pointCompanySeq}
+          />
         </Col>
       </Row>
     </Container>
