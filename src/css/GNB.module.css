@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+
+.gnb_header{
+    height: 40px;
+    display: flex;
+}
+
+.gnb_bar{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 30px;
+    background-color: rgba(0, 170, 255);
+    color: aliceblue;
+    width: 100%;
+    height: 70px;
+}
+
+.gnb_content{
+    background-color:rgba(9, 132, 247, 0.945);
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 3px solid rgb(49, 96, 248);
+    border-top: 3px solid rgb(49, 96, 248);
+}
+
+.gnb_title{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 25px;
+    font-weight: bolder;
+}
+
+.gnb_callLnb{
+    color: aliceblue;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: rgba(9, 132, 247, 0.945);
+    padding-left: 25px;
+    padding-right: 25px;
+    border: none;
+}
+.gnb_callLnb:hover{
+    font-weight: bolder;
+}
+.gnb_callLnb:focus{
+    font-weight: bolder;
+    font-size: 22px;
+    text-decoration: underline 3px solid aliceblue;
+}
+
+.gnb_Imtree{
+    margin-left: auto;
+}
+
+.gnb_Imtree_btn:hover{
+    background-color: rgba(167, 228, 243, 0.945);
+    transition: .3s;
+}

@@ -1,0 +1,23 @@
+
+.check{
+    margin: 7px;
+    width: 100%;
+}
+
+.item{
+    font-size: 15px;
+}
+
+.menu_btn{
+    padding: 3px;
+    border: none;
+    border-radius: 8%;
+    margin-right: 7px;
+}
+
+.menu_btn:hover{
+    background-color: rgba(69, 72, 75, 0.63);
+	transition:.3s;
+	color: aliceblue;
+	font-weight: bold;
+}
