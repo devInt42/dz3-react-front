@@ -186,8 +186,8 @@
 .AllChoiceEmp {
   border: 1px solid #bcbcbc;
   border-radius: 5px;
-  height: 270px;
   margin-top: 10px;
+  height: 245px;
 }
 
 .AllEmployeeList .nav-link.authLnb.active {
@@ -198,7 +198,7 @@
   color: #000;
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out;
+    -color 0.15s ease-in-out;
   border: #00aaff 2px solid;
 }
 
@@ -208,4 +208,13 @@
   color: var(--bs-pagination-active-color);
   background-color: #00aaff;
   border-color: #00aaff;
+}
+
+.AllSelectSpace {
+  width: 650px;
+  height: 250px;
+}
+
+.CommonBtn {
+  margin-right: 10px;
 }

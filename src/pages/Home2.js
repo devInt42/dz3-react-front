@@ -12,6 +12,10 @@ const Home2 = () => {
     setModalOpen(false);
   };
 
+  function getInfo(obj) {
+    // console.log(obj);
+  }
+
   return (
     <React.Fragment>
       <BsPersonCircle size="30" onClick={openModal}></BsPersonCircle>
@@ -19,6 +23,7 @@ const Home2 = () => {
       <CommonModal
         open={modalOpen}
         close={closeModal}
+        getInfoCaLLback={getInfo}
         header="회사부서 사용자 선택"></CommonModal>
     </React.Fragment>
   );

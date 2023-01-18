@@ -1,49 +1,23 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import LNB from "../components/LNB";
-import GNB from "../components/GNB";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import SystemSet from "../pages/SystemSet";
-import { Container, Row, Col } from "react-bootstrap";
-
-import style from "../css/LNB.module.css";
-
-import { VscGithubInverted } from "react-icons/vsc";
-import { BsMenuButtonWideFill } from "react-icons/bs";
-import Auth from "./Auth";
+import { BsPersonCircle } from "react-icons/bs";
+import React, { useState } from "react";
+import Modal from "./SearchModal";
 
 const Home = () => {
-  return (
-    <Container fluid>
-      <Row>
-        <Col
-          md="auto"
-          style={{ border: "1px solid black", padding: "0px", height: "100vh" }}
-        ></Col>
+  const [modalOpen, setModalOpen] = useState(false);
 
-        <Col style={{ border: "1px solid black", padding: "0px" }}>
-          <Row></Row>
-          <Row>
-            <Col
-              className="subMenu"
-              md="auto"
-              style={{
-                border: "1px solid black",
-                padding: "0px",
-                width: "20%",
-                height: "100vh",
-                margin: "20px",
-              }}
-            >
-              <Outlet />
-            </Col>
-            <Col className="contents">
-              <Auth />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  return (
+    <React.Fragment>
+      <BsPersonCircle size="30" onClick={openModal}></BsPersonCircle>
+
+      <Modal open={modalOpen} close={closeModal} header="조직도"></Modal>
+    </React.Fragment>
   );
 };
 

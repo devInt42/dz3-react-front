@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { Row, Col, Container } from "react-bootstrap";
 import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
@@ -7,28 +7,42 @@ const EmployeeDetail = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();
   const [deptDetail, setDeptDetail] = useState([]);
   const baseUrl = "http://localhost:8080";
+
   //modal에서 값 받아오기
-  useEffect(() => {
-    setEmployeeSeq(props.employeeSeq);
-  }, [props]);
 
   useEffect(() => {
-    if (employeeSeq != null) {
-      DetailPage();
+    async function getEmplSeq() {
+      const result = await props.employeeSeq;
+      // console.log(props.employeeSeq);
+      setEmployeeSeq(result);
+    }
+    getEmplSeq();
+  }, [props]);
+
+  //직원 상세 페이지
+  const getEmplElement = useCallback(async () => {
+    let EmplData = {
+      employeeSeq: employeeSeq,
+    };
+    try {
+      const EmplDataResult = await axios.get(
+        `${baseUrl}/employee/emplist/${employeeSeq}`,
+        {
+          params: EmplData,
+        }
+      );
+      setDeptDetail(EmplDataResult.data);
+    } catch (error) {
+      console.log(error);
     }
   }, [employeeSeq]);
 
-  function DetailPage() {
-    const url = baseUrl + "/employee/emplist/" + employeeSeq;
-    axios({
-      method: "get",
-      url: url,
-    }).then((res) => {
-      // console.log(res.data)
-      setDeptDetail(res.data);
-      // console.log(res.data);
-    });
-  }
+  useEffect(() => {
+    if (employeeSeq == null) {
+    } else {
+      getEmplElement();
+    }
+  }, [employeeSeq]);
 
   return (
     <div className="SearchDetail">

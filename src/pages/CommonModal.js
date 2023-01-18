@@ -1,5 +1,5 @@
 import { Row, Col } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import React from "react";
 import "../components/Modals/SearchModal.css";
 import AllCompanyList from "../components/CommonModal/AllCompanyList";
@@ -7,26 +7,33 @@ import AllSelectList from "../components/CommonModal/AllSelectList";
 import AllEmployeeList from "../components/CommonModal/AllEmployeeList";
 
 const CommonModal = (props) => {
-  const { open, close, header } = props;
+  const { open, close, header, getInfoCaLLback } = props;
   const [departmentSeq, setDepartmentSeq] = useState();
-  const [checkedList, setCheckedLists] = useState([]);
+  const [checkItem, setCheckItem] = useState([]); //자식에서 받아올 값
 
   //함수 보냄
   const sendDepartmentSeq = (i) => {
     setDepartmentSeq(i);
   };
-
-  const sendCheckedList = (i) => {
-    setCheckedLists(i);
-    console.log(checkedList);
+  const sendCheckedElement = (i) => {
+    setCheckItem(i);
   };
 
-  //바뀔때마다 랜더링
-  useEffect(() => {}, [departmentSeq]);
-  useEffect(() => {}, [checkedList]);
+  function SelelctEmplList() {
+    props.getInfoCaLLback(checkItem);
+  }
+
+  //처음에 실행하고 바뀔때만 렌더링
+  const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
+  const changeCheckedList = useCallback(() => {}, [checkItem]);
+
+  //부서Seq가 바뀔때마다 실행
+  useEffect(() => {
+    changeDeptSeq();
+    changeCheckedList();
+  }, [departmentSeq]);
 
   return (
-    //open 누르면 openModal 클래스 생성
     <div className={open ? "openModal modal" : "modal"}>
       {open ? (
         <section>
@@ -68,12 +75,17 @@ const CommonModal = (props) => {
                   <Row sm={7} className="AllCheckbox">
                     <AllEmployeeList
                       departmentSeq={departmentSeq}
-                      sendCheckedList={sendCheckedList}
+                      sendCheckedElement={sendCheckedElement}
                     />
                   </Row>
-                  <Row>• 선택목록</Row>
+                  <Row>
+                    <div>
+                      <span className="CommonBtn">• 선택목록</span>
+                      <button onClick={(SelelctEmplList, close)}>확인</button>
+                    </div>
+                  </Row>
                   <Row sm={4} className="AllChoiceEmp">
-                    <AllSelectList />
+                    <AllSelectList checkItem={checkItem} />
                   </Row>
                 </Col>
               </Row>
