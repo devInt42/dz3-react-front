@@ -9,7 +9,7 @@ import LNB from "./LNB";
 
 import { ImTree } from "react-icons/im";
 
-function GNB(props) {
+function GnB(props) {
   const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
@@ -81,4 +81,4 @@ function GNB(props) {
   );
 }
 
-export default GNB;
+export default GnB;
