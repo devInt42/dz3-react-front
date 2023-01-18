@@ -12,10 +12,12 @@ const AllSelectList = (props) => {
     getEmplName();
   }, [props]);
 
+  //set 집합으로 중복값 제거
   const uniqueObjArr = [...new Set(checkItem.map(JSON.stringify))].map(
     JSON.parse
   );
 
+  //해당 직원이름 출력
   return (
     <div className="AllSelectSpace">
       {uniqueObjArr && uniqueObjArr.map((list) => list.employeeName + ",")}

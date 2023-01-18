@@ -12,7 +12,6 @@ const Modal = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();
 
   //함수 보냄
-
   const sendDepartmentSeq = (i) => {
     setDepartmentSeq(i);
   };

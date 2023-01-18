@@ -7,13 +7,10 @@ const AllCompanyList = (props) => {
   const [companyList, setCompanyList] = useState([]);
   const [departmentSeq, setDepartmentSeq] = useState(null);
 
-  //회사 전체 값 받아오기 (일단 2번 회사에 부서로)
-
   // Modal.js로 departmentSeq값 전송
   useEffect(() => {
     async function getDeptSeq() {
       const result = await JSON.stringify(departmentSeq);
-      // console.log("deptSeq: " + result);
       props.sendDepartmentSeq(result);
     }
     getDeptSeq();
@@ -24,6 +21,7 @@ const AllCompanyList = (props) => {
     setDepartmentSeq(a);
   }
 
+  //회사 전체 값 받아오기 (일단 2번 회사에 부서로)
   const getAllCompany = useCallback(async () => {
     let companyData = {
       companySeq,

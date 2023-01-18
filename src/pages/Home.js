@@ -16,9 +16,7 @@ const Home = () => {
     <React.Fragment>
       <BsPersonCircle size="30" onClick={openModal}></BsPersonCircle>
 
-      <Modal open={modalOpen} close={closeModal} header="조직도">
-        {/* children */}
-      </Modal>
+      <Modal open={modalOpen} close={closeModal} header="조직도"></Modal>
     </React.Fragment>
   );
 };
