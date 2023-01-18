@@ -1,17 +1,18 @@
 
 .check{
-    margin: 10px;
+    margin: 7px;
+    width: 100%;
 }
 
 .item{
-    font-size: 17px;
+    font-size: 15px;
 }
 
 .menu_btn{
-    padding: 5px;
+    padding: 3px;
     border: none;
     border-radius: 8%;
-    
+    margin-right: 7px;
 }
 
 .menu_btn:hover{

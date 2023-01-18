@@ -4,15 +4,20 @@ import axios from "axios";
 import style from "../css/SystemSet.module.css";
 import MenuSet from "./MenuSet";
 import { Outlet, useNavigate } from "react-router-dom";
+import ContentsMapping from "./ContentsMapping";
 
 function SubMenu(props) {
   const navigate = useNavigate();
 
-  const sendLastSeq = (lastSeq) => {
-    console.log(lastSeq);
-    console.log("여기까지는 오는데 왜 안돼 ㅅㅂ");
-    props.getLastMenuSeq(lastSeq);
-  };
+  // const sendLastSeq = (lastSeq) => {
+  //   <ContentsMapping />
+  //   console.log(lastSeq)
+  //   console.log("여기까지는 오는데 왜 안돼 ㅅㅂ")
+
+  //   props.getLastMenuSeq(lastSeq);
+  // }
+
+  const [lastSeq, setLastSeq] = useState(0);
 
   const menuSequence = props.menuSeq;
 
@@ -23,13 +28,15 @@ function SubMenu(props) {
   const [isActive, setIsActive] = useState(false);
 
   const getSubMenuList = useCallback(async () => {
+    console.log(menuSequence);
     try {
       const apiResult = await axios({
         url: baseUrl + "/menu/menulist/" + menuSequence,
         method: "get",
       });
+      //console.log(apiResult.data)
       if (apiResult.data == 0) {
-        sendLastSeq(menuSequence);
+        setLastSeq(menuSequence);
       } else {
         setSubMenu(apiResult.data);
       }
@@ -61,11 +68,11 @@ function SubMenu(props) {
                 <div
                   className={style.item}
                   style={{
-                    paddingLeft: (menu.menuDepth - 1) * 30,
+                    paddingLeft: (menu.menuDepth - 1) * 20,
                     paddingRight: "20px",
                   }}
                 >
-                  <button
+                  <div
                     className={style.menu_btn}
                     onClick={() => {
                       setIsActive(true);
@@ -73,7 +80,7 @@ function SubMenu(props) {
                     }}
                   >
                     {menu.menuName}
-                  </button>
+                  </div>
                 </div>
                 {childMenu == menu.menuSeq && isActive && (
                   <SubMenu menuSeq={menu.menuSeq} />
@@ -81,11 +88,9 @@ function SubMenu(props) {
               </div>
             );
           })}
+          {lastSeq == 0 ? <></> : <ContentsMapping lastSeq={lastSeq} />}
         </div>
       )}
-      <button onClick={() => navigate(`/dz3/menuset`)}>set</button>
-      <button onClick={() => navigate(`/dz3/auth`)}>auth</button>
-      <button onClick={() => navigate(`/dz3/company/info`)}>company</button>
     </div>
   );
 

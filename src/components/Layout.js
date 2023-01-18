@@ -1,15 +1,10 @@
 import { Outlet, useNavigate, Route, Routes } from "react-router-dom";
 import LNB from "./LNB";
 import GNB from "./GNB";
-import SystemSet from "../pages/SystemSet";
-import Auth from "../pages/Auth";
-import Login from "../pages/Login";
 import { Container, Row, Col } from "react-bootstrap";
-
 import "../css/Layout.module.css";
 import React, { useState, useCallback } from "react";
 import SubMenu from "../pages/SubMenu";
-import MenuSet from "../pages/MenuSet";
 
 function Layout() {
   // const [test, setTest] = useState("");
@@ -24,6 +19,10 @@ function Layout() {
     },
     [menuSeq, menuName]
   );
+  // const getMenuInfo =  (menuName, menuSeq) => {
+  //     setMenuSeq(menuSeq);
+  //     setMenuName(menuName);
+  // };
 
   const [lastSeq, setLastSeq] = useState(0);
   const getLastMenuSeq = (lastSeq) => {
@@ -50,13 +49,14 @@ function Layout() {
               style={{
                 border: "1px solid black",
                 padding: "0px",
-                width: "20%",
+                width: "15%",
                 height: "100vh",
                 marginTop: "10px",
                 marginLeft: "20px",
+                backgroundColor: "rgba(221, 219, 216, 0.409)",
               }}
             >
-              <SubMenu menuSeq={menuSeq} getLastMenuSeq={getLastMenuSeq} />
+              <SubMenu menuSeq={menuSeq} />
             </Col>
             <Col>
               <Outlet />
