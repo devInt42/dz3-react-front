@@ -6,12 +6,18 @@ import { CgMenuBoxed } from "react-icons/cg";
 import style from "../css/GNB.module.css";
 import { BsPersonCircle } from "react-icons/bs";
 import OrganizationChart from "./Modals/OrganizationChart";
-
 import LNB from "./LNB";
-
 import { ImTree } from "react-icons/im";
 
 function GNB(props) {
+  //modal
+  const [modalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
@@ -28,16 +34,6 @@ function GNB(props) {
       .then((response) => setMenu(response.data))
       .catch((error) => console.log(error));
   }, []);
-
-  //modal
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
 
   return (
     <div>
@@ -70,32 +66,6 @@ function GNB(props) {
         {props.menuName} {props.menuSeq}
       </div>
     </div>
-
-    // <div className={style.gnb_bar}>
-    //     <div style={{ height: "30px" }}><h3>Last Dance</h3></div>
-    //     <div className={style.gnb_content}>
-    //         <span onClick={() => { navigate(`/dz3`); }}>GNB</span>
-    //         <span className={style.gnb_menu}>
-    //             {
-    //                 menu.map((menu, i) => {
-    //                     return (
-    //                         menu.menu_depth == 0 &&
-    //                         <button className={style.gnb_callLnb} key={i} onClick={() => { setShow(true); setGnbNum(i); setMenuId(menu.menu_id); setMenuName(menu.menu_name); }}><VscGithubInverted />  {menu.menu_name}</button>
-    //                     );
-    //                 })
-    //             }
-    //             <button onClick={() => { setShow(false); navigate(`/dz3`); }}>닫기</button>
-    //             <button onClick={() => { navigate(`/dz3/menuset`); }}>menusetting</button>
-    //         </span>
-    //     </div>
-
-    //     {
-    //         show == true ?
-    //             <><LNB gnbNum={gnbNum} menuId={menuId} menuName={menuName} />
-    //             </> :
-    //             <div>false</div>
-    //     }
-    // </div>
   );
 }
 

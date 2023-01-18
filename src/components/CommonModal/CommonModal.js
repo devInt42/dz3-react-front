@@ -5,6 +5,7 @@ import "../Modals/OrganizationChart";
 import AllCompanyList from "./AllCompanyList";
 import AllSelectList from "./AllSelectList";
 import AllEmployeeList from "./AllEmployeeList";
+import "../Modals/SearchModal.css";
 // import Swal from "sweetalert2";
 
 const CommonModal = (props) => {
