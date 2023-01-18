@@ -3,7 +3,7 @@ import React from "react";
 import Company from "./components/company/Company";
 import Auth from "./pages/Auth";
 import Login from "./pages/Login.js";
-import Home from "../src/pages/Home";
+
 import Home2 from "./pages/Home2";
 import Layout from "./components/Layout";
 import MenuSet from "./pages/MenuSet";
@@ -20,8 +20,6 @@ function App() {
         <Route path="menuset" element={<MenuSet />} />
         <Route path="auth" element={<Auth />} />
         <Route exact path="company/info" element={<Company />} />
-        <Route path="common" element={<Home2 />} />
-        <Route path="main2" element={<Home />} />
         <Route path="common" element={<Home2 />} />
         <Route path="nomenu" element={<NoMenu />} />
 

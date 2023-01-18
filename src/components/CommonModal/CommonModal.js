@@ -1,11 +1,11 @@
 import { Row, Col } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
 import React from "react";
-import "../components/Modals/SearchModal.css";
-import AllCompanyList from "../components/CommonModal/AllCompanyList";
-import AllSelectList from "../components/CommonModal/AllSelectList";
-import AllEmployeeList from "../components/CommonModal/AllEmployeeList";
-import Swal from "sweetalert2";
+import "../Modals/OrganizationChart";
+import AllCompanyList from "./AllCompanyList";
+import AllSelectList from "./AllSelectList";
+import AllEmployeeList from "./AllEmployeeList";
+// import Swal from "sweetalert2";
 
 const CommonModal = (props) => {
   const { open, close, header, getInfoCaLLback } = props;

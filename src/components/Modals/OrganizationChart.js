@@ -1,11 +1,11 @@
-import "../components/Modals/SearchModal.css";
+import "./SearchModal.css";
 import { Row, Col } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
-import CompanyList from "../components/Modals/CompanyList";
-import EmployeeList from "../components/Modals/EmployeeList";
-import EmployeeDetail from "../components/Modals/EmployeeDetail";
+import CompanyList from "./CompanyList";
+import EmployeeList from "./EmployeeList";
+import EmployeeDetail from "./EmployeeDetail";
 
-const Modal = (props) => {
+const OrganizationChart = (props) => {
   const { open, close, header } = props;
   const [departmentSeq, setDepartmentSeq] = useState();
   const [workplaceSeq, setWorkplaceSeq] = useState();
@@ -99,4 +99,4 @@ const Modal = (props) => {
   );
 };
 
-export default Modal;
+export default OrganizationChart;

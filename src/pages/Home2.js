@@ -1,6 +1,6 @@
 import { BsPersonCircle } from "react-icons/bs";
 import React, { useState } from "react";
-import CommonModal from "./CommonModal";
+import CommonModal from "../components/CommonModal/CommonModal";
 
 const Home2 = () => {
   const [modalOpen, setModalOpen] = useState(false);
