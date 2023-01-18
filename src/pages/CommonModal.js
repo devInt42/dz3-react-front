@@ -7,7 +7,7 @@ import AllSelectList from "../components/CommonModal/AllSelectList";
 import AllEmployeeList from "../components/CommonModal/AllEmployeeList";
 
 const CommonModal = (props) => {
-  const { open, close, header, callback } = props;
+  const { open, close, header, getInfoCaLLback } = props;
   const [departmentSeq, setDepartmentSeq] = useState();
   const [checkItem, setCheckItem] = useState([]); //자식에서 받아올 값
 
@@ -19,8 +19,8 @@ const CommonModal = (props) => {
     setCheckItem(i);
   };
 
-  function save() {
-    callback(checkItem);
+  function SelelctEmplList() {
+    getInfoCaLLback(checkItem);
   }
 
   //처음에 실행하고 바뀔때만 렌더링
@@ -64,7 +64,7 @@ const CommonModal = (props) => {
                       placeholder="검색어를 입력하세요."
                       rows="1"></textarea>
                   </div>
-                  <button onClick={save}>확인</button>
+                  <button onClick={SelelctEmplList}>확인</button>
                 </Col>
               </Row>
 

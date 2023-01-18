@@ -12,8 +12,8 @@ const Home2 = () => {
     setModalOpen(false);
   };
 
-  function test(obj) {
-    // console.log(obj);
+  function getInfo(obj) {
+    console.log(obj);
   }
 
   return (
@@ -23,7 +23,7 @@ const Home2 = () => {
       <CommonModal
         open={modalOpen}
         close={closeModal}
-        callback={test}
+        getInfoCaLLback={getInfo}
         header="회사부서 사용자 선택"></CommonModal>
     </React.Fragment>
   );
