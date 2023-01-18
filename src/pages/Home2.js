@@ -13,7 +13,7 @@ const Home2 = () => {
   };
 
   function getInfo(obj) {
-    // console.log(obj);
+     console.log(obj);
   }
 
   return (

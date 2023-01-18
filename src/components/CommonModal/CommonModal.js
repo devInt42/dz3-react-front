@@ -100,7 +100,7 @@ const CommonModal = (props) => {
                   <Row>
                     <div>
                       <span className="CommonBtn">• 선택목록</span>
-                      <button onClick={(SelelctEmplList, close)}>확인</button>
+                      <button onClick={(SelelctEmplList)}>확인</button>
                     </div>
                   </Row>
                   <Row sm={4} className="AllChoiceEmp">

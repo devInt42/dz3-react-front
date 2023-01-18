@@ -43,7 +43,7 @@ function MenuSearch() {
         <div>
             <Row>
                 {/* onChange={insertMenuParent} value={menuParent} */}
-                <select onChange={selectedMenu}>
+                <select onChange={selectedMenu} onClick={()=>{setSearch("")}}>
                     <option value={0}>
                         전체
                     </option>
@@ -75,11 +75,19 @@ function MenuSearch() {
                         </div>
                     );
                 })} */}
-                {
+                {search != "" ?
                     searched.map((menu) => {
                         return(
                             <div key={menu.menuSeq}>{menu.menuName}</div>
                         )
+                    }) :
+                    subMenu.map((menu, i) => {
+                        return (
+                            <div key={i}>
+                                <div><AiFillFolderOpen />{menu.menuName}</div>
+                                <div style={{ paddingLeft: "15px" }}>{<MenuItems menuSeq={menu.menuSeq} />}</div>
+                            </div>
+                        );
                     })
                 }
             </Row>
