@@ -3,7 +3,6 @@ import React from "react";
 import Company from "./components/company/Company";
 import Auth from "./pages/Auth";
 import Login from "./pages/Login.js";
-import Main from "./pages/Main.js";
 import Home from "../src/pages/Home";
 import Home2 from "./pages/Home2";
 import Layout from "./components/Layout";
