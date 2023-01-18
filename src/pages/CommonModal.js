@@ -5,11 +5,29 @@ import "../components/Modals/SearchModal.css";
 import AllCompanyList from "../components/CommonModal/AllCompanyList";
 import AllSelectList from "../components/CommonModal/AllSelectList";
 import AllEmployeeList from "../components/CommonModal/AllEmployeeList";
+import Swal from "sweetalert2";
 
 const CommonModal = (props) => {
   const { open, close, header, getInfoCaLLback } = props;
   const [departmentSeq, setDepartmentSeq] = useState();
   const [checkItem, setCheckItem] = useState([]); //자식에서 받아올 값
+
+  //   Swal.fire({
+  //     icon: "warning",
+  //     title: "삭제",
+  //     text: "정보가 저장되었습니다.",
+  //     showCancelButton: true,
+  //     confirmButtonText: "삭제",
+  //     cancelButtonText: "취소",
+  // }).then((res) => {
+  //     /* Read more about isConfirmed, isDenied below */
+  //     if (res.isConfirmed) {
+  //        //삭제 요청 처리
+  //     }
+  //     else{
+  //         //취소
+  //     }
+  // });
 
   //함수 보냄
   const sendDepartmentSeq = (i) => {
