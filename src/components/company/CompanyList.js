@@ -25,12 +25,14 @@ function CompanyList(props) {
 }
 
 function Listcompany(props) {
+    const [companyIndex, setCompanyIndex] = useState();
+        
     return (
         <>
             {
-                props.company.map((company) => {
+                props.company.map((company, idx) => {
                     return (
-                        <div className="box"
+                        <div className= {`${companyIndex}`===`${idx}` ? 'box active' : 'box companylistmenu'}
                             onClick={() => {
                                 props.setCompanySeq(company.companySeq);
                                 props.setDetailFlag(true);

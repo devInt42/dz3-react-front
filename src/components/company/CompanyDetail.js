@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BsFillOctagonFill } from "react-icons/bs";
 import { TfiClose } from 'react-icons/tfi'
 import "./css/CompanyInsert.css";
@@ -7,8 +7,8 @@ import ZippopupDom from "./zipcode/ZippopupDom";
 import ZippopupPostCode from './zipcode/ZippopupZipCode';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css?a';
-import SaveCompanyAlert from '../alert/SaveCompanyAlert';
 import SaveFailCompanyAlert from '../alert/SaveFailCompanyAlert';
+import SaveCompanyAlert from '../alert/SaveCompanyAlert';
 import DeleteCompanyAlert from '../alert/DeleteCompanyAlert';
 import UpdateCompanyAlert from '../alert/UpdateCompanyAlert';
 const CompanyDetail = ((props) => {
@@ -26,7 +26,7 @@ const CompanyDetail = ((props) => {
         return () => {
             clearInterval(ondataTimer);
         }
-    },[props.companySeq])
+    }, [props.companySeq])
 
     const load = useEffect(() => {
         setFirstCode("");
@@ -40,40 +40,46 @@ const CompanyDetail = ((props) => {
         setCompanyPresident("");
         setCompanyHomepage("");
         setCompanyAddr("");
+        setAddress("");
+        setDetailAddr("");
         setCompanyEstablish("");
         setCompanyClosingday("");
         setCompanyFax("");
         setCompanyForeigner("");
         setCompanyZipCode("");
-        setUseYN("");
+        setUseYN("N");
         setPcBuisness("");
-        axios.get(`${baseUrl}/company/info/${props.companySeq}`)
-            .then(res => setCompanyDetailData(res.data))
-            .catch(error => console.log(error))
+        setChecked(0);
+        props.companySeq &&
+            axios.get(`${baseUrl}/company/info/${props.companySeq}`)
+                .then(res => setCompanyDetailData(res.data))
+                .catch(error => console.log(error));
     }, [props.companySeq])
 
     useEffect(() => {
-        let temaddr = Object.values(companyDetailData)[10];
-        let splitaddr = (temaddr || '').split(' / ');
-        setFirstCode(Object.values(companyDetailData)[1]);
-        setCompanyCode(Object.values(companyDetailData)[1]);
-        setCompanyName(Object.values(companyDetailData)[2]);
-        setCompanyBusiness(Object.values(companyDetailData)[3]);
-        setCompanyItem(Object.values(companyDetailData)[4]);
-        setCompanyCall(Object.values(companyDetailData)[5]);
-        setCompanyRegist(Object.values(companyDetailData)[6]);
-        setCompanyCorporate(Object.values(companyDetailData)[7]);
-        setCompanyPresident(Object.values(companyDetailData)[8]);
-        setCompanyHomepage(Object.values(companyDetailData)[9]);
-        setCompanyAddr(splitaddr[0]);
-        setDetailAddr(splitaddr[1]);
-        setCompanyEstablish(Object.values(companyDetailData)[11]);
-        setCompanyClosingday(Object.values(companyDetailData)[12]);
-        setCompanyFax(Object.values(companyDetailData)[13]);
-        setCompanyForeigner(Object.values(companyDetailData)[15]);
-        setCompanyZipCode(Object.values(companyDetailData)[14]);
-        setUseYN(Object.values(companyDetailData)[16]);
-        setPcBuisness(Object.values(companyDetailData)[17]);
+        if (props.companySeq) {
+            let temaddr = Object.values(companyDetailData)[10];
+            let splitaddr = (temaddr || '').split(' / ');
+            setFirstCode(Object.values(companyDetailData)[1]);
+            setCompanyCode(Object.values(companyDetailData)[1]);
+            setCompanyName(Object.values(companyDetailData)[2]);
+            setCompanyBusiness(Object.values(companyDetailData)[3]);
+            setCompanyItem(Object.values(companyDetailData)[4]);
+            setCompanyCall(Object.values(companyDetailData)[5]);
+            setCompanyRegist(Object.values(companyDetailData)[6]);
+            setCompanyCorporate(Object.values(companyDetailData)[7]);
+            setCompanyPresident(Object.values(companyDetailData)[8]);
+            setCompanyHomepage(Object.values(companyDetailData)[9]);
+            setAddress(splitaddr[0]);
+            setDetailAddr(splitaddr[1]);
+            setCompanyEstablish(Object.values(companyDetailData)[11]);
+            setCompanyClosingday(Object.values(companyDetailData)[12]);
+            setCompanyFax(Object.values(companyDetailData)[13]);
+            setCompanyForeigner(Object.values(companyDetailData)[15]);
+            setCompanyZipCode(Object.values(companyDetailData)[14]);
+            setUseYN(Object.values(companyDetailData)[16]);
+            setPcBuisness(Object.values(companyDetailData)[17]);
+        }
     }, [companyDetailData])
 
     let [firstCode, setFirstCode] = useState("");
@@ -121,7 +127,9 @@ const CompanyDetail = ((props) => {
     }
     const baseUrl = "http://localhost:8080";
 
-    function Update(seq) {  //회사 추가
+    //////////////////////////////////////////////////////////////////////////// 수정 , 추가
+
+    function Update(seq) {  //회사 수정
 
         console.log(data);
 
@@ -137,6 +145,21 @@ const CompanyDetail = ((props) => {
             .catch(error => console.log(error));
     }
 
+    async function insertCompany() {  //회사 추가
+        await axios.post(
+            `${baseUrl}/company/insert`
+            , JSON.stringify(data)
+            ,
+            {
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+            })
+            .catch(error => console.log(error));
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     //클래스 이름을 바꾸기 위함(css 동적으로 변경)
     let [callStyle, setCallStyle] = useState(false);
     let [faxStyle, setFaxStyle] = useState(false);
@@ -150,6 +173,10 @@ const CompanyDetail = ((props) => {
     useEffect(() => {
         setCompanyAddr(address);
     }, [address])
+
+    // useEffect(() => {
+    //     setCompanyAddr(address + " / " + detailAddr)
+    // },[detailAddr])
     //값이 바뀔때마다 유효성 검사를 하기 위함
     useEffect(() => {
 
@@ -224,11 +251,15 @@ const CompanyDetail = ((props) => {
             setNotRequire(<SaveFailCompanyAlert />)
             return false;
         }
+        if (!pcBuisness) {
+            setNotRequire(<SaveFailCompanyAlert/>)
+            return false;
+        }
         setAllCheck(true);
         return true;
     }
 
-    
+
     return (
         isOndata === "N" ?
             (<div className="spinner-border text-info" role="status">
@@ -241,24 +272,33 @@ const CompanyDetail = ((props) => {
                     <div>
                         <button className="insertbutton"
                             type="button" onClick={() => AllCheck()}
-                        >수정</button>
-                        <button className = "insertbutton" type ="button" 
-                        onClick={() => {setCheckDelete(true)}}>삭제</button>
+                        >저장</button>
+                        {
+                            (!props.companySeq &&  allCheck ) 
+                               && <SaveCompanyAlert setAllCheck={setAllCheck}
+                                    insertCompany={insertCompany}
+                                    setDetailFlag={props.setDetailFlag} />
+                            
+                        }
+                        { props.companySeq && <button className="insertbutton" type="button"
+                            onClick={() => {setCheckDelete(true);}}>삭제</button>}
+                            
                         <button className="infoclosebutton" onClick={() => props.setDetailFlag(false)}> <TfiClose /></button>
                         {
-                            allCheck && <UpdateCompanyAlert setAllCheck={setAllCheck}
+                            (props.companySeq && allCheck) && <UpdateCompanyAlert setAllCheck={setAllCheck}
                                 Update={Update}
-                                seq = {props.companySeq}
-                                />
+                                seq={props.companySeq}
+                            />
+                        }
+                        {
+                            (props.companySeq && checkDelete) && <DeleteCompanyAlert setCheckDelete={setCheckDelete}
+                                Delete={Delete}
+                                setDetailFlag={props.setDetailFlag}
+                                seq={props.companySeq}
+                            />
                         }
                         {notRequire}
-                        {
-                            checkDelete && <DeleteCompanyAlert setCheckDelete={setCheckDelete}
-                                            Delete = {Delete}
-                                            setDetailFlag = {props.setDetailFlag}
-                                            seq = {props.companySeq}
-                                            />
-                        }
+                        
                     </div>
                 </div>
 
@@ -285,7 +325,7 @@ const CompanyDetail = ((props) => {
                                         type="switch"
                                         id="custom-switch"
                                         onChange={() => { useYN === "N" ? setUseYN("Y") : setUseYN("N"); }}
-                                        checked = {useYN === "N" ? false : true}
+                                        checked={useYN === "N" ? false : true}
                                     />
                                     {useYN === "Y" ? (<b>사    용</b>) : (<b>미사용</b>)}
                                 </div>
@@ -330,8 +370,10 @@ const CompanyDetail = ((props) => {
                             <td className="company-table-content">
                                 <div className="company-table-td-twocontent">
                                     <select name="area-code" className="company-select-option"
-                                        onChange={(e) => {setCompanyCall(""); 
-                                                            setAreaCode(e.target.value)}}>
+                                        onChange={(e) => {
+                                            setCompanyCall("");
+                                            setAreaCode(e.target.value)
+                                        }}>
                                         <option value="" selected>직접 입력</option>
                                         <option value="010-">010</option>
                                         <option value="02-">02</option>
@@ -388,8 +430,9 @@ const CompanyDetail = ((props) => {
                             <td className="company-table-content">
                                 <div className="company-table-td-twocontent">
                                     <select className="company-select-option" onChange={e => setPcBuisness(e.target.value)}>
-                                        <option value="법인" selected>법인</option>
-                                        <option value="개인">개인</option>
+                                        <option value= "" selected>선택</option>
+                                        <option value="법인" selected={pcBuisness === "법인" ? true:false}>법인</option>
+                                        <option value="개인" selected={pcBuisness === "개인" ? true:false}>개인</option>
                                     </select>
                                     <Form.Control
                                         placeholder="법인 번호를 입력해 주십시오."
@@ -418,8 +461,9 @@ const CompanyDetail = ((props) => {
                                 <div className="company-table-td-twocontent">
                                     <select name="area-code" className="company-select-option"
                                         onChange={(e) => setCompanyForeigner(e.target.value)}>
-                                        <option value="내국인" selected>내국인</option>
-                                        <option value="외국인" >외국인</option>
+                                        <option value= "" selected>선택</option>
+                                        <option value="내국인" selected = {companyForeigner === "내국인" ? true : false}>내국인</option>
+                                        <option value="외국인" selected = {companyForeigner === "외국인" ? true : false}>외국인</option>
                                     </select>
                                     <Form.Control
                                         aria-describedby="basic-addon1"
@@ -463,22 +507,23 @@ const CompanyDetail = ((props) => {
                                     <div className="company-table-td-address-input">
 
                                         <Form.Control
-                                            onFocus={(e) =>
+                                            onFocus={() =>
                                                 address.length === 0 && setZipcodeIsOpen(true)
                                             }
-                                            value={companyAddr}
+                                            value={address}
                                             onChange={(e) => { setAddress(e.target.value); }}
                                             Style=" z-index:0; background-color:#ffe9e9"
                                             isValid={checked > 0 ? true : false}
-                                            isInvalid={checked < 1 ? false : address.length > 0 ? true : false}
+                                            isInvalid={checked < 1 ? false : address.length > 0 ? false : true}
                                             readOnly
                                         />
                                     </div>
                                     <div className="company-table-td-address-input">
                                         <Form.Control
                                             placeholder="상세 주소를 입력해 주십시오."
-                                            onChange={e => { setCompanyAddr(address + " " + e.target.value) }}
-                                            value = {detailAddr}
+                                            onChange={e => { setDetailAddr(e.target.value) }}
+                                            value={detailAddr}
+                                            onBlur = {() => setCompanyAddr(address + " / " + detailAddr)}
                                         />
                                     </div>
                                 </div>

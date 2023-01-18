@@ -38,6 +38,11 @@
     list-style: none;
 }
 
+
+.companylistmenu:hover {
+    background-color: tomato;
+    opacity: 0.3;
+}
 #idaddbox {
     border-bottom: 1px solid gray;
     border-left: 1px solid gray;
