@@ -186,8 +186,8 @@
 .AllChoiceEmp {
   border: 1px solid #bcbcbc;
   border-radius: 5px;
-  height: 270px;
   margin-top: 10px;
+  height: 245px;
 }
 
 .AllEmployeeList .nav-link.authLnb.active {
@@ -211,5 +211,10 @@
 }
 
 .AllSelectSpace {
-  width: 850px;
+  width: 650px;
+  height: 250px;
+}
+
+.CommonBtn {
+  margin-right: 10px;
 }

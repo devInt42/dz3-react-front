@@ -20,7 +20,7 @@ const CommonModal = (props) => {
   };
 
   function SelelctEmplList() {
-    getInfoCaLLback(checkItem);
+    props.getInfoCaLLback(checkItem);
   }
 
   //처음에 실행하고 바뀔때만 렌더링
@@ -64,7 +64,6 @@ const CommonModal = (props) => {
                       placeholder="검색어를 입력하세요."
                       rows="1"></textarea>
                   </div>
-                  <button onClick={SelelctEmplList}>확인</button>
                 </Col>
               </Row>
 
@@ -79,7 +78,12 @@ const CommonModal = (props) => {
                       sendCheckedElement={sendCheckedElement}
                     />
                   </Row>
-                  <Row>• 선택목록</Row>
+                  <Row>
+                    <div>
+                      <span className="CommonBtn">• 선택목록</span>
+                      <button onClick={(SelelctEmplList, close)}>확인</button>
+                    </div>
+                  </Row>
                   <Row sm={4} className="AllChoiceEmp">
                     <AllSelectList checkItem={checkItem} />
                   </Row>
