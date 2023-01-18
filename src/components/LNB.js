@@ -1,10 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { VscGithubInverted } from "react-icons/vsc";
-import { BsMenuButtonWideFill } from "react-icons/bs";
+
 import { Outlet, useNavigate } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import GNB from "./GNB";
+
+import { FiSettings } from "react-icons/fi";
+import { BsMenuButtonWideFill, BsFillPersonLinesFill, BsFillGrid3X3GapFill } from "react-icons/bs";
+import { AiFillAccountBook } from "react-icons/ai";
+import { BiTask } from "react-icons/bi";
+import { FaMoneyCheckAlt, FaBook } from "react-icons/fa";
+import { GrObjectGroup } from "react-icons/gr";
 
 import SystemSet from "../pages/SystemSet";
 import style from "../css/LNB.module.css";
@@ -65,12 +71,20 @@ function LNB(props) {
 
         <div className={style.lnb}>
 
-            <BsMenuButtonWideFill className={style.lnb_showDetailIcon} onClick={() => { setMenuVisible(!menuVisible) }} /><hr style={{ border: "2px solid white" }} />
+            <BsFillGrid3X3GapFill className={style.lnb_showDetailIcon} onClick={() => { setMenuVisible(!menuVisible) }} /><hr style={{ border: "2px solid white" }} />
 
             {
                 Lmenu && Lmenu.map((menu) => {
                     return (
-                        menu.menuDepth == 0 && <div id={menu.menuSeq} key={menu.menuSeq}><VscGithubInverted onClick={() => { setMenuVisible(!menuVisible) }} className={style.lnb_menuIcon} />
+                        menu.menuDepth == 0 && 
+                        <div id={menu.menuSeq} key={menu.menuSeq}>
+                          {menu.menuSeq == 1 ? <FiSettings onClick={() => { setMenuVisible(!menuVisible) }} className={style.lnb_menuIcon}/> :
+                          menu.menuSeq == 2 ? <AiFillAccountBook onClick={() => { setMenuVisible(!menuVisible) }} className={style.lnb_menuIcon}/> :
+                          menu.menuSeq == 3 ? <BsFillPersonLinesFill onClick={() => { setMenuVisible(!menuVisible) }} className={style.lnb_menuIcon}/> :
+                          menu.menuSeq == 4 ? <FaMoneyCheckAlt onClick={() => { setMenuVisible(!menuVisible) }} className={style.lnb_menuIcon}/> :
+                          menu.menuSeq == 5 ? <FaBook onClick={() => { setMenuVisible(!menuVisible) }} className={style.lnb_menuIcon}/> :
+                          <BiTask onClick={() => { setMenuVisible(!menuVisible) }} className={style.lnb_menuIcon}/>
+                    }
                             {menuVisible &&
                                 <button className={style.lnb_callMenu} onClick={() => { sendParent(menu.menuName, menu.menuSeq);}}>{menu.menuName}</button>
                             }
