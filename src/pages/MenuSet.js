@@ -4,7 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { VscExpandAll } from "react-icons/vsc";
 import { GrCircleAlert } from "react-icons/gr";
 
-import style from "../css/MenuSet.module.css";
+import style from "../components/menu/css/Menuset.module.css";
 
 import MenuSearch from "../components/menu/MenuSearch";
 import SaveMenuAlert from "../components/alert/SaveMenuAlert";
