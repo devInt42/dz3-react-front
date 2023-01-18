@@ -1,10 +1,10 @@
-import { Outlet, useNavigate, Route, Routes } from "react-router-dom";
-import LNB from "./LNB";
-import GNB from "./GNB";
+import { Outlet } from "react-router-dom";
+import LNB from "../components/menu/LNB";
+import GNB from "../components/menu/GNB";
 import { Container, Row, Col } from "react-bootstrap";
-import "../css/Layout.module.css";
+
 import React, { useState, useCallback } from "react";
-import SubMenu from "../pages/SubMenu";
+import SubMenu from "../components/menu/SubMenu";
 
 function Layout() {
   // const [test, setTest] = useState("");
@@ -54,6 +54,7 @@ function Layout() {
                 marginTop: "10px",
                 marginLeft: "20px",
                 backgroundColor: "rgba(221, 219, 216, 0.409)",
+                overflow: "hidden",
               }}
             >
               <SubMenu menuSeq={menuSeq} />

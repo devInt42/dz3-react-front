@@ -5,7 +5,7 @@ import { BsFillPersonLinesFill, BsFillGrid3X3GapFill } from "react-icons/bs";
 import { AiFillAccountBook } from "react-icons/ai";
 import { BiTask } from "react-icons/bi";
 import { FaMoneyCheckAlt, FaBook } from "react-icons/fa";
-import style from "../css/LNB.module.css";
+import style from "./css/LNB.module.css";
 
 function LNB(props) {
   // const setParent = () => {

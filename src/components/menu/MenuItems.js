@@ -25,7 +25,7 @@ function MenuItems(props) {
             {subMenu.map((menu) => {
                 return (
                     <div key={menu.menuSeq}>
-                        <div style={{ paddingLeft: (menu.menuDepth - 1) * 30, paddingRight: '20px' }}>
+                        <div style={{ paddingLeft: (menu.menuDepth - 1) * 22, paddingRight: '20px' }}>
                             <div onClick={()=>setChildMenu(menu.menuSeq)}>
                                 {menu.menuName}
                             </div>

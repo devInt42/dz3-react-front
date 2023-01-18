@@ -3,9 +3,9 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CgMenuBoxed } from "react-icons/cg";
-import style from "../css/GNB.module.css";
+import style from "./css/GNB.module.css";
 import { BsPersonCircle } from "react-icons/bs";
-import OrganizationChart from "./Modals/OrganizationChart";
+import OrganizationChart from "../Modals/OrganizationChart";
 import LNB from "./LNB";
 import { ImTree } from "react-icons/im";
 
