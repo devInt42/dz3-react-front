@@ -231,10 +231,8 @@ const AuthLnb = (props) => {
                 key="0"
                 value="0"
                 style={{
-                  backgroundColor: "#00aaff",
                   textAlign: "center",
                   fontWeight: "bold",
-                  color: "white",
                 }}
               >
                 전체보기
@@ -245,10 +243,6 @@ const AuthLnb = (props) => {
                     {companyMap.companyName}
                   </option>
                 ))}
-              <option
-                disabled
-                style={{ backgroundColor: "#00aaff", textAlign: "center" }}
-              ></option>
             </Form.Select>
           </Row>
           <Row style={{ float: "left", padding: "0" }}>
