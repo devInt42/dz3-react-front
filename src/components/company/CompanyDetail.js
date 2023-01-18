@@ -18,6 +18,7 @@ const CompanyDetail = ((props) => {
 
     useEffect(() => {
         setIsOndata("N");
+        setNotRequire('');
         const ondataTimer = setInterval(() => {
             setIsOndata("Y");
         }, 200);
@@ -143,7 +144,7 @@ const CompanyDetail = ((props) => {
     let [corporateStyle, setCorporateStyle] = useState(false);
 
     let [allCheck, setAllCheck] = useState(false);
-    let [notRequire, setNotRequire] = useState();
+    let [notRequire, setNotRequire] = useState('');
     let [checked, setChecked] = useState(0);
     let [checkDelete, setCheckDelete] = useState(false);
     useEffect(() => {
@@ -190,6 +191,7 @@ const CompanyDetail = ((props) => {
     //모든 필수 사항이 제대로 입력되었을 때 저장
     function AllCheck() {
         setChecked(checked + 1);
+        console.log(checked);
         if (codeDupliCheck === 1 || `${companyCode}`.length !== 4) {
             setNotRequire(<SaveFailCompanyAlert />)
             return false;
@@ -353,7 +355,7 @@ const CompanyDetail = ((props) => {
                                     <Form.Control
                                         placeholder="대표 전화를 입력해 주십시오."
                                         onChange={e => { setCompanyCall(PhoneNumber(areaCode + e.target.value)) }}
-                                        value={companyCall.substring(areaCode.length)}
+                                        value={`${companyCall}`.substring(areaCode.length)}
                                         isValid={callStyle}
                                         isInvalid={`${companyCall}`.length < 1 ? '' : callStyle ? false : true}
                                         Style="z-index:0;"
