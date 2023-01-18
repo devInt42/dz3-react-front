@@ -6,7 +6,7 @@ import { GrCircleAlert } from "react-icons/gr";
 
 import style from "../css/MenuSet.module.css";
 
-import MenuSearch from "./MenuSearch";
+import MenuSearch from "../components/menu/MenuSearch";
 import SaveMenuAlert from "../components/alert/SaveMenuAlert";
 import SaveFailMenuAlert from "../components/alert/SaveFailMenuAlert";
 
@@ -83,6 +83,7 @@ function MenuSet() {
               height: "100vh",
               marginTop: "10px",
               marginLeft: "10px",
+              overflow: "scroll",
             }}
           >
             <MenuSearch />

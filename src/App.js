@@ -3,9 +3,8 @@ import React from "react";
 import Company from "./components/company/Company";
 import Auth from "./pages/Auth";
 import Login from "./pages/Login.js";
-
 import Home2 from "./pages/Home2";
-import Layout from "./components/Layout";
+import Layout from "./pages/Layout";
 import MenuSet from "./pages/MenuSet";
 import CompanyDetail from "./components/company/CompanyDetail";
 import CompanyInsert from "./components/company/CompanyInsert";
@@ -22,7 +21,6 @@ function App() {
         <Route exact path="company/info" element={<Company />} />
         <Route path="common" element={<Home2 />} />
         <Route path="nomenu" element={<NoMenu />} />
-
         <Route
           exact
           path="company/info/:companyCode"
