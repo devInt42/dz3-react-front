@@ -1,15 +1,10 @@
-import { Outlet, useNavigate, Route, Routes } from "react-router-dom";
-import LNB from "./LNB";
-import GNB from "./GNB";
-import SystemSet from "../pages/SystemSet";
-import Auth from "../pages/Auth";
-import Login from "../pages/Login";
+import { Outlet } from "react-router-dom";
+import LNB from "../components/menu/LNB";
+import GNB from "../components/menu/GNB";
 import { Container, Row, Col } from "react-bootstrap";
 
-import "../css/Layout.module.css";
 import React, { useState, useCallback } from "react";
-import SubMenu from "../pages/SubMenu";
-import MenuSet from "../pages/MenuSet";
+import SubMenu from "../components/menu/SubMenu";
 
 function Layout() {
 
@@ -43,7 +38,7 @@ function Layout() {
                     <Row><GNB menuName={menuName}/></Row>
                     <Row>
                         <Col md="auto" style={{border: "1px solid black", padding:"0px", width: "15%", height: "100vh",
-                                                marginTop: "10px", marginLeft:"20px", backgroundColor:"rgba(221, 219, 216, 0.409)"}}>
+                                                marginTop: "10px", marginLeft:"20px", backgroundColor:"rgba(221, 219, 216, 0.409)", overflow:"hidden"}}>
                             <SubMenu menuSeq={menuSeq}/>
                         </Col>
                         <Col><Outlet /></Col>

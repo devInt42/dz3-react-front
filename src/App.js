@@ -1,20 +1,14 @@
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 import React from "react";
-import { Row, Col, Container } from "react-bootstrap";
 import Company from "./components/company/Company";
 import Auth from "./pages/Auth";
 import Login from "./pages/Login.js";
-import Main from "./pages/Main.js";
-import Home from "../src/pages/Home";
 import Home2 from "./pages/Home2";
-import Layout from "./components/Layout";
+import Layout from "./pages/Layout";
 import MenuSet from "./pages/MenuSet";
 import CompanyDetail from "./components/company/CompanyDetail";
 import CompanyInsert from "./components/company/CompanyInsert";
 import CompanyUpdateform from "./components/company/CompanyUpdateform";
-import GNB from "./components/GNB";
-import LNB from "./components/LNB";
-import SubMenu from "./pages/SubMenu";
 import NoMenu from "./pages/NoMenu";
 
 
@@ -28,7 +22,6 @@ function App() {
         <Route path="auth" element={<Auth />} />
         <Route exact path="company/info" element={<Company />} />
         <Route path="common" element={<Home2 />} />
-        <Route path="main2" element={<Home />} />
         <Route path="common" element={<Home2 />} />
         <Route path="nomenu" element={<NoMenu />} />
         

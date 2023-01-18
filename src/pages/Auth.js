@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import axios from "axios";
 import AuthLnb from "../components/auth/AuthLnb";
-import Gnb from "../components/menu/Gnb";
 import { useNavigate } from "react-router-dom";
 import AuthEmployeeList from "../components/auth/AuthEmployeeList";
 

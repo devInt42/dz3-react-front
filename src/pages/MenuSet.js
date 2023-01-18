@@ -6,7 +6,7 @@ import { GrCircleAlert } from "react-icons/gr";
 
 import style from "../css/MenuSet.module.css"
 
-import MenuSearch from "./MenuSearch";
+import MenuSearch from "../components/menu/MenuSearch";
 import SaveMenuAlert from "../components/alert/SaveMenuAlert"
 import SaveFailMenuAlert from "../components/alert/SaveFailMenuAlert"
 
@@ -60,7 +60,7 @@ function MenuSet() {
                 <span style={{ fontSize: "25px" }}><VscExpandAll />&nbsp;&nbsp;메뉴사용설정</span><hr />
                 <div className={style.menu_notice}><GrCircleAlert /> LastDanth10의 사용자/담당자 메뉴를 관리할 수 있습니다.</div>
                 <Row>
-                <Col md="auto" style={{ border: "1px solid black", width: "22%", height: "100vh", marginTop: "10px", marginLeft: "10px" }}>
+                <Col md="auto" style={{ border: "1px solid black", width: "22%", height: "100vh", marginTop: "10px", marginLeft: "10px", overflow:"scroll" }}>
                     <MenuSearch />
                 </Col>
                 <Col md="auto" style={{ border: "1px solid black", padding: "0px", width: "74%", height: "100vh", marginTop: "10px", marginLeft: "10px" }}>

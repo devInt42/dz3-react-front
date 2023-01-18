@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
-import style from "../css/SystemSet.module.css"
-import MenuSet from "./MenuSet";
+import style from "./css/SystemSet.module.css"
+import MenuSet from "../../pages/MenuSet";
 import { Outlet, useNavigate } from "react-router-dom";
-import ContentsMapping from "./ContentsMapping";
+import ContentsMapping from "../../pages/ContentsMapping";
 
 function SubMenu(props) {
   const navigate = useNavigate();

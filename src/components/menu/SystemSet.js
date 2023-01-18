@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import GNB from "../components/GNB";
-import { Outlet, useNavigate } from "react-router-dom";
-import ListGroup from 'react-bootstrap/ListGroup';
+import { useNavigate } from "react-router-dom";
 
-import style from "../css/SystemSet.module.css"
-import SubMenu from "./SubMenu"
-import MenuSet from "./MenuSet";
+import style from "./css/SystemSet.module.css"
 
 function SystemSet(props) {
 
