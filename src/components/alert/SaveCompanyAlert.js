@@ -18,6 +18,7 @@ function SaveCompanyAlert(props) {
       Swal.fire('저장이 완료되었습니다.', '', 'success', '#3085d6');
       props.insertCompany();
       props.setDetailFlag(false);
+      props.setRefresh(props.refresh + 1);
     }
 
     if (!result.isConfirmed) {

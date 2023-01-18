@@ -1,13 +1,14 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 function CompanyList(props) {
     const baseUrl = "http://localhost:8080";
-    const [company, setCompany] = useState();
+    const [company, setCompany] = useState(); 
+
     useEffect(() => {
         axios.get(`${baseUrl}/company/info`)
             .then(res => setCompany(res.data))
             .catch(error => console.log(error));
-    }, [])
+    },[props.refresh])
 
     return (
         company &&
@@ -17,7 +18,8 @@ function CompanyList(props) {
                     <b>회사</b> <b className="emphasisfont">{company.length}</b> <b>건</b>
                 </div>
                 <ul>
-                    {<Listcompany company={company} setDetailFlag = {props.setDetailFlag} setCompanySeq={props.setCompanySeq} />}
+                    {<Listcompany company={company} setDetailFlag = {props.setDetailFlag} setCompanySeq={props.setCompanySeq} 
+                    />}
                 </ul>
             </div>
         </>

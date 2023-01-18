@@ -218,7 +218,6 @@ const CompanyDetail = ((props) => {
     //모든 필수 사항이 제대로 입력되었을 때 저장
     function AllCheck() {
         setChecked(checked + 1);
-        console.log(checked);
         if (codeDupliCheck === 1 || `${companyCode}`.length !== 4) {
             setNotRequire(<SaveFailCompanyAlert />)
             return false;
@@ -277,7 +276,10 @@ const CompanyDetail = ((props) => {
                             (!props.companySeq &&  allCheck ) 
                                && <SaveCompanyAlert setAllCheck={setAllCheck}
                                     insertCompany={insertCompany}
-                                    setDetailFlag={props.setDetailFlag} />
+                                    setDetailFlag={props.setDetailFlag}
+                                    setRefresh = {props.setRefresh}
+                                    refresh = {props.refresh}
+                                    />
                             
                         }
                         { props.companySeq && <button className="insertbutton" type="button"
@@ -287,6 +289,8 @@ const CompanyDetail = ((props) => {
                         {
                             (props.companySeq && allCheck) && <UpdateCompanyAlert setAllCheck={setAllCheck}
                                 Update={Update}
+                                setRefresh = {props.setRefresh}
+                                refresh = {props.refresh}
                                 seq={props.companySeq}
                             />
                         }
@@ -295,6 +299,8 @@ const CompanyDetail = ((props) => {
                                 Delete={Delete}
                                 setDetailFlag={props.setDetailFlag}
                                 seq={props.companySeq}
+                                setRefresh = {props.setRefresh}
+                                refresh = {props.refresh}
                             />
                         }
                         {notRequire}
@@ -691,7 +697,6 @@ function corporateNumberCheck(value) {
     const check = /^[0-9]{6}-[0-9]{7}$/;
     return check.test(value);
 }
-
 
 
 //삭제

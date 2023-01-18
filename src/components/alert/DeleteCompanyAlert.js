@@ -21,6 +21,7 @@ const DeleteCompanyAlert = (props) => {
             Swal.fire('삭제가 완료되었습니다.', '', 'success','#3085d6');
             props.Delete(props.seq);
             props.setDetailFlag(false);
+            props.setRefresh(props.refresh + 1);
         }
         if(!result.isConfirmed) {
             props.setCheckDelete(false);

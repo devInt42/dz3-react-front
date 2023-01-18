@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CompanyList from './CompanyList';
 import "./css/Company.css";
 import { GrAddCircle } from "react-icons/gr";
@@ -8,19 +8,16 @@ import CompanyDetail from "./CompanyDetail";
 
 
 const Company = () => {
-    const [addflag, setAddflag] = useState(false);
     const [detailFlag, setDetailFlag] = useState(false);
-    const [refresh, setRefresh] = useState(0);
     const [companySeq, setCompanySeq] = useState();
-   
-    
+    const [refresh, setRefresh] = useState(0);
     return (
         <div>
             <h2>회사 정보</h2>
             <hr className="line"></hr>
             <div id="companyform">
                 <div>
-                    <CompanyList setDetailFlag={setDetailFlag} setCompanySeq={setCompanySeq} />
+                    <CompanyList setDetailFlag={setDetailFlag} setCompanySeq={setCompanySeq} refresh={refresh} />
                     <div id="idaddbox">
                         <button id="idaddbutton" onClick={() => {setDetailFlag(!detailFlag);
                               companySeq && setDetailFlag(true);
@@ -40,7 +37,7 @@ const Company = () => {
                 {
                     detailFlag &&
                     <div className = "company-info">
-                        <CompanyDetail setDetailFlag = {setDetailFlag} companySeq = {companySeq} setRefresh = {setRefresh}/>
+                        <CompanyDetail setDetailFlag = {setDetailFlag} companySeq = {companySeq} setRefresh = {setRefresh} refresh = {refresh}/>
                     </div>
                 }
 
