@@ -17,7 +17,8 @@ const Company = () => {
             <hr className="line"></hr>
             <div id="companyform">
                 <div>
-                    <CompanyList setDetailFlag={setDetailFlag} setCompanySeq={setCompanySeq} refresh={refresh} />
+                    <CompanyList setDetailFlag={setDetailFlag} 
+                    setCompanySeq={setCompanySeq} refresh={refresh}/>
                     <div id="idaddbox">
                         <button id="idaddbutton" onClick={() => {setDetailFlag(!detailFlag);
                               companySeq && setDetailFlag(true);
