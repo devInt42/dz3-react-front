@@ -8,7 +8,7 @@ function ContentsMapping(props){
     useEffect(()=>{
         if(props.lastSeq == 11){navigate(`/dz3/company/info`)}
         else if(props.lastSeq == 18){navigate(`/dz3/auth`)}
-        else if(props.lastSeq == 65){navigate(`/dz3/menuset`)}
+        else if(props.lastSeq == 19){navigate(`/dz3/menuset`)}
         else{navigate(`/dz3/nomenu`)}
     }, []);
    

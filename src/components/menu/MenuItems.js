@@ -18,18 +18,22 @@ function MenuItems(props) {
         .catch(error => console.log(error))
     }, [menuSequence]);
 
+    const send = (resultMenu) => {
+        props.searchInfo(resultMenu)
+    }
+
     return (
         <div>
             {subMenu.map((menu) => {
                 return (
                     <div key={menu.menuSeq}>
                         <div style={{ paddingLeft: (menu.menuDepth - 1) * 22, paddingRight: '20px' }}>
-                            <div onClick={()=>setChildMenu(menu.menuSeq)}>
+                            <div onClick={()=>{setChildMenu(menu.menuSeq); send(menu)}}>
                                 <RiPagesLine/>{menu.menuName}
                             </div>
                         </div>
                         {
-                            childMenu == menu.menuSeq && <MenuItems menuSeq={menu.menuSeq} />
+                            childMenu == menu.menuSeq && <MenuItems menuSeq={menu.menuSeq} searchInfo={props.searchInfo}/>
                         }
                     </div>
                 );

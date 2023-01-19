@@ -15,8 +15,8 @@ MySwal.fire({
   
 }).then(result => {
   if(result.isConfirmed) {
-    Swal.fire('저장이 완료되었습니다.', '', 'success','#3085d6');
     props.insertMenu();
+    Swal.fire('저장이 완료되었습니다.', '', 'success','#3085d6');
   }
 
   if(!result.isConfirmed) {
