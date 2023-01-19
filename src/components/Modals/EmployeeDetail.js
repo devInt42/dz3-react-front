@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Container } from "react-bootstrap";
 import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
 
 const EmployeeDetail = (props) => {
@@ -48,14 +48,10 @@ const EmployeeDetail = (props) => {
     <div className="SearchDetail">
       <Container>
         <Row>
-          <Col sm={9}>
-            {" "}
-            <BsFillFileEarmarkPersonFill
-              size="100"
-              style={{ paddingTop: "15px", paddingLeft: "20px" }}
-            />
-          </Col>
-          <Col sm={3}>LOGO</Col>
+          <BsFillFileEarmarkPersonFill
+            size="100"
+            style={{ paddingTop: "15px", paddingLeft: "20px" }}
+          />
         </Row>
         <br />
 

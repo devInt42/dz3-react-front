@@ -104,7 +104,7 @@ const AllEmployeeList = (props) => {
   return (
     <div>
       <div className="container">
-        <div className="row" style={{ overflow: "scroll", maxHeight: "250px" }}>
+        <div className="row" style={{ overflow: "auto", maxHeight: "250px" }}>
           <div className="col-12">
             <table className="table table-bordered">
               <thead>
