@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Container, Row } from "react-bootstrap";
 import "../components/login/Login.css";
-import { isCompositeComponent } from "react-dom/test-utils";
 const Login = () => {
   const [inputComId, setInputComId] = useState("");
   const [inputEmpId, setInputEmpId] = useState("");

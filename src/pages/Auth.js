@@ -3,7 +3,6 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import AuthLnb from "../components/auth/AuthLnb";
 import { useNavigate } from "react-router-dom";
 import AuthEmployeeList from "../components/auth/AuthEmployeeList";
-
 const Auth = (props) => {
   const baseUrl = "http://localhost:8080";
   const [companySeq, setCompanySeq] = useState();
@@ -37,7 +36,6 @@ const Auth = (props) => {
   };
   const sendPointCompanySeq = (pointCompanySeq) => {
     setPointCompanySeq(pointCompanySeq);
-    console.log("선택된 회사번호 : " + pointCompanySeq);
   };
   return (
     <Container fluid="true" className="Auth" id="AuthPage">

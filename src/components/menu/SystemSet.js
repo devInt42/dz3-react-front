@@ -27,7 +27,6 @@ function SystemSet(props) {
     alert("You clicked the third ListGroupItem");
   };
   if (Lmenu.length == 0) {
-    console.log("asdasdads");
   }
   return (
     <div>
@@ -63,9 +62,6 @@ function SystemSet(props) {
 }
 
 function subMenu(menu, i) {
-  console.log("하위메뉴");
-  console.log(menu);
-  console.log(i);
   return (
     <div>
       {menu.map((sub, i) => {

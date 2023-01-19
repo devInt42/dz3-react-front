@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Container, Nav, Navbar } from "react-bootstrap";
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CgMenuBoxed } from "react-icons/cg";
 import style from "./css/GNB.module.css";
 import { BsPersonCircle } from "react-icons/bs";
 import OrganizationChart from "../Modals/OrganizationChart";
-import LNB from "./LNB";
-import { ImTree } from "react-icons/im";
+import { Row, Col } from "react-bootstrap";
+import LoginInfo from "./LoginInfo";
 
 function GNB(props) {
   //modal
@@ -19,13 +18,10 @@ function GNB(props) {
     setModalOpen(false);
   };
   const navigate = useNavigate();
-
   const [show, setShow] = useState(false);
-
   const [gnbNum, setGnbNum] = useState(0);
   const [menuId, setMenuId] = useState("");
   const [menuName, setMenuName] = useState("");
-
   const baseUrl = "http://localhost:8080";
   const [menu, setMenu] = useState([]);
   useEffect(() => {
@@ -37,33 +33,39 @@ function GNB(props) {
 
   return (
     <div>
-      <div className={style.gnb_header}>
-        <span className={style.gnb_title}>
+      <Row className={style.gnb_header}>
+        <Col className={style.gnb_title}>
           LastDanth
           <span
             style={{
               color: "rgba(64, 192, 228, 0.929)",
               fontWeight: "bolder",
-            }}>
+            }}
+          >
             10
           </span>
-        </span>
-        <span className={style.gnb_Imtree}>
+        </Col>
+        <Col className={style.userInfoStyle}>
+          <LoginInfo />
+        </Col>
+        <Col xs={2} className={style.gnb_Imtree}>
           <button className={style.gnb_Imtree_btn}>
             <BsPersonCircle size="30" onClick={openModal}></BsPersonCircle>
 
             <OrganizationChart
               open={modalOpen}
               close={closeModal}
-              header="조직도"></OrganizationChart>
+              header="조직도"
+            ></OrganizationChart>
           </button>
-        </span>
-      </div>
+        </Col>
+      </Row>
+
       <div className={style.gnb_bar}>
         <CgMenuBoxed
           style={{ width: "50px", height: "50px", margin: "10px" }}
         />
-        {props.menuName} {props.menuSeq}
+        {props.menuName}
       </div>
     </div>
   );
