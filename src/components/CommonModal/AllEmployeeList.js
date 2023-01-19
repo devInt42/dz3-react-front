@@ -7,6 +7,7 @@ const AllEmployeeList = (props) => {
   const [page, setPage] = useState(1); // 현재 페이지
   const [countEmployee, setCountEmployee] = useState(0); // 총 사원수
   const [checkedList, setCheckedLists] = useState([]); //값 저장
+  const [AllList, setAllList] = useState([]); //page 모든 값 저장
 
   //값 받아서 departmentSeq 설정
   useEffect(() => {
@@ -70,7 +71,9 @@ const AllEmployeeList = (props) => {
         deptList.forEach((list) => temp.push(list));
         var merged = checkedList.concat(temp);
         var unique = merged.filter((item, pos) => merged.indexOf(item) === pos);
+        var all = checkedList.concat(temp);
         setCheckedLists(unique);
+        setAllList(all);
       } else {
         setCheckedLists([]);
       }
@@ -84,6 +87,8 @@ const AllEmployeeList = (props) => {
       try {
         if (checked) {
           setCheckedLists([...checkedList, list]);
+          setAllList([...checkedList, list]);
+          // console.log("나오나?" + list.employeeSeq);
         } else {
           setCheckedLists(
             checkedList.filter((el) => el.employeeSeq !== list.employeeSeq)
@@ -101,6 +106,9 @@ const AllEmployeeList = (props) => {
   useEffect(() => {}, [onCheckedAll]);
   useEffect(() => {}, [onCheckedElement]);
 
+  // console.log("C" + checkedList);
+  // console.log("A" + AllList);
+
   return (
     <div>
       <div className="container">
@@ -116,7 +124,6 @@ const AllEmployeeList = (props) => {
                       type="checkbox"
                       readOnly
                       onClick={(e) => onCheckedAll(e.target.checked)}
-                      //수정필요
                       checked={
                         checkedList.length === 0
                           ? false
@@ -147,13 +154,13 @@ const AllEmployeeList = (props) => {
                           checked={
                             checkedList.includes(deptList) ? true : false
                           }
-                          className="custom-control-input"
                           id="customCheck2"></input>
                         <label
                           className="custom-control-label"
                           htmlFor="customCheck1"></label>
                       </div>
                     </td>
+
                     <td>{deptList.companyName}</td>
                     <td>{deptList.workplaceName}</td>
                     <td>{deptList.title}</td>

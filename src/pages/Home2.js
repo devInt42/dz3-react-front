@@ -30,10 +30,6 @@ const Home2 = () => {
         Swal.fire("저장이 완료되었습니다.", "", "success", "#3085d6");
         setModalOpen(false);
       }
-
-      if (!result.isConfirmed) {
-        props.setAllCheck(false);
-      }
     });
   }
 

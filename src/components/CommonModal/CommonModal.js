@@ -1,4 +1,4 @@
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
 import React from "react";
 import "../Modals/OrganizationChart";
@@ -40,9 +40,9 @@ const CommonModal = (props) => {
         <section>
           <header>
             {header}
-            <button className="close" onClick={close}>
+            <Button className="close" onClick={close}>
               X
-            </button>
+            </Button>
           </header>
           <main>
             <div>
