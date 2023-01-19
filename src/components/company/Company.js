@@ -5,20 +5,25 @@ import { GrAddCircle } from "react-icons/gr";
 import { GiCancel } from "react-icons/gi"
 import CompanyNotSelect from "./CompanyNotSelect";
 import CompanyDetail from "./CompanyDetail";
-
+import CompanySearch from "./CompanySearch";
 
 const Company = () => {
     const [detailFlag, setDetailFlag] = useState(false);
     const [companySeq, setCompanySeq] = useState();
     const [refresh, setRefresh] = useState(0);
+    const [searchData, setSearchData] = useState([]);
+    const [searchRefresh, setSearchRefresh] = useState(0);
+
     return (
         <div>
             <h2>회사 정보</h2>
             <hr className="line"></hr>
+            <CompanySearch setSearchData = {setSearchData} setSearchRefresh = {setSearchRefresh} searchRefresh = {searchRefresh}
+            />
             <div id="companyform">
                 <div>
                     <CompanyList setDetailFlag={setDetailFlag} 
-                    setCompanySeq={setCompanySeq} refresh={refresh}/>
+                    setCompanySeq={setCompanySeq} refresh={refresh} searchRefresh = {searchRefresh} searchData = {searchData}/>
                     <div id="idaddbox">
                         <button id="idaddbutton" onClick={() => {setDetailFlag(!detailFlag);
                               companySeq && setDetailFlag(true);

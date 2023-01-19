@@ -1,6 +1,30 @@
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
-const CompanySearch = () => {
+const CompanySearch = (props) => {
 
+
+    const baseUrl = "http://localhost:8080";
+
+    const [searchcompanyCode, setSearchCompanyCode] = useState(0);
+    const [searchcompanyName, setSearchCompanyName] = useState("");
+    const [searchuseYN, setSearchUseYN] = useState("");
+
+    function FindCompany() {
+        const companycode = searchcompanyCode;
+        const companyname = searchcompanyName;
+        const useyn = searchuseYN;
+        axios.get(`${baseUrl}/company/find`, {
+            params: {
+                companycode: companycode,
+                companyname: companyname,
+                useyn: useyn
+            }
+        })
+        .then(res => props.setSearchData(res.data))
+
+        props.setSearchRefresh(props.searchRefresh + 1);
+    }
 
     return (
         <div>
@@ -10,10 +34,13 @@ const CompanySearch = () => {
                         : (setSearchCompanyCode(e.target.value) || setSearchCompanyName(""))
                 }} />
             사용여부 <select onChange={e => setSearchUseYN(e.target.value)}>
-                <option value="Y" selected>사용</option>
+                <option value="" selected>선택</option>
+                <option value="Y">사용</option>
                 <option value="N">미사용</option>
             </select>
-            <button onClick={FindCompany}>찾기</button>
+            <button onClick={()=> {FindCompany();}}>찾기</button>
         </div>
     )
 }
+
+export default CompanySearch;
