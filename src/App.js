@@ -8,9 +8,7 @@ import Home from "../src/pages/Home";
 import Home2 from "./pages/Home2";
 import Layout from "./components/Layout";
 import MenuSet from "./pages/MenuSet";
-import CompanyDetail from "./components/company/CompanyDetail";
-import CompanyInsert from "./components/company/CompanyInsert";
-import CompanyUpdateform from "./components/company/CompanyUpdateform";
+import Department from "./components/department/Department"
 
 function App() {
   return (
@@ -25,6 +23,7 @@ function App() {
         <Route path="main" element={<Layout />} />
         <Route path="menuset" element={<MenuSet />} />
         <Route exact path="company" element={<Company />} />
+        <Route exact path="department" element={<Department/>}/>
       </Route>
     </Routes>
   );
