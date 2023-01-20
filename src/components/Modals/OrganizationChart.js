@@ -46,6 +46,7 @@ const OrganizationChart = (props) => {
         <section>
           <header>
             {header}
+
             <button onClick={close}>X</button>
           </header>
           <main>

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
 const CompanyList = (props) => {
-  const [companySeq, setCompanySeq] = useState(2);
+  const [companySeq, setCompanySeq] = useState();
   const baseUrl = "http://localhost:8080";
   const [deptNameList, setDeptNameList] = useState([]);
   const [departmentSeq, setDepartmentSeq] = useState();
@@ -35,41 +35,37 @@ const CompanyList = (props) => {
     setWorkplaceSeq(a);
   }
 
-  //부서 전체 값 받아오기
-  const getAllCompany = useCallback(async () => {
+  // 로그인 - 선택된 회사 받아오기
+  const getCompany = async () => {
     let companyData = {
-      companySeq,
+      companySeq: companySeq,
     };
     try {
-      const getAllCompanyResult = await axios.get(
-        `${baseUrl}/department/list/${companySeq}`,
-        { params: companyData }
+      const companyDataResult = await axios.get(
+        `${baseUrl}/department-employee/departmentList`,
+        {
+          params: companyData,
+          headers: {
+            Authorization: window.sessionStorage.getItem("empInfo"),
+          },
+        }
       );
-      setDeptNameList(getAllCompanyResult.data);
+      setDeptNameList(companyDataResult.data);
+      console.log(companyDataResult.data);
     } catch (error) {
       console.log(error);
     }
-  }, [companySeq]);
+  };
 
-  //workplaceSeq로 수정
   useEffect(() => {
-    getAllCompany();
-  }, [companySeq]);
+    getCompany();
+  }, []);
 
   return (
-    <div>
-      {deptNameList &&
-        deptNameList.map((dNameList) => (
-          <div
-            key={dNameList.departmentSeq}
-            onClick={() => {
-              sendDepartmentSeq(dNameList.departmentSeq);
-              sendWorkplaceSeq(dNameList.workplaceSeq);
-            }}>
-            - {dNameList.departmentName}
-          </div>
-        ))}
-    </div>
+    <>
+      {deptNameList[0]?.companyName}
+      {/* >{deptNameList[0]?.workplaceName}> {deptNameList[0]?.departmentName} */}
+    </>
   );
 };
 export default CompanyList;

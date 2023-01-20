@@ -1,11 +1,11 @@
 import { Row, Col, Button } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
 import React from "react";
-import "../Modals/OrganizationChart";
+import "../modals/OrganizationChart";
 import AllCompanyList from "./AllCompanyList";
 import AllSelectList from "./AllSelectList";
 import AllEmployeeList from "./AllEmployeeList";
-import "../Modals/SearchModal.css";
+import "../modals/SearchModal.css";
 
 const CommonModal = (props) => {
   const { open, close, header, getInfoCaLLback } = props;

@@ -5,7 +5,7 @@ import axios from "axios";
 import { CgMenuBoxed } from "react-icons/cg";
 import style from "./css/GNB.module.css";
 import { BsPersonCircle } from "react-icons/bs";
-import OrganizationChart from "../Modals/OrganizationChart";
+import OrganizationChart from "../modals/OrganizationChart";
 import LNB from "./LNB";
 import { ImTree } from "react-icons/im";
 
