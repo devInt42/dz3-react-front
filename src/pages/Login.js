@@ -24,7 +24,6 @@ const Login = () => {
   const changeEmpPwd = (e) => {
     setInputEmpPwd(e.target.value);
   };
-  const onKeyPress = (e) => {};
   const checkValue = () => {
     if (inputComId === "") {
       alert("회사 코드를 입력해 주세요");

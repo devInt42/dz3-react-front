@@ -2,9 +2,9 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Nav, Form, Row, Pagination, Col } from "react-bootstrap";
 import axios from "axios";
 import "../auth/Auth.css";
-import { ReactComponent as Search } from "./search.svg";
-
-const AuthLnb = (props) => {
+import { ReactComponent as Search } from "../auth/search.svg";
+import AddGroup from "./AddGroup";
+const AuthGroupLnb = (props) => {
   const [authList, setAuthList] = useState(null);
   const [authSeq, setAuthSeq] = useState(null);
   const [selectCompanySeq, setSelectCompanySeq] = useState(null);
@@ -15,7 +15,10 @@ const AuthLnb = (props) => {
   const [active, setActive] = useState(1);
   const [authName, setAuthName] = useState(null);
   const [companyList, setCompanyList] = useState(null);
+
   let items = [];
+
+  const [formFlag, setFormFlag] = useState(true);
 
   // 회사별 권한 및 해당하는 권한수 카운트 API
   const companyAuthApiCall = useCallback(async () => {
@@ -162,7 +165,7 @@ const AuthLnb = (props) => {
     activePage();
   }, [active]);
   const paginationBasic = (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div style={{ display: "flex", justifyContent: "center", margin: "0" }}>
       <Pagination className="authPagi" size="sm">
         <Pagination.Prev onClick={() => prevPage(active)} />
         {items}
@@ -177,12 +180,12 @@ const AuthLnb = (props) => {
   function sendAuthSeq(val) {
     setAuthSeq(val);
   }
-  //현재 선택한 부서의 회사번호
+  function sendSelectCompanySeq(comVal) {
+    setSelectCompanySeq(comVal);
+  }
   function sendPointCompanySeq(pointComVal) {
     setPointCompanySeq(pointComVal);
   }
-
-  // 회사명 받아오기
   const selectCompanyArea = async () => {
     try {
       const resCompany = await axios.get(`${baseUrl}/company-employee/select`, {
@@ -191,12 +194,12 @@ const AuthLnb = (props) => {
         },
       });
       setCompanyList(resCompany.data);
+      if (resCompany.data[0].employeeSeq == 0);
+      setFormFlag(false);
     } catch (error) {
       console.log(error);
     }
   };
-
-  // admin 계정이 회사 변경시
   const changeSelectVal = (e) => {
     if (e.target.value == 0) {
       setSelectCompanySeq(null);
@@ -207,6 +210,7 @@ const AuthLnb = (props) => {
   useEffect(() => {
     selectCompanyArea();
   }, []);
+
   return (
     <>
       <Row className="AuthLnb" style={authLnbStyle}>
@@ -223,6 +227,7 @@ const AuthLnb = (props) => {
               size="sm"
               onChange={changeSelectVal}
               style={{ width: "200px" }}
+              disabled={formFlag}
             >
               <option
                 key="0"
@@ -318,13 +323,20 @@ const AuthLnb = (props) => {
               </Nav.Item>
             ))}
         </Nav>
-        {paginationBasic}
+        <Row className="addAuthGroup" style={addBoxStyle}>
+          <AddGroup />
+        </Row>
+        <Row
+          style={{ backgroundColor: "#f9f9f9", border: "1px solid #efefef" }}
+        >
+          {paginationBasic}
+        </Row>
       </Row>
     </>
   );
 };
 
-export default AuthLnb;
+export default AuthGroupLnb;
 const authLnbStyle = {
   width: "100%",
   height: "700px",
@@ -355,4 +367,18 @@ const navLinkStyle = {
   margin: "0 auto",
   marginTop: "3px",
   padding: "0",
+};
+
+const addBoxStyle = {
+  width: "100%",
+  display: "flex",
+  height: "10%",
+  border: "1px solid #efefef",
+  flexWrap: "nowrap",
+  justifyContent: "center",
+  alignItems: "center",
+  alignContent: "center",
+  flexDirection: "row",
+  backgroundColor: "#fff",
+  cursor: "pointer",
 };

@@ -10,7 +10,7 @@ import CompanyDetail from "./components/company/CompanyDetail";
 import CompanyInsert from "./components/company/CompanyInsert";
 import CompanyUpdateform from "./components/company/CompanyUpdateform";
 import NoMenu from "./pages/NoMenu";
-
+import AuthGroup from "./pages/AuthGroup";
 function App() {
   return (
     <Routes>
@@ -18,6 +18,7 @@ function App() {
       <Route path="/dz3/" element={<Layout />}>
         <Route path="menuset" element={<MenuSet />} />
         <Route path="auth" element={<Auth />} />
+        <Route path="authgroup" element={<AuthGroup />} />
         <Route exact path="company/info" element={<Company />} />
         <Route path="common" element={<Home2 />} />
         <Route path="nomenu" element={<NoMenu />} />
