@@ -16,3 +16,23 @@
   height: 100vh;
   background-color: var(--bs-backdrop-bg);
 }
+
+#sendGroupBtn {
+  width: 100%;
+  background: linear-gradient(to right, #00aaff, #8168ff);
+  border: 1px;
+  border-radius: 20px;
+  height: 40px;
+  color: white;
+}
+#sendGroupBtn:hover {
+  width: 100%;
+  background: linear-gradient(to right, #00aaff, #8168ff);
+  border: 1px;
+  border-radius: 20px;
+  height: 40px;
+  color: white;
+  outline: none !important;
+  border-color: #00aaff;
+  box-shadow: 0 0 10px #00aaff;
+}
