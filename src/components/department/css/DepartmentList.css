@@ -1,0 +1,12 @@
+.workplacelist {
+    padding-left: 20px;
+}
+.workplacelist-icon, .companylist-icon {
+    color:blue;
+    font-size:20px;
+}
+
+.departmentlist-icon{
+    color:blue;
+    font-size:18px;
+}

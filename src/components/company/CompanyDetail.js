@@ -314,7 +314,8 @@ const CompanyDetail = ((props) => {
                     <tbody>
                         <tr>
                             <td className="company-table-title">회사 코드</td>
-                            <td className="company-table-content"><Form.Control
+                            <td className="company-table-content">
+                                <Form.Control
                                 placeholder="회사 코드를 입력해 주십시오."
                                 onChange={e => {
                                     setCompanyCode(codeNumber(e.target.value));
