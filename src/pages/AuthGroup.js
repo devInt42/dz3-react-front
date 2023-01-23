@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import AuthGroupLnb from "../components/authGroup/AuthGroupLnb";
 import { useNavigate } from "react-router-dom";
+import AuthMenu from "../components/authGroup/AuthMenu";
 const AuthGroup = () => {
   const baseUrl = "http://localhost:8080";
   const [authSeq, setAuthSeq] = useState();
@@ -44,7 +45,9 @@ const AuthGroup = () => {
             sendPointCompanySeq={sendPointCompanySeq}
           />
         </Col>
-        <Col xs={10}></Col>
+        <Col xs={3}>
+          <AuthMenu />
+        </Col>
       </Row>
     </Container>
   );
