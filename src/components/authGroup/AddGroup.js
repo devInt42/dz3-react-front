@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import {
-  Row,
-  Form,
-  OverlayTrigger,
-  Popover,
-  Container,
-  Button,
-} from "react-bootstrap";
+import { Form, OverlayTrigger, Popover, Container } from "react-bootstrap";
 import { ReactComponent as Plus } from "./plus.svg";
 import "./AuthGroup.css";
 import axios from "axios";

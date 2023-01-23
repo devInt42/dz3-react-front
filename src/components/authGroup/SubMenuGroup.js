@@ -1,20 +1,24 @@
 import axios from "axios";
-import React, { useEffect, useState, useCallback } from "react";
-import { Accordion } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import "./AuthGroup.css";
+import { TreeView, TreeItem } from "@mui/lab";
+import { ReactComponent as Folder } from "../authGroup/folder.svg";
+
 const SubMenuGroup = (props) => {
   const baseUrl = "http://localhost:8080";
 
   const [depth, setDepth] = useState(0);
   const [parentSeq, setParentSeq] = useState(0);
-  const [childList, setChildList] = useState();
-  const [flag, setFlag] = useState(0);
+  const [childList, setChildList] = useState([]);
+  const [count, setCount] = useState(0);
+  const [flag, setFlag] = useState(false);
   useEffect(() => {
     setDepth(props.depth + 1);
     setParentSeq(props.parentSeq);
-  }, []);
+  }, [props]);
 
   // 가져올 값이 있는지 확인
-  const countChild = useCallback(async () => {
+  const countChild = async () => {
     let sendChild = {
       menuDepth: depth,
       menuParent: parentSeq,
@@ -23,14 +27,15 @@ const SubMenuGroup = (props) => {
       let childRes = await axios.get(`${baseUrl}/menu/count`, {
         params: sendChild,
       });
-      setFlag(childRes.data);
+      setCount(childRes.data);
+      setFlag(true);
     } catch (error) {
       console.log(error);
     }
-  }, [depth, parentSeq]);
+  };
 
-  const callChild = useCallback(async () => {
-    if (flag > 0) {
+  const callChild = async () => {
+    if (count > 0) {
       let sendChild = {
         menuDepth: depth,
         menuParent: parentSeq,
@@ -44,31 +49,52 @@ const SubMenuGroup = (props) => {
         console.log(error);
       }
     }
-  }, [flag]);
+  };
 
   useEffect(() => {
     countChild();
+    // eslint-disable-next-line
   }, [depth, parentSeq]);
 
   useEffect(() => {
     callChild();
-  }, [flag]);
+    // eslint-disable-next-line
+  }, [count]);
 
   return (
-    <Accordion alwaysOpen>
+    <TreeView
+      aria-label="file system navigator"
+      defaultCollapseIcon={<Folder />}
+      defaultExpandIcon={<Folder />}
+      sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+    >
       {childList &&
         childList.map((childList) => (
-          <Accordion.Item key={childList.menuSeq} eventKey={childList.menuSeq}>
-            <Accordion.Header>{childList.menuName}</Accordion.Header>
-            <Accordion.Body>
+          <div
+            key={childList.menuSeq}
+            style={{ display: "flex", alignItems: "flex-start" }}
+          >
+            <input
+              type={"checkbox"}
+              style={{ marginTop: "5px" }}
+              name="checkVal"
+              value={childList.menuSeq}
+              id={props.id}
+            />
+            <TreeItem
+              key={childList.menuSeq}
+              nodeId={childList.menuSeq.toString()}
+              label={childList.menuName}
+            >
               <SubMenuGroup
                 parentSeq={childList.menuSeq}
                 depth={childList.menuDepth}
+                id={props.id}
               />
-            </Accordion.Body>
-          </Accordion.Item>
+            </TreeItem>
+          </div>
         ))}
-    </Accordion>
+    </TreeView>
   );
 };
 

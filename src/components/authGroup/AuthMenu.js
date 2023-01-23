@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Accordion from "react-bootstrap/Accordion";
 import axios from "axios";
 import SubMenuGroup from "./SubMenuGroup";
 import "./AuthGroup.css";
+import { TreeView, TreeItem } from "@mui/lab";
+import { ReactComponent as Folder } from "../authGroup/folder.svg";
 
 const AuthMenu = () => {
   const baseUrl = "http://localhost:8080";
@@ -30,20 +31,41 @@ const AuthMenu = () => {
 
   return (
     <div style={{ border: "1px solid #f3f3f3" }}>
-      <Accordion alwaysOpen>
+      <TreeView
+        className="check"
+        aria-label="file system navigator"
+        defaultCollapseIcon={<Folder />}
+        defaultExpandIcon={<Folder />}
+        sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+      >
         {menuList &&
           menuList.map((menuItem) => (
-            <Accordion.Item key={menuItem.menuSeq} eventKey={menuItem.menuSeq}>
-              <Accordion.Header>{menuItem.menuName}</Accordion.Header>
-              <Accordion.Body>
+            <div
+              key={menuItem.menuSeq}
+              style={{ display: "flex", alignItems: "flex-start" }}
+            >
+              <input
+                type={"checkbox"}
+                style={{ marginTop: "5px" }}
+                name="checkVal"
+                value={menuItem.menuSeq}
+                id={menuItem.menuCode}
+              />
+              <TreeItem
+                key={menuItem.menuSeq}
+                nodeId={menuItem.menuSeq.toString()}
+                label={menuItem.menuName}
+                id={menuItem.menuCode}
+              >
                 <SubMenuGroup
                   parentSeq={menuItem.menuSeq}
                   depth={menuItem.menuDepth}
+                  id={menuItem.menuCode}
                 />
-              </Accordion.Body>
-            </Accordion.Item>
+              </TreeItem>
+            </div>
           ))}
-      </Accordion>
+      </TreeView>
     </div>
   );
 };
