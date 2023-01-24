@@ -12,14 +12,15 @@ const DepartmentData = (props) => {
     return (
         <>
             {
-                department && department.map((department, idx) => {
+                department && department.map((departmentdata, idx) => {
                     return(
                     <div key = {idx}>
                         {
-                            department.workplaceSeq === props.workplaceSeq &&
-                            <DepartmentDepth departmentName = {department.departmentName}
-                                             departmentDepth = {department.departmentDepth}
-                                             departmentCode = {department.departmentCode}
+                            departmentdata.workplaceSeq === props.workplaceSeq &&
+                            <DepartmentDepth departmentName = {departmentdata.departmentName}
+                                             departmentDepth = {departmentdata.departmentDepth}
+                                             departmentCode = {departmentdata.departmentCode}
+                                             department = {department}
                             />
                         }
                     </div>
