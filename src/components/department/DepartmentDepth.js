@@ -18,7 +18,7 @@ const DepartmentDepth = (props) => {
                 <div>
                 {departmentIsOpen ? <AiFillFolderOpen className="departmentlist-icon"/>: 
                 <AiFillFolder className = "departmentlist-icon"/> }
-                {console.log(props.departmentCode)}.{props.departmentName}
+                {props.departmentCode}.{props.departmentName}
                 </div>
 
             </div>
