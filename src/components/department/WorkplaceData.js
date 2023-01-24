@@ -17,11 +17,12 @@ const WorkplaceData = (props) => {
         <>
             {workplace && workplace.map((workplace, idx) => {
                 return(
-                    <div>
+                    <div key = {idx}>
                         {workplace.companySeq === props.companySeq &&
-                            <div className = "workplacelist"><HiOutlineBuildingOffice className= "workplacelist-icon"/>
+                            <div className = "workplacelist"><HiOutlineBuildingOffice className= "workplacelist-icon"
+                            />
                             {workplace.workplaceCode}.{workplace.workplaceName}
-                                <DepartmentData workplaceSeq = {workplace.workplaceSeq} key = {idx}/>
+                                <DepartmentData workplaceSeq = {workplace.workplaceSeq}/>
                             </div>
                         }
                     </div>
