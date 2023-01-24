@@ -17,12 +17,12 @@
   overflow: auto;
 }
 
-.SearchDetail {
+/* .SearchDetail {
   border: 1px solid #bcbcbc;
   border-radius: 5px;
   margin-right: 15px;
   height: 540px;
-}
+} */
 
 .SearchemployeeDetail {
   /* width: 30%; */
@@ -217,4 +217,8 @@
 
 .CommonBtn {
   margin-right: 10px;
+}
+
+.SearchLine {
+  font-size: 11px;
 }

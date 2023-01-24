@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { Row, Container } from "react-bootstrap";
 import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
+import { FaBirthdayCake } from "react-icons/fa";
+import { RxPerson } from "react-icons/rx";
 
 const EmployeeDetail = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();
@@ -60,23 +62,28 @@ const EmployeeDetail = (props) => {
         </Row>
         <Row>
           {" "}
-          <span className="Searchcenter">{deptDetail.employeeId}</span>
+          <span className="Searchcenter">
+            <RxPerson size="16" /> {deptDetail.employeeId}
+          </span>
         </Row>
         <Row>
           {" "}
-          <span className="Searchcenter">{deptDetail.employeeBirth}</span>
+          <span className="Searchcenter">
+            <FaBirthdayCake size="13" /> {deptDetail.employeeBirth}{" "}
+            <span className="SearchLine">(음력)</span>
+          </span>
         </Row>
         <div>
           <br />
           <ul className="list-group">
             <li className="list-group-item">
+              소속부서 : {deptDetail.employeePh}
+            </li>
+            <li className="list-group-item">
               전화번호 : {deptDetail.employeePh}
             </li>
             <li className="list-group-item">
               회사메일 : {deptDetail.employeeCmail}
-            </li>
-            <li className="list-group-item">
-              개인메일 : {deptDetail.employeePmail}
             </li>
           </ul>
         </div>

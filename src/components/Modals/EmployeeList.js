@@ -102,7 +102,7 @@ const EmployeeList = (props) => {
               <Row className="Searchname">
                 {dList.employeeName} | {dList.employeeId}
               </Row>
-              <Row className="Searchstage">부서번호 : {dList.workplaceSeq}</Row>
+              <Row className="Searchstage">회사명 > {dList.workplaceName}</Row>
               <Row className="Searchphnum">
                 <div style={{ width: "35px" }}>
                   <BsTelephonePlus />
