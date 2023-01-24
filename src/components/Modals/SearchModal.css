@@ -1,14 +1,13 @@
 .SearchdeptList {
-  /* width: 30%; */
   border: 1px solid #bcbcbc;
   border-radius: 5px;
   margin-right: 15px;
   height: 540px;
+  margin-left: 10px;
 }
 
 .SearchemployeeList {
   width: 38%;
-  /* background-color: pink; */
   border: 1px solid #bcbcbc;
   border-radius: 5px;
   margin-right: 15px;
@@ -17,18 +16,11 @@
   overflow: auto;
 }
 
-/* .SearchDetail {
-  border: 1px solid #bcbcbc;
-  border-radius: 5px;
-  margin-right: 15px;
-  height: 540px;
-} */
-
 .SearchemployeeDetail {
-  /* width: 30%; */
   background-color: white;
   border-radius: 5px;
   border: 1px solid #bcbcbc;
+  width: 33%;
 }
 
 .Searchhr {
@@ -93,7 +85,6 @@
   margin: 0 auto;
   border-radius: 0.3rem;
   background-color: #fff;
-  /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-show 0.3s;
   overflow: hidden;
 }
@@ -103,6 +94,7 @@
   padding: 16px 100px 16px 16px;
   background-color: #f1f1f1;
   font-weight: 700;
+  text-align: left;
 }
 
 .modal > section > header button {
@@ -121,7 +113,6 @@
   padding: 16px;
   border-bottom: 1px solid #dee2e6;
   border-top: 1px solid #dee2e6;
-  /* height: 1000px; */
   height: 685px;
 }
 
@@ -141,7 +132,6 @@
 .modal.openModal {
   display: flex;
   align-items: center;
-  /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-bg-show 0.3s;
 }
 

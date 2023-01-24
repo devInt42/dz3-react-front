@@ -8,17 +8,24 @@ import { RxPerson } from "react-icons/rx";
 const EmployeeDetail = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();
   const [deptDetail, setDeptDetail] = useState([]);
+  const [companyName, setCompanyName] = useState();
   const baseUrl = "http://localhost:8080";
 
   //modal에서 값 받아오기
-
   useEffect(() => {
     async function getEmplSeq() {
       const result = await props.employeeSeq;
-      // console.log(props.employeeSeq);
       setEmployeeSeq(result);
     }
     getEmplSeq();
+  }, [props]);
+
+  useEffect(() => {
+    async function getComName() {
+      const result = await props.companyName;
+      setCompanyName(result);
+    }
+    getComName();
   }, [props]);
 
   //직원 상세 페이지
@@ -76,14 +83,15 @@ const EmployeeDetail = (props) => {
         <div>
           <br />
           <ul className="list-group">
-            <li className="list-group-item">
-              소속부서 : {deptDetail.employeePh}
-            </li>
+            <li className="list-group-item">소속회사 : {companyName}</li>
             <li className="list-group-item">
               전화번호 : {deptDetail.employeePh}
             </li>
             <li className="list-group-item">
               회사메일 : {deptDetail.employeeCmail}
+            </li>
+            <li className="list-group-item">
+              개인메일 : {deptDetail.employeePmail}
             </li>
           </ul>
         </div>

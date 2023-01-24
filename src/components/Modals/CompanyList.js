@@ -10,6 +10,7 @@ const CompanyList = (props) => {
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [workplaceNameList, setWorkplaceNameList] = useState();
   const [departmentNameList, setDepartmentNameList] = useState();
+  const [companyName, setCompanyName] = useState();
 
   // Modal.js로 departmentSeq값 전송
   useEffect(() => {
@@ -29,6 +30,15 @@ const CompanyList = (props) => {
     getWorkSeq();
   }, [workplaceSeq]);
 
+  //  Modal.js로 companyName 전송
+  useEffect(() => {
+    async function getComSeq() {
+      const result = await companyName;
+      props.sendCompanyName(result);
+    }
+    getComSeq();
+  }, [companyName]);
+
   //클릭하면 값 저장
   async function sendDepartmentSeq(a) {
     setDepartmentSeq(a);
@@ -36,6 +46,10 @@ const CompanyList = (props) => {
 
   async function sendWorkplaceSeq(a) {
     setWorkplaceSeq(a);
+  }
+
+  async function sendCompanyName(a) {
+    setCompanyName(a);
   }
 
   // 로그인 - 선택된 회사 받아오기
@@ -119,6 +133,7 @@ const CompanyList = (props) => {
             onClick={() => {
               sendDepartmentSeq(list.departmentSeq);
               sendWorkplaceSeq(list.workplaceSeq);
+              sendCompanyName(list.companyName);
             }}>
             <p style={{ textAlign: "left" }}> - {list.departmentName}</p>
           </Row>

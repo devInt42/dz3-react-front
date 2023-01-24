@@ -11,6 +11,7 @@ const EmployeeList = (props) => {
   const [deptList, setDeptList] = useState([]);
   const [employeeSeq, setEmployeeSeq] = useState();
   const [countEmployee, setCountEmployee] = useState(null); // 총 사원수
+  const [companyName, setCompanyName] = useState();
 
   //modal.js로 값이동
   useEffect(() => {
@@ -37,6 +38,14 @@ const EmployeeList = (props) => {
     }
     getWorkSeq();
   }, [props]);
+
+  useEffect(() => {
+    async function getCompanyName() {
+      const result = await props.companyName;
+      setCompanyName(result);
+    }
+    getCompanyName();
+  });
 
   //해당 직원리스트
   const getAllDept = useCallback(async () => {
@@ -102,7 +111,9 @@ const EmployeeList = (props) => {
               <Row className="Searchname">
                 {dList.employeeName} | {dList.employeeId}
               </Row>
-              <Row className="Searchstage">회사명 > {dList.workplaceName}</Row>
+              <Row className="Searchstage">
+                {companyName} > {dList.workplaceName}
+              </Row>
               <Row className="Searchphnum">
                 <div style={{ width: "35px" }}>
                   <BsTelephonePlus />

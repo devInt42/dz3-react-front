@@ -10,6 +10,7 @@ const OrganizationChart = (props) => {
   const [departmentSeq, setDepartmentSeq] = useState();
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [employeeSeq, setEmployeeSeq] = useState();
+  const [companyName, setCompanyName] = useState();
 
   //함수 보냄
   const sendDepartmentSeq = (i) => {
@@ -21,11 +22,15 @@ const OrganizationChart = (props) => {
   const sendEmployeeSeq = (i) => {
     setEmployeeSeq(i);
   };
+  const sendCompanyName = (i) => {
+    setCompanyName(i);
+  };
 
   //처음에 실행하고 바뀔때만 렌더링
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
   const changeWorkSeq = useCallback(() => {}, [workplaceSeq]);
   const changeEmplSeq = useCallback(() => {}, [employeeSeq]);
+  const changeComSeq = useCallback(() => {}, [departmentSeq]);
 
   useEffect(() => {
     changeDeptSeq();
@@ -38,6 +43,10 @@ const OrganizationChart = (props) => {
   useEffect(() => {
     changeEmplSeq();
   }, [employeeSeq]);
+
+  useEffect(() => {
+    changeComSeq();
+  }, [departmentSeq]);
 
   return (
     //open 누르면 openModal 클래스 생성
@@ -58,9 +67,7 @@ const OrganizationChart = (props) => {
                       className="form-select"
                       aria-label="Default select example">
                       <option>전체</option>
-                      <option value="1">회사명</option>
-                      <option value="2">사업자명</option>
-                      <option value="3">부서명</option>
+                      <option value="1">부서명</option>
                     </select>
                   </Col>
                   <Col sm={9}>
@@ -77,6 +84,7 @@ const OrganizationChart = (props) => {
                     <CompanyList
                       sendDepartmentSeq={sendDepartmentSeq}
                       sendWorkplaceSeq={sendWorkplaceSeq}
+                      sendCompanyName={sendCompanyName}
                     />
                   </Col>
                   <Col sm={5} className="SearchemployeeList">
@@ -84,11 +92,15 @@ const OrganizationChart = (props) => {
                       sendEmployeeSeq={sendEmployeeSeq}
                       departmentSeq={departmentSeq}
                       workplaceSeq={workplaceSeq}
+                      companyName={companyName}
                     />
                     <br />
                   </Col>
                   <Col sm={4} className="SearchemployeeDetail">
-                    <EmployeeDetail employeeSeq={employeeSeq} />
+                    <EmployeeDetail
+                      employeeSeq={employeeSeq}
+                      companyName={companyName}
+                    />
                   </Col>
                 </Row>
               </div>
