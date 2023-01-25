@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./AuthGroup.css";
 import { TreeView, TreeItem } from "@mui/lab";
 import { ReactComponent as Folder } from "../authGroup/folder.svg";
+import { ReactComponent as FolderOpen } from "../authGroup/folderopen.svg";
 
 const SubMenuGroup = (props) => {
   const baseUrl = "http://localhost:8080";
@@ -11,7 +12,6 @@ const SubMenuGroup = (props) => {
   const [parentSeq, setParentSeq] = useState(0);
   const [childList, setChildList] = useState([]);
   const [count, setCount] = useState(0);
-  const [flag, setFlag] = useState(false);
   useEffect(() => {
     setDepth(props.depth + 1);
     setParentSeq(props.parentSeq);
@@ -28,7 +28,6 @@ const SubMenuGroup = (props) => {
         params: sendChild,
       });
       setCount(childRes.data);
-      setFlag(true);
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +63,7 @@ const SubMenuGroup = (props) => {
   return (
     <TreeView
       aria-label="file system navigator"
-      defaultCollapseIcon={<Folder />}
+      defaultCollapseIcon={<FolderOpen />}
       defaultExpandIcon={<Folder />}
       sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
     >
