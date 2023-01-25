@@ -104,17 +104,6 @@ const AllEmployeeList = (props) => {
   useEffect(() => {}, [onCheckedAll]);
   useEffect(() => {}, [onCheckedElement]);
 
-  const handleCheckItem = useCallback((item) => {
-    let result = false;
-    checkedList.forEach((chcekedItem) => {
-      if (chcekedItem.employeeSeq == item.employeeSeq) {
-        result = true;
-      }
-    });
-
-    return result;
-  });
-
   return (
     <div>
       <div className="container">
@@ -157,16 +146,22 @@ const AllEmployeeList = (props) => {
                           onChange={(e) =>
                             onCheckedElement(e.target.checked, dept)
                           }
-                          checked={checkedList.includes(dept) ? true : false}
-                          // checked={() => console.log(checkedList)}
+                          checked={(() => {
+                            let tempList = checkedList.filter(
+                              (data) => data.employeeSeq === dept.employeeSeq
+                            );
+                            if (tempList.length > 0) {
+                              return true;
+                            } else {
+                              return false;
+                            }
+                          })()}
                           id="customCheck2"></input>
                         <label
                           className="custom-control-label"
                           htmlFor="customCheck1"></label>
                       </div>
                     </td>
-                    {console.log(checkedList)}
-                    {console.log(dept)}
                     <td>{dept.companyName}</td>
                     <td>{dept.workplaceName}</td>
                     <td>{dept.title}</td>

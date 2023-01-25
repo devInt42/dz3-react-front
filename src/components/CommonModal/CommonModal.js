@@ -52,9 +52,6 @@ const CommonModal = (props) => {
                     className="form-select"
                     aria-label="Default select example">
                     <option>사원명(ID)</option>
-                    <option value="1">TEST</option>
-                    <option value="2">TEST</option>
-                    <option value="3">TEST</option>
                   </select>
                 </Col>
                 <Col sm={9}>

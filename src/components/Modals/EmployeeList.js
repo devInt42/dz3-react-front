@@ -12,6 +12,7 @@ const EmployeeList = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();
   const [countEmployee, setCountEmployee] = useState(null); // 총 사원수
   const [companyName, setCompanyName] = useState();
+  const [employeeName, setEmployeeName] = useState();
 
   //modal.js로 값이동
   useEffect(() => {
@@ -55,6 +56,28 @@ const EmployeeList = (props) => {
         companySeq: companySeq,
         workplaceSeq: workplaceSeq,
         departmentSeq: departmentSeq,
+      };
+      try {
+        const getAllDeptResult = await axios.get(
+          `${baseUrl}/department-employee/employeeList`,
+          { params: deptData }
+        );
+        setDeptList(getAllDeptResult.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [departmentSeq]);
+
+  //직원 검색리스트
+  const getEmployeeListByEmployeeName = useCallback(async () => {
+    if (departmentSeq == null) {
+    } else {
+      let deptData = {
+        companySeq: companySeq,
+        workplaceSeq: workplaceSeq,
+        departmentSeq: departmentSeq,
+        employeeName: employeeName,
       };
       try {
         const getAllDeptResult = await axios.get(
