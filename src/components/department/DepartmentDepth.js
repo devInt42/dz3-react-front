@@ -73,7 +73,7 @@ const DepartmentDepth = (props) => {
                                     </div>
                                 </div>
                             }
-                            {depthIsOpen && <DepartmentDepth depth={child.departmentDepth} key={idx} seq={child.departmentSeq} 
+                            {index.includes(child.departmentSeq) && <DepartmentDepth depth={child.departmentDepth} key={idx} seq={child.departmentSeq} 
                             depthIsOpen = {depthIsOpen} />}
                         </div>
                     )
