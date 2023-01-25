@@ -35,7 +35,6 @@ const Home2 = () => {
 
   function getInfo(obj) {
     console.log(obj);
-    SaveCompanyAlert();
   }
 
   return (
@@ -46,7 +45,8 @@ const Home2 = () => {
         open={modalOpen}
         close={closeModal}
         getInfoCaLLback={getInfo}
-        header="회사부서 사용자 선택"></CommonModal>
+        header="회사부서 사용자 선택"
+      ></CommonModal>
     </React.Fragment>
   );
 };

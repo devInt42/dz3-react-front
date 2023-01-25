@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+import { RiPagesLine, RiPagesFill } from "react-icons/ri";
+
 function MenuItems(props) {
 
     const menuSequence = props.menuSeq
@@ -11,13 +13,13 @@ function MenuItems(props) {
     const [childMenu, setChildMenu] = useState("");
 
     useEffect(() => {
-        axios.get(baseUrl + '/menu/menulist/' + menuSequence).then(response => setSubMenu(response.data)).catch(error => console.log(error))
+        axios.get(baseUrl + '/menu/menulist/' + menuSequence)
+        .then(response => {setSubMenu(response.data)})
+        .catch(error => console.log(error))
     }, [menuSequence]);
 
-    let [count, setCount] = useState();
-
-    const setChildSeq = (seq) => {
-        setChildMenu(seq)
+    const send = (resultMenu) => {
+        props.searchInfo(resultMenu)
     }
 
     return (
@@ -26,12 +28,12 @@ function MenuItems(props) {
                 return (
                     <div key={menu.menuSeq}>
                         <div style={{ paddingLeft: (menu.menuDepth - 1) * 22, paddingRight: '20px' }}>
-                            <div onClick={()=>setChildMenu(menu.menuSeq)}>
-                                {menu.menuName}
+                            <div onClick={()=>{setChildMenu(menu.menuSeq); send(menu)}}>
+                                <RiPagesLine/>{menu.menuName}
                             </div>
                         </div>
                         {
-                            childMenu == menu.menuSeq && <MenuItems menuSeq={menu.menuSeq} />
+                            childMenu == menu.menuSeq && <MenuItems menuSeq={menu.menuSeq} searchInfo={props.searchInfo}/>
                         }
                     </div>
                 );

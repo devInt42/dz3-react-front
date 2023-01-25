@@ -9,6 +9,9 @@ import style from "../components/menu/css/MenuSet.module.css";
 import MenuSearch from "../components/menu/MenuSearch";
 import SaveMenuAlert from "../components/alert/SaveMenuAlert";
 import SaveFailMenuAlert from "../components/alert/SaveFailMenuAlert";
+import DeleteMenuAlert from "../components/alert/DeleteMenuAlert";
+import UpdateMenuAlert from "../components/alert/UpdateMenuAlert";
+import UpdateFailMenuAlert from "../components/alert/UpdateFaliMenuAlert";
 
 function MenuSet() {
   const baseUrl = "http://localhost:8080";
@@ -21,6 +24,7 @@ function MenuSet() {
       .catch((error) => console.log(error));
   }, []);
 
+  const [menuSeq, setMenuSeq] = useState(0);
   const [menuCode, setMenuCode] = useState("");
   const [menuName, setMenuName] = useState("");
   const [menuParent, setMenuParent] = useState(0);
@@ -54,13 +58,34 @@ function MenuSet() {
   const [saveFail, setSaveFail] = useState();
   function validCheck() {
     if (menuCode.length == 0) {
-      setSaveFail(<SaveFailMenuAlert />);
+      setSaveFail(<SaveFailMenuAlert setInputCheck={setInputCheck}/>);
     }
     if (menuName.length == 0) {
-      setSaveFail(<SaveFailMenuAlert />);
+      setSaveFail(<SaveFailMenuAlert setInputCheck={setInputCheck}/>);
     }
     setInputCheck(true);
   }
+
+  const getSearchInfo = (resultMenu) => {
+    console.log(resultMenu);
+    setMenuSeq(resultMenu.menuSeq);
+    setMenuCode(resultMenu.menuCode);
+    setMenuName(resultMenu.menuName);
+    setMenuParent(resultMenu.menuParent);
+}
+
+const [deleteCheck, setDeleteCheck] = useState(false);
+function deleteValid(){
+  if (menuCode.length == 0 || menuName.length == 0) {alert("삭제할 메뉴를 선택해 주세요.")}
+  else setDeleteCheck(true);
+}
+
+const [updateCheck, setUpdateCheck] = useState(false);
+const [updateFail, setUpdateFail] = useState();
+function updateValid(){
+  if (menuCode.length == 0 || menuName.length == 0) {setUpdateFail(<UpdateFailMenuAlert setUpdateCheck={setUpdateCheck}/>);}
+  else setUpdateCheck(true);
+}
 
   return (
     <div>
@@ -86,14 +111,14 @@ function MenuSet() {
               overflow: "scroll",
             }}
           >
-            <MenuSearch />
+            <MenuSearch getSearchInfo={getSearchInfo}/>
           </Col>
           <Col
             md="auto"
             style={{
               border: "1px solid black",
               padding: "0px",
-              width: "74%",
+              width: "74%", 
               height: "100vh",
               marginTop: "10px",
               marginLeft: "10px",
@@ -109,6 +134,7 @@ function MenuSet() {
                     <td>
                       <input
                         type="text"
+                        value={menuCode || ""}
                         className={style.menu_btn_input}
                         onChange={insertMenuCode}
                       />
@@ -120,6 +146,7 @@ function MenuSet() {
                     <td>
                       <input
                         type="text"
+                        value={menuName || ""}
                         className={style.menu_btn_input}
                         onChange={insertMenuName}
                       />
@@ -168,11 +195,16 @@ function MenuSet() {
                   <SaveMenuAlert
                     setInputCheck={setInputCheck}
                     insertMenu={insertMenu}
+                    menuCode={menuCode}
+                    menuName={menuName}
                   />
                 )}
                 {saveFail}
-                <button className={style.menu_delete}>삭제</button>
-                <button className={style.menu_update}>수정</button>
+                <button className={style.menu_delete} onClick={()=>deleteValid()}>삭제</button>
+                {deleteCheck && <DeleteMenuAlert deleteMenu={deleteMenu} menuSeq={menuSeq} menuName={menuName} setDeleteCheck={setDeleteCheck}/>}
+                <button className={style.menu_update} onClick={()=>{updateValid();}}>수정</button>
+                {updateCheck && <UpdateMenuAlert updateMenu={updateMenu} menuSeq={menuSeq} menuCode={menuCode} menuName={menuName} setUpdateCheck={setUpdateCheck}/>}
+                {updateFail}
               </div>
             </div>
           </Col>
@@ -202,6 +234,30 @@ function MenuSet() {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  async function deleteMenu(menuSeq){
+    const url = baseUrl + "/menu/menulist/delete/" + menuSeq;
+    axios({
+        method: "delete",
+        url: url
+    }).then((res) => { console.log("삭제성공!!") }).catch((error) => { console.log(error); });
+  }
+
+  async function updateMenu(menuSeq){
+    const url = baseUrl + "/menu/menulist/update/" + menuSeq;
+    const data = {
+      menuCode: menuCode,
+      menuName: menuName,
+      menuParent: menuParent,
+      menuDepth: menuDepth + 1,
+    }
+    axios({
+        method: "patch",
+        url: url,
+        data: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+    }).then((res) => { console.log("수정성공!!") }).catch((error) => { console.log(error); });
   }
 }
 

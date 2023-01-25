@@ -7,7 +7,7 @@ import { HiOutlineSearchCircle } from "react-icons/hi";
 
 import MenuItems from "./MenuItems";
 
-function MenuSearch() {
+function MenuSearch(props) {
 
     const baseUrl = "http://localhost:8080";
     const [menu, setMenu] = useState([]);
@@ -24,9 +24,9 @@ function MenuSearch() {
         setSearch(e.target.value);
     }
     const searched = searchMenu.filter((item) => {
-        return item.menuName.replace(" ","").toLocaleLowerCase().includes(search.toLocaleLowerCase()) 
+        return item.menuName.replace(" ", "").toLocaleLowerCase().includes(search.toLocaleLowerCase())
     })
-   
+
     useEffect(() => {
         axios.get(baseUrl + '/menu/menulist').then(response => setSearchMenu(response.data)).catch(error => console.log(error))
     }, []);
@@ -39,11 +39,14 @@ function MenuSearch() {
         axios.get(baseUrl + '/menu/menulist/' + selected).then(response => setSubmenu(response.data)).catch(error => console.log(error))
     }, [selected]);
 
+    const searchInfo = (resultMenu) =>{
+        props.getSearchInfo(resultMenu);
+    }
+
     return (
         <div>
             <Row>
-                {/* onChange={insertMenuParent} value={menuParent} */}
-                <select onChange={selectedMenu}>
+                <select onChange={selectedMenu} onClick={() => { setSearch("") }}>
                     <option value={0}>
                         전체
                     </option>
@@ -53,33 +56,27 @@ function MenuSearch() {
                         </option>
                     ))}
                 </select>
-                {/* <select>
-                    {subMenu.map((menu, i) => (
-                        <option value={menu.menuSeq} key={i}>
-                            {menu.menuName}
-                        </option>
-                    ))}
-                </select> */}
-                <div style={{position:"relative"}}>
-                    <input type="text" onChange={getSearch} placeholder="메뉴 검색" 
-                    style={{width:"100%", padding:"5px 7px", fontSize: "14px"}}/>
-                    <HiOutlineSearchCircle style={{position:"absolute", width: "30px", height:"30px", top:"4px", right:"12px", margin:"0"}}/>
+
+                <div style={{ position: "relative" }}>
+                    <input type="text" onChange={getSearch} placeholder="메뉴 검색"
+                        style={{ width: "100%", padding: "5px 7px", fontSize: "14px" }} />
+                    <HiOutlineSearchCircle style={{ position: "absolute", width: "30px", height: "30px", top: "4px", right: "12px", margin: "0" }} />
                 </div>
             </Row>
             <Row>
-                {/* {subMenu.map((menu, i) => {
-                    return (
-                        <div key={i}>
-                            <div><AiFillFolderOpen />{menu.menuName}</div>
-                            <div style={{ paddingLeft: "15px" }}>{<MenuItems menuSeq={menu.menuSeq} />}</div>
-                        </div>
-                    );
-                })} */}
-                {
+                {search != "" ?
                     searched.map((menu) => {
-                        return(
-                            <div key={menu.menuSeq}>{menu.menuName}</div>
+                        return (
+                            <div key={menu.menuSeq} onClick={()=>searchInfo(menu)}>{menu.menuName}</div>
                         )
+                    }) :
+                    subMenu.map((menu, i) => {
+                        return (
+                            <div key={i}>
+                                <div onClick={()=>searchInfo(menu)}><AiFillFolderOpen />{menu.menuName}</div>
+                                <div style={{ paddingLeft: "15px" }}>{<MenuItems menuSeq={menu.menuSeq} searchInfo={searchInfo}/>}</div>
+                            </div>
+                        );
                     })
                 }
             </Row>

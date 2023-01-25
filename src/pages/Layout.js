@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import LNB from "../components/menu/LNB";
-import GNB from "../components/menu/GNB";
+import GNB from "../components/menu/GNB.js";
 import { Container, Row, Col } from "react-bootstrap";
 
 import React, { useState, useCallback } from "react";
