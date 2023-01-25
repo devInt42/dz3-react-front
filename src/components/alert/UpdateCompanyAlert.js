@@ -6,7 +6,6 @@ const UpdateCompanyAlert = (props) => {
 
     MySwal.fire({
         title: '수정 하시겠습니까?',
-        text: '다시 되돌릴 수 없습니다.',
         icon: 'warning',
 
         showCancelButton: true,

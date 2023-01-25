@@ -4,9 +4,13 @@ function CompanyList(props) {
     const baseUrl = "http://localhost:8080";
     const [company, setCompany] = useState();
     useEffect(() => {
+       async function getData () {
+        await 
         axios.get(`${baseUrl}/company/info`)
             .then(res => setCompany(res.data))
-            .catch(error => console.log(error));
+            .catch(error => console.log(error))
+        };
+        getData();
     }, [props.refresh])
 
     useEffect(() => {

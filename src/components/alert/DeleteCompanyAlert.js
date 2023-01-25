@@ -5,8 +5,7 @@ const DeleteCompanyAlert = (props) => {
     const MySwal = withReactContent(Swal);
 
     MySwal.fire({
-        title: '정말로 삭제하시겠습니까?',
-        text: '다시 되돌릴 수 없습니다.',
+        title: '삭제하시겠습니까?',
         icon: 'warning',
 
         showCancelButton: true,
