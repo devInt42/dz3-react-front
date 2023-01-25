@@ -1,33 +1,80 @@
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiFillFolder, AiFillFolderOpen } from 'react-icons/ai';
 
 const DepartmentDepth = (props) => {
 
     const baseUrl = "http://localhost:8080";
-    const [departmentIsOpen, setDepartmentIsOpen] = useState(false);
+    const [depthIsOpen, setDepthIsOpen] = useState(false);
     const [department, setDepartment] = useState([]);
+    const [depth, setDepth] = useState(0);
+    const [seq, setSeq] = useState(0);
+    const [count, setCount] = useState(0);
+    const [index, setIndex] = useState([]);
     useEffect(() => {
-        axios.get(`${baseUrl}/department/list/${props.depth}`)
-            .then(res => setDepartment(res.data))
-            .catch(error => console.log(error));
-    }, [])
+        setDepth(props.depth + 1);
+        setSeq(props.seq);
+    }, [props])
+    const getChildCount = async () => {
+        let sendChild = {
+            departmentDepth: depth,
+            departmentParent: seq
+        };
+        try {
+            let childRes = await axios.get(`${baseUrl}/department/count`, {
+                params: sendChild
+            });
+            setCount(childRes);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        getChildCount();
+    }, [seq, depth])
+    const getData = async () => {
+        let sendChild = {
+            departmentDepth: depth,
+            departmentParent: seq,
+        };
+        try {
+            if (count != 0) {
+                let childRes = await axios.get(`${baseUrl}/department/list`, {
+                    params: sendChild
+                });
+                setDepartment(childRes.data)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        getData();
+    }, [count])
     return (
         <div>
-            <div style={{ paddingLeft: props.departmentDepth * 20 + 20 }}
-                onClick={() => {
-                    setDepartmentIsOpen(!departmentIsOpen);
-                }}>
-                <div>
-                    {departmentIsOpen ? <AiFillFolderOpen className="departmentlist-icon" /> :
-                        <AiFillFolder className="departmentlist-icon" />}
-                </div>
-            </div>
+
             {
                 department && department.map((child, idx) => {
                     return (
-                        <div>
-                            {departmentIsOpen && <DepartmentDepth depth={child.departmentDepth + 1} key={idx} />}
+                        <div key={child.departmentSeq}>
+                            {child.departmentParent == seq &&
+                                <div style={{ paddingLeft: depth * 20 + 20 }}
+                                    >
+                                     <div onClick={() => {
+                                        index.includes(child.departmentSeq) ?
+                                        setIndex(index.filter(department => department !=child.departmentSeq)) :
+                                        setIndex([...index, child.departmentSeq]);
+                                    }}>
+                                        {index.includes(child.departmentSeq) ? <AiFillFolderOpen className="departmentlist-icon" /> :
+                                            <AiFillFolder className="departmentlist-icon" />}
+                                        {child.departmentCode}.{child.departmentName}
+                                        
+                                    </div>
+                                </div>
+                            }
+                            {depthIsOpen && <DepartmentDepth depth={child.departmentDepth} key={idx} seq={child.departmentSeq} 
+                            depthIsOpen = {depthIsOpen} />}
                         </div>
                     )
 

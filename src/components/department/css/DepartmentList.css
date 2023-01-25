@@ -1,6 +1,7 @@
 .workplacelist , .departmentlist{
     padding-left: 20px;
 }
+
 .workplacelist-icon, .companylist-icon {
     color:blue;
     font-size:20px;

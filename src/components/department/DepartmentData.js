@@ -1,20 +1,30 @@
-import axios from "axios";
+
 import { useEffect, useState } from "react"
 import DepartmentDepth from "./DepartmentDepth";
 import { AiFillFolder, AiFillFolderOpen } from 'react-icons/ai';
+import axios from "axios";
 const DepartmentData = (props) => {
     const baseUrl = "http://localhost:8080";
     const [department, setDepartment] = useState([]);
     const [departmentIsOpen, setDepartmentIsOpen] = useState([]);
 
     const [toggleIcon, setToggleIcon] = useState([]);
+    
+
     useEffect(() => {
-        axios.get(`${baseUrl}/department/list/0`)
+        let param = {
+            departmentDepth: 0,
+            departmentParent: 0,
+        }
+            axios.get(`${baseUrl}/department/list`,
+            {
+                params: param
+            })
             .then(res => setDepartment(res.data))
-            .catch(error => console.log(error));
     }, [])
     useEffect(() => {
         setToggleIcon(departmentIsOpen);
+        console.log(departmentIsOpen);
     }, [departmentIsOpen])
     return (
         <>
@@ -23,7 +33,7 @@ const DepartmentData = (props) => {
                     return (
                         <div key={idx} >
                             {
-                                props.workplaceSeq === departmentdata.workplaceSeq&&
+                                props.workplaceSeq === departmentdata.workplaceSeq &&
                                 <div className="departmentlist">
                                     <div onClick={() => {
                                         departmentIsOpen.includes(idx) ?
@@ -32,11 +42,12 @@ const DepartmentData = (props) => {
                                     }}>
                                         {toggleIcon.includes(idx) ? <AiFillFolderOpen className="departmentlist-icon" /> :
                                             <AiFillFolder className="departmentlist-icon" />}
+                                    
                                        {departmentdata.departmentCode}.{departmentdata.departmentName}
-                                        {setDepartmentIsOpen && <DepartmentDepth depth = {departmentdata.departmentDepth + 1} 
+                                       </div>
+                                        {departmentIsOpen.includes(idx) && <DepartmentDepth depth = {departmentdata.departmentDepth} 
                                         seq = {departmentdata.departmentSeq}
                                         />}
-                                    </div>
                                 </div>
 
                             }
