@@ -1,40 +1,56 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-function CompanyList() {
+import { useState, useEffect} from 'react';
+function CompanyList(props) {
     const baseUrl = "http://localhost:8080";
     const [company, setCompany] = useState();
     useEffect(() => {
+       async function getData () {
+        await 
         axios.get(`${baseUrl}/company/info`)
             .then(res => setCompany(res.data))
-            .catch(error => console.log(error));
-    }, [])
+            .catch(error => console.log(error))
+        };
+        getData();
+    }, [props.refresh])
 
+    useEffect(() => {
+        setCompany(props.searchData)
+    }, [props.searchData])
+
+    useEffect(() => {
+    }, [company])
+    
     return (
-        company &&
+        company&&
         <>
             <div className="companylistbox">
                 <div className="companylistboxheader">
                     <b>회사</b> <b className="emphasisfont">{company.length}</b> <b>건</b>
                 </div>
                 <ul>
-                    {listcompany(company)}
+                    {<Listcompany company={company} setDetailFlag={props.setDetailFlag} setCompanySeq={props.setCompanySeq}
+                    />}
                 </ul>
             </div>
-
         </>
     )
 }
 
-const listcompany = (company) => {
+function Listcompany(props) {
+    const [companyIndex, setCompanyIndex] = useState();
+
     return (
-        <>
+       props.company && <>
             {
-                company.map((company) => {
+                props.company.map((company, idx) => {
                     return (
-                        <div className="box">
-                            
-                                <li>{company.companyCode}{company.companyName}{company.companyPresident}</li>
-                            
+                        <div className={`${companyIndex}` === `${idx}` ? 'box active' : 'box companylistmenu'}
+                            onClick={() => {
+                                props.setCompanySeq(company.companySeq);
+                                props.setDetailFlag(true);
+                            }}>
+                            <li>{company.companyCode}{company.companyName}
+                                {company.companyPresident}{company.pcBuisness}</li>
                         </div>
                     )
                 })
@@ -42,4 +58,5 @@ const listcompany = (company) => {
         </>
     )
 }
+
 export default CompanyList;
