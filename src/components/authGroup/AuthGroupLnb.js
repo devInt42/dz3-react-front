@@ -317,6 +317,8 @@ const AuthGroupLnb = (props) => {
                       fontWeight: "bold",
                     }}
                   >
+                    {aList.authCode}
+                    <span>&nbsp;-&nbsp;</span>
                     {aList.authName}
                   </p>
                 </Nav.Link>

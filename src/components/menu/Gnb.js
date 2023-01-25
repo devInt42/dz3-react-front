@@ -6,7 +6,7 @@ import style from "./css/GNB.module.css";
 import { BsPersonCircle } from "react-icons/bs";
 import { Row, Col } from "react-bootstrap";
 import LoginInfo from "./LoginInfo";
-
+import OrganizationChart from "../modals/OrganizationChart";
 function GNB(props) {
   //modal
   const [modalOpen, setModalOpen] = useState(false);

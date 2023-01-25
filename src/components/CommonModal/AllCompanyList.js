@@ -9,13 +9,13 @@ const AllCompanyList = (props) => {
 
   // Modal.js로 departmentSeq값 전송
   useEffect(() => {
-    async function getDeptSeq() {
-      const result = await JSON.stringify(departmentSeq);
-      props.sendDepartmentSeq(result);
-    }
     getDeptSeq();
   }, [departmentSeq]);
 
+  const getDeptSeq = () => {
+    let result = JSON.stringify(departmentSeq);
+    props.sendDepartmentSeq(result);
+  };
   //클릭하면 값 저장
   async function sendDepartmentSeq(a) {
     setDepartmentSeq(a);
@@ -50,7 +50,8 @@ const AllCompanyList = (props) => {
             key={companyList.departmentSeq}
             onClick={() => {
               sendDepartmentSeq(companyList.departmentSeq);
-            }}>
+            }}
+          >
             - {companyList.departmentName}
           </div>
         ))}
