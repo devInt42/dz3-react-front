@@ -6,6 +6,11 @@ import MenuSet from "./MenuSet";
 import { Outlet, useNavigate } from "react-router-dom";
 import ContentsMapping from "./ContentsMapping";
 
+import TreeView from '@mui/lab/TreeView';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import TreeItem from '@mui/lab/TreeItem';
+
 function SubMenu(props) {
   const navigate = useNavigate();
 
@@ -57,31 +62,63 @@ function SubMenu(props) {
   // console.log(subMenu)
 
   return (
-    <div>
-      {menuSequence == 0 ? (
+    // <div>
+    //   {menuSequence == 0 ? (
+    //     <></>
+    //   ) : (
+    //     <div>
+    //       {subMenu.map((menu) => {
+    //         return (
+    //           <div className={style.check} key={menu.menuSeq}>
+    //             <div
+    //               className={style.item}
+    //               style={{
+    //                 paddingLeft: (menu.menuDepth - 1) * 20,
+    //                 paddingRight: "20px",
+    //               }}
+    //             >
+    //               <div
+    //                 className={style.menu_btn}
+    //                 onClick={() => {
+    //                   setIsActive(true);
+    //                   setChildMenu(menu.menuSeq);
+    //                 }}
+    //               >
+    //                {menu.menuName}
+    //               </div>
+    //             </div>
+    //             {childMenu == menu.menuSeq && isActive && (
+    //               <SubMenu menuSeq={menu.menuSeq} />
+    //             )}
+    //           </div>
+    //         );
+    //       })}
+    //       {lastSeq == 0 ? <></> : <ContentsMapping lastSeq={lastSeq} />}
+    //     </div>
+    //   )}
+    // </div>
+    <TreeView
+      aria-label="file system navigator"
+      defaultCollapseIcon={<ExpandMoreIcon />}
+      defaultExpandIcon={<ChevronRightIcon />}
+      sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
+    >
+         {menuSequence == 0 ? (
         <></>
       ) : (
         <div>
           {subMenu.map((menu) => {
             return (
-              <div className={style.check} key={menu.menuSeq}>
-                <div
-                  className={style.item}
-                  style={{
-                    paddingLeft: (menu.menuDepth - 1) * 20,
-                    paddingRight: "20px",
-                  }}
-                >
+              <div>
+                
                   <div
-                    className={style.menu_btn}
                     onClick={() => {
                       setIsActive(true);
                       setChildMenu(menu.menuSeq);
                     }}
                   >
-                    {menu.menuName}
+                   <TreeItem key={menu.menuSeq} nodeId={menu.menuSeq} label={menu.menuName}/>
                   </div>
-                </div>
                 {childMenu == menu.menuSeq && isActive && (
                   <SubMenu menuSeq={menu.menuSeq} />
                 )}
@@ -91,7 +128,7 @@ function SubMenu(props) {
           {lastSeq == 0 ? <></> : <ContentsMapping lastSeq={lastSeq} />}
         </div>
       )}
-    </div>
+    </TreeView>
   );
 
   // return (

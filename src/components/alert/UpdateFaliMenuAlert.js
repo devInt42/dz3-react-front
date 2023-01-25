@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-function SaveFailMenuAlert(props) {
+function UpdateFailMenuAlert(props) {
   const MySwal = withReactContent(Swal)
 MySwal.fire({
   title:'필수 정보를 입력하지 않았습니다.',
@@ -9,8 +9,8 @@ MySwal.fire({
   icon: 'error',
   width: '600px',
 })
-props.setInputCheck(false);
+props.setUpdateCheck(false);
 }
 
 
-export default SaveFailMenuAlert;
+export default UpdateFailMenuAlert;
