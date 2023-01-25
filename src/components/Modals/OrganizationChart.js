@@ -71,12 +71,10 @@ const OrganizationChart = (props) => {
                     </select>
                   </Col>
                   <Col sm={9}>
-                    <div className="mb-3">
-                      <textarea
-                        className="form-control"
-                        id="exampleFormControlTextarea1"
-                        rows="1"></textarea>
-                    </div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="검색어를 입력하세요."></input>
                   </Col>
                 </Row>
                 <Row>

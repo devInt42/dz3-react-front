@@ -77,7 +77,6 @@ const EmployeeDetail = (props) => {
           {" "}
           <span className="Searchcenter">
             <FaBirthdayCake size="13" /> {deptDetail.employeeBirth}{" "}
-            <span className="SearchLine">(음력)</span>
           </span>
         </Row>
         <div>

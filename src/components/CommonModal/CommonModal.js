@@ -59,11 +59,10 @@ const CommonModal = (props) => {
                 </Col>
                 <Col sm={9}>
                   <div className="mb-3">
-                    <textarea
-                      className="form-control"
-                      id="exampleFormControlTextarea1"
-                      placeholder="검색어를 입력하세요."
-                      rows="1"></textarea>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="검색어를 입력하세요."></input>
                   </div>
                 </Col>
               </Row>
