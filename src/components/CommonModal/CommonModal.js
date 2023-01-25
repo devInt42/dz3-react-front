@@ -1,34 +1,16 @@
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
 import React from "react";
-import "../Modals/OrganizationChart";
+import "../modals/OrganizationChart";
 import AllCompanyList from "./AllCompanyList";
 import AllSelectList from "./AllSelectList";
 import AllEmployeeList from "./AllEmployeeList";
-import "../Modals/SearchModal.css";
-// import Swal from "sweetalert2";
+import "../modals/SearchModal.css";
 
 const CommonModal = (props) => {
   const { open, close, header, getInfoCaLLback } = props;
   const [departmentSeq, setDepartmentSeq] = useState();
   const [checkItem, setCheckItem] = useState([]); //자식에서 받아올 값
-
-  //   Swal.fire({
-  //     icon: "warning",
-  //     title: "삭제",
-  //     text: "정보가 저장되었습니다.",
-  //     showCancelButton: true,
-  //     confirmButtonText: "삭제",
-  //     cancelButtonText: "취소",
-  // }).then((res) => {
-  //     /* Read more about isConfirmed, isDenied below */
-  //     if (res.isConfirmed) {
-  //        //삭제 요청 처리
-  //     }
-  //     else{
-  //         //취소
-  //     }
-  // });
 
   //함수 보냄
   const sendDepartmentSeq = (i) => {
@@ -39,7 +21,7 @@ const CommonModal = (props) => {
   };
 
   function SelelctEmplList() {
-    props.getInfoCaLLback(checkItem);
+    getInfoCaLLback(checkItem);
   }
 
   //처음에 실행하고 바뀔때만 렌더링
@@ -58,9 +40,9 @@ const CommonModal = (props) => {
         <section>
           <header>
             {header}
-            <button className="close" onClick={close}>
+            <Button className="close" onClick={close}>
               X
-            </button>
+            </Button>
           </header>
           <main>
             <div>
@@ -100,7 +82,7 @@ const CommonModal = (props) => {
                   <Row>
                     <div>
                       <span className="CommonBtn">• 선택목록</span>
-                      <button onClick={(SelelctEmplList, close)}>확인</button>
+                      <button onClick={SelelctEmplList}>확인 </button>
                     </div>
                   </Row>
                   <Row sm={4} className="AllChoiceEmp">

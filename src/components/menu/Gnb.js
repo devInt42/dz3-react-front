@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CgMenuBoxed } from "react-icons/cg";
 import style from "./css/GNB.module.css";
 import { BsPersonCircle } from "react-icons/bs";
-import OrganizationChart from "../Modals/OrganizationChart";
 import { Row, Col } from "react-bootstrap";
 import LoginInfo from "./LoginInfo";
 

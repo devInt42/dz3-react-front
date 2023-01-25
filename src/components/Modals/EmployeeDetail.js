@@ -1,22 +1,31 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Container } from "react-bootstrap";
 import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
+import { FaBirthdayCake } from "react-icons/fa";
+import { RxPerson } from "react-icons/rx";
 
 const EmployeeDetail = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();
   const [deptDetail, setDeptDetail] = useState([]);
+  const [companyName, setCompanyName] = useState();
   const baseUrl = "http://localhost:8080";
 
   //modal에서 값 받아오기
-
   useEffect(() => {
     async function getEmplSeq() {
       const result = await props.employeeSeq;
-      // console.log(props.employeeSeq);
       setEmployeeSeq(result);
     }
     getEmplSeq();
+  }, [props]);
+
+  useEffect(() => {
+    async function getComName() {
+      const result = await props.companyName;
+      setCompanyName(result);
+    }
+    getComName();
   }, [props]);
 
   //직원 상세 페이지
@@ -48,14 +57,10 @@ const EmployeeDetail = (props) => {
     <div className="SearchDetail">
       <Container>
         <Row>
-          <Col sm={9}>
-            {" "}
-            <BsFillFileEarmarkPersonFill
-              size="100"
-              style={{ paddingTop: "15px", paddingLeft: "20px" }}
-            />
-          </Col>
-          <Col sm={3}>LOGO</Col>
+          <BsFillFileEarmarkPersonFill
+            size="100"
+            style={{ paddingTop: "15px", paddingLeft: "20px" }}
+          />
         </Row>
         <br />
 
@@ -64,15 +69,21 @@ const EmployeeDetail = (props) => {
         </Row>
         <Row>
           {" "}
-          <span className="Searchcenter">{deptDetail.employeeId}</span>
+          <span className="Searchcenter">
+            <RxPerson size="16" /> {deptDetail.employeeId}
+          </span>
         </Row>
         <Row>
           {" "}
-          <span className="Searchcenter">{deptDetail.employeeBirth}</span>
+          <span className="Searchcenter">
+            <FaBirthdayCake size="13" /> {deptDetail.employeeBirth}{" "}
+            <span className="SearchLine">(음력)</span>
+          </span>
         </Row>
         <div>
           <br />
           <ul className="list-group">
+            <li className="list-group-item">소속회사 : {companyName}</li>
             <li className="list-group-item">
               전화번호 : {deptDetail.employeePh}
             </li>
