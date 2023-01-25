@@ -1,36 +1,36 @@
+import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
-import { AiFillFolder,AiFillFolderOpen } from 'react-icons/ai';
+import { AiFillFolder, AiFillFolderOpen } from 'react-icons/ai';
 
 const DepartmentDepth = (props) => {
 
+    const baseUrl = "http://localhost:8080";
     const [departmentIsOpen, setDepartmentIsOpen] = useState(false);
-    const [depth, setDepth] = useState([]);
-    const save = {};
-    
+    const [department, setDepartment] = useState([]);
+    useEffect(() => {
+        axios.get(`${baseUrl}/department/list/${props.depth}`)
+            .then(res => setDepartment(res.data))
+            .catch(error => console.log(error));
+    }, [])
     return (
         <div>
-            <div style={{ paddingLeft: props.departmentDepth * 20 + 20 }} 
-            onClick = {()=> {
-                setDepartmentIsOpen(!departmentIsOpen);
-                setDepth([...depth, props.departmentDepth]);
-            }}>
-
+            <div style={{ paddingLeft: props.departmentDepth * 20 + 20 }}
+                onClick={() => {
+                    setDepartmentIsOpen(!departmentIsOpen);
+                }}>
                 <div>
-                {departmentIsOpen ? <AiFillFolderOpen className="departmentlist-icon"/>: 
-                <AiFillFolder className = "departmentlist-icon"/> }
-                {props.departmentCode}.{props.departmentName}
+                    {departmentIsOpen ? <AiFillFolderOpen className="departmentlist-icon" /> :
+                        <AiFillFolder className="departmentlist-icon" />}
                 </div>
-
             </div>
             {
-                props.department && props.department.map((child, idx) => {
-                    return(
+                department && department.map((child, idx) => {
+                    return (
                         <div>
-                            {departmentIsOpen && <DepartmentDepth child = {child} key = {idx}/>}
-                            {console.log("gdgd")}
+                            {departmentIsOpen && <DepartmentDepth depth={child.departmentDepth + 1} key={idx} />}
                         </div>
                     )
-                    
+
                 })
             }
         </div>

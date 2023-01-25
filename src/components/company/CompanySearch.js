@@ -30,7 +30,7 @@ const CompanySearch = (props) => {
         <div>
             회사 <input type="text" placeholder='회사코드/회사명을 입력하세요.'
                 onChange={e => {
-                    isNaN(e.target.value) ? (setSearchCompanyName(e.target.value) || setSearchCompanyCode(0))
+                    isNaN(e.target.value) || e.target.value === '' ? (setSearchCompanyName(e.target.value) || setSearchCompanyCode(0))
                         : (setSearchCompanyCode(e.target.value) || setSearchCompanyName(""))
                 }} />
             사용여부 <select onChange={e => setSearchUseYN(e.target.value)}>

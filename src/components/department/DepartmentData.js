@@ -9,13 +9,12 @@ const DepartmentData = (props) => {
 
     const [toggleIcon, setToggleIcon] = useState([]);
     useEffect(() => {
-        axios.get(`${baseUrl}/department/list/`)
+        axios.get(`${baseUrl}/department/list/0`)
             .then(res => setDepartment(res.data))
             .catch(error => console.log(error));
     }, [])
     useEffect(() => {
         setToggleIcon(departmentIsOpen);
-        console.log(toggleIcon);
     }, [departmentIsOpen])
     return (
         <>
@@ -24,7 +23,7 @@ const DepartmentData = (props) => {
                     return (
                         <div key={idx} >
                             {
-                                props.workplaceSeq === departmentdata.workplaceSeq &&
+                                props.workplaceSeq === departmentdata.workplaceSeq&&
                                 <div className="departmentlist">
                                     <div onClick={() => {
                                         departmentIsOpen.includes(idx) ?
@@ -33,7 +32,10 @@ const DepartmentData = (props) => {
                                     }}>
                                         {toggleIcon.includes(idx) ? <AiFillFolderOpen className="departmentlist-icon" /> :
                                             <AiFillFolder className="departmentlist-icon" />}
-                                        {departmentdata.departmentCode}.{departmentdata.departmentName}
+                                       {departmentdata.departmentCode}.{departmentdata.departmentName}
+                                        {setDepartmentIsOpen && <DepartmentDepth depth = {departmentdata.departmentDepth + 1} 
+                                        seq = {departmentdata.departmentSeq}
+                                        />}
                                     </div>
                                 </div>
 
