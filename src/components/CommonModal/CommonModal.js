@@ -52,20 +52,16 @@ const CommonModal = (props) => {
                     className="form-select"
                     aria-label="Default select example"
                   >
-                    <option>사원명(ID)</option>
-                    <option value="1">TEST</option>
-                    <option value="2">TEST</option>
-                    <option value="3">TEST</option>
+                    <option>사원명</option>
                   </select>
                 </Col>
                 <Col sm={9}>
                   <div className="mb-3">
-                    <textarea
-                      className="form-control"
-                      id="exampleFormControlTextarea1"
+                    <input
+                      type="text"
+                      class="form-control"
                       placeholder="검색어를 입력하세요."
-                      rows="1"
-                    ></textarea>
+                    ></input>
                   </div>
                 </Col>
               </Row>
@@ -84,7 +80,7 @@ const CommonModal = (props) => {
                   <Row>
                     <div>
                       <span className="CommonBtn">• 선택목록</span>
-                      <button onClick={SelelctEmplList}>확인</button>
+                      <button onClick={SelelctEmplList}>확인 </button>
                     </div>
                   </Row>
                   <Row sm={4} className="AllChoiceEmp">

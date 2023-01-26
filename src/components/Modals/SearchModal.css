@@ -4,6 +4,7 @@
   margin-right: 15px;
   height: 540px;
   margin-left: 10px;
+  margin-top: 15px;
 }
 
 .SearchemployeeList {
@@ -14,6 +15,8 @@
   border-top: medium solid darkslategrey;
   height: 540px;
   overflow: auto;
+
+  margin-top: 15px;
 }
 
 .SearchemployeeDetail {
@@ -21,6 +24,7 @@
   border-radius: 5px;
   border: 1px solid #bcbcbc;
   width: 33%;
+  margin-top: 15px;
 }
 
 .Searchhr {
@@ -107,6 +111,7 @@
   text-align: center;
   color: #999;
   background-color: transparent;
+  --bs-btn-hover-bg: transparent;
 }
 
 .modal > section > main {
@@ -164,7 +169,7 @@
   height: 510px;
   width: 38%;
   margin-left: 10px;
-  height: 580px;
+  height: 555px;
 }
 
 .AllCheckbox {
@@ -209,6 +214,9 @@
   margin-right: 10px;
 }
 
-.SearchLine {
-  font-size: 11px;
+.OraganicTextBox {
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  width: 500px;
+  height: 200px;
 }

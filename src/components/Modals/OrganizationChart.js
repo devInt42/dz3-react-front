@@ -1,5 +1,5 @@
 import "./SearchModal.css";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
 import CompanyList from "./CompanyList";
 import EmployeeList from "./EmployeeList";
@@ -11,6 +11,8 @@ const OrganizationChart = (props) => {
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [employeeSeq, setEmployeeSeq] = useState();
   const [companyName, setCompanyName] = useState();
+  const [text, setText] = useState();
+  const [sendText, setSendText] = useState();
 
   //함수 보냄
   const sendDepartmentSeq = (i) => {
@@ -24,6 +26,15 @@ const OrganizationChart = (props) => {
   };
   const sendCompanyName = (i) => {
     setCompanyName(i);
+  };
+
+  const onChange = (e) => {
+    setText(e.target.value);
+  };
+
+  //버튼 누르면 값 이동
+  const sendInputText = () => {
+    setSendText(text);
   };
 
   //처음에 실행하고 바뀔때만 렌더링
@@ -48,6 +59,8 @@ const OrganizationChart = (props) => {
     changeComSeq();
   }, [departmentSeq]);
 
+  //
+
   return (
     //open 누르면 openModal 클래스 생성
     <div className={open ? "openModal modal" : "modal"}>
@@ -66,17 +79,24 @@ const OrganizationChart = (props) => {
                     <select
                       className="form-select"
                       aria-label="Default select example">
-                      <option>전체</option>
-                      <option value="1">부서명</option>
+                      <option>사원명</option>
                     </select>
                   </Col>
-                  <Col sm={9}>
-                    <div className="mb-3">
-                      <textarea
-                        className="form-control"
-                        id="exampleFormControlTextarea1"
-                        rows="1"></textarea>
-                    </div>
+                  <Col sm={8}>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="검색어를 입력하세요."
+                      onChange={onChange}
+                      value={text}></input>
+                  </Col>
+                  <Col sm={1}>
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={sendInputText}>
+                      검색
+                    </button>
                   </Col>
                 </Row>
                 <Row>
@@ -93,6 +113,7 @@ const OrganizationChart = (props) => {
                       departmentSeq={departmentSeq}
                       workplaceSeq={workplaceSeq}
                       companyName={companyName}
+                      sendText={sendText}
                     />
                     <br />
                   </Col>

@@ -7,7 +7,6 @@ const AllEmployeeList = (props) => {
   const [page, setPage] = useState(1); // 현재 페이지
   const [countEmployee, setCountEmployee] = useState(0); // 총 사원수
   const [checkedList, setCheckedLists] = useState([]); //값 저장
-  const [AllList, setAllList] = useState([]); //page 모든 값 저장
 
   //값 받아서 departmentSeq 설정
   useEffect(() => {
@@ -24,11 +23,13 @@ const AllEmployeeList = (props) => {
   }
 
   //checkedList가 바뀔때마다 modal로 값 전송
+
+  const sendInfo = () => {
+    const result = JSON.stringify(checkedList);
+    props.sendCheckedElement(result);
+  };
+
   useEffect(() => {
-    async function sendInfo() {
-      const result = await JSON.stringify(checkedList);
-      props.sendCheckedElement(result);
-    }
     sendInfo();
   }, [checkedList]);
 
@@ -69,11 +70,9 @@ const AllEmployeeList = (props) => {
         const temp = [];
 
         deptList.forEach((list) => temp.push(list));
-        var merged = checkedList.concat(temp);
-        var unique = merged.filter((item, pos) => merged.indexOf(item) === pos);
-        var all = checkedList.concat(temp);
+        let merged = checkedList.concat(temp);
+        let unique = merged.filter((item, pos) => merged.indexOf(item) === pos);
         setCheckedLists(unique);
-        setAllList(all);
       } else {
         setCheckedLists([]);
       }
@@ -87,7 +86,6 @@ const AllEmployeeList = (props) => {
       try {
         if (checked) {
           setCheckedLists([...checkedList, list]);
-          setAllList([...checkedList, list]);
           // console.log("나오나?" + list.employeeSeq);
         } else {
           setCheckedLists(
@@ -105,9 +103,6 @@ const AllEmployeeList = (props) => {
   useEffect(() => {}, [checkedList]);
   useEffect(() => {}, [onCheckedAll]);
   useEffect(() => {}, [onCheckedElement]);
-
-  // console.log("C" + checkedList);
-  // console.log("A" + AllList);
 
   return (
     <div>
@@ -132,7 +127,8 @@ const AllEmployeeList = (props) => {
                           : false
                       }
                       className="custom-control-input"
-                      id="customCheck2"></input>
+                      id="customCheck2"
+                    ></input>
                   </th>
                   <th scope="col">사업장</th>
                   <th scope="col">부서명</th>
@@ -142,30 +138,38 @@ const AllEmployeeList = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {deptList.map((deptList) => (
-                  <tr key={deptList.employeeSeq}>
+                {deptList.map((dept) => (
+                  <tr key={dept.employeeSeq}>
                     <td>
                       <div className="custom-control custom-checkbox">
                         <input
                           type="checkbox"
                           onChange={(e) =>
-                            onCheckedElement(e.target.checked, deptList)
+                            onCheckedElement(e.target.checked, dept)
                           }
-                          checked={
-                            checkedList.includes(deptList) ? true : false
-                          }
-                          id="customCheck2"></input>
+                          checked={(() => {
+                            let tempList = checkedList.filter(
+                              (data) => data.employeeSeq === dept.employeeSeq
+                            );
+                            if (tempList.length > 0) {
+                              return true;
+                            } else {
+                              return false;
+                            }
+                          })()}
+                          id="customCheck2"
+                        ></input>
                         <label
                           className="custom-control-label"
-                          htmlFor="customCheck1"></label>
+                          htmlFor="customCheck1"
+                        ></label>
                       </div>
                     </td>
-
-                    <td>{deptList.companyName}</td>
-                    <td>{deptList.workplaceName}</td>
-                    <td>{deptList.title}</td>
-                    <td>{deptList.employeeName}</td>
-                    <td>{deptList.employeePmail}</td>
+                    <td>{dept.companyName}</td>
+                    <td>{dept.workplaceName}</td>
+                    <td>{dept.title}</td>
+                    <td>{dept.employeeName}</td>
+                    <td>{dept.employeePmail}</td>
                   </tr>
                 ))}
               </tbody>

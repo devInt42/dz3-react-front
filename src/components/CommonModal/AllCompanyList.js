@@ -1,61 +1,95 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
+import { Container, Row } from "react-bootstrap";
 
 const AllCompanyList = (props) => {
-  const [companySeq, setCompanySeq] = useState(2);
   const baseUrl = "http://localhost:8080";
   const [companyList, setCompanyList] = useState([]);
-  const [departmentSeq, setDepartmentSeq] = useState(null);
+  const [departmentSeq, setDepartmentSeq] = useState();
+  const [workplaceSeq, setWorkplaceSeq] = useState();
+  const [deptNameList, setDeptNameList] = useState([]);
+  const [departmentNameList, setDepartmentNameList] = useState();
+  const [companySeq, setCompanySeq] = useState();
 
   // Modal.js로 departmentSeq값 전송
-  useEffect(() => {
-    getDeptSeq();
-  }, [departmentSeq]);
-
   const getDeptSeq = () => {
     let result = JSON.stringify(departmentSeq);
     props.sendDepartmentSeq(result);
   };
+
+  useEffect(() => {
+    getDeptSeq();
+  }, [departmentSeq]);
+
   //클릭하면 값 저장
   async function sendDepartmentSeq(a) {
     setDepartmentSeq(a);
   }
 
-  //회사 전체 값 받아오기 (일단 2번 회사에 부서로)
-  const getAllCompany = useCallback(async () => {
+  // 로그인 - 선택된 회사 받아오기
+  const getCompany = async () => {
     let companyData = {
-      companySeq,
+      companySeq: companySeq,
     };
     try {
-      const getAllCompanyResult = await axios.get(
-        `${baseUrl}/department/list/${companySeq}`,
-        { params: companyData }
+      const companyDataResult = await axios.get(
+        `${baseUrl}/department-employee/companyElement`,
+        {
+          params: companyData,
+          headers: {
+            Authorization: window.sessionStorage.getItem("empInfo"),
+          },
+        }
       );
-      setCompanyList(getAllCompanyResult.data);
+      setDeptNameList(companyDataResult.data);
     } catch (error) {
       console.log(error);
     }
-  }, [companySeq]);
+  };
+
+  //선택된 회사에 부서 받아오기
+  const getDepartment = async () => {
+    let departmentData = {
+      companySeq: companySeq,
+    };
+    try {
+      const departmentDataResult = await axios.get(
+        `${baseUrl}/department-employee/departmentList`,
+        {
+          params: departmentData,
+          headers: {
+            Authorization: window.sessionStorage.getItem("empInfo"),
+          },
+        }
+      );
+      setDepartmentNameList(departmentDataResult.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //회사가 바뀔때마다 가져오는값 달라짐
   useEffect(() => {
-    getAllCompany();
-  }, [companySeq]);
+    getCompany();
+    getDepartment();
+  }, []);
 
   return (
-    <div>
-      {companyList &&
-        companyList.map((companyList) => (
-          <div
-            key={companyList.departmentSeq}
+    <Container>
+      <Row>{deptNameList[0]?.companyName}</Row>
+      {departmentNameList &&
+        departmentNameList.map((list) => (
+          <Row
+            className="CompanyLine"
+            key={list.departmentSeq}
             onClick={() => {
-              sendDepartmentSeq(companyList.departmentSeq);
+              sendDepartmentSeq(list.departmentSeq);
             }}
           >
-            - {companyList.departmentName}
-          </div>
+            <p style={{ textAlign: "left" }}> - {list.departmentName}</p>
+          </Row>
         ))}
-    </div>
+    </Container>
   );
 };
 

@@ -13,27 +13,31 @@ const CompanyList = (props) => {
   const [companyName, setCompanyName] = useState();
 
   // Modal.js로 departmentSeq값 전송
+
+  const getDeptSeq = () => {
+    let result = JSON.stringify(departmentSeq);
+    props.sendDepartmentSeq(result);
+  };
+
   useEffect(() => {
-    async function getDeptSeq() {
-      const result = await JSON.stringify(departmentSeq);
-      props.sendDepartmentSeq(result);
-    }
     getDeptSeq();
   }, [departmentSeq]);
 
   // Modal.js로 workplaceSeq 전송
+
+  const getWorkSeq = () => {
+    let result = JSON.stringify(workplaceSeq);
+    props.sendWorkplaceSeq(result);
+  };
   useEffect(() => {
-    async function getWorkSeq() {
-      const result = await JSON.stringify(workplaceSeq);
-      props.sendWorkplaceSeq(result);
-    }
     getWorkSeq();
   }, [workplaceSeq]);
 
   //  Modal.js로 companyName 전송
+
   useEffect(() => {
-    async function getComSeq() {
-      const result = await companyName;
+    function getComSeq() {
+      let result = companyName;
       props.sendCompanyName(result);
     }
     getComSeq();
