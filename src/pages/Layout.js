@@ -5,6 +5,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import React, { useState, useCallback } from "react";
 import SubMenu from "../components/menu/SubMenu";
+import CallMenu from "./CallMenu";
 
 function Layout() {
   // const [test, setTest] = useState("");
@@ -57,7 +58,7 @@ function Layout() {
                 overflow: "hidden",
               }}
             >
-              <SubMenu menuSeq={menuSeq} />
+              <CallMenu menuSeq={menuSeq} />
             </Col>
             <Col>
               <Outlet />

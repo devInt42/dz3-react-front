@@ -137,7 +137,7 @@ function updateValid(){
                         value={menuCode || ""}
                         className={style.menu_btn_input}
                         onChange={insertMenuCode}
-                      />
+                        />
                     </td>
                   </tr>
 
