@@ -37,6 +37,11 @@ const OrganizationChart = (props) => {
     setEmployeeName(text);
   };
 
+  //초기화
+  const reset = () => {
+    setText("");
+  };
+
   //처음에 실행하고 바뀔때만 렌더링
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
   const changeWorkSeq = useCallback(() => {}, [workplaceSeq]);
@@ -66,7 +71,13 @@ const OrganizationChart = (props) => {
           <header>
             {header}
 
-            <button onClick={close}>X</button>
+            <button
+              onClick={() => {
+                close();
+                reset();
+              }}>
+              X
+            </button>
           </header>
           <main>
             <div>

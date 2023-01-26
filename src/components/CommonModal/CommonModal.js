@@ -49,15 +49,24 @@ const CommonModal = (props) => {
     changeComSeq();
   }, [departmentSeq]);
 
+  //초기화
+  const reset = () => {
+    setText("");
+  };
+
   return (
     <div className={open ? "openModal modal" : "modal"}>
       {open ? (
         <section>
           <header>
             {header}
-            <Button className="close" onClick={close}>
+            <button
+              onClick={() => {
+                close();
+                reset();
+              }}>
               X
-            </Button>
+            </button>
           </header>
           <main>
             <div>
