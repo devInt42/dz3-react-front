@@ -9,6 +9,7 @@ const EmployeeDetail = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();
   const [deptDetail, setDeptDetail] = useState([]);
   const [companyName, setCompanyName] = useState();
+  const [loginInfo, setLoginInfo] = useState();
   const baseUrl = "http://localhost:8080";
 
   //modal에서 값 받아오기
@@ -52,6 +53,33 @@ const EmployeeDetail = (props) => {
       getEmplElement();
     }
   }, [employeeSeq]);
+
+  //로그인한 사람 info (시작하자말자 default 값)
+  const getLoginInfo = useCallback(async () => {
+    try {
+      const LoginDataResult = await axios.get(
+        `${baseUrl}/department-employee/myInfo`,
+        {
+          headers: {
+            Authorization: window.sessionStorage.getItem("empInfo"),
+          },
+        }
+      );
+      setDeptDetail(LoginDataResult.data);
+      // console.log(LoginDataResult.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  // console.log(deptDetail);
+
+  //시작하자말자 한번 실행
+  useEffect(() => {
+    console.log("실행");
+    getLoginInfo();
+    console.log(deptDetail);
+  }, []);
 
   return (
     <div className="SearchDetail">
