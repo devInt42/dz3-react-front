@@ -1,6 +1,6 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
-import axios from "axios";
 
 const CompanyList = (props) => {
   const [companySeq, setCompanySeq] = useState();
@@ -12,8 +12,7 @@ const CompanyList = (props) => {
   const [departmentNameList, setDepartmentNameList] = useState();
   const [companyName, setCompanyName] = useState();
 
-  // Modal.js로 departmentSeq값 전송
-
+  // Modal.js로 값 전송
   const getDeptSeq = () => {
     let result = JSON.stringify(departmentSeq);
     props.sendDepartmentSeq(result);
@@ -23,17 +22,14 @@ const CompanyList = (props) => {
     getDeptSeq();
   }, [departmentSeq]);
 
-  // Modal.js로 workplaceSeq 전송
-
   const getWorkSeq = () => {
     let result = JSON.stringify(workplaceSeq);
     props.sendWorkplaceSeq(result);
   };
+
   useEffect(() => {
     getWorkSeq();
   }, [workplaceSeq]);
-
-  //  Modal.js로 companyName 전송
 
   useEffect(() => {
     function getComSeq() {

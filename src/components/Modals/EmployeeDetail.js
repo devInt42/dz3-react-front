@@ -1,9 +1,9 @@
+import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { Row, Container } from "react-bootstrap";
 import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
 import { FaBirthdayCake } from "react-icons/fa";
 import { RxPerson } from "react-icons/rx";
-import axios from "axios";
 
 const EmployeeDetail = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();

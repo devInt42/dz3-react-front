@@ -1,11 +1,11 @@
+import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import { Row, Col } from "react-bootstrap";
 import { BsTelephonePlus, BsFillFileEarmarkPersonFill } from "react-icons/bs";
-import axios from "axios";
 
 const EmployeeList = (props) => {
   const baseUrl = "http://localhost:8080";
-  const [companySeq, setCompanySeq] = useState(2);
+  const [companySeq, setCompanySeq] = useState();
   const [departmentSeq, setDepartmentSeq] = useState();
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [deptList, setDeptList] = useState([]);
@@ -68,7 +68,12 @@ const EmployeeList = (props) => {
       try {
         const getAllDeptResult = await axios.get(
           `${baseUrl}/department-employee/employeeList`,
-          { params: deptData }
+          {
+            params: deptData,
+            headers: {
+              Authorization: window.sessionStorage.getItem("empInfo"),
+            },
+          }
         );
         setDeptList(getAllDeptResult.data);
       } catch (error) {

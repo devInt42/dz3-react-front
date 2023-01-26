@@ -1,16 +1,16 @@
+import React from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
-import React from "react";
-import "../modals/OrganizationChart";
 import AllCompanyList from "./AllCompanyList";
 import AllSelectList from "./AllSelectList";
 import AllEmployeeList from "./AllEmployeeList";
+import "../modals/OrganizationChart";
 import "../modals/SearchModal.css";
 
 const CommonModal = (props) => {
   const { open, close, header, getInfoCaLLback } = props;
   const [departmentSeq, setDepartmentSeq] = useState();
-  const [checkItem, setCheckItem] = useState([]); //자식에서 받아올 값
+  const [checkItem, setCheckItem] = useState([]);
   const [text, setText] = useState();
   const [employeeName, setEmployeeName] = useState();
 
@@ -21,7 +21,6 @@ const CommonModal = (props) => {
   const sendCheckedElement = (i) => {
     setCheckItem(i);
   };
-
   const onChange = (e) => {
     setText(e.target.value);
   };

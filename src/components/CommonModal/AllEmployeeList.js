@@ -9,7 +9,7 @@ const AllEmployeeList = (props) => {
   const [countEmployee, setCountEmployee] = useState(0);
   const [checkedList, setCheckedLists] = useState([]);
   const [employeeName, setEmployeeName] = useState();
-  const [companySeq, setCompanySeq] = useState(2);
+  const [companySeq, setCompanySeq] = useState();
 
   //값 받아서 departmentSeq 설정
   useEffect(() => {
@@ -34,7 +34,6 @@ const AllEmployeeList = (props) => {
   }
 
   //checkedList가 바뀔때마다 modal로 값 전송
-
   const sendInfo = () => {
     const result = JSON.stringify(checkedList);
     props.sendCheckedElement(result);
@@ -97,7 +96,6 @@ const AllEmployeeList = (props) => {
       try {
         if (checked) {
           setCheckedLists([...checkedList, list]);
-          // console.log("나오나?" + list.employeeSeq);
         } else {
           setCheckedLists(
             checkedList.filter((el) => el.employeeSeq !== list.employeeSeq)

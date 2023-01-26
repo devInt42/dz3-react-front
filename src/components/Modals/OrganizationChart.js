@@ -1,6 +1,6 @@
-import "./SearchModal.css";
 import { Row, Col } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
+import "./SearchModal.css";
 import CompanyList from "./CompanyList";
 import EmployeeList from "./EmployeeList";
 import EmployeeDetail from "./EmployeeDetail";
@@ -59,10 +59,7 @@ const OrganizationChart = (props) => {
     changeComSeq();
   }, [departmentSeq]);
 
-  //
-
   return (
-    //open 누르면 openModal 클래스 생성
     <div className={open ? "openModal modal" : "modal"}>
       {open ? (
         <section>
