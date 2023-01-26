@@ -1,12 +1,13 @@
-import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
+import axios from "axios";
+
 const AllEmployeeList = (props) => {
   const [departmentSeq, setDepartmentSeq] = useState(0);
   const baseUrl = "http://localhost:8080";
   const [deptList, setDeptList] = useState([]);
-  const [page, setPage] = useState(1); // 현재 페이지
-  const [countEmployee, setCountEmployee] = useState(0); // 총 사원수
-  const [checkedList, setCheckedLists] = useState([]); //값 저장
+  const [page, setPage] = useState(1);
+  const [countEmployee, setCountEmployee] = useState(0);
+  const [checkedList, setCheckedLists] = useState([]);
   const [employeeName, setEmployeeName] = useState();
   const [companySeq, setCompanySeq] = useState(2);
 

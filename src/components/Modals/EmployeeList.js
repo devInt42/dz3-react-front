@@ -1,11 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
 import { Row, Col } from "react-bootstrap";
 import { BsTelephonePlus, BsFillFileEarmarkPersonFill } from "react-icons/bs";
+import axios from "axios";
 
 const EmployeeList = (props) => {
-  const [companySeq, setCompanySeq] = useState(2);
   const baseUrl = "http://localhost:8080";
+  const [companySeq, setCompanySeq] = useState(2);
   const [departmentSeq, setDepartmentSeq] = useState();
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [deptList, setDeptList] = useState([]);

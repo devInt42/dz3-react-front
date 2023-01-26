@@ -1,8 +1,8 @@
-import { BsPersonCircle } from "react-icons/bs";
 import React, { useState } from "react";
-import CommonModal from "../components/commonModal/CommonModal";
 import Swal from "sweetalert2";
+import CommonModal from "../components/commonModal/CommonModal";
 import withReactContent from "sweetalert2-react-content";
+import { BsPersonCircle } from "react-icons/bs";
 
 const Home2 = () => {
   const [modalOpen, setModalOpen] = useState(false);
