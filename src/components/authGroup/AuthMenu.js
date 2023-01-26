@@ -42,7 +42,7 @@ const AuthMenu = () => {
   return (
     <div style={{ border: "1px solid #f3f3f3" }}>
       <TreeView
-        className="check"
+        className="menuTree"
         aria-label="file system navigator"
         defaultCollapseIcon={<FolderOpen />}
         defaultExpandIcon={<Folder />}
@@ -57,7 +57,7 @@ const AuthMenu = () => {
               <input
                 type={"checkbox"}
                 style={{ marginTop: "5px" }}
-                name="checkVal"
+                name={menuItem.menu}
                 value={menuItem.menuSeq}
                 id={menuItem.menuSeq.toString()}
                 onChange={changeCheckedList}

@@ -61,12 +61,7 @@ const SubMenuGroup = (props) => {
   }, [count]);
 
   return (
-    <TreeView
-      aria-label="file system navigator"
-      defaultCollapseIcon={<FolderOpen />}
-      defaultExpandIcon={<Folder />}
-      sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-    >
+    <>
       {childList &&
         childList.map((childList) => (
           <div
@@ -76,7 +71,7 @@ const SubMenuGroup = (props) => {
             <input
               type={"checkbox"}
               style={{ marginTop: "5px" }}
-              name="checkVal"
+              name={childList.menuCode}
               value={childList.menuSeq}
               id={props.id}
             />
@@ -93,7 +88,7 @@ const SubMenuGroup = (props) => {
             </TreeItem>
           </div>
         ))}
-    </TreeView>
+    </>
   );
 };
 
