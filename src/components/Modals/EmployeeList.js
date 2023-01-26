@@ -10,9 +10,10 @@ const EmployeeList = (props) => {
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [deptList, setDeptList] = useState([]);
   const [employeeSeq, setEmployeeSeq] = useState();
-  const [countEmployee, setCountEmployee] = useState(null); // 총 사원수
+  const [countEmployee, setCountEmployee] = useState(null);
   const [companyName, setCompanyName] = useState();
   const [employeeName, setEmployeeName] = useState();
+  const [text, setText] = useState();
 
   //modal.js로 값이동
   useEffect(() => {
@@ -46,6 +47,15 @@ const EmployeeList = (props) => {
       setCompanyName(result);
     }
     getCompanyName();
+  });
+
+  useEffect(() => {
+    async function getText() {
+      const result = await props.sendText;
+      setText(result);
+    }
+    getText();
+    // console.log("자식" + text);
   });
 
   //해당 직원리스트
@@ -108,6 +118,13 @@ const EmployeeList = (props) => {
       }
     }
   }, [departmentSeq]);
+
+  const getEmplElement = useCallback(async () => {});
+
+  //text값 바뀔때마다 값 받아오는 axios
+  useEffect(() => {
+    getEmplElement();
+  }, [text]);
 
   useEffect(() => {
     getAllDept();

@@ -11,7 +11,8 @@ const OrganizationChart = (props) => {
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [employeeSeq, setEmployeeSeq] = useState();
   const [companyName, setCompanyName] = useState();
-  const [employeeName, setEmployeeName] = useState();
+  const [text, setText] = useState();
+  const [sendText, setSendText] = useState();
 
   //함수 보냄
   const sendDepartmentSeq = (i) => {
@@ -26,9 +27,15 @@ const OrganizationChart = (props) => {
   const sendCompanyName = (i) => {
     setCompanyName(i);
   };
-  // const sendEmployeeName = (i) => {
-  //   setEmployeeName(i);
-  // };
+
+  const onChange = (e) => {
+    setText(e.target.value);
+  };
+
+  //버튼 누르면 값 이동
+  const sendInputText = () => {
+    setSendText(text);
+  };
 
   //처음에 실행하고 바뀔때만 렌더링
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
@@ -72,18 +79,23 @@ const OrganizationChart = (props) => {
                     <select
                       className="form-select"
                       aria-label="Default select example">
-                      <option>사원명(ID)</option>
+                      <option>사원명</option>
                     </select>
                   </Col>
                   <Col sm={8}>
                     <input
                       type="text"
-                      class="form-control"
-                      placeholder="검색어를 입력하세요."></input>
+                      className="form-control"
+                      placeholder="검색어를 입력하세요."
+                      onChange={onChange}
+                      value={text}></input>
                   </Col>
                   <Col sm={1}>
-                    <button type="button" class="btn btn-secondary">
-                      Search
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={sendInputText}>
+                      검색
                     </button>
                   </Col>
                 </Row>
@@ -97,11 +109,11 @@ const OrganizationChart = (props) => {
                   </Col>
                   <Col sm={5} className="SearchemployeeList">
                     <EmployeeList
-                      // sendEmployeeName={sendEmployeeName}
                       sendEmployeeSeq={sendEmployeeSeq}
                       departmentSeq={departmentSeq}
                       workplaceSeq={workplaceSeq}
                       companyName={companyName}
+                      sendText={sendText}
                     />
                     <br />
                   </Col>

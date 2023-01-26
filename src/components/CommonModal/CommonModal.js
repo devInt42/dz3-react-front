@@ -51,7 +51,7 @@ const CommonModal = (props) => {
                   <select
                     className="form-select"
                     aria-label="Default select example">
-                    <option>사원명(ID)</option>
+                    <option>사원명</option>
                   </select>
                 </Col>
                 <Col sm={9}>
