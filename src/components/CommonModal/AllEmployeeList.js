@@ -7,6 +7,8 @@ const AllEmployeeList = (props) => {
   const [page, setPage] = useState(1); // 현재 페이지
   const [countEmployee, setCountEmployee] = useState(0); // 총 사원수
   const [checkedList, setCheckedLists] = useState([]); //값 저장
+  const [employeeName, setEmployeeName] = useState();
+  const [companySeq, setCompanySeq] = useState(2);
 
   //값 받아서 departmentSeq 설정
   useEffect(() => {
@@ -15,6 +17,14 @@ const AllEmployeeList = (props) => {
       setDepartmentSeq(result);
     }
     getDeptSeq();
+  }, [props]);
+
+  useEffect(() => {
+    async function getEmplName() {
+      const result = await props.employeeName;
+      setEmployeeName(result);
+    }
+    getEmplName();
   }, [props]);
 
   //값 저장할 함수
@@ -98,6 +108,35 @@ const AllEmployeeList = (props) => {
     },
     [checkedList]
   );
+
+  //input값 바뀔때마다 값 받아오는 axios
+  const getEmplElement = useCallback(async () => {
+    if (employeeName == null) {
+    } else {
+      let getEmplData = {
+        companySeq: companySeq,
+        employeeName: employeeName,
+      };
+      try {
+        const getEmplElementResult = await axios.get(
+          `${baseUrl}/department-employee/search`,
+          {
+            params: getEmplData,
+            headers: {
+              Authorization: window.sessionStorage.getItem("empInfo"),
+            },
+          }
+        );
+        setDeptList(getEmplElementResult.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [employeeName]);
+
+  useEffect(() => {
+    getEmplElement();
+  }, [employeeName]);
 
   //check된 값 저장 배열
   useEffect(() => {}, [checkedList]);

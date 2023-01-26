@@ -85,7 +85,7 @@ const AllCompanyList = (props) => {
             onClick={() => {
               sendDepartmentSeq(list.departmentSeq);
             }}>
-            <p style={{ textAlign: "left" }}> - {list.departmentName}</p>
+            <div style={{ textAlign: "left" }}> - {list.departmentName}</div>
           </Row>
         ))}
     </Container>

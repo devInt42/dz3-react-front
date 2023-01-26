@@ -1,5 +1,5 @@
 import "./SearchModal.css";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
 import CompanyList from "./CompanyList";
 import EmployeeList from "./EmployeeList";
@@ -12,7 +12,7 @@ const OrganizationChart = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();
   const [companyName, setCompanyName] = useState();
   const [text, setText] = useState();
-  const [sendText, setSendText] = useState();
+  const [employeeName, setEmployeeName] = useState();
 
   //함수 보냄
   const sendDepartmentSeq = (i) => {
@@ -34,7 +34,7 @@ const OrganizationChart = (props) => {
 
   //버튼 누르면 값 이동
   const sendInputText = () => {
-    setSendText(text);
+    setEmployeeName(text);
   };
 
   //처음에 실행하고 바뀔때만 렌더링
@@ -88,7 +88,7 @@ const OrganizationChart = (props) => {
                       className="form-control"
                       placeholder="검색어를 입력하세요."
                       onChange={onChange}
-                      value={text}></input>
+                      value={text || ""}></input>
                   </Col>
                   <Col sm={1}>
                     <button
@@ -113,7 +113,7 @@ const OrganizationChart = (props) => {
                       departmentSeq={departmentSeq}
                       workplaceSeq={workplaceSeq}
                       companyName={companyName}
-                      sendText={sendText}
+                      employeeName={employeeName}
                     />
                     <br />
                   </Col>

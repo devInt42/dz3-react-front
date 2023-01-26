@@ -13,7 +13,6 @@ const EmployeeList = (props) => {
   const [countEmployee, setCountEmployee] = useState(null);
   const [companyName, setCompanyName] = useState();
   const [employeeName, setEmployeeName] = useState();
-  const [text, setText] = useState();
 
   //modal.js로 값이동
   useEffect(() => {
@@ -50,13 +49,12 @@ const EmployeeList = (props) => {
   });
 
   useEffect(() => {
-    async function getText() {
-      const result = await props.sendText;
-      setText(result);
+    async function getEmplName() {
+      const result = await props.employeeName;
+      setEmployeeName(result);
     }
-    getText();
-    // console.log("자식" + text);
-  });
+    getEmplName();
+  }, [props]);
 
   //해당 직원리스트
   const getAllDept = useCallback(async () => {
@@ -66,28 +64,6 @@ const EmployeeList = (props) => {
         companySeq: companySeq,
         workplaceSeq: workplaceSeq,
         departmentSeq: departmentSeq,
-      };
-      try {
-        const getAllDeptResult = await axios.get(
-          `${baseUrl}/department-employee/employeeList`,
-          { params: deptData }
-        );
-        setDeptList(getAllDeptResult.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }, [departmentSeq]);
-
-  //직원 검색리스트
-  const getEmployeeListByEmployeeName = useCallback(async () => {
-    if (departmentSeq == null) {
-    } else {
-      let deptData = {
-        companySeq: companySeq,
-        workplaceSeq: workplaceSeq,
-        departmentSeq: departmentSeq,
-        employeeName: employeeName,
       };
       try {
         const getAllDeptResult = await axios.get(
@@ -119,12 +95,34 @@ const EmployeeList = (props) => {
     }
   }, [departmentSeq]);
 
-  const getEmplElement = useCallback(async () => {});
+  const getEmplElement = useCallback(async () => {
+    if (employeeName == null) {
+    } else {
+      let getEmplData = {
+        companySeq: companySeq,
+        employeeName: employeeName,
+      };
+      try {
+        const getEmplElementResult = await axios.get(
+          `${baseUrl}/department-employee/search`,
+          {
+            params: getEmplData,
+            headers: {
+              Authorization: window.sessionStorage.getItem("empInfo"),
+            },
+          }
+        );
+        setDeptList(getEmplElementResult.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [employeeName]);
 
-  //text값 바뀔때마다 값 받아오는 axios
+  //input값 바뀔때마다 값 받아오는 axios
   useEffect(() => {
     getEmplElement();
-  }, [text]);
+  }, [employeeName]);
 
   useEffect(() => {
     getAllDept();

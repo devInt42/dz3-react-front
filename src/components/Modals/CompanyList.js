@@ -139,7 +139,7 @@ const CompanyList = (props) => {
               sendWorkplaceSeq(list.workplaceSeq);
               sendCompanyName(list.companyName);
             }}>
-            <p style={{ textAlign: "left" }}> - {list.departmentName}</p>
+            <div style={{ textAlign: "left" }}> - {list.departmentName}</div>
           </Row>
         ))}
     </Container>
