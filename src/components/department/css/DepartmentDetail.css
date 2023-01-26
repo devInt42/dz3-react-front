@@ -1,0 +1,41 @@
+#department-detail-closebtn {
+    border: none;
+    background-color: transparent;
+}
+#department-detail-header {
+    display: flex;
+    justify-content: space-between;
+}
+#department-detail-menu-form {
+    display: flex;
+    border-bottom: 2px solid gray;
+}
+.department-detail-menu {
+    display:flex;
+    justify-content: center;
+    width: 150px;
+    font-size: 20px;
+}
+.department-detail-basicmenu {
+    border-right: 1px solid gray;
+}
+.department-table-title{
+    width:200px;
+    height:50px;
+}
+#department-table {
+    border-top: 2px solid black;
+    margin-top: 20px;
+    width:100%;
+}
+#department-table tr {
+    border-bottom: 1px solid grey;
+}
+#department-table .department-table-title {
+    background-color: rgb(250, 242, 242);
+    text-align: end;
+    font-weight: bold;
+}
+.department-table-content {
+    padding:5px;
+}

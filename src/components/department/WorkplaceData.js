@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import DepartmentData from "./DepartmentData";
 import { HiOutlineBuildingOffice } from 'react-icons/hi2';
 import "./css/DepartmentList.css";
-import { HiOutlineBuildingOffice2 } from 'react-icons/hi2'
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi';
 const WorkplaceData = (props) => {
 
@@ -37,7 +36,7 @@ const WorkplaceData = (props) => {
                                     {workplace.workplaceCode}.{workplace.workplaceName}
                                     {toggleIcon.includes(idx) ? <HiChevronDown /> : <HiChevronUp />}
                                 </div>
-                                {workplaceIsOpen.includes(idx) && <DepartmentData workplaceSeq={workplace.workplaceSeq} />}
+                                {workplaceIsOpen.includes(idx) && <DepartmentData workplaceSeq = {workplace.workplaceSeq} setDepartmentSeq = {props.setDepartmentSeq}/>}
                             </div>
                         }
                     </div>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import { BsFillOctagonFill } from "react-icons/bs";
+import { BsDot } from "react-icons/bs";
 import { TfiClose } from 'react-icons/tfi'
 import "./css/CompanyInsert.css";
 import ZippopupDom from "./zipcode/ZippopupDom";
@@ -267,7 +267,7 @@ const CompanyDetail = ((props) => {
 
             <div>
                 <div className="infoheader">
-                    <b className="littletitle"> <BsFillOctagonFill /> 회사정보</b>
+                    <b className="littletitle"> <BsDot /> 회사정보</b>
                     <div>
                         <button className="insertbutton"
                             type="button" onClick={() => AllCheck()}
