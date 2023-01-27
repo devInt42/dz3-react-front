@@ -25,6 +25,7 @@
   border: 1px solid #bcbcbc;
   width: 33%;
   margin-top: 15px;
+  padding-top: 55px;
 }
 
 .Searchhr {
@@ -80,6 +81,7 @@
   outline: none;
   cursor: pointer;
   border: 0;
+  width: 60px;
 }
 
 .modal > section {
