@@ -28,7 +28,7 @@ const CompanyDetail = ((props) => {
         }
     }, [props.companySeq])
 
-    const load = useEffect(() => {
+    useEffect(() => {
         setFirstCode("");
         setCompanyCode("");
         setCompanyName("");

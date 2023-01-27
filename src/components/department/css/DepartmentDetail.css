@@ -39,3 +39,6 @@
 .department-table-content {
     padding:5px;
 }
+.content-have-button {
+    display:flex;
+}
