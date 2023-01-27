@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
 import { RiPagesLine, RiPagesFill } from "react-icons/ri";
+import { BsFolder, BsFolder2Open, BsFileEarmarkCheck } from "react-icons/bs";
+import { CgFileDocument } from "react-icons/cg";
 
 function MenuItems(props) {
 
@@ -11,7 +13,7 @@ function MenuItems(props) {
     const [subMenu, setSubMenu] = useState([]);
     
     const [childMenu, setChildMenu] = useState([]);
-
+    
     useEffect(() => {
         axios.get(baseUrl + '/menu/menulist/' + menuSequence)
         .then(response => {setSubMenu(response.data)})
@@ -22,14 +24,12 @@ function MenuItems(props) {
         props.searchInfo(resultMenu)
     }
 
-    const [count, setCount] = useState(0);
-    useEffect(() => {
-        axios.get(baseUrl + '/menu/menulist/getcount/' + menuSequence)
-        .then(response => {setCount(response.data)})
-        .catch(error => console.log(error))
-    }, [menuSequence]);
-
-    console.log("count : " + count)
+    // const [count, setCount] = useState(0);
+    // useEffect(() => {
+    //     axios.get(baseUrl + '/menu/menulist/getcount/' + menuSequence)
+    //     .then(response => {setCount(response.data)})
+    //     .catch(error => console.log(error))
+    // }, [menuSequence]);
 
     return (
         <div>
@@ -38,9 +38,8 @@ function MenuItems(props) {
                     <div key={menu.menuSeq}>
                         <div style={{ paddingLeft: (menu.menuDepth - 1) * 22, paddingRight: '20px' }}>
                             <div onClick={()=>{childMenu.includes(menu.menuSeq) ? setChildMenu(childMenu.filter(data => data != menu.menuSeq)) :
-                                            setChildMenu([...childMenu, menu.menuSeq]); send(menu)}}>
-                                {count == 0 ? <RiPagesLine/> : <RiPagesFill/>}
-                                {menu.menuName}
+                                            setChildMenu([...childMenu, menu.menuSeq]); send(menu);}}>
+                               <CgFileDocument/>{menu.menuName}
                             </div>
                         </div>
                         {

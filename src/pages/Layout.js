@@ -54,7 +54,6 @@ function Layout() {
                 height: "100vh",
                 marginTop: "10px",
                 marginLeft: "20px",
-                backgroundColor: "rgba(221, 219, 216, 0.409)",
                 overflow: "hidden",
               }}
             >

@@ -13,13 +13,17 @@
 .menu_btn{
     padding: 3px;
     border: none;
-    border-radius: 8%;
     margin-right: 7px;
 }
 
 .menu_btn:hover{
-    background-color: rgba(69, 72, 75, 0.63);
+    background-color: rgba(219, 222, 225, 0.63);
 	transition:.3s;
-	color: aliceblue;
+	color: rgb(39, 40, 41);
 	font-weight: bold;
+}
+
+.menu_sub{
+    border-left: 0.124em dashed black;
+    padding-left: 5px;
 }
