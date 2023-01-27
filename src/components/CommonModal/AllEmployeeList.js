@@ -52,8 +52,6 @@ const AllEmployeeList = (props) => {
 
   const initLoad = async () => {
     if (authSeq != "" && pointCompanySeq != "") {
-      console.log(authSeq);
-      console.log(pointCompanySeq);
       let data = {
         authSeq: authSeq,
         companySeq: pointCompanySeq,
@@ -72,10 +70,7 @@ const AllEmployeeList = (props) => {
     }
   };
 
-  useEffect(() => {
-    console.log("h");
-    console.log(checkedList);
-  }, [checkedList]);
+  useEffect(() => {}, [checkedList]);
 
   //값 저장할 함수
   async function sendCheckedElement(a) {
