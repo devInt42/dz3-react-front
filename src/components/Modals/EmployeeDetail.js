@@ -65,20 +65,15 @@ const EmployeeDetail = (props) => {
           },
         }
       );
-      setDeptDetail(LoginDataResult.data);
-      // console.log(LoginDataResult.data);
+      setDeptDetail(LoginDataResult.data[0]);
     } catch (error) {
       console.log(error);
     }
   }, []);
 
-  // console.log(deptDetail);
-
   //시작하자말자 한번 실행
   useEffect(() => {
-    console.log("실행");
     getLoginInfo();
-    console.log(deptDetail);
   }, []);
 
   return (
