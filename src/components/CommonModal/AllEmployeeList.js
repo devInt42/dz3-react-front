@@ -72,11 +72,6 @@ const AllEmployeeList = (props) => {
 
   useEffect(() => {}, [checkedList]);
 
-  //값 저장할 함수
-  async function sendCheckedElement(a) {
-    setCheckedLists(a);
-  }
-
   //checkedList가 바뀔때마다 modal로 값 전송
   const sendInfo = () => {
     const result = JSON.stringify(checkedList);
@@ -201,7 +196,9 @@ const AllEmployeeList = (props) => {
                       type="checkbox"
                       readOnly
                       onClick={(e) => onCheckedAll(e.target.checked)}
-                      checked={(() => {})()}
+                      // checked={
+
+                      // }
                       className="custom-control-input"
                       id="customCheck2"></input>
                   </th>

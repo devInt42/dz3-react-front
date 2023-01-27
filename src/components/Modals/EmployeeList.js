@@ -142,8 +142,7 @@ const EmployeeList = (props) => {
             key={dList.employeeSeq}
             onClick={() => {
               sendEmployeeSeq(dList.employeeSeq);
-            }}
-          >
+            }}>
             <Col sm={3} className="image">
               {" "}
               <div style={{ padding: "25px" }}>

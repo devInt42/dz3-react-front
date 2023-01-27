@@ -4,9 +4,7 @@ import { Container, Row } from "react-bootstrap";
 
 const AllCompanyList = (props) => {
   const baseUrl = "http://localhost:8080";
-  const [companyList, setCompanyList] = useState([]);
   const [departmentSeq, setDepartmentSeq] = useState();
-  const [workplaceSeq, setWorkplaceSeq] = useState();
   const [deptNameList, setDeptNameList] = useState([]);
   const [departmentNameList, setDepartmentNameList] = useState();
   const [companySeq, setCompanySeq] = useState();
@@ -84,8 +82,7 @@ const AllCompanyList = (props) => {
             key={list.departmentSeq}
             onClick={() => {
               sendDepartmentSeq(list.departmentSeq);
-            }}
-          >
+            }}>
             <div style={{ textAlign: "left" }}> - {list.departmentName}</div>
           </Row>
         ))}
