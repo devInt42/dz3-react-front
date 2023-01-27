@@ -11,6 +11,7 @@ import CompanyUpdateform from "./components/company/CompanyUpdateform";
 import NoMenu from "./pages/NoMenu";
 import AuthGroup from "./pages/AuthGroup";
 import Department from "./components/department/Department";
+import Main from "./pages/Main";
 
 function App() {
   return (

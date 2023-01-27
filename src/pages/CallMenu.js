@@ -22,8 +22,7 @@ function CallMenu(props) {
     const [subMenu, setSubMenu] = useState([]);
 
     const [childMenu, setChildMenu] = useState([]);
-
-    console.log("childMenu : " + childMenu)
+    
     const getSubMenuList = useCallback(async () => {
         try {
             const apiResult = await axios({

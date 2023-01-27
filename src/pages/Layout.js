@@ -6,6 +6,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import React, { useState, useCallback } from "react";
 import SubMenu from "../components/menu/SubMenu";
 import CallMenu from "./CallMenu";
+import Main from "./Main";
+import { PropaneSharp } from "@mui/icons-material";
 
 function Layout() {
   // const [test, setTest] = useState("");
