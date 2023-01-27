@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { BsDot } from "react-icons/bs";
 import { TfiClose } from 'react-icons/tfi'
 import "./css/CompanyInsert.css";

@@ -24,7 +24,7 @@ const DepartmentData = (props) => {
     }, [])
     useEffect(() => {
         setToggleIcon(departmentIsOpen);
-        console.log(departmentIsOpen);
+        
     }, [departmentIsOpen])
     return (
         <>

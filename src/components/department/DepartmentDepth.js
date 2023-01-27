@@ -51,6 +51,10 @@ const DepartmentDepth = (props) => {
     useEffect(() => {
         getData();
     }, [count])
+    
+    useEffect(() => {
+
+    }, [props.workplaceSeq])
     return (
         <div>
             {

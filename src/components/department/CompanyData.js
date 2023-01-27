@@ -34,7 +34,7 @@ const CompanyData = (props) => {
                             {toggleIcon.includes(idx) ? <HiChevronDown /> : <HiChevronUp />}
                         </div>
                         {companyIsOpen.includes(idx) && <WorkplaceData companySeq={company.companySeq} key={idx} 
-                        setDepartmentSeq={props.setDepartmentSeq} />
+                        setDepartmentSeq={props.setDepartmentSeq} setWorkplaceSeq = {props.setWorkplaceSeq} />
                         }
                     </div>
                 )

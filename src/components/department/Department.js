@@ -6,6 +6,7 @@ import { IoInformationCircleOutline } from 'react-icons/io5';
 import { useState } from 'react';
 const Department = () => {
     const [departmentSeq, setDepartmentSeq] = useState(0);
+    const [workplaceSeq, setWorkplaceSeq] = useState(0);
     return (
         <div>
 
@@ -16,10 +17,10 @@ const Department = () => {
             </Alert>
             <div id="department-form">
                 <div id = "department-list-box">
-                <DepartmentList setDepartmentSeq = {setDepartmentSeq}/>
+                <DepartmentList setDepartmentSeq = {setDepartmentSeq} setWorkplaceSeq = {setWorkplaceSeq}/>
                 </div>
                 <div id = "department-info">
-                    <DepartmentDetail departmentSeq = {departmentSeq}/>
+                    <DepartmentDetail departmentSeq = {departmentSeq} workplaceSeq = {workplaceSeq}/>
                 </div>
             </div>
         </div>
