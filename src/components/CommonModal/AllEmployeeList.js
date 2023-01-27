@@ -10,6 +10,8 @@ const AllEmployeeList = (props) => {
   const [checkedList, setCheckedLists] = useState([]);
   const [employeeName, setEmployeeName] = useState();
   const [companySeq, setCompanySeq] = useState();
+  const [authSeq, setAuthSeq] = useState("");
+  const [pointCompanySeq, setPointCompanySeq] = useState("");
 
   //값 받아서 departmentSeq 설정
   useEffect(() => {
@@ -27,6 +29,53 @@ const AllEmployeeList = (props) => {
     }
     getEmplName();
   }, [props]);
+
+  useEffect(() => {
+    async function getAuthSeq() {
+      const result = await props.authSeq;
+      setAuthSeq(result);
+    }
+    getAuthSeq();
+  }, [props]);
+
+  useEffect(() => {
+    async function getPointCompanySeq() {
+      const result = await props.pointCompanySeq;
+      setPointCompanySeq(result);
+    }
+    getPointCompanySeq();
+  }, [props]);
+
+  useEffect(() => {
+    initLoad();
+  }, [authSeq, pointCompanySeq]);
+
+  const initLoad = async () => {
+    if (authSeq != "" && pointCompanySeq != "") {
+      console.log(authSeq);
+      console.log(pointCompanySeq);
+      let data = {
+        authSeq: authSeq,
+        companySeq: pointCompanySeq,
+      };
+      try {
+        const dataResult = await axios.get(
+          `${baseUrl}/department-employee/auth`,
+          {
+            params: data,
+          }
+        );
+        setCheckedLists(dataResult.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log("h");
+    console.log(checkedList);
+  }, [checkedList]);
 
   //값 저장할 함수
   async function sendCheckedElement(a) {
@@ -157,16 +206,9 @@ const AllEmployeeList = (props) => {
                       type="checkbox"
                       readOnly
                       onClick={(e) => onCheckedAll(e.target.checked)}
-                      checked={
-                        checkedList.length === 0
-                          ? false
-                          : checkedList.length === deptList.length
-                          ? true
-                          : false
-                      }
+                      checked={(() => {})()}
                       className="custom-control-input"
-                      id="customCheck2"
-                    ></input>
+                      id="customCheck2"></input>
                   </th>
                   <th scope="col">사업장</th>
                   <th scope="col">부서명</th>
@@ -195,12 +237,10 @@ const AllEmployeeList = (props) => {
                               return false;
                             }
                           })()}
-                          id="customCheck2"
-                        ></input>
+                          id="customCheck2"></input>
                         <label
                           className="custom-control-label"
-                          htmlFor="customCheck1"
-                        ></label>
+                          htmlFor="customCheck1"></label>
                       </div>
                     </td>
                     <td>{dept.companyName}</td>

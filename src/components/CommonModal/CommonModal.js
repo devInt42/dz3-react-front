@@ -13,6 +13,14 @@ const CommonModal = (props) => {
   const [checkItem, setCheckItem] = useState([]);
   const [text, setText] = useState();
   const [employeeName, setEmployeeName] = useState();
+  const [authSeq, setAuthSeq] = useState();
+  const [pointCompanySeq, setPointCompanySeq] = useState();
+
+  //값 받아오기
+  useEffect(() => {
+    setAuthSeq(props.authSeq);
+    setPointCompanySeq(props.pointCompanySeq);
+  }, [props]);
 
   //함수 보냄
   const sendDepartmentSeq = (i) => {
@@ -64,8 +72,7 @@ const CommonModal = (props) => {
               onClick={() => {
                 close();
                 reset();
-              }}
-            >
+              }}>
               X
             </button>
           </header>
@@ -75,8 +82,7 @@ const CommonModal = (props) => {
                 <Col sm={3}>
                   <select
                     className="form-select"
-                    aria-label="Default select example"
-                  >
+                    aria-label="Default select example">
                     <option>사원명</option>
                   </select>
                 </Col>
@@ -87,16 +93,14 @@ const CommonModal = (props) => {
                       className="form-control"
                       placeholder="검색어를 입력하세요."
                       onChange={onChange}
-                      value={text || ""}
-                    ></input>
+                      value={text || ""}></input>
                   </div>
                 </Col>
                 <Col sm={1}>
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={sendInputText}
-                  >
+                    onClick={sendInputText}>
                     검색
                   </button>
                 </Col>
@@ -112,6 +116,8 @@ const CommonModal = (props) => {
                       departmentSeq={departmentSeq}
                       sendCheckedElement={sendCheckedElement}
                       employeeName={employeeName}
+                      authSeq={authSeq}
+                      pointCompanySeq={pointCompanySeq}
                     />
                   </Row>
                   <Row>
