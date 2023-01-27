@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
 import { Row, Container } from "react-bootstrap";
 import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
 import { FaBirthdayCake } from "react-icons/fa";
@@ -9,6 +9,7 @@ const EmployeeDetail = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();
   const [deptDetail, setDeptDetail] = useState([]);
   const [companyName, setCompanyName] = useState();
+  const [loginInfo, setLoginInfo] = useState();
   const baseUrl = "http://localhost:8080";
 
   //modal에서 값 받아오기
@@ -52,6 +53,28 @@ const EmployeeDetail = (props) => {
       getEmplElement();
     }
   }, [employeeSeq]);
+
+  //로그인한 사람 info (시작하자말자 default 값)
+  const getLoginInfo = useCallback(async () => {
+    try {
+      const LoginDataResult = await axios.get(
+        `${baseUrl}/department-employee/myInfo`,
+        {
+          headers: {
+            Authorization: window.sessionStorage.getItem("empInfo"),
+          },
+        }
+      );
+      setDeptDetail(LoginDataResult.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  //시작하자말자 한번 실행
+  useEffect(() => {
+    getLoginInfo();
+  }, []);
 
   return (
     <div className="SearchDetail">

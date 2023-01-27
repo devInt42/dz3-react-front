@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
 
 const AllCompanyList = (props) => {
@@ -86,7 +86,7 @@ const AllCompanyList = (props) => {
               sendDepartmentSeq(list.departmentSeq);
             }}
           >
-            <p style={{ textAlign: "left" }}> - {list.departmentName}</p>
+            <div style={{ textAlign: "left" }}> - {list.departmentName}</div>
           </Row>
         ))}
     </Container>

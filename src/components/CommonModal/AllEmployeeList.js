@@ -1,12 +1,15 @@
-import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
+import axios from "axios";
+
 const AllEmployeeList = (props) => {
   const [departmentSeq, setDepartmentSeq] = useState(0);
   const baseUrl = "http://localhost:8080";
   const [deptList, setDeptList] = useState([]);
-  const [page, setPage] = useState(1); // 현재 페이지
-  const [countEmployee, setCountEmployee] = useState(0); // 총 사원수
-  const [checkedList, setCheckedLists] = useState([]); //값 저장
+  const [page, setPage] = useState(1);
+  const [countEmployee, setCountEmployee] = useState(0);
+  const [checkedList, setCheckedLists] = useState([]);
+  const [employeeName, setEmployeeName] = useState();
+  const [companySeq, setCompanySeq] = useState();
 
   //값 받아서 departmentSeq 설정
   useEffect(() => {
@@ -17,13 +20,20 @@ const AllEmployeeList = (props) => {
     getDeptSeq();
   }, [props]);
 
+  useEffect(() => {
+    async function getEmplName() {
+      const result = await props.employeeName;
+      setEmployeeName(result);
+    }
+    getEmplName();
+  }, [props]);
+
   //값 저장할 함수
   async function sendCheckedElement(a) {
     setCheckedLists(a);
   }
 
   //checkedList가 바뀔때마다 modal로 값 전송
-
   const sendInfo = () => {
     const result = JSON.stringify(checkedList);
     props.sendCheckedElement(result);
@@ -86,7 +96,6 @@ const AllEmployeeList = (props) => {
       try {
         if (checked) {
           setCheckedLists([...checkedList, list]);
-          // console.log("나오나?" + list.employeeSeq);
         } else {
           setCheckedLists(
             checkedList.filter((el) => el.employeeSeq !== list.employeeSeq)
@@ -98,6 +107,35 @@ const AllEmployeeList = (props) => {
     },
     [checkedList]
   );
+
+  //input값 바뀔때마다 값 받아오는 axios
+  const getEmplElement = useCallback(async () => {
+    if (employeeName == null) {
+    } else {
+      let getEmplData = {
+        companySeq: companySeq,
+        employeeName: employeeName,
+      };
+      try {
+        const getEmplElementResult = await axios.get(
+          `${baseUrl}/department-employee/search`,
+          {
+            params: getEmplData,
+            headers: {
+              Authorization: window.sessionStorage.getItem("empInfo"),
+            },
+          }
+        );
+        setDeptList(getEmplElementResult.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [employeeName]);
+
+  useEffect(() => {
+    getEmplElement();
+  }, [employeeName]);
 
   //check된 값 저장 배열
   useEffect(() => {}, [checkedList]);
