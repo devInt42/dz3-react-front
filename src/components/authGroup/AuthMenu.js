@@ -10,7 +10,7 @@ const AuthMenu = () => {
   const baseUrl = "http://localhost:8080";
   const [menuList, setMenuList] = useState([]);
   const [checkedList, setCheckedList] = useState([]); //값 저장
-  const [dummy, setDummy] = useState([]);
+  const [dummy, setDummy] = useState({});
   // 전체 메뉴리스트 호출
   const getAllMenuList = useCallback(async () => {
     let sendData = {
@@ -34,18 +34,21 @@ const AuthMenu = () => {
 
   //더미값 보내기
   const sendDummySeq = (e) => {
+    console.log("hi");
+    console.log(e);
     setDummy(e);
   };
 
   const sendCheckedList = useCallback(
     (elem) => {
-      let temp = elem[0];
-      setCheckedList(temp);
+      // let temp = elem[0];
+      // setCheckedList(temp);
     },
     [menuList]
   );
 
   useEffect(() => {
+    console.log(dummy);
     sendCheckedList(dummy);
   }, [dummy]);
 
