@@ -3,15 +3,12 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import AuthLnb from "../components/auth/AuthLnb";
 import { useNavigate } from "react-router-dom";
 import AuthEmployeeList from "../components/auth/AuthEmployeeList";
-const Auth = (props) => {
-  const baseUrl = "http://localhost:8080";
-  const [companySeq, setCompanySeq] = useState();
+const Auth = () => {
   const [authSeq, setAuthSeq] = useState();
   const [selectCompanySeq, setSelectCompanySeq] = useState();
   const [pointCompanySeq, setPointCompanySeq] = useState();
 
   const navigate = useNavigate();
-  let sessionItem;
   const InitCheck = useCallback(async () => {
     if (!window.sessionStorage.getItem("empInfo")) {
       alert("로그인 후에 이용해주세요");

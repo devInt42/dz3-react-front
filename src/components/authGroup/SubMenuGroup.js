@@ -1,9 +1,9 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./AuthGroup.css";
 import { TreeView, TreeItem } from "@mui/lab";
-import { ReactComponent as Folder } from "../authGroup/folder.svg";
-import { ReactComponent as FolderOpen } from "../authGroup/folderopen.svg";
+import { MergeRounded } from "@mui/icons-material";
+import { merge } from "lodash";
 
 const SubMenuGroup = (props) => {
   const baseUrl = "http://localhost:8080";
@@ -18,7 +18,7 @@ const SubMenuGroup = (props) => {
   }, [props]);
 
   // 가져올 값이 있는지 확인
-  const countChild = async () => {
+  const countChild = useCallback(async () => {
     let sendChild = {
       menuDepth: depth,
       menuParent: parentSeq,
@@ -31,9 +31,9 @@ const SubMenuGroup = (props) => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [depth, parentSeq]);
 
-  const callChild = async () => {
+  const callChild = useCallback(async () => {
     if (count > 0) {
       let sendChild = {
         menuDepth: depth,
@@ -48,7 +48,7 @@ const SubMenuGroup = (props) => {
         console.log(error);
       }
     }
-  };
+  }, [count]);
 
   useEffect(() => {
     countChild();
@@ -60,30 +60,42 @@ const SubMenuGroup = (props) => {
     // eslint-disable-next-line
   }, [count]);
 
+  //더미값 보내기
+  const sendDummySeq = async (e) => {
+    const temp = [];
+    childList.forEach((list) => {
+      if (list.menuSeq == e.target.value) {
+        temp.push(list);
+      }
+    });
+    props.sendDummySeq(temp);
+  };
   return (
     <>
       {childList &&
-        childList.map((childList) => (
+        childList.map((childItem) => (
           <div
-            key={childList.menuSeq}
+            key={childItem.menuSeq}
             style={{ display: "flex", alignItems: "flex-start" }}
           >
             <input
               type={"checkbox"}
               style={{ marginTop: "5px" }}
-              name={childList.menuCode}
-              value={childList.menuSeq}
-              id={props.id}
+              name={childItem.menuCode}
+              value={childItem.menuSeq}
+              id={childItem.menuSeq.toString()}
+              onChange={sendDummySeq}
             />
             <TreeItem
-              key={childList.menuSeq}
-              nodeId={childList.menuSeq.toString()}
-              label={childList.menuName}
+              key={childItem.menuSeq}
+              nodeId={childItem.menuSeq.toString()}
+              label={childItem.menuName}
             >
               <SubMenuGroup
-                parentSeq={childList.menuSeq}
-                depth={childList.menuDepth}
-                id={props.id}
+                parentSeq={childItem.menuSeq}
+                depth={childItem.menuDepth}
+                id={childItem.id}
+                sendDummySeq={sendDummySeq}
               />
             </TreeItem>
           </div>
@@ -92,4 +104,4 @@ const SubMenuGroup = (props) => {
   );
 };
 
-export default SubMenuGroup;
+export default React.memo(SubMenuGroup);
