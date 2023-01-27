@@ -1,40 +1,38 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function ContentsMapping(props) {
-  console.log("현재 메뉴 시퀀스 : " + props.lastSeq);
   const navigate = useNavigate();
+  const baseUrl = "http://localhost:8080";
+  const [mappingURL, setMappingURL] = useState("");
 
   useEffect(() => {
-    if (props.lastSeq == 11) {
-      navigate(`/dz3/company/info`);
-    } else if (props.lastSeq == 18) {
-      navigate(`/dz3/auth`);
-    } else if (props.lastSeq == 65) {
-      navigate(`/dz3/menuset`);
-    } else if (props.lastSeq == 17) {
-      navigate(`/dz3/authgroup`);
-    } else {
-      navigate(`/dz3/nomenu`);
-    }
-  }, []);
+    axios
+      .get(baseUrl + "/menu/menulist/geturl/" + props.lastSeq)
+      .then((response) => {
+        setMappingURL(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, [props.lastSeq]);
+
   useEffect(() => {
-    if (props.lastSeq == 11) {
-      navigate(`/dz3/company/info`);
-    } else if (props.lastSeq == 18) {
-      navigate(`/dz3/auth`);
-    } else if (props.lastSeq == 19) {
-      navigate(`/dz3/menuset`);
+    if (!window.sessionStorage.getItem("empInfo")) {
+      alert("로그인 후에 이용해주세요");
+      navigate(`/login`);
     } else {
-      navigate(`/dz3/nomenu`);
+      if (mappingURL == "") {
+        navigate(`/dz3/nomenu`);
+      } else {
+        navigate(`${mappingURL}`);
+      }
     }
-  }, []);
+  }, [mappingURL]);
+
+  // useEffect(()=>{
+  //     if(mappingURL == ""){navigate(`/dz3/nomenu`)}
+  //     else{navigate(`${mappingURL}`);}
+  // }, [mappingURL]);
 }
 
 export default ContentsMapping;
-
-{
-  /* <button onClick={()=> navigate(`/dz3/menuset`)}>set</button>
-      <button onClick={()=> navigate(`/dz3/auth`)}>auth</button>
-      <button onClick={()=> navigate(`/dz3/company/info`)}>company</button> */
-}
