@@ -1,34 +1,31 @@
 .SearchdeptList {
-  /* width: 30%; */
   border: 1px solid #bcbcbc;
   border-radius: 5px;
   margin-right: 15px;
-  height: 510px;
+  height: 540px;
+  margin-left: 10px;
+  margin-top: 15px;
 }
 
 .SearchemployeeList {
   width: 38%;
-  /* background-color: pink; */
   border: 1px solid #bcbcbc;
   border-radius: 5px;
   margin-right: 15px;
   border-top: medium solid darkslategrey;
-  height: 510px;
+  height: 540px;
   overflow: auto;
-}
 
-.SearchDetail {
-  border: 1px solid #bcbcbc;
-  border-radius: 5px;
-  margin-right: 15px;
-  height: 510px;
+  margin-top: 15px;
 }
 
 .SearchemployeeDetail {
-  /* width: 30%; */
   background-color: white;
   border-radius: 5px;
   border: 1px solid #bcbcbc;
+  width: 33%;
+  margin-top: 15px;
+  padding-top: 55px;
 }
 
 .Searchhr {
@@ -84,16 +81,16 @@
   outline: none;
   cursor: pointer;
   border: 0;
+  width: 60px;
 }
 
 .modal > section {
   width: 100%;
   max-width: 75%;
-  height: 720px;
+  height: 700px;
   margin: 0 auto;
   border-radius: 0.3rem;
   background-color: #fff;
-  /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-show 0.3s;
   overflow: hidden;
 }
@@ -103,6 +100,7 @@
   padding: 16px 100px 16px 16px;
   background-color: #f1f1f1;
   font-weight: 700;
+  text-align: left;
 }
 
 .modal > section > header button {
@@ -115,13 +113,13 @@
   text-align: center;
   color: #999;
   background-color: transparent;
+  --bs-btn-hover-bg: transparent;
 }
 
 .modal > section > main {
   padding: 16px;
   border-bottom: 1px solid #dee2e6;
   border-top: 1px solid #dee2e6;
-  /* height: 1000px; */
   height: 685px;
 }
 
@@ -141,7 +139,6 @@
 .modal.openModal {
   display: flex;
   align-items: center;
-  /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-bg-show 0.3s;
 }
 
@@ -174,7 +171,7 @@
   height: 510px;
   width: 38%;
   margin-left: 10px;
-  height: 580px;
+  height: 555px;
 }
 
 .AllCheckbox {
@@ -186,8 +183,8 @@
 .AllChoiceEmp {
   border: 1px solid #bcbcbc;
   border-radius: 5px;
-  height: 270px;
   margin-top: 10px;
+  height: 245px;
 }
 
 .AllEmployeeList .nav-link.authLnb.active {
@@ -198,7 +195,7 @@
   color: #000;
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out;
+    -color 0.15s ease-in-out;
   border: #00aaff 2px solid;
 }
 
@@ -208,4 +205,20 @@
   color: var(--bs-pagination-active-color);
   background-color: #00aaff;
   border-color: #00aaff;
+}
+
+.AllSelectSpace {
+  width: 650px;
+  height: 250px;
+}
+
+.CommonBtn {
+  margin-right: 10px;
+}
+
+.OraganicTextBox {
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  width: 500px;
+  height: 200px;
 }

@@ -1,47 +1,89 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
-import { Row, Col, Container } from "react-bootstrap";
+import { useCallback, useEffect, useState } from "react";
+import { Row, Container } from "react-bootstrap";
 import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
+import { FaBirthdayCake } from "react-icons/fa";
+import { RxPerson } from "react-icons/rx";
 
 const EmployeeDetail = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();
   const [deptDetail, setDeptDetail] = useState([]);
+  const [companyName, setCompanyName] = useState();
+  const [loginInfo, setLoginInfo] = useState();
   const baseUrl = "http://localhost:8080";
+
   //modal에서 값 받아오기
   useEffect(() => {
-    setEmployeeSeq(props.employeeSeq);
+    async function getEmplSeq() {
+      const result = await props.employeeSeq;
+      setEmployeeSeq(result);
+    }
+    getEmplSeq();
   }, [props]);
 
   useEffect(() => {
-    if (employeeSeq != null) {
-      DetailPage();
+    async function getComName() {
+      const result = await props.companyName;
+      setCompanyName(result);
+    }
+    getComName();
+  }, [props]);
+
+  //직원 상세 페이지
+  const getEmplElement = useCallback(async () => {
+    let EmplData = {
+      employeeSeq: employeeSeq,
+    };
+    try {
+      const EmplDataResult = await axios.get(
+        `${baseUrl}/employee/emplist/${employeeSeq}`,
+        {
+          params: EmplData,
+        }
+      );
+      setDeptDetail(EmplDataResult.data);
+    } catch (error) {
+      console.log(error);
     }
   }, [employeeSeq]);
 
-  function DetailPage() {
-    const url = baseUrl + "/employee/emplist/" + employeeSeq;
-    axios({
-      method: "get",
-      url: url,
-    }).then((res) => {
-      // console.log(res.data)
-      setDeptDetail(res.data);
-      // console.log(res.data);
-    });
-  }
+  useEffect(() => {
+    if (employeeSeq == null) {
+    } else {
+      getEmplElement();
+    }
+  }, [employeeSeq]);
+
+  //로그인한 사람 info (시작하자말자 default 값)
+  const getLoginInfo = useCallback(async () => {
+    try {
+      const LoginDataResult = await axios.get(
+        `${baseUrl}/department-employee/myInfo`,
+        {
+          headers: {
+            Authorization: window.sessionStorage.getItem("empInfo"),
+          },
+        }
+      );
+      setDeptDetail(LoginDataResult.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  //시작하자말자 한번 실행
+  useEffect(() => {
+    getLoginInfo();
+  }, []);
 
   return (
     <div className="SearchDetail">
       <Container>
         <Row>
-          <Col sm={9}>
-            {" "}
-            <BsFillFileEarmarkPersonFill
-              size="100"
-              style={{ paddingTop: "15px", paddingLeft: "20px" }}
-            />
-          </Col>
-          <Col sm={3}>LOGO</Col>
+          <BsFillFileEarmarkPersonFill
+            size="100"
+            style={{ paddingTop: "15px", paddingLeft: "20px" }}
+          />
         </Row>
         <br />
 
@@ -50,15 +92,20 @@ const EmployeeDetail = (props) => {
         </Row>
         <Row>
           {" "}
-          <span className="Searchcenter">{deptDetail.employeeId}</span>
+          <span className="Searchcenter">
+            <RxPerson size="16" /> {deptDetail.employeeId}
+          </span>
         </Row>
         <Row>
           {" "}
-          <span className="Searchcenter">{deptDetail.employeeBirth}</span>
+          <span className="Searchcenter">
+            <FaBirthdayCake size="13" /> {deptDetail.employeeBirth}{" "}
+          </span>
         </Row>
         <div>
           <br />
           <ul className="list-group">
+            <li className="list-group-item">소속회사 : {companyName}</li>
             <li className="list-group-item">
               전화번호 : {deptDetail.employeePh}
             </li>
