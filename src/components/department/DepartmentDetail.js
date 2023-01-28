@@ -15,8 +15,10 @@ import DepartmentParentModal from "./DepartmentParentModal";
 
 const DepartmentDetail = (props) => {
     const baseUrl = "http://localhost:8080"
+    const [firstCode, setFirstCode] = useState("");
+    const [firstName, setFirstName] = useState("");
     const [departmentParentName, setDepartmentParentName] = useState("-");
-    const [departmentCode, setDepartmentCode] = useState();
+    const [departmentCode, setDepartmentCode] = useState("");
     const [departmentName, setDepartmentName] = useState("");
     const [cWData, setCWData] = useState([]);
     const [department, setDepartment] = useState({});
@@ -24,7 +26,8 @@ const DepartmentDetail = (props) => {
     const [workplace, setWorkplace] = useState({});
     const [workplaceIsOpen, setWorkplaceIsOpen] = useState(false);
     const [departmentLoc, setDepartmentLoc] = useState("");
-
+    const [codeDupliCheck, setCodeDupliCheck] = useState(1);
+    const [nameDupliCheck, setNameDupliCheck] = useState(1);
     //사업장 seq로 회사, 사업장 이름 조회하고 department 에 데이터 셋팅
     const getWorkplace = async () => {
         try {
@@ -55,7 +58,6 @@ const DepartmentDetail = (props) => {
         if (props.departmentSeq != 0) {
             getDepartment();
         }
-        
     }, [props.departmentSeq])
 
     //부서 seq로 회사 이름, 사업장 이름 조회
@@ -80,6 +82,7 @@ const DepartmentDetail = (props) => {
         }
         setDepartmentName(department.departmentName);
         setDepartmentCode(department.departmentCode);
+        setFirstCode(department.departmentCode);
         setDepartmentLoc(department.departmentLoc);
     }, [department])
 
@@ -97,9 +100,38 @@ const DepartmentDetail = (props) => {
         }
     }, [props.departmentSeq])
 
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    //코드중복처리
+    useEffect(() => {
+        if (`${departmentCode}` === `${firstCode}`) {
+            setCodeDupliCheck(0);
+        }
+        else if (`${departmentCode}`.length > 0) {
+            axios.get(`${baseUrl}/department/info/check/${departmentCode}`)
+                .then(res => setCodeDupliCheck(res.data))
+                .catch(error => console.log(error));
+        }
+    }, [departmentCode])
+
+    //이름 중복처리
+    useEffect(() => {
+        if (departmentName === firstName) {
+            setNameDupliCheck(0);
+        } else if (departmentName !== undefined && departmentName !== null) {
+            const param = {
+                departmentName: departmentName,
+                workplaceSeq: props.workplaceSeq
+            }
+            axios.get(`${baseUrl}/department/info/namecheck`,
+                {
+                    params: param
+                }
+            )
+                .then(res => setNameDupliCheck(res.data))
+                .catch(error => console.log(error));
+                
+        }
+        
+    }, [departmentName])
     return (
         isOndata === "N" ?
             (<div className="spinner-border text-info" role="status">
@@ -133,15 +165,15 @@ const DepartmentDetail = (props) => {
                         <tr>
                             <th className="department-table-title">상위 부서</th>
                             <td className="department-table-content">
-                                <div className = "content-have-button">
+                                <div className="content-have-button">
                                     <Form.Control
                                         style={{ zIndex: "0" }}
                                         onChange={e => setDepartmentCode(e.target.value)}
                                         value={departmentParentName}
                                         readOnly
                                     />
-                                    <DepartmentParentModal setDepartmentParentName = {setDepartmentParentName}
-                                    workplaceSeq = {props.workplaceSeq}/>
+                                    <DepartmentParentModal setDepartmentParentName={setDepartmentParentName}
+                                        workplaceSeq={props.workplaceSeq} />
                                 </div>
                             </td>
                         </tr>
@@ -150,8 +182,10 @@ const DepartmentDetail = (props) => {
                             <td className="department-table-content"><Form.Control
                                 placeholder="부서 코드를 입력해주세요"
                                 style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
-                                onChange={e => setDepartmentCode(e.target.value)}
+                                onChange={e => setDepartmentCode(codeNumber(e.target.value))}
                                 value={departmentCode || ''}
+                                isValid={`${departmentCode}`.length < 1 ? false : codeDupliCheck === 1 ? false : true}
+                                isInvalid={`${departmentCode}`.length < 1 ? false : codeDupliCheck === 1 ? true : false}
                             /></td>
                         </tr>
                         <tr>
@@ -161,6 +195,8 @@ const DepartmentDetail = (props) => {
                                 style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
                                 onChange={e => setDepartmentName(e.target.value)}
                                 value={departmentName || ''}
+                                isValid= {`${departmentName}`.length < 1 ? false : nameDupliCheck === 1 ? false: true}
+                                isInvalid= {`${departmentName}`.length < 1 ? false : nameDupliCheck === 1 ? true : false}
                             /></td>
                         </tr>
                         <tr>
@@ -178,10 +214,18 @@ const DepartmentDetail = (props) => {
                         </tr>
                     </tbody>
                 </table>
-                
+
             </div>
 
     )
+    function codeNumber(value) {
+        if (!value) { return ""; }
+
+        value = value.replace(/[^0-9]/g, "");
+        let result = "";
+        result = value.substring(0, 4);
+        return result;
+    }
 }
 
 export default DepartmentDetail;

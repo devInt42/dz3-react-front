@@ -130,9 +130,6 @@ const CompanyDetail = ((props) => {
     //////////////////////////////////////////////////////////////////////////// 수정 , 추가
 
     function Update(seq) {  //회사 수정
-
-        console.log(data);
-
         axios.post(
             `${baseUrl}/company/update/${seq}`
             , JSON.stringify(data)

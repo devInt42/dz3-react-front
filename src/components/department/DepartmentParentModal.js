@@ -36,7 +36,6 @@ export default function DepartmentParentModal(props) {
         axios.get(`${baseUrl}/department/departmentparent/${props.workplaceSeq}`)
             .then(res => setDepartmentParent(res.data))
             .catch(error => console.log(error))
-        console.log(departmentParent);
     }, [])
     return (
         <div>
