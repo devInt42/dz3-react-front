@@ -6,27 +6,14 @@ import AuthEmployeeList from "../components/auth/AuthEmployeeList";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import CommonModal from "../components/commonModal/CommonModal";
+import axios from "axios";
 const Auth = () => {
+  const baseUrl = "http://localhost:8080";
   const [authSeq, setAuthSeq] = useState();
   const [selectCompanySeq, setSelectCompanySeq] = useState();
   const [pointCompanySeq, setPointCompanySeq] = useState();
-
-  const navigate = useNavigate();
-  const InitCheck = useCallback(async () => {
-    if (!window.sessionStorage.getItem("empInfo")) {
-      alert("로그인 후에 이용해주세요");
-      navigate("/login");
-    } else {
-      return;
-    }
-  }, []);
-
-  useEffect(() => {
-    InitCheck();
-  }, []);
-
-  useEffect(() => {}, [selectCompanySeq]);
-  useEffect(() => {}, [pointCompanySeq]);
+  const [modalRes, setModalRes] = useState([]);
+  const [sendData, setSendData] = useState([]);
 
   const sendAuthSeq = (authSeq) => {
     setAuthSeq(authSeq);
@@ -37,6 +24,49 @@ const Auth = () => {
   const sendPointCompanySeq = (pointCompanySeq) => {
     setPointCompanySeq(pointCompanySeq);
   };
+
+  const sendModalRes = async () => {
+    let list = JSON.parse(modalRes);
+    const headers = {
+      "Content-type": "application/json; charset=UTF-8",
+      Accept: "*/*",
+    };
+    let body = JSON.stringify({
+      authSeq: authSeq,
+      companySeq: pointCompanySeq,
+    });
+    try {
+      let sendRes = await axios.post(`${baseUrl}/auth-employee`, body, {
+        headers,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const settingModalRes = useCallback(async () => {
+    if (modalRes != "") {
+      let list = JSON.parse(modalRes);
+      const temp = [];
+      list.forEach((elem) => {
+        temp.push({
+          authSeq: authSeq,
+          employeeSeq: elem.employeeSeq,
+          companySeq: pointCompanySeq,
+          workplaceSeq: elem.workplaceSeq,
+          departmentSeq: elem.departmentSeq,
+        });
+      });
+      setSendData(temp);
+    }
+  }, [modalRes]);
+
+  useEffect(() => {}, [selectCompanySeq]);
+  useEffect(() => {}, [pointCompanySeq]);
+  useEffect(() => {}, [sendData]);
+  useEffect(() => {
+    settingModalRes();
+  }, [modalRes]);
 
   // 모달창 기능
   const [modalOpen, setModalOpen] = useState(false);
@@ -68,7 +98,7 @@ const Auth = () => {
   }
 
   function getInfo(obj) {
-    console.log(obj);
+    setModalRes(obj);
     SaveCompanyAlert();
   }
   return (
