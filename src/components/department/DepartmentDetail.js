@@ -18,6 +18,8 @@ const DepartmentDetail = (props) => {
     const [firstCode, setFirstCode] = useState("");
     const [firstName, setFirstName] = useState("");
     const [departmentParentName, setDepartmentParentName] = useState("-");
+    const [departmentParentSeq, setDepartmentParentSeq] = useState(0);
+    const [departmentParent, setDepartmentParent] = useState({});
     const [departmentCode, setDepartmentCode] = useState("");
     const [departmentName, setDepartmentName] = useState("");
     const [cWData, setCWData] = useState([]);
@@ -28,6 +30,7 @@ const DepartmentDetail = (props) => {
     const [departmentLoc, setDepartmentLoc] = useState("");
     const [codeDupliCheck, setCodeDupliCheck] = useState(1);
     const [nameDupliCheck, setNameDupliCheck] = useState(1);
+
     //사업장 seq로 회사, 사업장 이름 조회하고 department 에 데이터 셋팅
     const getWorkplace = async () => {
         try {
@@ -59,7 +62,7 @@ const DepartmentDetail = (props) => {
             getDepartment();
         }
     }, [props.departmentSeq])
-
+    
     //부서 seq로 회사 이름, 사업장 이름 조회
     const getNames = async () => {
         try {
@@ -83,7 +86,9 @@ const DepartmentDetail = (props) => {
         setDepartmentName(department.departmentName);
         setDepartmentCode(department.departmentCode);
         setFirstCode(department.departmentCode);
+        setFirstName(department.departmentName);
         setDepartmentLoc(department.departmentLoc);
+        setDepartmentParentSeq(department.departmentParent);
     }, [department])
 
 
@@ -132,6 +137,27 @@ const DepartmentDetail = (props) => {
         }
         
     }, [departmentName])
+
+    //상위 부서 정보 얻어오기
+    const getDepartmentParent = async () => {
+        try {
+            const result = await axios.get(`${baseUrl}/department/list/${departmentParentSeq}`);
+            setDepartmentParent(result.data[0]);
+            setWorkplaceIsOpen(false);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        if(departmentParentSeq != 0 && departmentParentSeq != undefined) {
+            getDepartmentParent();
+        } else setDepartmentParentName("-");  
+    }, [departmentParentSeq])
+
+    useEffect(() => {
+        departmentParent && setDepartmentParentName(departmentParent.departmentName);
+    },[departmentParent])
+
     return (
         isOndata === "N" ?
             (<div className="spinner-border text-info" role="status">
@@ -168,8 +194,7 @@ const DepartmentDetail = (props) => {
                                 <div className="content-have-button">
                                     <Form.Control
                                         style={{ zIndex: "0" }}
-                                        onChange={e => setDepartmentCode(e.target.value)}
-                                        value={departmentParentName}
+                                        value={departmentParentName || "-"}
                                         readOnly
                                     />
                                     <DepartmentParentModal setDepartmentParentName={setDepartmentParentName}
