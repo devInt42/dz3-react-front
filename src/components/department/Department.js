@@ -16,11 +16,11 @@ const Department = () => {
                 <IoInformationCircleOutline /> 회사별 조직도(부서)를 등록할 수 있습니다.
             </Alert>
             <div id="department-form">
-                <div id = "department-list-box">
-                <DepartmentList setDepartmentSeq = {setDepartmentSeq} setWorkplaceSeq = {setWorkplaceSeq}/>
+                <div id="department-list-box">
+                    <DepartmentList setDepartmentSeq={setDepartmentSeq} setWorkplaceSeq={setWorkplaceSeq} />
                 </div>
-                <div id = "department-info">
-                    <DepartmentDetail departmentSeq = {departmentSeq} workplaceSeq = {workplaceSeq}/>
+                <div id="department-info">
+                    <DepartmentDetail departmentSeq={departmentSeq} workplaceSeq={workplaceSeq} />
                 </div>
             </div>
         </div>

@@ -1,5 +1,3 @@
-import CompanyData from "./CompanyData";
-import DepartmentList from "./DepartmentList";
 import { BsDot } from "react-icons/bs";
 import { TfiClose } from 'react-icons/tfi'
 import Form from 'react-bootstrap/Form';
@@ -7,14 +5,10 @@ import "./css/DepartmentDetail.css";
 import { React, useEffect, useState } from "react";
 import axios from "axios";
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import DepartmentParentModal from "./DepartmentParentModal";
 
 const DepartmentDetail = (props) => {
-    const baseUrl = "http://localhost:8080"
+    const baseUrl = "http://localhost:8080";
     const [firstCode, setFirstCode] = useState("");
     const [firstName, setFirstName] = useState("");
     const [departmentParentName, setDepartmentParentName] = useState("-");
@@ -24,25 +18,22 @@ const DepartmentDetail = (props) => {
     const [departmentName, setDepartmentName] = useState("");
     const [cWData, setCWData] = useState([]);
     const [department, setDepartment] = useState({});
-    const [result, setResult] = useState([]);
-    const [workplace, setWorkplace] = useState({});
-    const [workplaceIsOpen, setWorkplaceIsOpen] = useState(false);
     const [departmentLoc, setDepartmentLoc] = useState("");
     const [codeDupliCheck, setCodeDupliCheck] = useState(1);
     const [nameDupliCheck, setNameDupliCheck] = useState(1);
+    const [useYN, setUseYN] = useState("N");
 
     //사업장 seq로 회사, 사업장 이름 조회하고 department 에 데이터 셋팅
     const getWorkplace = async () => {
         try {
             const result = await axios.get(`${baseUrl}/department/workplace/${props.workplaceSeq}`)
             setDepartment(result.data[0]);
-            setWorkplaceIsOpen(true);
         } catch (error) {
             console.log(error);
         }
     }
     useEffect(() => {
-        if (props.workplaceSeq !== 0) {
+        if (props.workplaceSeq !== 0 && props.departmentSeq == 0) {
             getWorkplace();
         }
     }, [props.workplaceSeq])
@@ -52,17 +43,23 @@ const DepartmentDetail = (props) => {
         try {
             const result = await axios.get(`${baseUrl}/department/list/${props.departmentSeq}`);
             setDepartment(result.data[0]);
-            setWorkplaceIsOpen(false);
         } catch (error) {
             console.log(error);
         }
     }
+
     useEffect(() => {
         if (props.departmentSeq != 0) {
             getDepartment();
+        } else {
+                setDepartmentParentName("-");
+                setDepartmentCode("");
+                setDepartmentLoc("");
+                setUseYN("N");
+                setDepartmentName("");
         }
     }, [props.departmentSeq])
-    
+
     //부서 seq로 회사 이름, 사업장 이름 조회
     const getNames = async () => {
         try {
@@ -79,6 +76,7 @@ const DepartmentDetail = (props) => {
             console.log(error);
         }
     }
+
     useEffect(() => {
         if (JSON.stringify(department) !== '{}') {
             getNames();
@@ -91,15 +89,13 @@ const DepartmentDetail = (props) => {
         setDepartmentParentSeq(department.departmentParent);
     }, [department])
 
-
-    /// 로딩
+    // 로딩
     const [isOndata, setIsOndata] = useState("N");
     useEffect(() => {
         setIsOndata("N");
         const ondataTimer = setInterval(() => {
             setIsOndata("Y");
-        }, 5);
-
+        }, 200);
         return () => {
             clearInterval(ondataTimer);
         }
@@ -133,30 +129,23 @@ const DepartmentDetail = (props) => {
             )
                 .then(res => setNameDupliCheck(res.data))
                 .catch(error => console.log(error));
-                
         }
-        
     }, [departmentName])
 
     //상위 부서 정보 얻어오기
     const getDepartmentParent = async () => {
         try {
             const result = await axios.get(`${baseUrl}/department/list/${departmentParentSeq}`);
-            setDepartmentParent(result.data[0]);
-            setWorkplaceIsOpen(false);
+            setDepartmentParentName(result.data[0].departmentName);
         } catch (error) {
             console.log(error);
         }
     }
     useEffect(() => {
-        if(departmentParentSeq != 0 && departmentParentSeq != undefined) {
+        if (departmentParentSeq != 0 && departmentParentSeq != undefined) {
             getDepartmentParent();
-        } else setDepartmentParentName("-");  
+        } else setDepartmentParentName("-");
     }, [departmentParentSeq])
-
-    useEffect(() => {
-        departmentParent && setDepartmentParentName(departmentParent.departmentName);
-    },[departmentParent])
 
     return (
         isOndata === "N" ?
@@ -169,7 +158,7 @@ const DepartmentDetail = (props) => {
                     <div>
                         <button>저장</button>
                         <button>삭제</button>
-                        <button id="department-detail-closebtn"><TfiClose /></button>
+                        <button id="department-detail-closebtn"><TfiClose/></button>
                     </div>
                 </div>
                 <hr />
@@ -220,8 +209,8 @@ const DepartmentDetail = (props) => {
                                 style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
                                 onChange={e => setDepartmentName(e.target.value)}
                                 value={departmentName || ''}
-                                isValid= {`${departmentName}`.length < 1 ? false : nameDupliCheck === 1 ? false: true}
-                                isInvalid= {`${departmentName}`.length < 1 ? false : nameDupliCheck === 1 ? true : false}
+                                isValid={`${departmentName}`.length < 1 ? false : nameDupliCheck === 1 ? false : true}
+                                isInvalid={`${departmentName}`.length < 1 ? false : nameDupliCheck === 1 ? true : false}
                             /></td>
                         </tr>
                         <tr>
@@ -235,7 +224,17 @@ const DepartmentDetail = (props) => {
                         </tr>
                         <tr>
                             <th className="department-table-title">사용여부</th>
-                            <td className="department-table-content">사용 미사용</td>
+                            <td className="department-table-content">
+                                <div className="department-table-content-flex">
+                                    <Form.Check
+                                        type="switch"
+                                        id="custom-switch"
+                                        onChange={() => { useYN === "N" ? setUseYN("Y") : setUseYN("N"); }}
+                                        checked={useYN === "N" ? false : true}
+                                    />
+                                    {useYN === "Y" ? (<b>사    용</b>) : (<b>미사용</b>)}
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

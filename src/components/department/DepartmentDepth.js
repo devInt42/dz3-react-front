@@ -68,6 +68,7 @@ const DepartmentDepth = (props) => {
                                         index.includes(child.departmentSeq) ?
                                         setIndex(index.filter(department => department !=child.departmentSeq)) :
                                         setIndex([...index, child.departmentSeq]);
+                                        props.setWorkplaceSeq(child.workplaceSeq);
                                         props.setDepartmentSeq(child.departmentSeq);
                                     }}>
                                         {index.includes(child.departmentSeq) ? <AiFillFolderOpen className="departmentlist-icon" /> :
@@ -77,7 +78,8 @@ const DepartmentDepth = (props) => {
                                     </div>
                                 </div>
                             }
-                            {index.includes(child.departmentSeq) && <DepartmentDepth depth={child.departmentDepth} key={idx} seq={child.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq}
+                            {index.includes(child.departmentSeq) && <DepartmentDepth depth={child.departmentDepth} key={idx} seq={child.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq} 
+                            setWorkplaceSeq = {props.setWorkplaceSeq}
                             depthIsOpen = {depthIsOpen} />}
                         </div>
                     )

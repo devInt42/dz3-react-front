@@ -39,6 +39,9 @@
 .department-table-content {
     padding:5px;
 }
+.department-table-content-flex {
+    display:flex;
+}
 .content-have-button {
     display:flex;
 }

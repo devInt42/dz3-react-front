@@ -7,7 +7,7 @@ const DepartmentData = (props) => {
     const baseUrl = "http://localhost:8080";
     const [department, setDepartment] = useState([]);
     const [departmentIsOpen, setDepartmentIsOpen] = useState([]);
-
+    const [workplaceSeq, setWorkplaceSeq] = useState(0);
     const [toggleIcon, setToggleIcon] = useState([]);
     
 
@@ -48,6 +48,7 @@ const DepartmentData = (props) => {
                                        </div>
                                         {departmentIsOpen.includes(idx) && <DepartmentDepth depth = {departmentdata.departmentDepth} 
                                          seq = {departmentdata.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq}
+                                         setWorkplaceSeq = {props.setWorkplaceSeq}
                                         />}
                                 </div>
 

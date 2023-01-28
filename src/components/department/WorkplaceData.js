@@ -32,12 +32,13 @@ const WorkplaceData = (props) => {
                         setWorkplaceIsOpen(workplaceIsOpen.filter(workplace => workplace !== idx)) :
                         setWorkplaceIsOpen([...workplaceIsOpen, idx]);
                         props.setWorkplaceSeq(workplace.workplaceSeq);
+                        props.setDepartmentSeq(0);
                     }}>
                                     <HiOutlineBuildingOffice className="workplacelist-icon" />
                                     {workplace.workplaceCode}.{workplace.workplaceName}
                                     {toggleIcon.includes(idx) ? <HiChevronDown /> : <HiChevronUp />}
                                 </div>
-                                {workplaceIsOpen.includes(idx) && <DepartmentData workplaceSeq = {workplace.workplaceSeq} setDepartmentSeq = {props.setDepartmentSeq}/>}
+                                {workplaceIsOpen.includes(idx) && <DepartmentData workplaceSeq = {workplace.workplaceSeq} setDepartmentSeq = {props.setDepartmentSeq} setWorkplaceSeq = {props.setWorkplaceSeq}/>}
                             </div>
                         }
                     </div>
