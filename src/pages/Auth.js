@@ -31,7 +31,7 @@ const Auth = () => {
   };
 
   // 추가
-  const sendInsertRes = async () => {
+  const sendInsertRes = useCallback(async () => {
     const headers = {
       "Content-type": "application/json; charset=UTF-8",
       Accept: "*/*",
@@ -50,17 +50,17 @@ const Auth = () => {
         console.log(error);
       }
     }
-  };
+  }, [insertList]);
 
   //삭제
-  const sendDeleteRes = async () => {
+  const sendDeleteRes = useCallback(async () => {
     const headers = {
       "Content-type": "application/json; charset=UTF-8",
       Accept: "*/*",
     };
     if (deleteList != null) {
       try {
-        let sendRes = await axios.delete(
+        let sendRes = await axios.post(
           `${baseUrl}/auth-employee/delete`,
           deleteList,
           {
@@ -71,7 +71,7 @@ const Auth = () => {
         console.log(error);
       }
     }
-  };
+  }, [deleteList]);
 
   //비교
   const compareList = useCallback(async () => {
@@ -147,10 +147,9 @@ const Auth = () => {
   }, [modalRes]);
   useEffect(() => {
     sendInsertRes();
-  }, [insertList]);
-  useEffect(() => {
     sendDeleteRes();
-  }, [deleteList]);
+  }, [insertList, deleteList]);
+
   //현재 권한-사원 리스트 불러오기
   const loadOrigin = useCallback(async () => {
     let send = {
