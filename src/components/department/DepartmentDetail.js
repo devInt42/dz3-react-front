@@ -6,6 +6,7 @@ import { React, useEffect, useState } from "react";
 import axios from "axios";
 import SaveFailDepartmentAlert from "./alert/SaveFailDepartmentAlert";
 import DepartmentParentModal from "./DepartmentParentModal";
+import SaveDepartmentAlert from "./alert/SaveDepartmentAlert";
 
 const DepartmentDetail = (props) => {
     const baseUrl = "http://localhost:8080";
@@ -192,11 +193,11 @@ const DepartmentDetail = (props) => {
         "useYN": useYN,
         "departmentDepth": departmentDepth + 1
     }
-    const InsertDepartment = () => {
+    const InsertData = () => {
         axios.post(`${baseUrl}/department/insert`,JSON.stringify(insertData), {
             headers: {
                 "Content-Type": 'application/json'
-            } 
+            }
         })
     }
 
@@ -210,6 +211,10 @@ const DepartmentDetail = (props) => {
                     <b><BsDot />부서 정보</b>
                     <div>
                         <button onClick = {() => AllCheck()}>저장</button>
+                        {props.workplaceSeq && allCheck && 
+                        <SaveDepartmentAlert setAllCheck = {setAllCheck} InsertData = {InsertData}/>
+                        }
+
                         {!workplaceIsOpen && <button>삭제</button>}
                         <button id="department-detail-closebtn"><TfiClose/></button>
                     </div>
@@ -237,6 +242,7 @@ const DepartmentDetail = (props) => {
                                 <div className="content-have-button">
                                     <Form.Control
                                         style={{ zIndex: "0" }}
+                                        onChange = {e => setDepartmentName(e.target.value)}
                                         value={departmentParentName || "-"}
                                         readOnly
                                     />
