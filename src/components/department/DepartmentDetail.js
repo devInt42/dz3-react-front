@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import "./css/DepartmentDetail.css";
 import { React, useEffect, useState } from "react";
 import axios from "axios";
-
+import SaveFailDepartmentAlert from "./alert/SaveFailDepartmentAlert";
 import DepartmentParentModal from "./DepartmentParentModal";
 
 const DepartmentDetail = (props) => {
@@ -13,9 +13,9 @@ const DepartmentDetail = (props) => {
     const [firstName, setFirstName] = useState("");
     const [departmentParentName, setDepartmentParentName] = useState("-");
     const [departmentParentSeq, setDepartmentParentSeq] = useState(0);
-    const [departmentParent, setDepartmentParent] = useState({});
     const [departmentCode, setDepartmentCode] = useState("");
     const [departmentName, setDepartmentName] = useState("");
+    const [departmentDepth, setDepartmentDepth] = useState(-1);
     const [cWData, setCWData] = useState([]);
     const [department, setDepartment] = useState({});
     const [departmentLoc, setDepartmentLoc] = useState("");
@@ -23,6 +23,9 @@ const DepartmentDetail = (props) => {
     const [nameDupliCheck, setNameDupliCheck] = useState(1);
     const [useYN, setUseYN] = useState("N");
     const [workplaceIsOpen, setWorkplaceIsOpen] = useState(false);
+    const [checked, setChecked] = useState(0);
+    const [notRequire, setNotRequire] = useState('');
+    const [allCheck, setAllCheck] = useState(false);
     //사업장 seq로 회사, 사업장 이름 조회하고 department 에 데이터 셋팅
     const getWorkplace = async () => {
         try {
@@ -36,6 +39,7 @@ const DepartmentDetail = (props) => {
         if (props.workplaceSeq !== 0 && props.departmentSeq == 0) {
             getWorkplace();
         }
+        setNotRequire('');
     }, [props.workplaceSeq])
 
     //부서 데이터 조회
@@ -53,12 +57,15 @@ const DepartmentDetail = (props) => {
             getDepartment();
             setWorkplaceIsOpen(false);
         } else {
+                setNotRequire('');
                 setDepartmentParentName("-");
+                setDepartmentParentSeq("");
                 setDepartmentCode("");
                 setDepartmentLoc("");
                 setUseYN("N");
                 setDepartmentName("");
                 setWorkplaceIsOpen(true);
+                setDepartmentDepth(-1);
         }
     }, [props.departmentSeq])
 
@@ -89,12 +96,15 @@ const DepartmentDetail = (props) => {
         setFirstName(department.departmentName);
         setDepartmentLoc(department.departmentLoc);
         setDepartmentParentSeq(department.departmentParent);
+        setDepartmentDepth(department.departmentDepth);
+        setUseYN(department.useYN);
     }, [department])
 
     // 로딩
     const [isOndata, setIsOndata] = useState("N");
     useEffect(() => {
         setIsOndata("N");
+        setNotRequire('');
         const ondataTimer = setInterval(() => {
             setIsOndata("Y");
         }, 200);
@@ -105,13 +115,16 @@ const DepartmentDetail = (props) => {
 
     //코드중복처리
     useEffect(() => {
-        if (`${departmentCode}` === `${firstCode}`) {
+        if (`${departmentCode}` === `${firstCode}` && props.departmentSeq !== 0) {
             setCodeDupliCheck(0);
         }
         else if (`${departmentCode}`.length > 0) {
             axios.get(`${baseUrl}/department/info/check/${departmentCode}`)
                 .then(res => setCodeDupliCheck(res.data))
                 .catch(error => console.log(error));
+        }
+        else {
+            setCodeDupliCheck(1);
         }
     }, [departmentCode])
 
@@ -149,6 +162,44 @@ const DepartmentDetail = (props) => {
         } else setDepartmentParentName("-");
     }, [departmentParentSeq])
 
+
+    //필수 입력값이 잘 들어 갔는지 확인
+    const AllCheck = () => {
+        setChecked(checked + 1);
+        if (codeDupliCheck === 1 || `${departmentCode}`.length < 1) {
+            setNotRequire(<SaveFailDepartmentAlert />)
+            return false;
+        }
+        if (nameDupliCheck === 1 || `${departmentName}`.length < 1) {
+            setNotRequire(<SaveFailDepartmentAlert/>)
+            return false;
+        }
+        if (`${departmentLoc}`.length < 1) {
+            setNotRequire(<SaveFailDepartmentAlert/>)
+            return false;
+        }
+        setAllCheck(true);
+        return true
+    }
+    
+    const insertData = {
+        "companySeq": props.companySeq,
+        "workplaceSeq": props.workplaceSeq,
+        "departmentParent": departmentParentSeq,
+        "departmentCode": departmentCode,
+        "departmentName": departmentName,
+        "departmentLoc": departmentLoc,
+        "useYN": useYN,
+        "departmentDepth": departmentDepth + 1
+    }
+    const InsertDepartment = () => {
+        axios.post(`${baseUrl}/department/insert`,JSON.stringify(insertData), {
+            headers: {
+                "Content-Type": 'application/json'
+            } 
+        })
+    }
+
     return (
         isOndata === "N" ?
             (<div className="spinner-border text-info" role="status">
@@ -158,11 +209,12 @@ const DepartmentDetail = (props) => {
                 <div id="department-detail-header">
                     <b><BsDot />부서 정보</b>
                     <div>
-                        <button>저장</button>
+                        <button onClick = {() => AllCheck()}>저장</button>
                         {!workplaceIsOpen && <button>삭제</button>}
                         <button id="department-detail-closebtn"><TfiClose/></button>
                     </div>
                 </div>
+                {notRequire}
                 <hr />
                 <div id="department-detail-menu-form">
                     <div className="department-detail-menu department-detail-basicmenu">기본 정보</div>
@@ -189,7 +241,9 @@ const DepartmentDetail = (props) => {
                                         readOnly
                                     />
                                     <DepartmentParentModal setDepartmentParentName={setDepartmentParentName}
-                                        workplaceSeq={props.workplaceSeq} />
+                                        workplaceSeq={props.workplaceSeq} companyName = {cWData.companyName}
+                                        workplaceName = {cWData.workplaceName}
+                                        />
                                 </div>
                             </td>
                         </tr>

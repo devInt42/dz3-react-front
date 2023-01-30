@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-function SaveFailCompanyAlert() {
+function SaveFailDepartmentAlert() {
   const MySwal = withReactContent(Swal)
   MySwal.fire({
     title: '필수 정보를 입력하지 않았습니다.',
@@ -12,4 +12,4 @@ function SaveFailCompanyAlert() {
 }
 
 
-export default SaveFailCompanyAlert;
+export default SaveFailDepartmentAlert;

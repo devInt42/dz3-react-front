@@ -5,7 +5,6 @@ import { AiFillFolder, AiFillFolderOpen } from 'react-icons/ai';
 const DepartmentDepth = (props) => {
 
     const baseUrl = "http://localhost:8080";
-    const [depthIsOpen, setDepthIsOpen] = useState(false);
     const [department, setDepartment] = useState([]);
     const [depth, setDepth] = useState(0);
     const [seq, setSeq] = useState(0);
@@ -70,6 +69,7 @@ const DepartmentDepth = (props) => {
                                         setIndex([...index, child.departmentSeq]);
                                         props.setWorkplaceSeq(child.workplaceSeq);
                                         props.setDepartmentSeq(child.departmentSeq);
+                                        props.setCompanySeq(child.companySeq);
                                     }}>
                                         {index.includes(child.departmentSeq) ? <AiFillFolderOpen className="departmentlist-icon" /> :
                                             <AiFillFolder className="departmentlist-icon" />}
@@ -79,8 +79,8 @@ const DepartmentDepth = (props) => {
                                 </div>
                             }
                             {index.includes(child.departmentSeq) && <DepartmentDepth depth={child.departmentDepth} key={idx} seq={child.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq} 
-                            setWorkplaceSeq = {props.setWorkplaceSeq}
-                            depthIsOpen = {depthIsOpen} />}
+                            setWorkplaceSeq = {props.setWorkplaceSeq} setCompanySeq = {props.setCompanySeq}
+                            />}
                         </div>
                     )
 

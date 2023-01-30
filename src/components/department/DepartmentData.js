@@ -40,6 +40,7 @@ const DepartmentData = (props) => {
                                             setDepartmentIsOpen(departmentIsOpen.filter(department => department !== idx)) :
                                             setDepartmentIsOpen([...departmentIsOpen, idx]);
                                             props.setDepartmentSeq(departmentdata.departmentSeq);
+                                            props.setCompanySeq(departmentdata.companySeq);
                                     }}>
                                         {toggleIcon.includes(idx) ? <AiFillFolderOpen className="departmentlist-icon" /> :
                                             <AiFillFolder className="departmentlist-icon"/>}
@@ -48,7 +49,7 @@ const DepartmentData = (props) => {
                                        </div>
                                         {departmentIsOpen.includes(idx) && <DepartmentDepth depth = {departmentdata.departmentDepth} 
                                          seq = {departmentdata.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq}
-                                         setWorkplaceSeq = {props.setWorkplaceSeq}
+                                         setWorkplaceSeq = {props.setWorkplaceSeq} setCompanySeq = {props.setCompanySeq}
                                         />}
                                 </div>
 

@@ -36,7 +36,7 @@ export default function DepartmentParentModal(props) {
         axios.get(`${baseUrl}/department/departmentparent/${props.workplaceSeq}`)
             .then(res => setDepartmentParent(res.data))
             .catch(error => console.log(error))
-    }, [])
+    }, [props.workplaceSeq])
     return (
         <div>
             <Button onClick={handleOpen}>찾기</Button>
@@ -55,9 +55,10 @@ export default function DepartmentParentModal(props) {
                             <Table sx={{ minWidth: 550 }} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
+                                        <TableCell>회사</TableCell>
+                                        <TableCell>사업장</TableCell>
                                         <TableCell>부서 코드</TableCell>
-                                        <TableCell>카테고리</TableCell>
-                                        <TableCell>부서 이름</TableCell>
+                                        <TableCell>부서</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -72,8 +73,9 @@ export default function DepartmentParentModal(props) {
                                                     }}
                                                     hover={{backgroundColor:"gray"}}
                                                 >
+                                                    <TableCell>{props.companyName}</TableCell>
+                                                    <TableCell>{props.workplaceName}</TableCell>
                                                     <TableCell>{department.departmentCode}</TableCell>
-                                                    <TableCell>{department.departmentCategory}</TableCell>
                                                     <TableCell>{department.departmentName}</TableCell>
                                                 </TableRow>
                                             )
