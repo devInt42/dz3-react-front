@@ -1,9 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import "./AuthGroup.css";
-import { TreeView, TreeItem } from "@mui/lab";
-import { MergeRounded } from "@mui/icons-material";
-import { merge } from "lodash";
+import { TreeItem } from "@mui/lab";
 
 const SubMenuGroup = (props) => {
   const baseUrl = "http://localhost:8080";
@@ -12,9 +10,11 @@ const SubMenuGroup = (props) => {
   const [parentSeq, setParentSeq] = useState(0);
   const [childList, setChildList] = useState([]);
   const [count, setCount] = useState(0);
+  const [checkedList, setCheckedList] = useState([]);
   useEffect(() => {
     setDepth(props.depth + 1);
     setParentSeq(props.parentSeq);
+    setCheckedList(props.checkedList);
   }, [props]);
 
   // 가져올 값이 있는지 확인
@@ -61,15 +61,21 @@ const SubMenuGroup = (props) => {
   }, [count]);
 
   //더미값 보내기
-  const sendDummySeq = async (e) => {
+  const sendDummySeq = async (list, checked) => {
+    props.sendDummySeq(list, checked);
+  };
+
+  //더미값 보내기
+  const setTempList = async (e) => {
     const temp = [];
     childList.forEach((list) => {
       if (list.menuSeq == e.target.value) {
         temp.push(list);
       }
     });
-    props.sendDummySeq(temp);
+    props.sendDummySeq(temp, e.target.checked);
   };
+
   return (
     <>
       {childList &&
@@ -84,7 +90,17 @@ const SubMenuGroup = (props) => {
               name={childItem.menuCode}
               value={childItem.menuSeq}
               id={childItem.menuSeq.toString()}
-              onChange={sendDummySeq}
+              onChange={setTempList}
+              checked={(() => {
+                let tempList = checkedList.filter(
+                  (data) => data.menuSeq === childItem.menuSeq
+                );
+                if (tempList.length > 0) {
+                  return true;
+                } else {
+                  return false;
+                }
+              })()}
             />
             <TreeItem
               key={childItem.menuSeq}
@@ -96,6 +112,7 @@ const SubMenuGroup = (props) => {
                 depth={childItem.menuDepth}
                 id={childItem.id}
                 sendDummySeq={sendDummySeq}
+                checkedList={checkedList}
               />
             </TreeItem>
           </div>

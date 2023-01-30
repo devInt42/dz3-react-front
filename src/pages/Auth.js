@@ -1,14 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import AuthLnb from "../components/auth/AuthLnb";
-import { useNavigate } from "react-router-dom";
 import AuthEmployeeList from "../components/auth/AuthEmployeeList";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import CommonModal from "../components/commonModal/CommonModal";
 import axios from "axios";
-import { StackedLineChart } from "@mui/icons-material";
-import { set } from "lodash";
+
 const Auth = () => {
   const baseUrl = "http://localhost:8080";
   const [authSeq, setAuthSeq] = useState();
@@ -120,6 +118,7 @@ const Auth = () => {
     }
   }, [sendList]);
 
+  // 모달창에서 받은 list 정제
   const settingModalRes = useCallback(async () => {
     if (modalRes != "") {
       let list = JSON.parse(modalRes);
@@ -233,6 +232,7 @@ const Auth = () => {
               header="사용자 권한 설정"
               authSeq={authSeq}
               pointCompanySeq={pointCompanySeq}
+              selectCompanySeq={selectCompanySeq}
             ></CommonModal>
           </Row>
           <AuthEmployeeList

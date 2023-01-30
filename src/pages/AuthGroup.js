@@ -8,23 +8,10 @@ const AuthGroup = () => {
   const [authSeq, setAuthSeq] = useState();
   const [selectCompanySeq, setSelectCompanySeq] = useState();
   const [pointCompanySeq, setPointCompanySeq] = useState();
-  const navigate = useNavigate();
-  let sessionItem;
-  const InitCheck = useCallback(async () => {
-    if (!window.sessionStorage.getItem("empInfo")) {
-      alert("로그인 후에 이용해주세요");
-      navigate("/login");
-    } else {
-      return;
-    }
-  }, []);
-
-  useEffect(() => {
-    InitCheck();
-  }, []);
 
   useEffect(() => {}, [selectCompanySeq]);
   useEffect(() => {}, [pointCompanySeq]);
+  useEffect(() => {}, [authSeq]);
 
   const sendAuthSeq = (authSeq) => {
     setAuthSeq(authSeq);
@@ -47,7 +34,11 @@ const AuthGroup = () => {
         </Col>
         <Col xs={3}>
           <div className="menuArea">
-            <AuthMenu />
+            <AuthMenu
+              authSeq={authSeq}
+              selectCompanySeq={selectCompanySeq}
+              pointCompanySeq={pointCompanySeq}
+            />
           </div>
         </Col>
       </Row>
