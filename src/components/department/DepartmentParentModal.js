@@ -69,6 +69,8 @@ export default function DepartmentParentModal(props) {
                                                 <TableRow key={idx} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                     onClick={() => {
                                                         props.setDepartmentParentName(department.departmentName);
+                                                        props.setDepartmentParentSeq(department.departmentSeq);
+                                                        props.setDepartmentDepth(department.departmentDepth);
                                                         handleClose();
                                                     }}
                                                     hover={{backgroundColor:"gray"}}

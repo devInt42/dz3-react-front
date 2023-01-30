@@ -7,6 +7,7 @@ import axios from "axios";
 import SaveFailDepartmentAlert from "./alert/SaveFailDepartmentAlert";
 import DepartmentParentModal from "./DepartmentParentModal";
 import SaveDepartmentAlert from "./alert/SaveDepartmentAlert";
+import UpdateDepartmentAlert from "./alert/UpdateDepartmentAlert";
 
 const DepartmentDetail = (props) => {
     const baseUrl = "http://localhost:8080";
@@ -119,7 +120,7 @@ const DepartmentDetail = (props) => {
         if (`${departmentCode}` === `${firstCode}` && props.departmentSeq !== 0) {
             setCodeDupliCheck(0);
         }
-        else if (`${departmentCode}`.length > 0) {
+        else if (`${departmentCode}`.length > 0 && departmentCode != undefined) {
             axios.get(`${baseUrl}/department/info/check/${departmentCode}`)
                 .then(res => setCodeDupliCheck(res.data))
                 .catch(error => console.log(error));
@@ -148,7 +149,7 @@ const DepartmentDetail = (props) => {
         }
     }, [departmentName])
 
-    //상위 부서 정보 얻어오기
+    //상위 부서명 정보 얻어오기
     const getDepartmentParent = async () => {
         try {
             const result = await axios.get(`${baseUrl}/department/list/${departmentParentSeq}`);
@@ -162,7 +163,6 @@ const DepartmentDetail = (props) => {
             getDepartmentParent();
         } else setDepartmentParentName("-");
     }, [departmentParentSeq])
-
 
     //필수 입력값이 잘 들어 갔는지 확인
     const AllCheck = () => {
@@ -183,7 +183,8 @@ const DepartmentDetail = (props) => {
         return true
     }
     
-    const insertData = {
+    //수정, 추가에 필요한 데이터
+    const data = {
         "companySeq": props.companySeq,
         "workplaceSeq": props.workplaceSeq,
         "departmentParent": departmentParentSeq,
@@ -194,7 +195,14 @@ const DepartmentDetail = (props) => {
         "departmentDepth": departmentDepth + 1
     }
     const InsertData = () => {
-        axios.post(`${baseUrl}/department/insert`,JSON.stringify(insertData), {
+        axios.post(`${baseUrl}/department/insert`,JSON.stringify(data), {
+            headers: {
+                "Content-Type": 'application/json'
+            }
+        })
+    }
+    const Update = (seq) => {
+        axios.post(`${baseUrl}/department/update/${seq}`, JSON.stringify(data), {
             headers: {
                 "Content-Type": 'application/json'
             }
@@ -211,8 +219,13 @@ const DepartmentDetail = (props) => {
                     <b><BsDot />부서 정보</b>
                     <div>
                         <button onClick = {() => AllCheck()}>저장</button>
-                        {props.workplaceSeq && allCheck && 
+                        {
+                        !props.departmentSeq && allCheck && 
                         <SaveDepartmentAlert setAllCheck = {setAllCheck} InsertData = {InsertData}/>
+                        }
+                        {
+                            props.departmentSeq && allCheck &&
+                            <UpdateDepartmentAlert setAllCheck = {setAllCheck} Update = {Update} seq = {props.departmentSeq}/>
                         }
 
                         {!workplaceIsOpen && <button>삭제</button>}
@@ -248,7 +261,9 @@ const DepartmentDetail = (props) => {
                                     />
                                     <DepartmentParentModal setDepartmentParentName={setDepartmentParentName}
                                         workplaceSeq={props.workplaceSeq} companyName = {cWData.companyName}
-                                        workplaceName = {cWData.workplaceName}
+                                        workplaceName = {cWData.workplaceName} 
+                                        setDepartmentParentSeq = {setDepartmentParentSeq}
+                                        setDepartmentDepth = {setDepartmentDepth}
                                         />
                                 </div>
                             </td>
