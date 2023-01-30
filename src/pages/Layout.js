@@ -3,6 +3,8 @@ import LNB from "../components/menu/LNB";
 import GNB from "../components/menu/GNB.js";
 import { Container, Row, Col } from "react-bootstrap";
 
+import style from "./Layout.module.css"
+
 import React, { useState, useCallback } from "react";
 import SubMenu from "../components/menu/SubMenu";
 import CallMenu from "./CallMenu";
@@ -10,8 +12,6 @@ import Main from "./Main";
 import { PropaneSharp } from "@mui/icons-material";
 
 function Layout() {
-  // const [test, setTest] = useState("");
-  // const getTest = (text) => {setTest(text);}
 
   const [menuSeq, setMenuSeq] = useState(0);
   const [menuName, setMenuName] = useState("");
@@ -22,10 +22,6 @@ function Layout() {
     },
     [menuSeq, menuName]
   );
-  // const getMenuInfo =  (menuName, menuSeq) => {
-  //     setMenuSeq(menuSeq);
-  //     setMenuName(menuName);
-  // };
 
   const [lastSeq, setLastSeq] = useState(0);
   const getLastMenuSeq = (lastSeq) => {
@@ -35,32 +31,18 @@ function Layout() {
   return (
     <Container fluid>
       <Row>
-        <Col
-          md="auto"
-          style={{ border: "1px solid black", padding: "0px", height: "100vh" }}
-        >
-          <LNB getMenuInfo={getMenuInfo} />
+        <Col md="auto" className={style.layout_lnb}>
+          <LNB getMenuInfo={getMenuInfo}/>
         </Col>
-
-        <Col style={{ border: "1px solid black", padding: "0px" }}>
+        <Col className={style.layout_gnb}>
           <Row>
-            <GNB menuName={menuName} />
+            <GNB menuName={menuName} setMenuName={setMenuName}/>
           </Row>
           <Row>
-            <Col
-              md="auto"
-              style={{
-                border: "1px solid black",
-                padding: "0px",
-                width: "15%",
-                height: "100vh",
-                marginTop: "10px",
-                marginLeft: "20px",
-                overflow: "hidden",
-              }}
-            >
+          {menuName == "" ? <></> :
+            <Col md="auto" className={style.layout_callmenu}>
               <CallMenu menuSeq={menuSeq} />
-            </Col>
+            </Col>}
             <Col>
               <Outlet />
             </Col>
@@ -68,24 +50,8 @@ function Layout() {
         </Col>
       </Row>
     </Container>
-    // <div><LNB getTest={getTest}/><div>{test}</div></div>
+    
   );
 }
 
 export default React.memo(Layout);
-
-{
-  /* <div className="layout">
-            <GNB />
-            <div> */
-}
-{
-  /* <Col><LNB /></Col> */
-}
-//         <Col>
-//             <Container>
-//                 <Outlet />
-//             </Container>
-//         </Col>
-//     </div>
-// </div>

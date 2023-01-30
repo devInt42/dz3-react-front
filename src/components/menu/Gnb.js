@@ -33,6 +33,7 @@ function GNB(props) {
   }, []);
 
   const goMain=()=>{
+    props.setMenuName("");
     navigate(`/dz3`);
   }
   return (
@@ -55,7 +56,6 @@ function GNB(props) {
         <Col xs={2} className={style.gnb_Imtree}>
           <button className={style.gnb_Imtree_btn} style={{border: "none", backgroundColor:"white"}}>
             <ImTree size="30" onClick={openModal}></ImTree>
-
             <OrganizationChart
               open={modalOpen}
               close={closeModal}
@@ -64,13 +64,14 @@ function GNB(props) {
           </button>
         </Col>
       </Row>
-
+      {props.menuName == "" ? <Main/> :
       <div className={style.gnb_bar}>
-        <CgMenuBoxed
-          style={{ width: "50px", height: "50px", margin: "10px" }}
-        />
-        {props.menuName}
-      </div>
+      <CgMenuBoxed
+        style={{ width: "50px", height: "50px", margin: "10px" }}
+      />
+      {props.menuName}
+    </div>
+      }
     </div>
   );
 }

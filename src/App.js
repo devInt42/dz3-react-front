@@ -12,6 +12,7 @@ import NoMenu from "./pages/NoMenu";
 import AuthGroup from "./pages/AuthGroup";
 import Department from "./components/department/Department";
 import Main from "./pages/Main";
+import NotSelected from "./pages/NotSelected";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/dz3/" element={<Layout />}>
         <Route path="menuset" element={<MenuSet />} />
+        <Route path="notselected" element={<NotSelected />} />
         <Route path="auth" element={<Auth />} />
         <Route path="authgroup" element={<AuthGroup />} />
         <Route exact path="company/info" element={<Company />} />
