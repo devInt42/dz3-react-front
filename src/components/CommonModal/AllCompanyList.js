@@ -1,13 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
+import { TreeView, TreeItem } from "@mui/lab";
+import { ReactComponent as Folder } from "../authGroup/folder.svg";
+import { ReactComponent as FolderOpen } from "../authGroup/folderopen.svg";
+import WorkplaceGroup from "./WorkplaceGroup";
 
 const AllCompanyList = (props) => {
   const baseUrl = "http://localhost:8080";
   const [departmentSeq, setDepartmentSeq] = useState();
-  const [deptNameList, setDeptNameList] = useState([]);
+  const [companyNameList, setCompanyNameList] = useState([]);
   const [departmentNameList, setDepartmentNameList] = useState();
   const [companySeq, setCompanySeq] = useState();
+  const [workplaceNameList, setWorkplaceNameList] = useState();
+  const [workplaceSeq, setWorkplaceSeq] = useState();
 
   // Modal.js로 departmentSeq값 전송
   const getDeptSeq = () => {
@@ -20,9 +26,9 @@ const AllCompanyList = (props) => {
   }, [departmentSeq]);
 
   //클릭하면 값 저장
-  async function sendDepartmentSeq(a) {
-    setDepartmentSeq(a);
-  }
+  // async function sendDepartmentSeq(a) {
+  //   setDepartmentSeq(a);
+  // }
 
   // 로그인 - 선택된 회사 받아오기
   const getCompany = async () => {
@@ -39,7 +45,7 @@ const AllCompanyList = (props) => {
           },
         }
       );
-      setDeptNameList(companyDataResult.data);
+      setCompanyNameList(companyDataResult.data);
     } catch (error) {
       console.log(error);
     }
@@ -69,23 +75,40 @@ const AllCompanyList = (props) => {
   //회사가 바뀔때마다 가져오는값 달라짐
   useEffect(() => {
     getCompany();
-    getDepartment();
   }, []);
 
+  //클릭하면 값 저장
+  async function sendWorkplaceSeq(a) {
+    setWorkplaceSeq(a);
+    // console.log(workplaceSeq);
+  }
+
+  // console.log(companyNameList);
   return (
     <Container>
-      <Row>{deptNameList[0]?.companyName}</Row>
-      {departmentNameList &&
-        departmentNameList.map((list) => (
-          <Row
-            className="CompanyLine"
-            key={list.departmentSeq}
-            onClick={() => {
-              sendDepartmentSeq(list.departmentSeq);
-            }}>
-            <div style={{ textAlign: "left" }}> - {list.departmentName}</div>
-          </Row>
-        ))}
+      <TreeView
+        className="menuTree"
+        aria-label="file system navigator"
+        defaultCollapseIcon={<FolderOpen />}
+        defaultExpandIcon={<Folder />}
+        sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+        defaultExpanded={["1", "2", "3", "4", "5", "6"]}
+        multiSelect>
+        {companyNameList &&
+          companyNameList.map((companyItem, idx) => (
+            <div
+              key={companyItem.companySeq}
+              style={{ display: "flex", alignItems: "flex-start" }}>
+              <TreeItem
+                key={companyItem.companySeq}
+                nodeId={companyItem.companySeq.toString()}
+                label={companyItem.companyName}
+                id={companyItem.companySeq.toString()}>
+                <WorkplaceGroup companySeq={companyItem.companySeq} id={idx} />
+              </TreeItem>
+            </div>
+          ))}
+      </TreeView>
     </Container>
   );
 };
