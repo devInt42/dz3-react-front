@@ -196,14 +196,13 @@ const AllEmployeeList = (props) => {
                       type="checkbox"
                       readOnly
                       onClick={(e) => onCheckedAll(e.target.checked)}
-                      // checked={
-
-                      // }
+                      // checked={deptList.forEach()}
                       className="custom-control-input"
                       id="customCheck2"></input>
                   </th>
+                  <th scope="col">회사</th>
                   <th scope="col">사업장</th>
-                  <th scope="col">부서명</th>
+                  <th scope="col">부서</th>
                   <th scope="col">직급</th>
                   <th scope="col">성명</th>
                   <th scope="col">이메일</th>
@@ -237,6 +236,7 @@ const AllEmployeeList = (props) => {
                     </td>
                     <td>{dept.companyName}</td>
                     <td>{dept.workplaceName}</td>
+                    <td>{dept.departmentName}</td>
                     <td>{dept.title}</td>
                     <td>{dept.employeeName}</td>
                     <td>{dept.employeePmail}</td>
