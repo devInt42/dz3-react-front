@@ -8,6 +8,7 @@ import SaveFailDepartmentAlert from "./alert/SaveFailDepartmentAlert";
 import DepartmentParentModal from "./DepartmentParentModal";
 import SaveDepartmentAlert from "./alert/SaveDepartmentAlert";
 import UpdateDepartmentAlert from "./alert/UpdateDepartmentAlert";
+import DeleteDepartmentAlert from "./alert/DeleteDepartmentAlert";
 
 const DepartmentDetail = (props) => {
     const baseUrl = "http://localhost:8080";
@@ -28,6 +29,7 @@ const DepartmentDetail = (props) => {
     const [checked, setChecked] = useState(0);
     const [notRequire, setNotRequire] = useState('');
     const [allCheck, setAllCheck] = useState(false);
+    const [checkDelete, setCheckDelete] = useState(false);
     //사업장 seq로 회사, 사업장 이름 조회하고 department 에 데이터 셋팅
     const getWorkplace = async () => {
         try {
@@ -59,15 +61,15 @@ const DepartmentDetail = (props) => {
             getDepartment();
             setWorkplaceIsOpen(false);
         } else {
-                setNotRequire('');
-                setDepartmentParentName("-");
-                setDepartmentParentSeq("");
-                setDepartmentCode("");
-                setDepartmentLoc("");
-                setUseYN("N");
-                setDepartmentName("");
-                setWorkplaceIsOpen(true);
-                setDepartmentDepth(-1);
+            setNotRequire('');
+            setDepartmentParentName("-");
+            setDepartmentParentSeq("");
+            setDepartmentCode("");
+            setDepartmentLoc("");
+            setUseYN("N");
+            setDepartmentName("");
+            setWorkplaceIsOpen(true);
+            setDepartmentDepth(-1);
         }
     }, [props.departmentSeq])
 
@@ -172,17 +174,17 @@ const DepartmentDetail = (props) => {
             return false;
         }
         if (nameDupliCheck === 1 || `${departmentName}`.length < 1) {
-            setNotRequire(<SaveFailDepartmentAlert/>)
+            setNotRequire(<SaveFailDepartmentAlert />)
             return false;
         }
         if (`${departmentLoc}`.length < 1) {
-            setNotRequire(<SaveFailDepartmentAlert/>)
+            setNotRequire(<SaveFailDepartmentAlert />)
             return false;
         }
         setAllCheck(true);
         return true
     }
-    
+
     //수정, 추가에 필요한 데이터
     const data = {
         "companySeq": props.companySeq,
@@ -195,7 +197,7 @@ const DepartmentDetail = (props) => {
         "departmentDepth": departmentDepth + 1
     }
     const InsertData = () => {
-        axios.post(`${baseUrl}/department/insert`,JSON.stringify(data), {
+        axios.post(`${baseUrl}/department/insert`, JSON.stringify(data), {
             headers: {
                 "Content-Type": 'application/json'
             }
@@ -208,6 +210,9 @@ const DepartmentDetail = (props) => {
             }
         })
     }
+    const Delete = () => {
+        axios.get(`${baseUrl}/department/delete/${props.departmentSeq}`)
+    }
 
     return (
         isOndata === "N" ?
@@ -218,18 +223,25 @@ const DepartmentDetail = (props) => {
                 <div id="department-detail-header">
                     <b><BsDot />부서 정보</b>
                     <div>
-                        <button onClick = {() => AllCheck()}>저장</button>
+                        <button onClick={() => AllCheck()}>저장</button>
                         {
-                        !props.departmentSeq && allCheck && 
-                        <SaveDepartmentAlert setAllCheck = {setAllCheck} InsertData = {InsertData}/>
+                            !props.departmentSeq && allCheck &&
+                            <SaveDepartmentAlert setAllCheck={setAllCheck} InsertData={InsertData} />
                         }
                         {
-                            props.departmentSeq && allCheck &&
-                            <UpdateDepartmentAlert setAllCheck = {setAllCheck} Update = {Update} seq = {props.departmentSeq}/>
+                            (props.departmentSeq !== 0 && allCheck) &&
+                            <UpdateDepartmentAlert setAllCheck={setAllCheck} Update={Update} seq={props.departmentSeq} />
+                        }
+                        {
+                            (props.departmentSeq !== 0 && checkDelete) &&
+                            <DeleteDepartmentAlert setCheckDelete={setCheckDelete} Delete = {Delete} />
                         }
 
-                        {!workplaceIsOpen && <button>삭제</button>}
-                        <button id="department-detail-closebtn"><TfiClose/></button>
+                        {
+                            props.departmentSeq !== 0 && <button type="button" 
+                            onClick={() => setCheckDelete(true)}>삭제</button>
+                        }
+                        <button id="department-detail-closebtn"><TfiClose /></button>
                     </div>
                 </div>
                 {notRequire}
@@ -255,16 +267,16 @@ const DepartmentDetail = (props) => {
                                 <div className="content-have-button">
                                     <Form.Control
                                         style={{ zIndex: "0" }}
-                                        onChange = {e => setDepartmentName(e.target.value)}
+                                        onChange={e => setDepartmentName(e.target.value)}
                                         value={departmentParentName || "-"}
                                         readOnly
                                     />
                                     <DepartmentParentModal setDepartmentParentName={setDepartmentParentName}
-                                        workplaceSeq={props.workplaceSeq} companyName = {cWData.companyName}
-                                        workplaceName = {cWData.workplaceName} 
-                                        setDepartmentParentSeq = {setDepartmentParentSeq}
-                                        setDepartmentDepth = {setDepartmentDepth}
-                                        />
+                                        workplaceSeq={props.workplaceSeq} companyName={cWData.companyName}
+                                        workplaceName={cWData.workplaceName}
+                                        setDepartmentParentSeq={setDepartmentParentSeq}
+                                        setDepartmentDepth={setDepartmentDepth}
+                                    />
                                 </div>
                             </td>
                         </tr>
@@ -275,10 +287,10 @@ const DepartmentDetail = (props) => {
                                 style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
                                 onChange={e => setDepartmentCode(codeNumber(e.target.value))}
                                 value={departmentCode || ''}
-                                isValid={`${departmentCode}`.length < 1 || firstCode === departmentCode? 
-                                false : codeDupliCheck === 1 ? false : true}
-                                isInvalid={`${departmentCode}`.length < 1 || firstCode === departmentCode? 
-                                false : codeDupliCheck === 1 ? true : false}
+                                isValid={`${departmentCode}`.length < 1 || firstCode === departmentCode ?
+                                    false : codeDupliCheck === 1 ? false : true}
+                                isInvalid={`${departmentCode}`.length < 1 || firstCode === departmentCode ?
+                                    false : codeDupliCheck === 1 ? true : false}
                             /></td>
                         </tr>
                         <tr>
@@ -288,10 +300,10 @@ const DepartmentDetail = (props) => {
                                 style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
                                 onChange={e => setDepartmentName(e.target.value)}
                                 value={departmentName || ''}
-                                isValid={`${departmentName}`.length || firstName === departmentName < 1 ? 
-                                false : nameDupliCheck === 1 ? false : true}
-                                isInvalid={`${departmentName}`.length || firstName === departmentName < 1 ? 
-                                false : nameDupliCheck === 1 ? true : false}
+                                isValid={`${departmentName}`.length || firstName === departmentName < 1 ?
+                                    false : nameDupliCheck === 1 ? false : true}
+                                isInvalid={`${departmentName}`.length || firstName === departmentName < 1 ?
+                                    false : nameDupliCheck === 1 ? true : false}
                             /></td>
                         </tr>
                         <tr>
