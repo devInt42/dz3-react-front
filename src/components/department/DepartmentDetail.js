@@ -22,7 +22,7 @@ const DepartmentDetail = (props) => {
     const [codeDupliCheck, setCodeDupliCheck] = useState(1);
     const [nameDupliCheck, setNameDupliCheck] = useState(1);
     const [useYN, setUseYN] = useState("N");
-
+    const [workplaceIsOpen, setWorkplaceIsOpen] = useState(false);
     //사업장 seq로 회사, 사업장 이름 조회하고 department 에 데이터 셋팅
     const getWorkplace = async () => {
         try {
@@ -51,12 +51,14 @@ const DepartmentDetail = (props) => {
     useEffect(() => {
         if (props.departmentSeq != 0) {
             getDepartment();
+            setWorkplaceIsOpen(false);
         } else {
                 setDepartmentParentName("-");
                 setDepartmentCode("");
                 setDepartmentLoc("");
                 setUseYN("N");
                 setDepartmentName("");
+                setWorkplaceIsOpen(true);
         }
     }, [props.departmentSeq])
 
@@ -157,7 +159,7 @@ const DepartmentDetail = (props) => {
                     <b><BsDot />부서 정보</b>
                     <div>
                         <button>저장</button>
-                        <button>삭제</button>
+                        {!workplaceIsOpen && <button>삭제</button>}
                         <button id="department-detail-closebtn"><TfiClose/></button>
                     </div>
                 </div>
@@ -198,8 +200,10 @@ const DepartmentDetail = (props) => {
                                 style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
                                 onChange={e => setDepartmentCode(codeNumber(e.target.value))}
                                 value={departmentCode || ''}
-                                isValid={`${departmentCode}`.length < 1 ? false : codeDupliCheck === 1 ? false : true}
-                                isInvalid={`${departmentCode}`.length < 1 ? false : codeDupliCheck === 1 ? true : false}
+                                isValid={`${departmentCode}`.length < 1 || firstCode === departmentCode? 
+                                false : codeDupliCheck === 1 ? false : true}
+                                isInvalid={`${departmentCode}`.length < 1 || firstCode === departmentCode? 
+                                false : codeDupliCheck === 1 ? true : false}
                             /></td>
                         </tr>
                         <tr>
@@ -209,8 +213,10 @@ const DepartmentDetail = (props) => {
                                 style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
                                 onChange={e => setDepartmentName(e.target.value)}
                                 value={departmentName || ''}
-                                isValid={`${departmentName}`.length < 1 ? false : nameDupliCheck === 1 ? false : true}
-                                isInvalid={`${departmentName}`.length < 1 ? false : nameDupliCheck === 1 ? true : false}
+                                isValid={`${departmentName}`.length || firstName === departmentName < 1 ? 
+                                false : nameDupliCheck === 1 ? false : true}
+                                isInvalid={`${departmentName}`.length || firstName === departmentName < 1 ? 
+                                false : nameDupliCheck === 1 ? true : false}
                             /></td>
                         </tr>
                         <tr>
