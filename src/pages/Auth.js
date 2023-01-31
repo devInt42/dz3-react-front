@@ -35,7 +35,6 @@ const Auth = () => {
       Accept: "*/*",
     };
     if (insertList != null) {
-      console.log(insertList);
       try {
         let sendRes = await axios.post(
           `${baseUrl}/auth-employee/insert`,

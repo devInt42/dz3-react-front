@@ -31,6 +31,7 @@
   font-family: "Noto Sans KR", sans-serif;
   font-size: 25px;
   font-weight: bolder;
+  cursor: pointer;
 }
 
 .gnb_callLnb {
