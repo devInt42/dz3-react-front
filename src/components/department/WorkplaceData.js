@@ -10,13 +10,16 @@ const WorkplaceData = (props) => {
     const [workplaceIsOpen, setWorkplaceIsOpen] = useState([]);
     const [toggleIcon, setToggleIcon] = useState([]);
     const baseUrl = "http://localhost:8080";
+    
+    
     useEffect(() => {
         axios.get(`${baseUrl}/department/list/workplace`)
             .then(res => setWorkplace(res.data))
             .catch(error => console.log(error));
     }, [props.refresh])
+    
 
-    useEffect(() => {}, [props.refresh, workplace])
+    useEffect(() => {}, [workplace])
     useEffect(() => {
         setToggleIcon(workplaceIsOpen);
     }, [workplaceIsOpen])

@@ -25,7 +25,7 @@ const DepartmentData = (props) => {
     }, [departmentIsOpen])
 
     useEffect(() => {
-    }, [props.refresh, department])
+    }, [department])
     return (
         <>
             {

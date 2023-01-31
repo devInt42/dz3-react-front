@@ -33,7 +33,7 @@ const Department = () => {
                     (workplaceSeq != 0) &&
                     <div id="department-info">
                         <DepartmentDetail departmentSeq={departmentSeq} workplaceSeq={workplaceSeq} companySeq={companySeq}
-                            setRefresh={setRefresh} InitSeq ={InitSeq}
+                            setRefresh={setRefresh} InitSeq ={InitSeq} refresh = {refresh}
                         />
                     </div>
                 }

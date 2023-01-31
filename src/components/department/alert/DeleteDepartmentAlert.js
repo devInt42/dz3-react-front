@@ -7,7 +7,6 @@ const DeleteDepartmentAlert = (props) => {
     MySwal.fire({
         title: '삭제하시겠습니까?',
         icon: 'warning',
-
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',

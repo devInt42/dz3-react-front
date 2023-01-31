@@ -246,17 +246,17 @@ const DepartmentDetail = (props) => {
                         {
                             !props.departmentSeq && allCheck &&
                             <SaveDepartmentAlert setAllCheck={setAllCheck} InsertData={InsertData}
-                            setRefresh = {props.setRefresh} InitSeq = {props.InitSeq}/>
+                            setRefresh = {props.setRefresh} InitSeq = {props.InitSeq} refresh = {props.refresh}/>
                         }
                         {
                             (props.departmentSeq !== 0 && allCheck) &&
                             <UpdateDepartmentAlert setAllCheck={setAllCheck} Update={Update} seq={props.departmentSeq} 
-                            setRefresh = {props.setRefresh}/>
+                            setRefresh = {props.setRefresh} refresh = {props.refresh}/>
                         }
                         {
                             (props.departmentSeq !== 0 && checkDelete) &&
                             <DeleteDepartmentAlert setCheckDelete={setCheckDelete} Delete = {Delete} 
-                            setRefresh = {props.setRefresh} InitSeq = {props.InitSeq}/>
+                            setRefresh = {props.setRefresh} InitSeq = {props.InitSeq} refresh = {props.refresh}/>
                         }
 
                         {
@@ -322,9 +322,9 @@ const DepartmentDetail = (props) => {
                                 style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
                                 onChange={e => setDepartmentName(e.target.value)}
                                 value={departmentName || ''}
-                                isValid={`${departmentName}`.length < 1 || firstName === departmentName < 1 ?
+                                isValid={`${departmentName}`.length < 1 || firstName === departmentName ?
                                     false : nameDupliCheck === 1 ? false : true}
-                                isInvalid={`${departmentName}`.length < 1|| firstName === departmentName < 1 ?
+                                isInvalid={`${departmentName}`.length < 1|| firstName === departmentName ?
                                     false : nameDupliCheck === 1 ? true : false}
                             /></td>
                         </tr>
