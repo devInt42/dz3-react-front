@@ -210,7 +210,6 @@ const DepartmentDetail = (props) => {
     const InsertData = () => {
         const param = {
             "departmentParentDepth": departmentParentDepth,
-            "departmentParentName": departmentParentName,
         }
         axios.post(`${baseUrl}/department/insert`, JSON.stringify(data), {
             headers: {
@@ -222,7 +221,6 @@ const DepartmentDetail = (props) => {
     const Update = (seq) => {
         const param = {
             "departmentParentDepth": departmentParentDepth,
-            "departmentParentName": departmentParentName,
         }
         axios.post(`${baseUrl}/department/update/${seq}`, JSON.stringify(data), {
             headers: {
