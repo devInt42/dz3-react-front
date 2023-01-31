@@ -41,15 +41,19 @@ const WorkplaceGroup = (props) => {
     }
   }, [companySeq]);
 
+  // 부모에게 부서값 전달
+  const sendDepartmentSeq = (e) => {
+    props.sendDepartmentSeq(e);
+  };
+
   return (
     <div style={{ border: "1px solid #f3f3f3" }}>
       <TreeView
-        className="menuTree"
+        className="workTree"
         aria-label="file system navigator"
         defaultCollapseIcon={<FolderOpen />}
         defaultExpandIcon={<Folder />}
         sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-        defaultExpanded={["1", "2", "3", "4", "5", "6"]}
         multiSelect>
         {workplaceNameList &&
           workplaceNameList.map((workplaceItem) => (
@@ -63,6 +67,7 @@ const WorkplaceGroup = (props) => {
                 <DepartmentGroup
                   companySeq={workplaceItem.companySeq}
                   workplaceSeq={workplaceItem.workplaceSeq}
+                  sendDepartmentSeq={sendDepartmentSeq}
                 />
               </TreeItem>
             </div>

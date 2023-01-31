@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { TreeItem } from "@mui/lab";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 const DepartmentName = (props) => {
   const baseUrl = "http://localhost:8080";
@@ -10,6 +11,7 @@ const DepartmentName = (props) => {
   const [departmentDepth, setDepartmentDepth] = useState(0);
   const [count, setCount] = useState(0);
   const [departmentNameList, setDepartmentNameList] = useState([]);
+  const [departmentSeq, setDepartmentSeq] = useState(0);
 
   //회사 값, 사업장 값 받아오기
   useEffect(() => {
@@ -28,8 +30,6 @@ const DepartmentName = (props) => {
   useEffect(() => {
     getDepartment();
   }, [count]);
-
-  // useEffect(() => {}, [departmentDepth]);
 
   const countDepartment = useCallback(async () => {
     if (
@@ -75,17 +75,38 @@ const DepartmentName = (props) => {
           }
         );
         setDepartmentNameList(departmentDataResult.data);
-        // console.log(JSON.stringify(departmentDataResult.data));
       } catch (error) {
         console.log(error);
       }
     }
   }, [count]);
+
   useEffect(() => {
     getDepartment();
-    // eslint-disable-next-line
   }, [count]);
-  // console.log(departmentNameList);
+
+  //클릭시 부서 정보 추출
+  const getDeptSeq = (e) => {
+    const temp = [];
+    departmentNameList.forEach((list) => {
+      if (list.departmentName === e.target.innerText) {
+        temp.push(list);
+      }
+    });
+    setDepartmentSeq(temp[0].departmentSeq);
+  };
+
+  // 부모에게 부서값 전달
+  const sendDepartmentSeq = (e) => {
+    if (e != 0) {
+      props.sendDepartmentSeq(e);
+    }
+  };
+
+  useEffect(() => {
+    sendDepartmentSeq(departmentSeq);
+  }, [departmentSeq]);
+
   return (
     <>
       {departmentNameList &&
@@ -96,12 +117,14 @@ const DepartmentName = (props) => {
             <TreeItem
               key={`D${departmentNameItem.departmentSeq}`}
               nodeId={departmentNameItem.departmentSeq.toString()}
-              label={departmentNameItem.departmentName}>
+              label={departmentNameItem.departmentName}
+              onClick={getDeptSeq}>
               <DepartmentName
                 companySeq={departmentNameItem.companySeq}
                 workplaceSeq={departmentNameItem.workplaceSeq}
                 parentSeq={departmentNameItem.departmentSeq}
                 depth={departmentNameItem.departmentDepth}
+                sendDepartmentSeq={sendDepartmentSeq}
               />
             </TreeItem>
           </div>

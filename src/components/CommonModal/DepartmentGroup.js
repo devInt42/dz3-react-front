@@ -11,6 +11,7 @@ const DepartmentGroup = (props) => {
   const [workplaceSeq, setWorkplaceSeq] = useState(0);
   const [departmentGroupList, setDepartmentGroupList] = useState([]);
   const [count, setCount] = useState(0);
+  const [departmentSeq, setDepartmentSeq] = useState(0);
 
   //회사 값, 사업장 값 받아오기
   useEffect(() => {
@@ -71,15 +72,35 @@ const DepartmentGroup = (props) => {
     }
   }, [count]);
 
+  //클릭시 부서 정보 추출
+  const getDeptSeq = (e) => {
+    const temp = [];
+    departmentGroupList.forEach((list) => {
+      if (list.departmentName === e.target.innerText) {
+        temp.push(list);
+      }
+    });
+    setDepartmentSeq(temp[0].departmentSeq);
+  };
+  useEffect(() => {
+    sendDepartmentSeq(departmentSeq);
+  }, [departmentSeq]);
+
+  // 부모에게 부서값 전달
+  const sendDepartmentSeq = (e) => {
+    if (e != 0) {
+      props.sendDepartmentSeq(e);
+    }
+  };
+
   return (
     <div style={{ border: "1px solid #f3f3f3" }}>
       <TreeView
-        className="menuTree"
+        className="deptTree"
         aria-label="file system navigator"
         defaultCollapseIcon={<FolderOpen />}
         defaultExpandIcon={<Folder />}
         sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-        defaultExpanded={["1", "2", "3", "4", "5", "6"]}
         multiSelect>
         {departmentGroupList &&
           departmentGroupList.map((item) => (
@@ -89,12 +110,14 @@ const DepartmentGroup = (props) => {
               <TreeItem
                 key={`D${item.departmentSeq}`}
                 nodeId={item.departmentSeq.toString()}
-                label={item.departmentName}>
+                label={item.departmentName}
+                onClick={getDeptSeq}>
                 <DepartmentName
                   companySeq={item.companySeq}
                   workplaceSeq={item.workplaceSeq}
                   parentSeq={item.departmentSeq}
                   depth={item.departmentDepth}
+                  sendDepartmentSeq={sendDepartmentSeq}
                 />
               </TreeItem>
             </div>

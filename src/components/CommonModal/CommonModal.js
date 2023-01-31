@@ -45,16 +45,11 @@ const CommonModal = (props) => {
   //처음에 실행하고 바뀔때만 렌더링
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
   const changeCheckedList = useCallback(() => {}, [checkItem]);
-  const changeComSeq = useCallback(() => {}, [departmentSeq]);
 
   //부서Seq가 바뀔때마다 실행
   useEffect(() => {
     changeDeptSeq();
     changeCheckedList();
-  }, [departmentSeq]);
-
-  useEffect(() => {
-    changeComSeq();
   }, [departmentSeq]);
 
   //초기화
