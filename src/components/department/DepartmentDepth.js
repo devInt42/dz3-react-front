@@ -38,7 +38,7 @@ const DepartmentDepth = (props) => {
         };
         try {
             if (count != 0) {
-                let childRes = await axios.get(`${baseUrl}/department/list`, {
+                const childRes = await axios.get(`${baseUrl}/department/list`, {
                     params: sendChild
                 });
                 setDepartment(childRes.data)
@@ -52,7 +52,8 @@ const DepartmentDepth = (props) => {
     }, [count, props.refresh])
     
     useEffect(() => {
-    }, [props.workplaceSeq, department])
+    }, [department])
+
     return (
         <div>
             {

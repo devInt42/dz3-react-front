@@ -10,7 +10,7 @@ const DepartmentData = (props) => {
     const [toggleIcon, setToggleIcon] = useState([]);
     
     useEffect(() => {
-        let param = {
+        const param = {
             departmentDepth: 0,
             departmentParent: 0,
         }
@@ -51,6 +51,7 @@ const DepartmentData = (props) => {
                                         {departmentIsOpen.includes(idx) && <DepartmentDepth depth = {departmentdata.departmentDepth} 
                                          seq = {departmentdata.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq}
                                          setWorkplaceSeq = {props.setWorkplaceSeq} setCompanySeq = {props.setCompanySeq}
+                                         refresh = {props.refresh}
                                         />}
                                 </div>
 
