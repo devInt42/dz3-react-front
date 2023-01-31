@@ -209,7 +209,8 @@ const DepartmentDetail = (props) => {
     }
     const InsertData = () => {
         const param = {
-            "departmentParentDepth": departmentParentDepth
+            "departmentParentDepth": departmentParentDepth,
+            "departmentParentName": departmentParentName,
         }
         axios.post(`${baseUrl}/department/insert`, JSON.stringify(data), {
             headers: {
@@ -220,7 +221,8 @@ const DepartmentDetail = (props) => {
     }
     const Update = (seq) => {
         const param = {
-            "departmentParentDepth": departmentParentDepth
+            "departmentParentDepth": departmentParentDepth,
+            "departmentParentName": departmentParentName,
         }
         axios.post(`${baseUrl}/department/update/${seq}`, JSON.stringify(data), {
             headers: {
@@ -345,7 +347,7 @@ const DepartmentDetail = (props) => {
                                         type="switch"
                                         id="custom-switch"
                                         onChange={() => { useYN === "N" ? setUseYN("Y") : setUseYN("N"); }}
-                                        checked= {props.departmentSeq === 0 ? false: useYN === "N" ? false : true}
+                                        checked= {useYN === "N" ? false : true ? props.departmentSeq === 0 && false : true}
                                     />
                                     {useYN == "Y" ? (<b>사    용</b>) : (<b>미사용</b>)}
                                 </div>
