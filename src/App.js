@@ -13,6 +13,7 @@ import AuthGroup from "./pages/AuthGroup";
 import Department from "./components/department/Department";
 import Main from "./pages/Main";
 import NotSelected from "./pages/NotSelected";
+import EmployeeSet from "./pages/EmployeeSet";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route exact path="company/info" element={<Company />} />
         <Route path="common" element={<Home2 />} />
         <Route path="nomenu" element={<NoMenu />} />
+        <Route path="employeeset" element={<EmployeeSet />} />
         <Route
           exact
           path="company/info/:companyCode"

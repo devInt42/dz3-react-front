@@ -116,7 +116,6 @@ function MenuSet() {
           <Col
             md="auto"
             style={{
-              border: "1px solid black",
               padding: "0px",
               width: "74%",
               height: "100vh",
