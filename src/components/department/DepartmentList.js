@@ -3,7 +3,7 @@ const DepartmentList = (props) => {
     return (
         <>
             <CompanyData setDepartmentSeq = {props.setDepartmentSeq} setWorkplaceSeq = {props.setWorkplaceSeq} 
-            setCompanySeq = {props.setCompanySeq} refresh = {props.refresh}/>
+            setCompanySeq = {props.setCompanySeq} refresh = {props.refresh} setSearch = {props.setSearch}/>
         </>
     )
     

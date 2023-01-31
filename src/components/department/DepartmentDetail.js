@@ -47,6 +47,7 @@ const DepartmentDetail = (props) => {
         }
         setNotRequire('');
         setDepartmentDepth(0);
+        
     }, [props.workplaceSeq])
 
     //부서 데이터 조회
@@ -63,6 +64,7 @@ const DepartmentDetail = (props) => {
         if (props.departmentSeq != 0) {
             getDepartment();
             setWorkplaceIsOpen(false);
+            
         } else {
             setNotRequire('');
             setDepartmentParentName("-");
@@ -335,6 +337,10 @@ const DepartmentDetail = (props) => {
                                 style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
                                 onChange={e => setDepartmentLoc(e.target.value)}
                                 value={departmentLoc || ''}
+                                isValid={`${departmentLoc}`.length < 1 || firstName === departmentName ?
+                                    false : true}
+                                isInvalid={`${departmentLoc}`.length < 1|| firstName === departmentName ?
+                                    false : true}
                             /></td>
                         </tr>
                         <tr>

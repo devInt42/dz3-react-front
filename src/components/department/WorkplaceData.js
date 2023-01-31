@@ -38,13 +38,15 @@ const WorkplaceData = (props) => {
                         props.setWorkplaceSeq(workplace.workplaceSeq);
                         props.setCompanySeq(workplace.companySeq);
                         props.setDepartmentSeq(0);
+                        props.setSearch(false);
                     }}>
                                     <HiOutlineBuildingOffice className="workplacelist-icon" />
                                     {workplace.workplaceCode}.{workplace.workplaceName}
                                     {toggleIcon.includes(idx) ? <HiChevronDown /> : <HiChevronUp />}
                                 </div>
                                 {workplaceIsOpen.includes(idx) && <DepartmentData workplaceSeq = {workplace.workplaceSeq} setDepartmentSeq = {props.setDepartmentSeq} setWorkplaceSeq = {props.setWorkplaceSeq} 
-                                setCompanySeq = {props.setCompanySeq} refresh = {props.refresh}/>}
+                                setCompanySeq = {props.setCompanySeq} refresh = {props.refresh} 
+                                setSearch = {props.setSearch}/>}
                             </div>
                         }
                     </div>

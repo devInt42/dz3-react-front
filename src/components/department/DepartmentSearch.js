@@ -6,36 +6,45 @@ const DepartmentSearch = (props) => {
 
     const baseUrl = "http://localhost:8080";
 
-    const [searchcompanyCode, setSearchCompanyCode] = useState(0);
-    const [searchcompanyName, setSearchCompanyName] = useState("");
+    const [searchName, setSearchName] = useState(null);
+    const [searchCompanySeq, setSearchCompanySeq] = useState(0);
+    const [companyList, setCompanyList] = useState([]);
+    useEffect(() => {
+        axios.get(`${baseUrl}/department/list/company`)
+        .then(res => setCompanyList(res.data))
+        .catch(error => console.log(error) )
+    }, [])
+
 
     function FindDepartment() {
-        const companycode = searchcompanyCode;
-        const companyname = searchcompanyName;
-        const useyn = searchuseYN;
-        axios.get(`${baseUrl}/company/find`, {
-            params: {
-                companycode: companycode,
-                companyname: companyname,
-                useyn: useyn
+        const param = 
+            {
+                "searchName": searchName,
+                "searchCompanySeq": searchCompanySeq
             }
+        
+        axios.get(`${baseUrl}/department/find`, {
+            params: param
         })
         .then(res => props.setSearchData(res.data))
+            props.setSearch(true);
     }
 
     return (
         <div>
-            회사 <input type="text" placeholder='회사코드/회사명을 입력하세요.'
-                onChange={e => {
-                    isNaN(e.target.value) || e.target.value === '' ? (setSearchCompanyName(e.target.value) || setSearchCompanyCode(0))
-                        : (setSearchCompanyCode(e.target.value) || setSearchCompanyName(""))
-                }} />
-            사용여부 <select onChange={e => setSearchUseYN(e.target.value)}>
-                <option value="" selected>선택</option>
-                <option value="Y">사용</option>
-                <option value="N">미사용</option>
+            회사 <input type="text" placeholder='코드/사업장/부서명을 입력하세요.'
+                onChange={e => {setSearchName(e.target.value)}} />
+            <select onChange={e => setSearchCompanySeq(e.target.value)}>
+                <option value = "">회사 선택</option>
+                {
+                    companyList && companyList.map((company) => {
+                        return (
+                        <option key = {company.companySeq} value = {company.companySeq}>{company.companyName}</option>
+                        )
+                    })
+                }
             </select>
-            <button onClick={()=> {FindCompany();}}>찾기</button>
+             <button onClick={() => {FindDepartment()}}>찾기</button>
         </div>
     )
 }

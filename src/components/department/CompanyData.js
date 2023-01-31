@@ -29,13 +29,14 @@ const CompanyData = (props) => {
                             companyIsOpen.includes(idx) ?
                                 setCompanyIsOpen(companyIsOpen.filter((company) => company !== idx)) :
                                 setCompanyIsOpen([...companyIsOpen, idx]);
+                                props.setSearch(false);
                         }}>
                             <HiOutlineBuildingOffice2 className="companylist-icon" />{company.companyCode}.{company.companyName}
                             {toggleIcon.includes(idx) ? <HiChevronDown /> : <HiChevronUp />}
                         </div>
                         {companyIsOpen.includes(idx) && <WorkplaceData companySeq={company.companySeq} key={idx} 
                         setDepartmentSeq={props.setDepartmentSeq} setWorkplaceSeq = {props.setWorkplaceSeq} 
-                        setCompanySeq = {props.setCompanySeq} refresh = {props.refresh}/>
+                        setCompanySeq = {props.setCompanySeq} refresh = {props.refresh} setSearch = {props.setSearch}/>
                         }
                     </div>
                 )
