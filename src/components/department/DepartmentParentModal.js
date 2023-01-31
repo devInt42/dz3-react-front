@@ -70,7 +70,7 @@ export default function DepartmentParentModal(props) {
                                                     onClick={() => {
                                                         props.setDepartmentParentName(department.departmentName);
                                                         props.setDepartmentParentSeq(department.departmentSeq);
-                                                        props.setDepartmentDepth(department.departmentDepth);
+                                                        props.setDepartmentParentDepth(department.departmentDepth);
                                                         handleClose();
                                                     }}
                                                     hover={{backgroundColor:"gray"}}

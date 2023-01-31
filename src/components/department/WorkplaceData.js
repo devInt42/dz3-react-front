@@ -14,8 +14,9 @@ const WorkplaceData = (props) => {
         axios.get(`${baseUrl}/department/list/workplace`)
             .then(res => setWorkplace(res.data))
             .catch(error => console.log(error));
-    }, [])
+    }, [props.refresh])
 
+    useEffect(() => {}, [props.refresh, workplace])
     useEffect(() => {
         setToggleIcon(workplaceIsOpen);
     }, [workplaceIsOpen])
@@ -40,7 +41,7 @@ const WorkplaceData = (props) => {
                                     {toggleIcon.includes(idx) ? <HiChevronDown /> : <HiChevronUp />}
                                 </div>
                                 {workplaceIsOpen.includes(idx) && <DepartmentData workplaceSeq = {workplace.workplaceSeq} setDepartmentSeq = {props.setDepartmentSeq} setWorkplaceSeq = {props.setWorkplaceSeq} 
-                                setCompanySeq = {props.setCompanySeq}/>}
+                                setCompanySeq = {props.setCompanySeq} refresh = {props.refresh}/>}
                             </div>
                         }
                     </div>

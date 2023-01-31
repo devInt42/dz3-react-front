@@ -18,7 +18,8 @@ const DepartmentDetail = (props) => {
     const [departmentParentSeq, setDepartmentParentSeq] = useState(0);
     const [departmentCode, setDepartmentCode] = useState("");
     const [departmentName, setDepartmentName] = useState("");
-    const [departmentDepth, setDepartmentDepth] = useState(-1);
+    const [departmentParentDepth, setDepartmentParentDepth] = useState(0);
+    const [departmentDepth, setDepartmentDepth] = useState(0);
     const [cWData, setCWData] = useState([]);
     const [department, setDepartment] = useState({});
     const [departmentLoc, setDepartmentLoc] = useState("");
@@ -42,8 +43,10 @@ const DepartmentDetail = (props) => {
     useEffect(() => {
         if (props.workplaceSeq !== 0 && props.departmentSeq == 0) {
             getWorkplace();
+            
         }
         setNotRequire('');
+        setDepartmentDepth(0);
     }, [props.workplaceSeq])
 
     //부서 데이터 조회
@@ -69,7 +72,9 @@ const DepartmentDetail = (props) => {
             setUseYN("N");
             setDepartmentName("");
             setWorkplaceIsOpen(true);
-            setDepartmentDepth(-1);
+            setDepartmentDepth(0);
+            setAllCheck(false);
+            setCheckDelete(false);
         }
     }, [props.departmentSeq])
 
@@ -100,7 +105,7 @@ const DepartmentDetail = (props) => {
         setFirstName(department.departmentName);
         setDepartmentLoc(department.departmentLoc);
         setDepartmentParentSeq(department.departmentParent);
-        setDepartmentDepth(department.departmentDepth);
+        setDepartmentDepth(department.departmentDepth + 1);
         setUseYN(department.useYN);
     }, [department])
 
@@ -123,7 +128,13 @@ const DepartmentDetail = (props) => {
             setCodeDupliCheck(0);
         }
         else if (`${departmentCode}`.length > 0 && departmentCode != undefined) {
-            axios.get(`${baseUrl}/department/info/check/${departmentCode}`)
+            const param = {
+                "departmentCode": departmentCode,
+                "workplaceSeq": props.workplaceSeq,
+            }
+            axios.get(`${baseUrl}/department/info/check/`, {
+                params : param
+            })
                 .then(res => setCodeDupliCheck(res.data))
                 .catch(error => console.log(error));
         }
@@ -194,7 +205,7 @@ const DepartmentDetail = (props) => {
         "departmentName": departmentName,
         "departmentLoc": departmentLoc,
         "useYN": useYN,
-        "departmentDepth": departmentDepth + 1
+        "departmentDepth": departmentDepth
     }
     const InsertData = () => {
         axios.post(`${baseUrl}/department/insert`, JSON.stringify(data), {
@@ -226,22 +237,25 @@ const DepartmentDetail = (props) => {
                         <button onClick={() => AllCheck()}>저장</button>
                         {
                             !props.departmentSeq && allCheck &&
-                            <SaveDepartmentAlert setAllCheck={setAllCheck} InsertData={InsertData} />
+                            <SaveDepartmentAlert setAllCheck={setAllCheck} InsertData={InsertData}
+                            setRefresh = {props.setRefresh} InitSeq = {props.InitSeq}/>
                         }
                         {
                             (props.departmentSeq !== 0 && allCheck) &&
-                            <UpdateDepartmentAlert setAllCheck={setAllCheck} Update={Update} seq={props.departmentSeq} />
+                            <UpdateDepartmentAlert setAllCheck={setAllCheck} Update={Update} seq={props.departmentSeq} 
+                            setRefresh = {props.setRefresh}/>
                         }
                         {
                             (props.departmentSeq !== 0 && checkDelete) &&
-                            <DeleteDepartmentAlert setCheckDelete={setCheckDelete} Delete = {Delete} />
+                            <DeleteDepartmentAlert setCheckDelete={setCheckDelete} Delete = {Delete} 
+                            setRefresh = {props.setRefresh} InitSeq = {props.InitSeq}/>
                         }
 
                         {
                             props.departmentSeq !== 0 && <button type="button" 
                             onClick={() => setCheckDelete(true)}>삭제</button>
                         }
-                        <button id="department-detail-closebtn"><TfiClose /></button>
+                        <button id="department-detail-closebtn" onClick = {() => props.InitSeq()}><TfiClose /></button>
                     </div>
                 </div>
                 {notRequire}
@@ -275,7 +289,7 @@ const DepartmentDetail = (props) => {
                                         workplaceSeq={props.workplaceSeq} companyName={cWData.companyName}
                                         workplaceName={cWData.workplaceName}
                                         setDepartmentParentSeq={setDepartmentParentSeq}
-                                        setDepartmentDepth={setDepartmentDepth}
+                                        setDepartmentParentDepth={setDepartmentParentDepth}
                                     />
                                 </div>
                             </td>
@@ -300,9 +314,9 @@ const DepartmentDetail = (props) => {
                                 style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
                                 onChange={e => setDepartmentName(e.target.value)}
                                 value={departmentName || ''}
-                                isValid={`${departmentName}`.length || firstName === departmentName < 1 ?
+                                isValid={`${departmentName}`.length < 1 || firstName === departmentName < 1 ?
                                     false : nameDupliCheck === 1 ? false : true}
-                                isInvalid={`${departmentName}`.length || firstName === departmentName < 1 ?
+                                isInvalid={`${departmentName}`.length < 1|| firstName === departmentName < 1 ?
                                     false : nameDupliCheck === 1 ? true : false}
                             /></td>
                         </tr>
@@ -323,7 +337,7 @@ const DepartmentDetail = (props) => {
                                         type="switch"
                                         id="custom-switch"
                                         onChange={() => { useYN === "N" ? setUseYN("Y") : setUseYN("N"); }}
-                                        checked={useYN === "N" ? false : true}
+                                        checked= {useYN === "N" ? false : true}
                                     />
                                     {useYN === "Y" ? (<b>사    용</b>) : (<b>미사용</b>)}
                                 </div>

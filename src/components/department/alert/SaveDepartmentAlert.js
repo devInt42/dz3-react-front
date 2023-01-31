@@ -17,6 +17,9 @@ function SaveDepartmentAlert(props) {
     if (result.isConfirmed) {
       Swal.fire('저장이 완료되었습니다.', '', 'success', '#3085d6');
       props.InsertData();
+      props.setRefresh(props.refresh + 1);
+      props.setAllCheck(false);
+      props.InitSeq();
     }
 
     if (!result.isConfirmed) {
