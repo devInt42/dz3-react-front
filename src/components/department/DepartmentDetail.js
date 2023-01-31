@@ -347,7 +347,7 @@ const DepartmentDetail = (props) => {
                                         type="switch"
                                         id="custom-switch"
                                         onChange={() => { useYN === "N" ? setUseYN("Y") : setUseYN("N"); }}
-                                        checked= {useYN === "N" ? false : true ? props.departmentSeq === 0 && false : true}
+                                        checked= { useYN == "Y" ? true : false}
                                     />
                                     {useYN == "Y" ? (<b>사    용</b>) : (<b>미사용</b>)}
                                 </div>
