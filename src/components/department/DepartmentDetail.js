@@ -105,7 +105,7 @@ const DepartmentDetail = (props) => {
         setFirstName(department.departmentName);
         setDepartmentLoc(department.departmentLoc);
         setDepartmentParentSeq(department.departmentParent);
-        setDepartmentDepth(department.departmentDepth + 1);
+        setDepartmentDepth(department.departmentDepth);
         setUseYN(department.useYN);
     }, [department])
 
@@ -208,17 +208,25 @@ const DepartmentDetail = (props) => {
         "departmentDepth": departmentDepth
     }
     const InsertData = () => {
+        const param = {
+            "departmentParentDepth": departmentParentDepth
+        }
         axios.post(`${baseUrl}/department/insert`, JSON.stringify(data), {
             headers: {
                 "Content-Type": 'application/json'
-            }
+            },
+            params: param
         })
     }
     const Update = (seq) => {
+        const param = {
+            "departmentParentDepth": departmentParentDepth
+        }
         axios.post(`${baseUrl}/department/update/${seq}`, JSON.stringify(data), {
             headers: {
                 "Content-Type": 'application/json'
-            }
+            },
+            params: param
         })
     }
     const Delete = () => {
