@@ -4,13 +4,12 @@ import { TreeItem } from "@mui/lab";
 
 const DepartmentName = (props) => {
   const baseUrl = "http://localhost:8080";
-  const [companySeq, setCompanySeq] = useState(null);
-  const [workplaceSeq, setWorkplaceSeq] = useState(null);
-  const [departmentSeq, setDepartmentSeq] = useState(null);
-  const [departmentParent, setDepartmentParent] = useState(null);
+  const [companySeq, setCompanySeq] = useState(0);
+  const [workplaceSeq, setWorkplaceSeq] = useState(0);
+  const [departmentParent, setDepartmentParent] = useState(0);
   const [departmentDepth, setDepartmentDepth] = useState(0);
-  const [count, setCount] = useState(null);
-  const [departmentNameList, setDepartmentNameList] = useState();
+  const [count, setCount] = useState(0);
+  const [departmentNameList, setDepartmentNameList] = useState([]);
 
   //회사 값, 사업장 값 받아오기
   useEffect(() => {
@@ -20,67 +19,95 @@ const DepartmentName = (props) => {
     setDepartmentDepth(props.depth + 1);
   }, [props]);
 
-  // console.log(companySeq);
-  // console.log(workplaceSeq);
-  // console.log(departmentDepth);
-  // console.log(departmentParent);
+  useEffect(() => {}, [departmentDepth]);
 
   useEffect(() => {
     countDepartment();
-  }, [workplaceSeq]);
+  }, [departmentDepth, departmentParent]);
 
   useEffect(() => {
-    //  getDepartment();
+    getDepartment();
   }, [count]);
 
-  useEffect(() => {}, [departmentDepth]);
+  // useEffect(() => {}, [departmentDepth]);
 
   const countDepartment = useCallback(async () => {
-    if (companySeq != null && workplaceSeq != null) {
-      let departmentGroupData = {
+    if (
+      companySeq != null &&
+      workplaceSeq != null &&
+      departmentParent != null &&
+      departmentDepth != null
+    ) {
+      let departmentNameData = {
         companySeq: companySeq,
         departmentParent: departmentParent,
         departmentDepth: departmentDepth,
         workplaceSeq: workplaceSeq,
       };
       try {
-        const departmentGroupResult = await axios.get(
+        const departmentNameResult = await axios.get(
           `${baseUrl}/department-employee/count`,
           {
-            params: departmentGroupData,
+            params: departmentNameData,
           }
         );
-        setCount(departmentGroupResult.data);
-        console.log(count);
+        setCount(departmentNameResult.data);
       } catch (error) {
         console.log(error);
       }
     }
-  }, [workplaceSeq]);
+  }, [departmentDepth, departmentParent]);
 
   // //선택된 회사에 부서 받아오기
-  // const getDepartment = async () => {
-  //   let departmentData = {
-  //     companySeq: companySeq,
-  //   };
-  //   try {
-  //     const departmentDataResult = await axios.get(
-  //       `${baseUrl}/department-employee/departmentList`,
-  //       {
-  //         params: departmentData,
-  //       }
-  //     );
-  //     setDepartmentNameList(departmentDataResult.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getDepartment();
-  // }, [workplaceSeq]);
-
-  return <></>;
+  const getDepartment = useCallback(async () => {
+    if (count > 0) {
+      let departmentData = {
+        companySeq: companySeq,
+        departmentParent: departmentParent,
+        departmentDepth: departmentDepth,
+        workplaceSeq: workplaceSeq,
+      };
+      try {
+        const departmentDataResult = await axios.get(
+          `${baseUrl}/department-employee/departmentGroup`,
+          {
+            params: departmentData,
+          }
+        );
+        setDepartmentNameList(departmentDataResult.data);
+        // console.log(JSON.stringify(departmentDataResult.data));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [count]);
+  useEffect(() => {
+    getDepartment();
+    // eslint-disable-next-line
+  }, [count]);
+  // console.log(departmentNameList);
+  return (
+    <>
+      {departmentNameList &&
+        departmentNameList.map((departmentNameItem) => (
+          <div
+            key={`D${departmentNameItem.departmentSeq}`}
+            style={{ display: "flex", alignItems: "flex-start" }}>
+            <TreeItem
+              key={`D${departmentNameItem.departmentSeq}`}
+              nodeId={departmentNameItem.departmentSeq.toString()}
+              label={departmentNameItem.departmentName}>
+              <DepartmentName
+                companySeq={departmentNameItem.companySeq}
+                workplaceSeq={departmentNameItem.workplaceSeq}
+                parentSeq={departmentNameItem.departmentSeq}
+                depth={departmentNameItem.departmentDepth}
+              />
+            </TreeItem>
+          </div>
+        ))}
+    </>
+  );
 };
 
 export default DepartmentName;

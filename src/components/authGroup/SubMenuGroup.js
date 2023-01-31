@@ -12,6 +12,7 @@ const SubMenuGroup = (props) => {
   const [parentSeq, setParentSeq] = useState(0);
   const [childList, setChildList] = useState([]);
   const [count, setCount] = useState(0);
+
   useEffect(() => {
     setDepth(props.depth + 1);
     setParentSeq(props.parentSeq);
@@ -34,6 +35,7 @@ const SubMenuGroup = (props) => {
   }, [depth, parentSeq]);
 
   const callChild = useCallback(async () => {
+    console.log(count);
     if (count > 0) {
       let sendChild = {
         menuDepth: depth,
@@ -76,8 +78,7 @@ const SubMenuGroup = (props) => {
         childList.map((childItem) => (
           <div
             key={childItem.menuSeq}
-            style={{ display: "flex", alignItems: "flex-start" }}
-          >
+            style={{ display: "flex", alignItems: "flex-start" }}>
             <input
               type={"checkbox"}
               style={{ marginTop: "5px" }}
@@ -89,8 +90,7 @@ const SubMenuGroup = (props) => {
             <TreeItem
               key={childItem.menuSeq}
               nodeId={childItem.menuSeq.toString()}
-              label={childItem.menuName}
-            >
+              label={childItem.menuName}>
               <SubMenuGroup
                 parentSeq={childItem.menuSeq}
                 depth={childItem.menuDepth}

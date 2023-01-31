@@ -22,7 +22,6 @@ const AuthMenu = () => {
         params: sendData,
       });
       setMenuList(menuRes.data);
-      console.log("정수오빠꺼" + menuRes.data);
     } catch (error) {
       console.log(error);
     }
