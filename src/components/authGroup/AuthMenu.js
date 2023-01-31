@@ -5,7 +5,6 @@ import "./AuthGroup.css";
 import { TreeView, TreeItem } from "@mui/lab";
 import { ReactComponent as Folder } from "../authGroup/folder.svg";
 import { ReactComponent as FolderOpen } from "../authGroup/folderopen.svg";
-import { set } from "lodash";
 
 const AuthMenu = (props) => {
   const baseUrl = "http://localhost:8080";
@@ -38,9 +37,15 @@ const AuthMenu = (props) => {
     }
   }, [authSeq]);
 
+  // 원본 리스트 전송
   useEffect(() => {
     setCheckedList(originList);
+    sendOriginList();
   }, [originList]);
+
+  const sendOriginList = () => {
+    props.sendOriginList(originList);
+  };
 
   // 메뉴 권한 db 호출
   useEffect(() => {
@@ -103,9 +108,13 @@ const AuthMenu = (props) => {
     },
     [checkedList]
   );
-
+  const sendCheckedList = () => {
+    props.sendCheckedList(checkedList);
+  };
   //check된 값 저장 배열
-  useEffect(() => {}, [checkedList]);
+  useEffect(() => {
+    sendCheckedList();
+  }, [checkedList]);
   useEffect(() => {}, [onCheckedElement]);
   return (
     <div style={{ border: "1px solid #f3f3f3" }}>
