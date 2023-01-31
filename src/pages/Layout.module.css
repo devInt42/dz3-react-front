@@ -1,0 +1,20 @@
+
+.layout_lnb{
+    border: 1px solid black;
+    padding: 0px;
+}
+
+.layout_gnb{
+    border: 1px solid black;
+    padding: 0px;
+}
+
+.layout_callmenu{
+    border: 1px solid black;
+    padding: 0px;
+    width: 15%;
+    height: 100vh;
+    margin-top: 10px;
+    margin-left: 20px;
+    overflow: hidden;
+}

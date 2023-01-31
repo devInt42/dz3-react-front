@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
 import ContentsMapping from "./ContentsMapping";
+import NotSelectedMenu from "./NotSelectedMenu"
 
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
 import { FiPlusSquare } from "react-icons/fi";
@@ -22,8 +23,7 @@ function CallMenu(props) {
     const [subMenu, setSubMenu] = useState([]);
 
     const [childMenu, setChildMenu] = useState([]);
-
-    console.log("childMenu : " + childMenu)
+    
     const getSubMenuList = useCallback(async () => {
         try {
             const apiResult = await axios({
@@ -79,7 +79,7 @@ function CallMenu(props) {
                             </div>
                         );
                     })}
-                    {lastSeq == 0 ? <></> : <ContentsMapping lastSeq={lastSeq} />}
+                    {lastSeq == 0 ? <NotSelectedMenu></NotSelectedMenu>: <ContentsMapping lastSeq={lastSeq} />}
                 </div>
             )}
         </div>
