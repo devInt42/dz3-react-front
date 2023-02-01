@@ -1,11 +1,12 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
-import { BsFillOctagonFill } from "react-icons/bs";
+import React, { useEffect, useState } from "react";
+import { BsDot } from "react-icons/bs";
 import { TfiClose } from "react-icons/tfi";
 import "./css/CompanyInsert.css";
 import ZippopupDom from "./zipcode/ZippopupDom";
 import ZippopupPostCode from "./zipcode/ZippopupZipCode";
 import Form from "react-bootstrap/Form";
+import "bootstrap/dist/css/bootstrap.min.css?a";
 import SaveFailCompanyAlert from "../alert/SaveFailCompanyAlert";
 import SaveCompanyAlert from "../alert/SaveCompanyAlert";
 import DeleteCompanyAlert from "../alert/DeleteCompanyAlert";
@@ -26,7 +27,7 @@ const CompanyDetail = (props) => {
     };
   }, [props.companySeq]);
 
-  const load = useEffect(() => {
+  useEffect(() => {
     setFirstCode("");
     setCompanyCode("");
     setCompanyName("");
@@ -131,9 +132,6 @@ const CompanyDetail = (props) => {
 
   function Update(seq) {
     //회사 수정
-
-    console.log(data);
-
     axios
       .post(`${baseUrl}/company/update/${seq}`, JSON.stringify(data), {
         headers: {
@@ -270,7 +268,7 @@ const CompanyDetail = (props) => {
       <div className="infoheader">
         <b className="littletitle">
           {" "}
-          <BsFillOctagonFill /> 회사정보
+          <BsDot /> 회사정보
         </b>
         <div>
           <button

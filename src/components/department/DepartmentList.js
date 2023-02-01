@@ -1,24 +1,11 @@
-import { useEffect, useState } from "react";
-import axios from 'axios';
 import CompanyData from "./CompanyData";
-const DepartmentList = () => {
+const DepartmentList = (props) => {
     return (
         <>
-            <CompanyData/>
+            <CompanyData setDepartmentSeq = {props.setDepartmentSeq} setWorkplaceSeq = {props.setWorkplaceSeq} 
+            setCompanySeq = {props.setCompanySeq} refresh = {props.refresh} setSearch = {props.setSearch}/>
         </>
     )
     
 }
-
-const ListDepartment = () => {
-    const baseUrl = "http://localhost:8080";
-    return (
-        <>
-            <div>
-                
-            </div>
-        </>
-    )
-}
-
 export default DepartmentList;

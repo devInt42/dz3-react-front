@@ -1,0 +1,14 @@
+#department-form {
+    display:flex;
+}
+.header-alert {
+    margin:20px;
+}
+#department-info {
+    width: 100%;
+    margin: 20px;
+}
+#department-list-box {
+    height: 500px;
+    width: 500px;
+}

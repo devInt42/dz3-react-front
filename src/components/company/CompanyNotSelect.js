@@ -3,7 +3,7 @@ function CompanyNotSelect () {
 
     return(
         <div className = "notselectform">
-            <span>회사를 추가하거나 선택해주세요.</span>
+            <span>회사를 추가하거나 선택해 주십시오.</span>
         </div>
     )
 }
