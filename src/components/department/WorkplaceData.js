@@ -46,7 +46,7 @@ const WorkplaceData = (props) => {
                                 </div>
                                 {workplaceIsOpen.includes(idx) && <DepartmentData workplaceSeq = {workplace.workplaceSeq} setDepartmentSeq = {props.setDepartmentSeq} setWorkplaceSeq = {props.setWorkplaceSeq} 
                                 setCompanySeq = {props.setCompanySeq} refresh = {props.refresh} 
-                                setSearch = {props.setSearch}/>}
+                                setSearch = {props.setSearch} setDetailFlag = {props.setDetailFlag}/>} 
                             </div>
                         }
                     </div>

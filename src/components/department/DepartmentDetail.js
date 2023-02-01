@@ -26,11 +26,11 @@ const DepartmentDetail = (props) => {
     const [codeDupliCheck, setCodeDupliCheck] = useState(1);
     const [nameDupliCheck, setNameDupliCheck] = useState(1);
     const [useYN, setUseYN] = useState("N");
-    const [workplaceIsOpen, setWorkplaceIsOpen] = useState(false);
     const [checked, setChecked] = useState(0);
     const [notRequire, setNotRequire] = useState('');
     const [allCheck, setAllCheck] = useState(false);
     const [checkDelete, setCheckDelete] = useState(false);
+    
     //사업장 seq로 회사, 사업장 이름 조회하고 department 에 데이터 셋팅
     const getWorkplace = async () => {
         try {
@@ -43,11 +43,10 @@ const DepartmentDetail = (props) => {
     useEffect(() => {
         if (props.workplaceSeq !== 0 && props.departmentSeq == 0) {
             getWorkplace();
-            
         }
         setNotRequire('');
         setDepartmentDepth(0);
-        
+
     }, [props.workplaceSeq])
 
     //부서 데이터 조회
@@ -63,7 +62,6 @@ const DepartmentDetail = (props) => {
     useEffect(() => {
         if (props.departmentSeq != 0) {
             getDepartment();
-            setWorkplaceIsOpen(false);
             
         } else {
             setNotRequire('');
@@ -73,12 +71,12 @@ const DepartmentDetail = (props) => {
             setDepartmentLoc("");
             setUseYN("N");
             setDepartmentName("");
-            setWorkplaceIsOpen(true);
             setDepartmentDepth(0);
             setAllCheck(false);
             setCheckDelete(false);
         }
     }, [props.departmentSeq])
+
 
     //부서 seq로 회사 이름, 사업장 이름 조회
     const getNames = async () => {
@@ -135,7 +133,7 @@ const DepartmentDetail = (props) => {
                 "workplaceSeq": props.workplaceSeq,
             }
             axios.get(`${baseUrl}/department/info/check/`, {
-                params : param
+                params: param
             })
                 .then(res => setCodeDupliCheck(res.data))
                 .catch(error => console.log(error));
@@ -197,6 +195,19 @@ const DepartmentDetail = (props) => {
         setAllCheck(true);
         return true
     }
+    //추가 준비
+    const InsertForm = () => {
+        setDepartmentParentName(departmentName);
+        setDepartmentParentSeq(props.departmentSeq);
+        setDepartmentCode("");
+        setDepartmentLoc("");
+        setUseYN("N");
+        setDepartmentName("");
+        setDepartmentParentDepth(departmentDepth);
+        setAllCheck(false);
+        setCheckDelete(false);
+        props.setInsertForm(true);
+    }
 
     //수정, 추가에 필요한 데이터
     const data = {
@@ -244,28 +255,32 @@ const DepartmentDetail = (props) => {
                 <div id="department-detail-header">
                     <b><BsDot />부서 정보</b>
                     <div>
-                        <button onClick={() => AllCheck()}>저장</button>
                         {
-                            !props.departmentSeq && allCheck &&
+                            props.workplaceSeq !== 0 && !props.insertForm &&
+                            <button onClick={() => InsertForm()}>추가</button>
+                        }
+                        { props.departmentSeq !== 0 && <button onClick={() => AllCheck()}>저장</button>}
+                        {
+                            props.insertForm && allCheck &&
                             <SaveDepartmentAlert setAllCheck={setAllCheck} InsertData={InsertData}
-                            setRefresh = {props.setRefresh} InitSeq = {props.InitSeq} refresh = {props.refresh}/>
+                                setRefresh={props.setRefresh} InitSeq={props.InitSeq} refresh={props.refresh} setInsertForm = {props.setInsertForm} />
                         }
                         {
-                            (props.departmentSeq !== 0 && allCheck) &&
-                            <UpdateDepartmentAlert setAllCheck={setAllCheck} Update={Update} seq={props.departmentSeq} 
-                            setRefresh = {props.setRefresh} refresh = {props.refresh}/>
+                            (props.departmentSeq !== 0 && allCheck && !props.insertForm) &&
+                            <UpdateDepartmentAlert setAllCheck={setAllCheck} Update={Update} seq={props.departmentSeq}
+                                setRefresh={props.setRefresh} refresh={props.refresh}  setInsertForm = {props.setInsertForm}/>
                         }
                         {
                             (props.departmentSeq !== 0 && checkDelete) &&
-                            <DeleteDepartmentAlert setCheckDelete={setCheckDelete} Delete = {Delete} 
-                            setRefresh = {props.setRefresh} InitSeq = {props.InitSeq} refresh = {props.refresh}/>
+                            <DeleteDepartmentAlert setCheckDelete={setCheckDelete} Delete={Delete}
+                                setRefresh={props.setRefresh} InitSeq={props.InitSeq} refresh={props.refresh} setInsertForm = {props.setInsertForm}/>
                         }
 
                         {
-                            props.departmentSeq !== 0 && <button type="button" 
-                            onClick={() => setCheckDelete(true)}>삭제</button>
+                            (props.departmentSeq !== 0 && !props.insertForm )&& <button type="button"
+                                onClick={() => setCheckDelete(true)}>삭제</button>
                         }
-                        <button id="department-detail-closebtn" onClick = {() => props.InitSeq()}><TfiClose /></button>
+                        <button id="department-detail-closebtn" onClick={() => { props.InitSeq(); props.setDetailFlag(false); props.setInsertForm(false);}}><TfiClose /></button>
                     </div>
                 </div>
                 {notRequire}
@@ -326,7 +341,7 @@ const DepartmentDetail = (props) => {
                                 value={departmentName || ''}
                                 isValid={`${departmentName}`.length < 1 || firstName === departmentName ?
                                     false : nameDupliCheck === 1 ? false : true}
-                                isInvalid={`${departmentName}`.length < 1|| firstName === departmentName ?
+                                isInvalid={`${departmentName}`.length < 1 || firstName === departmentName ?
                                     false : nameDupliCheck === 1 ? true : false}
                             /></td>
                         </tr>
@@ -350,7 +365,7 @@ const DepartmentDetail = (props) => {
                                         type="switch"
                                         id="custom-switch"
                                         onChange={() => { useYN === "N" ? setUseYN("Y") : setUseYN("N"); }}
-                                        checked= { useYN == "Y" ? true : false}
+                                        checked={useYN == "Y" ? true : false}
                                     />
                                     {useYN == "Y" ? (<b>사    용</b>) : (<b>미사용</b>)}
                                 </div>

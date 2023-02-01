@@ -42,6 +42,7 @@ const DepartmentData = (props) => {
                                             props.setDepartmentSeq(departmentdata.departmentSeq);
                                             props.setWorkplaceSeq(departmentdata.workplaceSeq);
                                             props.setCompanySeq(departmentdata.companySeq);
+                                            props.setDetailFlag(true);
                                             props.setSearch(false);
                                     }}>
                                         {toggleIcon.includes(idx) ? <AiFillFolderOpen className="departmentlist-icon" /> :
@@ -54,6 +55,7 @@ const DepartmentData = (props) => {
                                          seq = {departmentdata.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq}
                                          setWorkplaceSeq = {props.setWorkplaceSeq} setCompanySeq = {props.setCompanySeq}
                                          refresh = {props.refresh} setSearch = {props.setSearch}
+                                         setDetailFlag = {props.setDetailFlag}
                                         />}
                                 </div>
 

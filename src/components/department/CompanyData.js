@@ -36,7 +36,8 @@ const CompanyData = (props) => {
                         </div>
                         {companyIsOpen.includes(idx) && <WorkplaceData companySeq={company.companySeq} key={idx} 
                         setDepartmentSeq={props.setDepartmentSeq} setWorkplaceSeq = {props.setWorkplaceSeq} 
-                        setCompanySeq = {props.setCompanySeq} refresh = {props.refresh} setSearch = {props.setSearch}/>
+                        setCompanySeq = {props.setCompanySeq} refresh = {props.refresh} setSearch = {props.setSearch}
+                        setDetailFlag = {props.setDetailFlag}/>
                         }
                     </div>
                 )
