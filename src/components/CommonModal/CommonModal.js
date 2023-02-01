@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
 import AllCompanyList from "./AllCompanyList";
 import AllSelectList from "./AllSelectList";
@@ -47,16 +47,11 @@ const CommonModal = (props) => {
   //처음에 실행하고 바뀔때만 렌더링
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
   const changeCheckedList = useCallback(() => {}, [checkItem]);
-  const changeComSeq = useCallback(() => {}, [departmentSeq]);
 
   //부서Seq가 바뀔때마다 실행
   useEffect(() => {
     changeDeptSeq();
     changeCheckedList();
-  }, [departmentSeq]);
-
-  useEffect(() => {
-    changeComSeq();
   }, [departmentSeq]);
 
   //초기화

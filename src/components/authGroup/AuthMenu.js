@@ -125,14 +125,12 @@ const AuthMenu = (props) => {
         defaultExpandIcon={<Folder />}
         sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
         defaultExpanded={["1", "2", "3", "4", "5", "6"]}
-        multiSelect
-      >
+        multiSelect>
         {menuList &&
           menuList.map((menuItem) => (
             <div
               key={menuItem.menuSeq}
-              style={{ display: "flex", alignItems: "flex-start" }}
-            >
+              style={{ display: "flex", alignItems: "flex-start" }}>
               <input
                 type={"checkbox"}
                 style={{ marginTop: "5px" }}
@@ -155,8 +153,7 @@ const AuthMenu = (props) => {
                 key={menuItem.menuSeq}
                 nodeId={menuItem.menuSeq.toString()}
                 label={menuItem.menuName}
-                id={menuItem.menuCode}
-              >
+                id={menuItem.menuCode}>
                 <SubMenuGroup
                   parentSeq={menuItem.menuSeq}
                   depth={menuItem.menuDepth}
