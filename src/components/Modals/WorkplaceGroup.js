@@ -42,8 +42,8 @@ const WorkplaceGroup = (props) => {
   }, [companySeq]);
 
   // 부모에게 부서값 전달
-  const sendDepartmentSeq = (e) => {
-    props.sendDepartmentSeq(e);
+  const sendPointList = (e) => {
+    props.sendPointList(e);
   };
 
   return (
@@ -67,7 +67,7 @@ const WorkplaceGroup = (props) => {
                 <DepartmentGroup
                   companySeq={workplaceItem.companySeq}
                   workplaceSeq={workplaceItem.workplaceSeq}
-                  sendDepartmentSeq={sendDepartmentSeq}
+                  sendPointList={sendPointList}
                 />
               </TreeItem>
             </div>

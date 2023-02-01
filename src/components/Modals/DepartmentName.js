@@ -10,7 +10,7 @@ const DepartmentName = (props) => {
   const [departmentDepth, setDepartmentDepth] = useState(0);
   const [count, setCount] = useState(0);
   const [departmentNameList, setDepartmentNameList] = useState([]);
-  const [departmentSeq, setDepartmentSeq] = useState(0);
+  const [pointList, setPointList] = useState([]);
 
   //회사 값, 사업장 값 받아오기
   useEffect(() => {
@@ -80,27 +80,27 @@ const DepartmentName = (props) => {
     getDepartment();
   }, [count]);
 
-  //클릭시 부서 정보 추출
-  const getDeptSeq = (e) => {
+  //클릭시 부서, 사업장 정보 추출
+  const getPointList = (e) => {
     const temp = [];
     departmentNameList.forEach((list) => {
       if (list.departmentName === e.target.innerText) {
         temp.push(list);
       }
     });
-    setDepartmentSeq(temp[0].departmentSeq);
+    setPointList(temp[0]);
   };
 
   // 부모에게 부서값 전달
-  const sendDepartmentSeq = (e) => {
+  const sendPointList = (e) => {
     if (e != 0) {
-      props.sendDepartmentSeq(e);
+      props.sendPointList(e);
     }
   };
 
   useEffect(() => {
-    sendDepartmentSeq(departmentSeq);
-  }, [departmentSeq]);
+    sendPointList(pointList);
+  }, [pointList]);
 
   return (
     <>
@@ -113,13 +113,13 @@ const DepartmentName = (props) => {
               key={`D${departmentNameItem.departmentSeq}`}
               nodeId={departmentNameItem.departmentSeq.toString()}
               label={departmentNameItem.departmentName}
-              onClick={getDeptSeq}>
+              onClick={getPointList}>
               <DepartmentName
                 companySeq={departmentNameItem.companySeq}
                 workplaceSeq={departmentNameItem.workplaceSeq}
                 parentSeq={departmentNameItem.departmentSeq}
                 depth={departmentNameItem.departmentDepth}
-                sendDepartmentSeq={sendDepartmentSeq}
+                sendDepartmentSeq={sendPointList}
               />
             </TreeItem>
           </div>

@@ -32,12 +32,10 @@ function GNB(props) {
       .catch((error) => console.log(error));
   }, []);
 
-  const goMain=()=>{
+  const goMain = () => {
     props.setMenuName("");
     navigate(`/dz3`);
-  }
-
-  console.log("asdad"+props.menuName)
+  };
   return (
     <div>
       <Row className={style.gnb_header}>
@@ -47,8 +45,7 @@ function GNB(props) {
             style={{
               color: "rgba(64, 192, 228, 0.929)",
               fontWeight: "bolder",
-            }}
-          >
+            }}>
             10
           </span>
         </Col>
@@ -56,24 +53,27 @@ function GNB(props) {
           <LoginInfo />
         </Col>
         <Col xs={2} className={style.gnb_Imtree}>
-          <button className={style.gnb_Imtree_btn} style={{border: "none", backgroundColor:"white"}}>
+          <button
+            className={style.gnb_Imtree_btn}
+            style={{ border: "none", backgroundColor: "white" }}>
             <ImTree size="30" onClick={openModal}></ImTree>
             <OrganizationChart
               open={modalOpen}
               close={closeModal}
-              header="조직도"
-            ></OrganizationChart>
+              header="조직도"></OrganizationChart>
           </button>
         </Col>
       </Row>
-      {props.menuName == "" ? <Main/> :
-      <div className={style.gnb_bar}>
-      <CgMenuBoxed
-        style={{ width: "50px", height: "50px", margin: "10px" }}
-      />
-      {props.menuName}
-    </div>
-      }
+      {props.menuName == "" ? (
+        <Main />
+      ) : (
+        <div className={style.gnb_bar}>
+          <CgMenuBoxed
+            style={{ width: "50px", height: "50px", margin: "10px" }}
+          />
+          {props.menuName}
+        </div>
+      )}
     </div>
   );
 }
