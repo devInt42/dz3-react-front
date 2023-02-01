@@ -51,9 +51,10 @@ function CallMenu(props) {
     <div>
       {menuSequence == 0 ? (
         <></>
-      ) : flag == false ? (
-        <></>
       ) : (
+        //  flag == false ? (
+        //   <></>
+        // ) :
         <div>
           {subMenu.map((menu) => {
             return (
@@ -105,27 +106,6 @@ function CallMenu(props) {
         </div>
       )}
     </div>
-    // <TreeView
-    //     aria-label="file system navigator"
-    //     defaultCollapseIcon={<ExpandMoreIcon />}
-    //     defaultExpandIcon={<ChevronRightIcon />}
-    //     sx={{ flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
-    // >
-    //     {menuSequence == 0 ? (<></>) : (
-    //         <div>
-    //             {subMenu.map((menu) => {
-    //                 return (
-    //                     <div key={menu.menuSeq}>
-    //                         <TreeItem key={menu.menuSeq} nodeId={menu.menuSeq.toString()} label={menu.menuName} >
-    //                             <CallMenu menuSeq={menu.menuSeq} />
-    //                         </TreeItem>
-    //                     </div>
-    //                 );
-    //             })}
-    //             {lastSeq == 0 ? <></> : <ContentsMapping lastSeq={lastSeq} />}
-    //         </div>
-    //     )}
-    // </TreeView>
   );
 }
 
