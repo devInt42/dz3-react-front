@@ -8,6 +8,7 @@
 .gnb_bar {
   font-family: "Noto Sans KR", sans-serif;
   font-size: 30px;
+  /* background: linear-gradient(to right, #00aaff, #8168ff); */
   background-color: rgba(0, 170, 255);
   color: aliceblue;
   width: 100%;
@@ -30,6 +31,7 @@
   font-family: "Noto Sans KR", sans-serif;
   font-size: 25px;
   font-weight: bolder;
+  cursor: pointer;
 }
 
 .gnb_callLnb {

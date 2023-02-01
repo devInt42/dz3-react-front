@@ -22,7 +22,7 @@ function UpdateMenuAlert(props) {
     }).then(result => {
         if (result.isConfirmed) {
             props.updateMenu(menuSeq);
-            Swal.fire('저장이 완료되었습니다.', '', 'success', '#3085d6');
+            Swal.fire('수정이 완료되었습니다.', '', 'success', '#3085d6');
             props.setUpdateCheck(false);
         }
 

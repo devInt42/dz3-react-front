@@ -18,8 +18,6 @@ const AuthGroupLnb = (props) => {
 
   let items = [];
 
-  const [formFlag, setFormFlag] = useState(true);
-
   // 회사별 권한 및 해당하는 권한수 카운트 API
   const companyAuthApiCall = useCallback(async () => {
     let companyData = {
@@ -194,8 +192,6 @@ const AuthGroupLnb = (props) => {
         },
       });
       setCompanyList(resCompany.data);
-      if (resCompany.data[0].employeeSeq == 0);
-      setFormFlag(false);
     } catch (error) {
       console.log(error);
     }
@@ -222,12 +218,17 @@ const AuthGroupLnb = (props) => {
             alignItems: "center",
           }}
         >
-          <Row>
+          <Row
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "95%",
+            }}
+          >
             <Form.Select
               size="sm"
               onChange={changeSelectVal}
-              style={{ width: "200px" }}
-              disabled={formFlag}
+              style={{ width: "100%" }}
             >
               <option
                 key="0"
@@ -247,38 +248,30 @@ const AuthGroupLnb = (props) => {
                 ))}
             </Form.Select>
           </Row>
-          <Row style={{ float: "left", padding: "0" }}>
-            <Col xs={10} style={{ padding: "0" }}>
-              <input
-                type="text"
-                id="searchAuth"
-                style={{ width: "100%", margin: "0", padding: "0" }}
-                placeholder="권한명을 검색하세요."
-                onChange={changeSearchAuth}
-              />
-            </Col>
-            <Col
-              xs={1}
-              style={{
-                width: "20px",
-                padding: "0",
-                margin: "0",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <button
-                style={{
-                  marginLeft: "5px",
-                  display: "flex",
-                  margin: "0",
-                  border: "none",
-                }}
-                onClick={() => searchAuthbyName()}
-              >
-                <Search />
-              </button>
-            </Col>
+          <Row
+            style={{
+              float: "left",
+              padding: "0",
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: "5px",
+              marginBottom: "5px",
+            }}
+          >
+            <input
+              type="text"
+              id="searchAuth"
+              style={{ width: "65%", margin: "0", padding: "0" }}
+              placeholder="권한명을 검색하세요."
+              onChange={changeSearchAuth}
+            />
+
+            <Search
+              onClick={() => searchAuthbyName()}
+              style={{ cursor: "pointer", width: "20%" }}
+            />
           </Row>
         </div>
         <div>

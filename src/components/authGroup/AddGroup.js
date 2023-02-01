@@ -4,6 +4,7 @@ import { Form, OverlayTrigger, Popover, Container } from "react-bootstrap";
 import { ReactComponent as Plus } from "./plus.svg";
 import "./AuthGroup.css";
 import axios from "axios";
+import { set } from "lodash";
 
 const AddGroup = () => {
   const baseUrl = "http://localhost:8080";
@@ -117,7 +118,6 @@ const AddGroup = () => {
       setDisabled(false);
     }
   };
-
   const popover = (
     <Popover id="popover-basic">
       <Popover.Header as="h3">그룹 추가하기 </Popover.Header>

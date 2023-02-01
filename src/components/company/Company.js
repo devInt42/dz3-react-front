@@ -16,7 +16,7 @@ const Company = () => {
 
     return (
         <div>
-            <h2>회사 정보</h2>
+            <h2>회사 관리</h2>
             <hr className="line"></hr>
             <CompanySearch setSearchData = {setSearchData} setSearchRefresh = {setSearchRefresh} searchRefresh = {searchRefresh}
             />

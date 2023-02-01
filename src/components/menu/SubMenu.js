@@ -28,13 +28,12 @@ function SubMenu(props) {
   const [isActive, setIsActive] = useState(false);
 
   const getSubMenuList = useCallback(async () => {
-    // console.log(menuSequence);
     try {
       const apiResult = await axios({
         url: baseUrl + "/menu/menulist/" + menuSequence,
         method: "get",
       });
-      //console.log(apiResult.data)
+
       if (apiResult.data == 0) {
         setLastSeq(menuSequence);
       } else {
@@ -48,13 +47,6 @@ function SubMenu(props) {
   useEffect(() => {
     getSubMenuList();
   }, [menuSequence]);
-
-  // useEffect(() => {
-  //     axios.get(baseUrl + '/menu/menulist/' + menuSequence).then(response => setSubMenu(response.data)).catch(error => console.log(error))
-  // }, [menuSequence]);
-
-  // console.log(menuSequence)
-  // console.log(subMenu)
 
   return (
     <div>
@@ -70,13 +62,15 @@ function SubMenu(props) {
                   style={{
                     paddingLeft: (menu.menuDepth - 1) * 20,
                     paddingRight: "20px",
-                  }}>
+                  }}
+                >
                   <div
                     className={style.menu_btn}
                     onClick={() => {
                       setIsActive(true);
                       setChildMenu(menu.menuSeq);
-                    }}>
+                    }}
+                  >
                     {menu.menuName}
                   </div>
                 </div>

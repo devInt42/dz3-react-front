@@ -9,7 +9,6 @@ const EmployeeDetail = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();
   const [deptDetail, setDeptDetail] = useState([]);
   const [companyName, setCompanyName] = useState();
-  const [loginInfo, setLoginInfo] = useState();
   const baseUrl = "http://localhost:8080";
 
   //modal에서 값 받아오기

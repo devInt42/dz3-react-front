@@ -115,7 +115,7 @@ function LNB(props) {
                 )}
                 {menuVisible && (
                   <button
-                    className={style.lnb_callMenu}
+                    className={menuVisible ? style.lnb_callMenu : style.lnb_callMenu_false}
                     onClick={() => {
                       sendParent(menu.menuName, menu.menuSeq);
                     }}

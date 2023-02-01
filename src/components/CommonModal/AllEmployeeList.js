@@ -72,11 +72,6 @@ const AllEmployeeList = (props) => {
 
   useEffect(() => {}, [checkedList]);
 
-  //값 저장할 함수
-  async function sendCheckedElement(a) {
-    setCheckedLists(a);
-  }
-
   //checkedList가 바뀔때마다 modal로 값 전송
   const sendInfo = () => {
     const result = JSON.stringify(checkedList);
@@ -137,6 +132,7 @@ const AllEmployeeList = (props) => {
   //개별 클릭시 발생하는 함수
   const onCheckedElement = useCallback(
     async (checked, list) => {
+      console.log(list);
       try {
         if (checked) {
           setCheckedLists([...checkedList, list]);
@@ -201,12 +197,14 @@ const AllEmployeeList = (props) => {
                       type="checkbox"
                       readOnly
                       onClick={(e) => onCheckedAll(e.target.checked)}
-                      checked={(() => {})()}
+                      // checked={deptList.forEach()}
                       className="custom-control-input"
-                      id="customCheck2"></input>
+                      id="customCheck2"
+                    ></input>
                   </th>
+                  <th scope="col">회사</th>
                   <th scope="col">사업장</th>
-                  <th scope="col">부서명</th>
+                  <th scope="col">부서</th>
                   <th scope="col">직급</th>
                   <th scope="col">성명</th>
                   <th scope="col">이메일</th>
@@ -232,14 +230,17 @@ const AllEmployeeList = (props) => {
                               return false;
                             }
                           })()}
-                          id="customCheck2"></input>
+                          id="customCheck2"
+                        ></input>
                         <label
                           className="custom-control-label"
-                          htmlFor="customCheck1"></label>
+                          htmlFor="customCheck1"
+                        ></label>
                       </div>
                     </td>
                     <td>{dept.companyName}</td>
                     <td>{dept.workplaceName}</td>
+                    <td>{dept.departmentName}</td>
                     <td>{dept.title}</td>
                     <td>{dept.employeeName}</td>
                     <td>{dept.employeePmail}</td>

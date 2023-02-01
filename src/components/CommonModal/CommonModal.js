@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
 import AllCompanyList from "./AllCompanyList";
 import AllSelectList from "./AllSelectList";
@@ -15,11 +15,13 @@ const CommonModal = (props) => {
   const [employeeName, setEmployeeName] = useState();
   const [authSeq, setAuthSeq] = useState();
   const [pointCompanySeq, setPointCompanySeq] = useState();
+  const [selectCompanySeq, setSelectCompanySeq] = useState();
 
   //값 받아오기
   useEffect(() => {
     setAuthSeq(props.authSeq);
     setPointCompanySeq(props.pointCompanySeq);
+    setSelectCompanySeq(props.selectCompanySeq);
   }, [props]);
 
   //함수 보냄
@@ -45,16 +47,11 @@ const CommonModal = (props) => {
   //처음에 실행하고 바뀔때만 렌더링
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
   const changeCheckedList = useCallback(() => {}, [checkItem]);
-  const changeComSeq = useCallback(() => {}, [departmentSeq]);
 
   //부서Seq가 바뀔때마다 실행
   useEffect(() => {
     changeDeptSeq();
     changeCheckedList();
-  }, [departmentSeq]);
-
-  useEffect(() => {
-    changeComSeq();
   }, [departmentSeq]);
 
   //초기화
@@ -72,7 +69,8 @@ const CommonModal = (props) => {
               onClick={() => {
                 close();
                 reset();
-              }}>
+              }}
+            >
               X
             </button>
           </header>
@@ -82,7 +80,8 @@ const CommonModal = (props) => {
                 <Col sm={3}>
                   <select
                     className="form-select"
-                    aria-label="Default select example">
+                    aria-label="Default select example"
+                  >
                     <option>사원명</option>
                   </select>
                 </Col>
@@ -93,14 +92,16 @@ const CommonModal = (props) => {
                       className="form-control"
                       placeholder="검색어를 입력하세요."
                       onChange={onChange}
-                      value={text || ""}></input>
+                      value={text || ""}
+                    ></input>
                   </div>
                 </Col>
                 <Col sm={1}>
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={sendInputText}>
+                    onClick={sendInputText}
+                  >
                     검색
                   </button>
                 </Col>

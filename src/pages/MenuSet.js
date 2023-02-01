@@ -48,7 +48,6 @@ function MenuSet() {
     axios
       .get(baseUrl + "/menu/menulist/getdepth/" + menuParent)
       .then((response) => {
-        console.log(response.data);
         setMenuDepth(response.data);
       })
       .catch((error) => console.log(error));
@@ -67,7 +66,6 @@ function MenuSet() {
   }
 
   const getSearchInfo = (resultMenu) => {
-    console.log(resultMenu);
     setMenuSeq(resultMenu.menuSeq);
     setMenuCode(resultMenu.menuCode);
     setMenuName(resultMenu.menuName);
@@ -118,7 +116,6 @@ function MenuSet() {
           <Col
             md="auto"
             style={{
-              border: "1px solid black",
               padding: "0px",
               width: "74%",
               height: "100vh",

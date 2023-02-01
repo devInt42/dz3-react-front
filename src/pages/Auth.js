@@ -1,32 +1,22 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import AuthLnb from "../components/auth/AuthLnb";
-import { useNavigate } from "react-router-dom";
 import AuthEmployeeList from "../components/auth/AuthEmployeeList";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import CommonModal from "../components/commonModal/CommonModal";
+import axios from "axios";
+
 const Auth = () => {
+  const baseUrl = "http://localhost:8080";
   const [authSeq, setAuthSeq] = useState();
   const [selectCompanySeq, setSelectCompanySeq] = useState();
   const [pointCompanySeq, setPointCompanySeq] = useState();
-
-  const navigate = useNavigate();
-  const InitCheck = useCallback(async () => {
-    if (!window.sessionStorage.getItem("empInfo")) {
-      alert("로그인 후에 이용해주세요");
-      navigate("/login");
-    } else {
-      return;
-    }
-  }, []);
-
-  useEffect(() => {
-    InitCheck();
-  }, []);
-
-  useEffect(() => {}, [selectCompanySeq]);
-  useEffect(() => {}, [pointCompanySeq]);
+  const [modalRes, setModalRes] = useState([]);
+  const [sendList, setSendList] = useState([]);
+  const [originList, setOriginList] = useState([]);
+  const [insertList, setInsertList] = useState(null);
+  const [deleteList, setDeleteList] = useState(null);
 
   const sendAuthSeq = (authSeq) => {
     setAuthSeq(authSeq);
@@ -38,11 +28,147 @@ const Auth = () => {
     setPointCompanySeq(pointCompanySeq);
   };
 
+  // 추가
+  const sendInsertRes = useCallback(async () => {
+    const headers = {
+      "Content-type": "application/json; charset=UTF-8",
+      Accept: "*/*",
+    };
+    if (insertList != null) {
+      try {
+        let sendRes = await axios.post(
+          `${baseUrl}/auth-employee/insert`,
+          insertList,
+          {
+            headers,
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [insertList]);
+
+  //삭제
+  const sendDeleteRes = useCallback(async () => {
+    const headers = {
+      "Content-type": "application/json; charset=UTF-8",
+      Accept: "*/*",
+    };
+    if (deleteList != null) {
+      try {
+        let sendRes = await axios.post(
+          `${baseUrl}/auth-employee/delete`,
+          deleteList,
+          {
+            headers,
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [deleteList]);
+
+  //비교
+  const compareList = useCallback(async () => {
+    const origin = [];
+    originList.forEach((elem) => {
+      origin.push({
+        authSeq: authSeq,
+        employeeSeq: elem.employeeSeq,
+        companySeq: pointCompanySeq,
+        workplaceSeq: elem.workplaceSeq,
+        departmentSeq: elem.departmentSeq,
+      });
+    });
+    let tmpI = [];
+    let intersect = [];
+    let intersect2 = [];
+    let tmpD = [];
+
+    if (originList.length === 0) {
+      // 권한 직원이 0명인경우
+      sendList.forEach((list) => tmpI.push(list));
+      setInsertList(tmpI);
+    } else {
+      if (sendList.length === 0) {
+        // 모든 직원의 권한을 없앨경우
+        origin.forEach((list) => tmpD.push(list));
+        setDeleteList(tmpD);
+      } else {
+        // 그외 권한 직원 추가 및 삭제
+        intersect = sendList.filter(
+          (sItem) =>
+            originList.filter(
+              (oList) => sItem.employeeSeq === oList.employeeSeq
+            ).length > 0
+        );
+        intersect2 = origin.filter(
+          (oList) =>
+            sendList.filter((sList) => oList.employeeSeq === sList.employeeSeq)
+              .length > 0
+        );
+        tmpI = sendList.filter((x) => !intersect.includes(x));
+        tmpD = origin.filter((y) => !intersect2.includes(y));
+        setInsertList(tmpI);
+        setDeleteList(tmpD);
+      }
+    }
+  }, [sendList]);
+
+  // 모달창에서 받은 list 정제
+  const settingModalRes = useCallback(async () => {
+    if (modalRes != "") {
+      let list = JSON.parse(modalRes);
+      const temp = [];
+      list.forEach((elem) => {
+        temp.push({
+          authSeq: authSeq,
+          employeeSeq: elem.employeeSeq,
+          companySeq: pointCompanySeq,
+          workplaceSeq: elem.workplaceSeq,
+          departmentSeq: elem.departmentSeq,
+        });
+      });
+      setSendList(temp);
+    }
+  }, [modalRes]);
+
+  useEffect(() => {}, [selectCompanySeq]);
+  useEffect(() => {}, [pointCompanySeq]);
+  useEffect(() => {
+    compareList();
+  }, [sendList]);
+  useEffect(() => {
+    settingModalRes();
+  }, [modalRes]);
+  useEffect(() => {
+    sendInsertRes();
+    sendDeleteRes();
+  }, [insertList, deleteList]);
+
+  //현재 권한-사원 리스트 불러오기
+  const loadOrigin = useCallback(async () => {
+    let send = {
+      authSeq: authSeq,
+      companySeq: pointCompanySeq,
+    };
+
+    try {
+      let originRes = await axios.get(`${baseUrl}/auth-employee/origin`, {
+        params: send,
+      });
+      setOriginList(originRes.data);
+    } catch (error) {}
+  }, [authSeq]);
+
   // 모달창 기능
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
     setModalOpen(true);
+    loadOrigin();
   };
   const closeModal = () => {
     setModalOpen(false);
@@ -68,7 +194,7 @@ const Auth = () => {
   }
 
   function getInfo(obj) {
-    console.log(obj);
+    setModalRes(obj);
     SaveCompanyAlert();
   }
   return (
@@ -105,6 +231,7 @@ const Auth = () => {
               header="사용자 권한 설정"
               authSeq={authSeq}
               pointCompanySeq={pointCompanySeq}
+              selectCompanySeq={selectCompanySeq}
             ></CommonModal>
           </Row>
           <AuthEmployeeList
