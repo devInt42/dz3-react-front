@@ -10,7 +10,7 @@ import SaveFailCompanyAlert from '../alert/SaveFailCompanyAlert';
 import SaveCompanyAlert from '../alert/SaveCompanyAlert';
 import DeleteCompanyAlert from '../alert/DeleteCompanyAlert';
 import UpdateCompanyAlert from '../alert/UpdateCompanyAlert';
-const CompanyDetail = ((props) => {
+const CompanyDetail = (props) => {
 
   useEffect(() => {
     setIsOndata("N");
