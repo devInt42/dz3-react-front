@@ -19,9 +19,6 @@ const Department = () => {
         setWorkplaceSeq(0);
         setDepartmentSeq(0);
     }
-    useEffect(() => {
-        console.log(searchData)
-    }, [searchData])
     return (
         <div>
 

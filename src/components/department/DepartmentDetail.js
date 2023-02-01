@@ -337,10 +337,9 @@ const DepartmentDetail = (props) => {
                                 style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
                                 onChange={e => setDepartmentLoc(e.target.value)}
                                 value={departmentLoc || ''}
-                                isValid={`${departmentLoc}`.length < 1 || firstName === departmentName ?
-                                    false : true}
-                                isInvalid={`${departmentLoc}`.length < 1|| firstName === departmentName ?
-                                    false : true}
+                                isValid={firstName === departmentName ?
+                                    false : `${departmentLoc}`.length < 1 ? false : true}
+                                isInvalid={`${departmentLoc}`.length < 1 && checked > 0 ? true : false}
                             /></td>
                         </tr>
                         <tr>

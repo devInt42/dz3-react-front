@@ -31,7 +31,7 @@ const DepartmentData = (props) => {
             {
                 department && department.map((departmentdata, idx) => {
                     return (
-                        <div key={idx} >
+                        <div key={idx}>
                             {
                                 props.workplaceSeq === departmentdata.workplaceSeq &&
                                 <div className="departmentlist">

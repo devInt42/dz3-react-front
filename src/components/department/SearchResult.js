@@ -5,13 +5,17 @@ import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import "./css/DepartmentSearchResult.css"
+import Aos from 'aos';
 export default function AlignItemsList(props) {
+    React.useEffect(() => {
+        Aos.init();
+    }, [])
     return (
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             {
                 props.searchData && props.searchData.map((department, idx) => {
                     return (
-                        <div className = "search-result-box">
+                        <div className = "search-result-box" data-aos="fade-right">
                             <ListItem alignItems="flex-start" key={idx} onClick = {
                                 () => {
                                     props.setSearch(false);
