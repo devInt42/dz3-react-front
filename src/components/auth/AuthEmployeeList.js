@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Table, Row, Button } from "react-bootstrap";
+import React, { useEffect, useState, useCallback } from "react";
+import { Table, Row } from "react-bootstrap";
 import axios from "axios";
 
 const AuthEmployeeList = (props) => {
@@ -12,11 +12,12 @@ const AuthEmployeeList = (props) => {
     setPointCompanySeq(props.pointCompanySeq);
   }, [props]);
 
-  const authEmployeeApiList = async () => {
+  const authEmployeeApiList = useCallback(async () => {
     let sendData = {
       authSeq: authSeq,
       companySeq: pointCompanySeq,
     };
+    console.log(pointCompanySeq);
     try {
       if (authSeq != null && pointCompanySeq != null) {
         const searchEmployeeApiList = await axios.get(
@@ -33,11 +34,11 @@ const AuthEmployeeList = (props) => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [authSeq]);
 
   useEffect(() => {
     authEmployeeApiList();
-  }, [authSeq]);
+  }, [authSeq, pointCompanySeq]);
 
   return (
     <>
