@@ -14,6 +14,8 @@ const OrganizationChart = (props) => {
   const [text, setText] = useState();
   const [employeeName, setEmployeeName] = useState();
 
+  console.log("W" + workplaceSeq);
+  console.log("D" + departmentSeq);
   //함수 보냄
   const sendDepartmentSeq = (i) => {
     setDepartmentSeq(i);
