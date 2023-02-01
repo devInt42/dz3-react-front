@@ -7,7 +7,7 @@
 .company-table {
     border-top: 2px solid black;
     margin: 10px 0px 0px 10px;
-    width:80%;
+    width:100%;
 }
 .company-table tr {
     border-bottom: 1px solid grey;
@@ -16,6 +16,10 @@
     background-color: rgb(250, 242, 242);
     text-align: end;
     font-weight: bold;
+}
+.company-table-title {
+    width:200px;
+    height:50px;
 }
 .company-table-content {
     padding:5px;

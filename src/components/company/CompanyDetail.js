@@ -1,6 +1,6 @@
 import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
-import { BsFillOctagonFill } from "react-icons/bs";
+import React, {useEffect, useState } from 'react';
+import { BsDot } from "react-icons/bs";
 import { TfiClose } from 'react-icons/tfi'
 import "./css/CompanyInsert.css";
 import ZippopupDom from "./zipcode/ZippopupDom";
@@ -28,7 +28,7 @@ const CompanyDetail = ((props) => {
         }
     }, [props.companySeq])
 
-    const load = useEffect(() => {
+    useEffect(() => {
         setFirstCode("");
         setCompanyCode("");
         setCompanyName("");
@@ -130,9 +130,6 @@ const CompanyDetail = ((props) => {
     //////////////////////////////////////////////////////////////////////////// 수정 , 추가
 
     function Update(seq) {  //회사 수정
-
-        console.log(data);
-
         axios.post(
             `${baseUrl}/company/update/${seq}`
             , JSON.stringify(data)
@@ -267,7 +264,7 @@ const CompanyDetail = ((props) => {
 
             <div>
                 <div className="infoheader">
-                    <b className="littletitle"> <BsFillOctagonFill /> 회사정보</b>
+                    <b className="littletitle"> <BsDot /> 회사정보</b>
                     <div>
                         <button className="insertbutton"
                             type="button" onClick={() => AllCheck()}

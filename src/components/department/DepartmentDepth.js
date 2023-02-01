@@ -5,7 +5,6 @@ import { AiFillFolder, AiFillFolderOpen } from 'react-icons/ai';
 const DepartmentDepth = (props) => {
 
     const baseUrl = "http://localhost:8080";
-    const [depthIsOpen, setDepthIsOpen] = useState(false);
     const [department, setDepartment] = useState([]);
     const [depth, setDepth] = useState(0);
     const [seq, setSeq] = useState(0);
@@ -39,7 +38,7 @@ const DepartmentDepth = (props) => {
         };
         try {
             if (count != 0) {
-                let childRes = await axios.get(`${baseUrl}/department/list`, {
+                const childRes = await axios.get(`${baseUrl}/department/list`, {
                     params: sendChild
                 });
                 setDepartment(childRes.data)
@@ -50,10 +49,13 @@ const DepartmentDepth = (props) => {
     }
     useEffect(() => {
         getData();
-    }, [count])
+    }, [count, props.refresh])
+    
+    useEffect(() => {
+    }, [department])
+
     return (
         <div>
-
             {
                 department && department.map((child, idx) => {
                     return (
@@ -65,6 +67,10 @@ const DepartmentDepth = (props) => {
                                         index.includes(child.departmentSeq) ?
                                         setIndex(index.filter(department => department !=child.departmentSeq)) :
                                         setIndex([...index, child.departmentSeq]);
+                                        props.setWorkplaceSeq(child.workplaceSeq);
+                                        props.setDepartmentSeq(child.departmentSeq);
+                                        props.setCompanySeq(child.companySeq);
+                                        props.setSearch(false);
                                     }}>
                                         {index.includes(child.departmentSeq) ? <AiFillFolderOpen className="departmentlist-icon" /> :
                                             <AiFillFolder className="departmentlist-icon" />}
@@ -72,8 +78,10 @@ const DepartmentDepth = (props) => {
                                     </div>
                                 </div>
                             }
-                            {index.includes(child.departmentSeq) && <DepartmentDepth depth={child.departmentDepth} key={idx} seq={child.departmentSeq} 
-                            depthIsOpen = {depthIsOpen} />}
+                            {index.includes(child.departmentSeq) && <DepartmentDepth depth={child.departmentDepth} key={idx} seq={child.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq} 
+                            setWorkplaceSeq = {props.setWorkplaceSeq} setCompanySeq = {props.setCompanySeq}
+                            setSearch = {props.setSearch}
+                            />}
                         </div>
                     )
 
