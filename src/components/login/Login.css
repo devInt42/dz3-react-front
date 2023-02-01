@@ -1,4 +1,5 @@
 .logIn {
+  font-family: "Noto Sans KR", sans-serif;
   position: relative;
   height: 100vh;
   display: flex;
@@ -76,7 +77,7 @@
 
 #btnCheck {
   width: 300px;
-  background-color: #00aaff;
+  background: linear-gradient(to right, #00aaff, #8168ff);
   border: 1px;
   border-radius: 20px;
   height: 40px;
@@ -84,7 +85,7 @@
 }
 #btnCheck:hover {
   width: 300px;
-  background-color: #00aaff;
+  background: linear-gradient(to right, #00aaff, #8168ff);
   border: 1px;
   border-radius: 20px;
   height: 40px;

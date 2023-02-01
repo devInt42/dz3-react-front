@@ -1,59 +1,92 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { TreeView, TreeItem } from "@mui/lab";
+import { ReactComponent as Folder } from "../authGroup/folder.svg";
+import { ReactComponent as FolderOpen } from "../authGroup/folderopen.svg";
+import WorkplaceGroup from "../modals/WorkplaceGroup";
 
 const CompanyList = (props) => {
-  const [companySeq, setCompanySeq] = useState(2);
   const baseUrl = "http://localhost:8080";
-  const [deptNameList, setDeptNameList] = useState([]);
-  const [departmentSeq, setDepartmentSeq] = useState(null);
-  const [workplaceSeq, setWorkplaceSeq] = useState();
+  const [companyNameList, setCompanyNameList] = useState([]);
+  const [companyName, setCompanyName] = useState();
 
-  // Modal.js로 departmentSeq값 전송
+  // 로그인 - 선택된 회사
+  const getCompany = async () => {
+    try {
+      const companyDataResult = await axios.get(
+        `${baseUrl}/department-employee/companyElement`,
+        {
+          headers: {
+            Authorization: window.sessionStorage.getItem("empInfo"),
+          },
+        }
+      );
+      setCompanyNameList(companyDataResult.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //회사가 바뀔때마다 가져오는값 달라짐
   useEffect(() => {
-    props.sendDepartmentSeq(departmentSeq);
-  }, [departmentSeq]);
-
-  // Modal.js로 workplaceSeq 전송
-  useEffect(() => {
-    props.sendWorkplaceSeq(workplaceSeq);
-  }, [workplaceSeq]);
-
-  function sendDepartmentSeq(a) {
-    setDepartmentSeq(a);
-  }
-
-  function sendWorkplaceSeq(a) {
-    setWorkplaceSeq(a);
-  }
-
-  //부서 전체 값 받아오기
-  useEffect(() => {
-    const url = baseUrl + "/department/list/" + companySeq;
-    axios({
-      method: "get",
-      url: url,
-    }).then((res) => {
-      setDeptNameList(res.data);
-    });
+    getCompany();
   }, []);
 
+  // Modal.js로 값 전송
+  useEffect(() => {
+    function getComSeq() {
+      let result = companyName;
+      props.sendCompanyName(result);
+    }
+    getComSeq();
+  }, [companyName]);
+
+  //companyName 전달
+  useEffect(() => {
+    sendCompanyName(companyNameList[0]?.companyName);
+  });
+
+  //자손에서 값 받아오기
+  const sendDepartmentSeq = (e) => {
+    props.sendDepartmentSeq(e);
+  };
+
+  const sendWorkplaceSeq = (e) => {
+    props.sendWorkplaceSeq(e);
+  };
+
+  //값 저장
+  async function sendCompanyName(a) {
+    setCompanyName(a);
+  }
+
   return (
-    <div>
-      {deptNameList &&
-        deptNameList.map((dNameList) => (
+    <TreeView
+      className="companyTree"
+      aria-label="file system navigator"
+      defaultCollapseIcon={<FolderOpen />}
+      defaultExpandIcon={<Folder />}
+      sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+      multiSelect>
+      {companyNameList &&
+        companyNameList.map((companyItem) => (
           <div
-            key={dNameList.departmentSeq}
-            onClick={() => {
-              sendDepartmentSeq(dNameList.departmentSeq);
-              sendWorkplaceSeq(dNameList.workplaceSeq);
-            }}>
-            - {dNameList.departmentName}
-            {/* {dNameList.workplaceSeq}
-            {dNameList.departmentSeq} */}
-            {/* {dNameList.departmentSeq} */}
+            key={`C${companyItem.companySeq}`}
+            style={{ display: "flex", alignItems: "flex-start" }}>
+            <TreeItem
+              key={`C${companyItem.companySeq}`}
+              nodeId={companyItem.companySeq.toString()}
+              label={companyItem.companyName}
+              id={companyItem.companySeq.toString()}>
+              <WorkplaceGroup
+                companySeq={companyItem.companySeq}
+                sendDepartmentSeq={sendDepartmentSeq}
+                sendWorkplaceSeq={sendWorkplaceSeq}
+              />
+            </TreeItem>
           </div>
         ))}
-    </div>
+    </TreeView>
   );
 };
 export default CompanyList;

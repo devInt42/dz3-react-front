@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Container, Row } from "react-bootstrap";
 import "../components/login/Login.css";
-import { isCompositeComponent } from "react-dom/test-utils";
 const Login = () => {
   const [inputComId, setInputComId] = useState("");
   const [inputEmpId, setInputEmpId] = useState("");
@@ -25,7 +24,6 @@ const Login = () => {
   const changeEmpPwd = (e) => {
     setInputEmpPwd(e.target.value);
   };
-  const onKeyPress = (e) => {};
   const checkValue = () => {
     if (inputComId === "") {
       alert("회사 코드를 입력해 주세요");
@@ -55,7 +53,7 @@ const Login = () => {
         if (state) {
           navigate(state);
         } else {
-          navigate("/dz3/main");
+          navigate("/dz3/");
         }
       })
       .catch((e) => {

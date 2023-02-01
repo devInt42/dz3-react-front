@@ -21,6 +21,13 @@
   background-color: #fff;
   border: #efefef 2px solid;
 }
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: var(--bs-nav-pills-link-active-color);
+  background-color: var(--bs-nav-pills-link-active-bg);
+  border: 2px solid #00aaff;
+}
+
 #authDropDown {
   width: 300px;
 }
@@ -33,7 +40,7 @@
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out;
-  border: #00aaff 2px solid;
+  border: #00aaff 1px solid;
 }
 
 .authPagi .page-link.active,
@@ -42,4 +49,8 @@
   color: var(--bs-pagination-active-color);
   background-color: #00aaff;
   border-color: #00aaff;
+}
+
+.authLnb:hover {
+  background-color: #f3cf98;
 }

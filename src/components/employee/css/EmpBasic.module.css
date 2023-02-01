@@ -1,0 +1,19 @@
+
+.basic_tbl{
+    width: 100%;
+    height: 100%;
+    border: 2px solid black;
+}
+
+.basic_tbl th {
+    font-size: 13px;
+    text-align: center;
+    border: 1px solid rgb(8, 8, 8);
+    background-color: rgba(219, 216, 216, 0.336);
+  }
+  
+.basic_tbl td {
+    font-size: 12px;
+    border: 1px solid rgb(8, 8, 8);
+    padding: 10px;
+}
