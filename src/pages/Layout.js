@@ -5,12 +5,12 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import style from "./Layout.module.css";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import SubMenu from "../components/menu/SubMenu";
 import CallMenu from "./CallMenu";
 import Main from "./Main";
 import { PropaneSharp } from "@mui/icons-material";
-
+import { useNavigate } from "react-router-dom";
 function Layout() {
   const [menuSeq, setMenuSeq] = useState(0);
   const [menuName, setMenuName] = useState("");
@@ -21,12 +21,17 @@ function Layout() {
     },
     [menuSeq, menuName]
   );
-
+  const navigate = useNavigate();
   const [lastSeq, setLastSeq] = useState(0);
   const getLastMenuSeq = (lastSeq) => {
     setLastSeq(lastSeq);
   };
-
+  useEffect(() => {
+    if (!window.sessionStorage.getItem("empInfo")) {
+      alert("로그인 후에 이용해주세요");
+      navigate("/login");
+    }
+  }, []);
   return (
     <Container fluid>
       <Row>
