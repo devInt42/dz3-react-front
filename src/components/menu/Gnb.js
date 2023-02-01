@@ -36,6 +36,8 @@ function GNB(props) {
     props.setMenuName("");
     navigate(`/dz3`);
   }
+
+  console.log("asdad"+props.menuName)
   return (
     <div>
       <Row className={style.gnb_header}>

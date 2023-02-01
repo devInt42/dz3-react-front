@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Container, Row, Col } from "react-bootstrap";
+import { Nav, Form, Container, Row, Col, Pagination } from "react-bootstrap";
 
 import { GrUserManager } from "react-icons/gr";
+import { BsFilePerson } from "react-icons/bs";
 
 import style from "../components/employee/css/EmployeeSet.module.css";
 import EmpBasic from "../components/employee/EmpBasic";
@@ -46,16 +47,43 @@ function EmployeeSet() {
 
                 </Row>
                 <Row md="auto" style={{ border: "1px solid black" }}>
-                    <Col md="auto" style={{ border: "1px solid black", height: "100vh", width: "15%", overflow: "scroll" }}>
-                        {employee.map((emp, i) => {
-                            return(
-                                <div key={i} onClick={()=>{setEmpSeq(emp.employeeSeq)}}>
+                    <Col md="auto" style={{ border: "1px solid black", height: "100vh", width: "15%", padding: "0px", overflow: "scroll" }}>
+                        <Nav className="authNav" variant="pills" style={navStyle}>
+                            {employee.map((emp, i) => (
+                                    <Nav.Item key={i} style={navItemStyle} onClick={() => setEmpSeq(emp.employeeSeq)}>
+                                        <Nav.Link className="authLnb" eventKey={emp.employeeSeq} style={navLinkStyle}>
+                                            {/* <BsFilePerson style={{width: "40px", height: "40px"}}/> */}
+                                            <div style={{
+                                                margin: "5px",
+                                                textAlign: "right",
+                                                fontSize: "10px",
+                                                color: "#868e96",
+                                                fontWeight: "bold",}}>
+                                                {emp.employeeBirth}
+                                            </div>
+                                            <div style={{
+                                                margin: "5px",
+                                                textAlign: "right",
+                                                fontSize: "13px",
+                                                fontWeight: "bold",
+                                            }}>
+                                                {emp.employeeId}
+                                                <span>&nbsp;-&nbsp;</span>
+                                                {emp.employeeName}
+                                            </div>
+                                        </Nav.Link>
+                                    </Nav.Item>
+                                ))}
+                        </Nav>
+                        {/* {employee.map((emp, i) => {
+                            return (
+                                <div key={i} onClick={() => { setEmpSeq(emp.employeeSeq) }}>
                                     <div>{emp.employeeName}</div>
                                     <div>{emp.employeeId}</div>
-                                    <div>{emp.employeeBirth}</div><hr/>
+                                    <div>{emp.employeeBirth}</div><hr />
                                 </div>
                             )
-                        })}
+                        })} */}
                     </Col>
                     <Col md="auto" style={{ border: "1px solid black", height: "100vh", width: "85%" }}>
                         <Box sx={{ width: '100%' }}>
@@ -63,14 +91,14 @@ function EmployeeSet() {
                                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                                     <Tab label="기본정보" {...a11yProps(0)} />
                                     <Tab label="조직정보" {...a11yProps(1)} />
-                                    
+
                                 </Tabs>
                             </Box>
                             <TabPanel value={value} index={0}>
-                                <EmpBasic employeeSeq={employeeSeq}/>
+                                <EmpBasic employeeSeq={employeeSeq} />
                             </TabPanel>
                             <TabPanel value={value} index={1}>
-                                <EmpDept/>
+                                <EmpDept />
                             </TabPanel>
                         </Box>
                     </Col>
@@ -114,3 +142,34 @@ function a11yProps(index) {
         'aria-controls': `simple-tabpanel-${index}`,
     };
 }
+
+const authLnbStyle = {
+    width: "100%",
+    height: "700px",
+    float: "left",
+    border: "1px solid #efefef",
+    backgroundColor: "#f9f9f9",
+    justifyContent: "center",
+  };
+  const navStyle = {
+    border: "1px solid #efefef",
+    backgroundColor: "#f9f9f9",
+    margin: "0 auto",
+    display: "flex",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    alignItems: "center",
+  };
+  
+  const navItemStyle = {
+    width: "100%",
+    height: "50px",
+  };
+  
+  const navLinkStyle = {
+    width: "100%",
+    height: "50px",
+    margin: "0 auto",
+    marginTop: "3px",
+    padding: "0",
+  };
