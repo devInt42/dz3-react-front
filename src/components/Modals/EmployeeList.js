@@ -17,6 +17,7 @@ const EmployeeList = (props) => {
   //modal.js로 값이동
   useEffect(() => {
     props.sendEmployeeSeq(employeeSeq);
+    // console.log(employeeSeq);
   }, [employeeSeq]);
 
   function sendEmployeeSeq(a) {
