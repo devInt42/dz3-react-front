@@ -6,7 +6,6 @@ import "./css/CompanyInsert.css";
 import ZippopupDom from "./zipcode/ZippopupDom";
 import ZippopupPostCode from "./zipcode/ZippopupZipCode";
 import Form from "react-bootstrap/Form";
-import "bootstrap/dist/css/bootstrap.min.css?a";
 import SaveFailCompanyAlert from "../alert/SaveFailCompanyAlert";
 import SaveCompanyAlert from "../alert/SaveCompanyAlert";
 import DeleteCompanyAlert from "../alert/DeleteCompanyAlert";
