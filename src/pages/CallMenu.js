@@ -16,7 +16,7 @@ function CallMenu(props) {
   const [subMenu, setSubMenu] = useState([]);
 
   const [childMenu, setChildMenu] = useState([]);
-
+  const [flag, setFlag] = useState(false);
   const getSubMenuList = useCallback(async () => {
     let sendData = { menuParent: menuSequence };
     try {
@@ -31,11 +31,12 @@ function CallMenu(props) {
           Authorization: window.sessionStorage.getItem("empInfo"),
         },
       });
-      console.log(apiResult.data);
       if (apiResult.data == 0) {
         setLastSeq(menuSequence);
+        setFlag(false);
       } else {
         setSubMenu(apiResult.data);
+        setFlag(true);
       }
     } catch (error) {
       console.log(error);
@@ -45,10 +46,12 @@ function CallMenu(props) {
   useEffect(() => {
     getSubMenuList();
   }, [menuSequence]);
-
+  useEffect(() => {}, [flag]);
   return (
     <div>
       {menuSequence == 0 ? (
+        <></>
+      ) : flag == false ? (
         <></>
       ) : (
         <div>
