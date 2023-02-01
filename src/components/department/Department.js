@@ -6,12 +6,14 @@ const Department = () => {
 
     return (
         <div>
-            
+
             <h2>회사 정보</h2>
             <hr className="line"></hr>
-            
-            <DepartmentList/>
-            <DepartmentDetail/>
+
+            <div department-info>
+                <DepartmentList />
+                <DepartmentDetail />
+            </div>
         </div>
     )
 }

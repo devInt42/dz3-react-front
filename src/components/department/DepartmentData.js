@@ -24,7 +24,6 @@ const DepartmentData = (props) => {
     }, [])
     useEffect(() => {
         setToggleIcon(departmentIsOpen);
-        console.log(departmentIsOpen);
     }, [departmentIsOpen])
     return (
         <>
@@ -42,7 +41,6 @@ const DepartmentData = (props) => {
                                     }}>
                                         {toggleIcon.includes(idx) ? <AiFillFolderOpen className="departmentlist-icon" /> :
                                             <AiFillFolder className="departmentlist-icon" />}
-                                    
                                        {departmentdata.departmentCode}.{departmentdata.departmentName}
                                        </div>
                                         {departmentIsOpen.includes(idx) && <DepartmentDepth depth = {departmentdata.departmentDepth} 

@@ -69,7 +69,6 @@ const DepartmentDepth = (props) => {
                                         {index.includes(child.departmentSeq) ? <AiFillFolderOpen className="departmentlist-icon" /> :
                                             <AiFillFolder className="departmentlist-icon" />}
                                         {child.departmentCode}.{child.departmentName}
-                                        
                                     </div>
                                 </div>
                             }
