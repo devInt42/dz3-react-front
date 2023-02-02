@@ -8,7 +8,7 @@ const CompanyData = (props) => {
     const [company, setCompany] = useState([]);
     const [companyIsOpen, setCompanyIsOpen] = useState([]);
     useEffect(() => {
-        axios.get(`${baseUrl}/department/list/company`)
+        axios.get(`${baseUrl}/department/list/company/${props.companySeq}`)
             .then(res => setCompany(res.data))
             .catch(error => console.log(error))
     }, [])

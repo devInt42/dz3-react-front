@@ -7,15 +7,22 @@ const DepartmentSearch = (props) => {
     const baseUrl = "http://localhost:8080";
 
     const [searchName, setSearchName] = useState(null);
-    const [searchCompanySeq, setSearchCompanySeq] = useState(0);
     const [companyList, setCompanyList] = useState([]);
+    const [company, setCompany] = useState();
+    const [searchCompanySeq, setSearchCompanySeq] = useState(0);
     useEffect(() => {
+        if(JSON.parse(window.sessionStorage.getItem("empInfo")).companySeq === 999) {
         axios.get(`${baseUrl}/department/list/company`)
         .then(res => setCompanyList(res.data))
         .catch(error => console.log(error) )
+        }
+        else {
+            axios.get(`${baseUrl}/company/info/${JSON.parse(window.sessionStorage.getItem("empInfo")).companySeq}`)
+            .then(res => setCompany(res.data))
+            .catch(error => console.log(error))
+            
+        }
     }, [])
-
-
     function FindDepartment() {
         const param = 
             {
@@ -31,16 +38,23 @@ const DepartmentSearch = (props) => {
     }
 
     return (
-        <div>
+        companyList && <div>
             회사 <input type="text" placeholder='코드/사업장/부서명을 입력하세요.'
                 onChange={e => {setSearchName(e.target.value)}} />
-            <select onChange={e => {setSearchCompanySeq(e.target.value); props.setCompanySeq(e.target.value)}}>
+            <select
+            onChange={e => {setSearchCompanySeq(e.target.value); props.setCompanySeq(e.target.value)}}
+            >
+                <option disabled>-회사 선택-</option>
                 {
-                    companyList && companyList.map((company) => {
+                    companyList.length > 0 ? 
+                    companyList.map((company, idx) => {
                         return (
-                        <option key = {company.companySeq} value = {company.companySeq}>{company.companyName}</option>
+                        <option key = {idx} value = {company.companySeq} 
+                        selected = {idx == 0 && true}>{company.companyName}</option>
                         )
                     })
+                    :
+                    company && <option value = {company.companySeq}>{company.companyName}</option>
                 }
             </select>
              <button onClick={() => {FindDepartment()}}>찾기</button>
