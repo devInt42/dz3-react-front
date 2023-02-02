@@ -17,7 +17,6 @@ const AuthEmployeeList = (props) => {
       authSeq: authSeq,
       companySeq: pointCompanySeq,
     };
-    console.log(pointCompanySeq);
     try {
       if (authSeq != null && pointCompanySeq != null) {
         const searchEmployeeApiList = await axios.get(
