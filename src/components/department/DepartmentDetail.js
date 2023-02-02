@@ -62,7 +62,7 @@ const DepartmentDetail = (props) => {
     useEffect(() => {
         if (props.departmentSeq != 0) {
             getDepartment();
-            
+            props.setInsertForm(false);
         } else {
             setNotRequire('');
             setDepartmentParentName("-");
@@ -75,6 +75,7 @@ const DepartmentDetail = (props) => {
             setAllCheck(false);
             setCheckDelete(false);
         }
+        
     }, [props.departmentSeq])
 
 
@@ -256,14 +257,16 @@ const DepartmentDetail = (props) => {
                     <b><BsDot />부서 정보</b>
                     <div>
                         {
-                            props.workplaceSeq !== 0 && !props.insertForm &&
+                            (props.departmentSeq !== 0 && !props.insertForm) &&
                             <button onClick={() => InsertForm()}>추가</button>
                         }
-                        { props.departmentSeq !== 0 && <button onClick={() => AllCheck()}>저장</button>}
+                        { (props.departmentSeq !== 0 || props.workplaceSeq !== 0)
+                         && <button onClick={() => AllCheck()}>저장</button>}
                         {
                             props.insertForm && allCheck &&
                             <SaveDepartmentAlert setAllCheck={setAllCheck} InsertData={InsertData}
-                                setRefresh={props.setRefresh} InitSeq={props.InitSeq} refresh={props.refresh} setInsertForm = {props.setInsertForm} />
+                                setRefresh={props.setRefresh} InitSeq={props.InitSeq} refresh={props.refresh} 
+                                setInsertForm = {props.setInsertForm} />
                         }
                         {
                             (props.departmentSeq !== 0 && allCheck && !props.insertForm) &&
@@ -273,7 +276,8 @@ const DepartmentDetail = (props) => {
                         {
                             (props.departmentSeq !== 0 && checkDelete) &&
                             <DeleteDepartmentAlert setCheckDelete={setCheckDelete} Delete={Delete}
-                                setRefresh={props.setRefresh} InitSeq={props.InitSeq} refresh={props.refresh} setInsertForm = {props.setInsertForm}/>
+                                setRefresh={props.setRefresh} InitSeq={props.InitSeq} refresh={props.refresh} 
+                                setInsertForm = {props.setInsertForm}/>
                         }
 
                         {

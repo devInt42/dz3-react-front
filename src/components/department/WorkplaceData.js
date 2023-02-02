@@ -38,6 +38,7 @@ const WorkplaceData = (props) => {
                         props.setWorkplaceSeq(workplace.workplaceSeq);
                         props.setCompanySeq(workplace.companySeq);
                         props.setDepartmentSeq(0);
+                        props.setDetailFlag(false);
                         props.setSearch(false);
                     }}>
                                     <HiOutlineBuildingOffice className="workplacelist-icon" />

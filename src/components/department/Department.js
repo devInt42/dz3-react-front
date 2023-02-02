@@ -27,14 +27,16 @@ const Department = () => {
 
             <h2>부서 관리</h2>
             <hr className="line"></hr>
-            <DepartmentSearch setSearch={setSearch} setSearchData={setSearchData} searchData={searchData} />
+            <DepartmentSearch setSearch={setSearch} setSearchData={setSearchData} searchData={searchData} 
+            setCompanySeq = {setCompanySeq}/>
             <Alert variant='secondary' className="header-alert">
                 <IoInformationCircleOutline /> 회사별 조직도(부서)를 등록할 수 있습니다.
             </Alert>
             <div id="department-form">
                 <div id="department-list-box">
                     <DepartmentList setDepartmentSeq={setDepartmentSeq} setWorkplaceSeq={setWorkplaceSeq}
-                        setCompanySeq={setCompanySeq} refresh={refresh} setSearch={setSearch} setDetailFlag={setDetailFlag} />
+                        setCompanySeq={setCompanySeq} refresh={refresh} setSearch={setSearch} setDetailFlag={setDetailFlag}
+                        companySeq = {companySeq} />
                 </div>
 
                 {

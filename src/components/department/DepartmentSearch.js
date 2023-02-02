@@ -34,8 +34,7 @@ const DepartmentSearch = (props) => {
         <div>
             회사 <input type="text" placeholder='코드/사업장/부서명을 입력하세요.'
                 onChange={e => {setSearchName(e.target.value)}} />
-            <select onChange={e => setSearchCompanySeq(e.target.value)}>
-                <option value = "">회사 선택</option>
+            <select onChange={e => {setSearchCompanySeq(e.target.value); props.setCompanySeq(e.target.value)}}>
                 {
                     companyList && companyList.map((company) => {
                         return (
