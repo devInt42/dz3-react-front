@@ -49,15 +49,18 @@ const DepartmentDepth = (props) => {
     }
     useEffect(() => {
         getData();
-    }, [count, props.refresh])
+    }, [count])
     
+    useEffect(() => {
+    },[props.refresh])
+
     useEffect(() => {
     }, [department])
 
     return (
         <div>
             {
-                department && department.map((child, idx) => {
+                department && department.map((child) => {
                     return (
                         <div key={child.departmentSeq}>
                             {child.departmentParent == seq &&
@@ -79,9 +82,10 @@ const DepartmentDepth = (props) => {
                                     </div>
                                 </div>
                             }
-                            {index.includes(child.departmentSeq) && <DepartmentDepth depth={child.departmentDepth} key={idx} seq={child.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq} 
+                            {index.includes(child.departmentSeq) && <DepartmentDepth depth={child.departmentDepth} 
+                            key={child.departmentSeq} seq={child.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq} 
                             setWorkplaceSeq = {props.setWorkplaceSeq} setCompanySeq = {props.setCompanySeq}
-                            setSearch = {props.setSearch} setDetailFlag = {props.setDetailFlag}
+                            setSearch = {props.setSearch} setDetailFlag = {props.setDetailFlag} 
                             />}
                         </div>
                     )

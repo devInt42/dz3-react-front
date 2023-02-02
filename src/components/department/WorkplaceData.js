@@ -10,44 +10,46 @@ const WorkplaceData = (props) => {
     const [workplaceIsOpen, setWorkplaceIsOpen] = useState([]);
     const [toggleIcon, setToggleIcon] = useState([]);
     const baseUrl = "http://localhost:8080";
-    
-    
+
+
     useEffect(() => {
         axios.get(`${baseUrl}/department/list/workplace`)
             .then(res => setWorkplace(res.data))
             .catch(error => console.log(error));
     }, [props.refresh])
-    
 
-    useEffect(() => {}, [workplace])
+
+    useEffect(() => { }, [workplace])
     useEffect(() => {
         setToggleIcon(workplaceIsOpen);
     }, [workplaceIsOpen])
 
     return (
         <>
-            {workplace && workplace.map((workplace, idx) => {
+            {workplace && workplace.map((workplacedata) => {
                 return (
-                    <div key={idx}>
-                        {workplace.companySeq === props.companySeq &&
+                    <div key={workplacedata.workplaceSeq}>
+                        {workplacedata.companySeq === props.companySeq &&
                             <div className="workplacelist">
-                                <div onClick = {() => {
-                        workplaceIsOpen.includes(idx) ? 
-                        setWorkplaceIsOpen(workplaceIsOpen.filter(workplace => workplace !== idx)) :
-                        setWorkplaceIsOpen([...workplaceIsOpen, idx]);
-                        props.setWorkplaceSeq(workplace.workplaceSeq);
-                        props.setCompanySeq(workplace.companySeq);
-                        props.setDepartmentSeq(0);
-                        props.setDetailFlag(false);
-                        props.setSearch(false);
-                    }}>
+                                <div onClick={() => {
+                                    workplaceIsOpen.includes(workplacedata.workplaceSeq) ?
+                                        setWorkplaceIsOpen(workplaceIsOpen.filter(workplace => workplace !== workplacedata.workplaceSeq)) :
+                                        setWorkplaceIsOpen([...workplaceIsOpen, workplacedata.workplaceSeq]);
+                                    props.setWorkplaceSeq(workplacedata.workplaceSeq);
+                                    props.setCompanySeq(workplacedata.companySeq);
+                                    props.setDepartmentSeq(0);
+                                    props.setDetailFlag(false);
+                                    props.setSearch(false);
+                                }}>
                                     <HiOutlineBuildingOffice className="workplacelist-icon" />
-                                    {workplace.workplaceCode}.{workplace.workplaceName}
-                                    {toggleIcon.includes(idx) ? <HiChevronDown /> : <HiChevronUp />}
+                                    {workplacedata.workplaceCode}.{workplacedata.workplaceName}
+                                    {toggleIcon.includes(workplacedata.workplaceSeq) ? <HiChevronDown /> : <HiChevronUp />}
                                 </div>
-                                {workplaceIsOpen.includes(idx) && <DepartmentData workplaceSeq = {workplace.workplaceSeq} setDepartmentSeq = {props.setDepartmentSeq} setWorkplaceSeq = {props.setWorkplaceSeq} 
-                                setCompanySeq = {props.setCompanySeq} refresh = {props.refresh} 
-                                setSearch = {props.setSearch} setDetailFlag = {props.setDetailFlag}/>} 
+                                {workplaceIsOpen.includes(workplacedata.workplaceSeq) && 
+                                <DepartmentData workplaceSeq={workplacedata.workplaceSeq} 
+                                setDepartmentSeq={props.setDepartmentSeq} setWorkplaceSeq={props.setWorkplaceSeq}
+                                setCompanySeq={props.setCompanySeq} refresh={props.refresh}
+                                setSearch={props.setSearch} setDetailFlag={props.setDetailFlag} />}
                             </div>
                         }
                     </div>

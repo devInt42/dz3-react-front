@@ -266,7 +266,7 @@ const DepartmentDetail = (props) => {
                             props.insertForm && allCheck &&
                             <SaveDepartmentAlert setAllCheck={setAllCheck} InsertData={InsertData}
                                 setRefresh={props.setRefresh} InitSeq={props.InitSeq} refresh={props.refresh} 
-                                setInsertForm = {props.setInsertForm} />
+                                setInsertForm = {props.setInsertForm} setDetailFlag = {props.setDetailFlag}/>
                         }
                         {
                             (props.departmentSeq !== 0 && allCheck && !props.insertForm) &&
@@ -277,14 +277,14 @@ const DepartmentDetail = (props) => {
                             (props.departmentSeq !== 0 && checkDelete) &&
                             <DeleteDepartmentAlert setCheckDelete={setCheckDelete} Delete={Delete}
                                 setRefresh={props.setRefresh} InitSeq={props.InitSeq} refresh={props.refresh} 
-                                setInsertForm = {props.setInsertForm}/>
+                                setInsertForm = {props.setInsertForm} setDetailFlag = {props.setDetailFlag}/>
                         }
 
                         {
                             (props.departmentSeq !== 0 && !props.insertForm )&& <button type="button"
                                 onClick={() => setCheckDelete(true)}>삭제</button>
                         }
-                        <button id="department-detail-closebtn" onClick={() => { props.InitSeq(); props.setDetailFlag(false); props.setInsertForm(false);}}><TfiClose /></button>
+                        <button id="department-detail-closebtn" onClick={() => { props.InitSeq(); props.setDetailFlag(false); props.setInsertForm(false); props.setSearch(false)}}><TfiClose /></button>
                     </div>
                 </div>
                 {notRequire}

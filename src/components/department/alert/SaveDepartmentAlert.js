@@ -21,6 +21,7 @@ function SaveDepartmentAlert(props) {
       props.setInsertForm(false);
       props.setAllCheck(false);
       props.InitSeq();
+      props.setDetailFlag(false);
     }
 
     if (!result.isConfirmed) {
