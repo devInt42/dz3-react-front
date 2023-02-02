@@ -4,7 +4,7 @@ const DepartmentList = (props) => {
         <>
             <CompanyData setDepartmentSeq = {props.setDepartmentSeq} setWorkplaceSeq = {props.setWorkplaceSeq} 
             setCompanySeq = {props.setCompanySeq} refresh = {props.refresh} setSearch = {props.setSearch}
-            setDetailFlag = {props.setDetailFlag} companySeq = {props.companySeq}/>
+            setDetailFlag = {props.setDetailFlag} companySeq = {props.companySeq} />
         </>
     )
     

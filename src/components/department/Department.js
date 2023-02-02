@@ -16,6 +16,7 @@ const Department = () => {
     const [searchData, setSearchData] = useState([]);
     const [detailFlag, setDetailFlag] = useState(false);
     const [insertForm, setInsertForm] = useState(false);
+    const [depth, setDepth] = useState(0);
     const InitSeq = () => {
         setWorkplaceSeq(0);
         setDepartmentSeq(0);
@@ -33,7 +34,7 @@ const Department = () => {
                 <div id="department-list-box">
                     <DepartmentList setDepartmentSeq={setDepartmentSeq} setWorkplaceSeq={setWorkplaceSeq}
                         setCompanySeq={setCompanySeq} refresh={refresh} setSearch={setSearch} setDetailFlag={setDetailFlag}
-                        companySeq = {companySeq} />
+                        companySeq = {companySeq} setDepth = {setDepth}/>
                 </div>
 
                 {

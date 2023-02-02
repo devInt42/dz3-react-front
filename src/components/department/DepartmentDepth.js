@@ -49,13 +49,11 @@ const DepartmentDepth = (props) => {
     }
     useEffect(() => {
         getData();
-    }, [count])
+    }, [count, props.refresh])
     
     useEffect(() => {
+        console.log(department);
     },[props.refresh])
-
-    useEffect(() => {
-    }, [department])
 
     return (
         <div>

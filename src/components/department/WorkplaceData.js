@@ -11,7 +11,7 @@ const WorkplaceData = (props) => {
     const [toggleIcon, setToggleIcon] = useState([]);
     const baseUrl = "http://localhost:8080";
 
-
+    
     useEffect(() => {
         axios.get(`${baseUrl}/department/list/workplace`)
             .then(res => setWorkplace(res.data))
@@ -49,7 +49,7 @@ const WorkplaceData = (props) => {
                                 <DepartmentData workplaceSeq={workplacedata.workplaceSeq} 
                                 setDepartmentSeq={props.setDepartmentSeq} setWorkplaceSeq={props.setWorkplaceSeq}
                                 setCompanySeq={props.setCompanySeq} refresh={props.refresh}
-                                setSearch={props.setSearch} setDetailFlag={props.setDetailFlag} />}
+                                setSearch={props.setSearch} setDetailFlag={props.setDetailFlag}/>}
                             </div>
                         }
                     </div>

@@ -168,6 +168,7 @@ const DepartmentDetail = (props) => {
         try {
             const result = await axios.get(`${baseUrl}/department/list/${departmentParentSeq}`);
             setDepartmentParentName(result.data[0].departmentName);
+            setDepartmentParentDepth(result.data[0].departmentDepth);
         } catch (error) {
             console.log(error);
         }
