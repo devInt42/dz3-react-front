@@ -20,7 +20,7 @@ const AllSelectList = (props) => {
   //해당 직원이름 출력
   return (
     <div className="AllSelectSpace">
-      {uniqueObjArr && uniqueObjArr.map((list) => list.employeeName + ",")}
+      {uniqueObjArr && uniqueObjArr.map((list) => list.employeeName + "ㅤ")}
     </div>
   );
 };

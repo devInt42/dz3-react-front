@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import { json } from "react-router-dom";
+import { ConstructionOutlined } from "@mui/icons-material";
+import { sample, sampleSize } from "lodash";
 
 const AllEmployeeList = (props) => {
   const [departmentSeq, setDepartmentSeq] = useState(0);
@@ -112,29 +115,38 @@ const AllEmployeeList = (props) => {
     setPage(1);
   }, [departmentSeq]);
 
-  //전체 클릭시 발생하는 함수
-  const onCheckedAll = useCallback(
-    (checked) => {
-      if (checked) {
-        const temp = [];
-
-        deptList.forEach((list) => temp.push(list));
-        let merged = checkedList.concat(temp);
-        let unique = merged.filter((item, pos) => merged.indexOf(item) === pos);
-        setCheckedLists(unique);
-      } else {
-        setCheckedLists([]);
-      }
-    },
-    [deptList]
-  );
-
   //개별 클릭시 발생하는 함수
   const onCheckedElement = useCallback(
     async (checked, list) => {
-      console.log(list);
+      // list  : 클릭한 하나의 값
+      // deptlist : 그 페이지 값
+      // temp : 일치하는 employeeSeq
+      // 1. deptList에서 list값(하나)의 seq를 찾음.
+      // 2. temp = deptlist
+      // 3. tempObj = deptList[하나 값] checked => true로 변경 (원래정보 + checked 데이터가 담겨있는 객체)
+      // 4. temp에 tempObj값을 합해줌 (리액트 배열 갈아끼기)
+      // 5. setDeptList에 (temp) 값 넣기 --> deptlist는 일부 애들만 check가 true로 변경되어있는 해당 전체 페이지값
+      // 6. checked가 true인애들만 filter로 걸러서 걔랑 deptlist(4)의 길이가 같으면 true
+
+      // Q. 페이지에 체크가 3개라면 다음페이지 직원수가 3명이면 length로 비교가 가능한지?
+
       try {
         if (checked) {
+          deptList.map((dept) => {
+            if (dept.employeeSeq === list.employeeSeq) {
+              let idx = list;
+              let temp = deptList;
+
+              let tempObj = { ...idx, checked: true };
+
+              //temp 에 tempObj 와 같은 배열 값 갈아끼우기
+              temp.splice(temp.lastIndexOf(idx), 1, tempObj);
+              // console.log(temp);
+              setDeptList(temp);
+              // console.log(deptList);
+              return;
+            }
+          });
           setCheckedLists([...checkedList, list]);
         } else {
           setCheckedLists(
@@ -179,7 +191,7 @@ const AllEmployeeList = (props) => {
 
   //check된 값 저장 배열
   useEffect(() => {}, [checkedList]);
-  useEffect(() => {}, [onCheckedAll]);
+  // useEffect(() => {}, [onCheckedAll]);
   useEffect(() => {}, [onCheckedElement]);
 
   return (
@@ -195,12 +207,22 @@ const AllEmployeeList = (props) => {
                     <input
                       key={0}
                       type="checkbox"
-                      readOnly
-                      onClick={(e) => onCheckedAll(e.target.checked)}
-                      // checked={deptList.forEach()}
+                      checked={(() => {
+                        let temp = deptList.filter(
+                          (dept) => dept.checked === true
+                        );
+                        if (temp.length + 1 === deptList.length) {
+                          // console.log(temp.length + 1);
+                          // console.log(deptList.length);
+                          return true;
+                        } else {
+                          // console.log(temp.length + 1);
+                          // console.log(deptList.length);
+                          return false;
+                        }
+                      })()}
                       className="custom-control-input"
-                      id="customCheck2"
-                    ></input>
+                      id="customCheck2"></input>
                   </th>
                   <th scope="col">회사</th>
                   <th scope="col">사업장</th>
@@ -230,12 +252,10 @@ const AllEmployeeList = (props) => {
                               return false;
                             }
                           })()}
-                          id="customCheck2"
-                        ></input>
+                          id="customCheck2"></input>
                         <label
                           className="custom-control-label"
-                          htmlFor="customCheck1"
-                        ></label>
+                          htmlFor="customCheck1"></label>
                       </div>
                     </td>
                     <td>{dept.companyName}</td>

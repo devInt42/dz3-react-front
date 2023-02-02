@@ -16,7 +16,6 @@ const EmployeeDetail = (props) => {
     async function getEmplSeq() {
       const result = await props.employeeSeq;
       setEmployeeSeq(result);
-      // console.log(result);
     }
     getEmplSeq();
   }, [props]);
@@ -42,7 +41,6 @@ const EmployeeDetail = (props) => {
         }
       );
       setDeptDetail(EmplDataResult.data[0]);
-      // console.log(EmplDataResult.data);
     } catch (error) {
       console.log(error);
     }
@@ -77,7 +75,6 @@ const EmployeeDetail = (props) => {
     getLoginInfo();
   }, []);
 
-  console.log(deptDetail);
   return (
     <div className="SearchDetail">
       <Container>
