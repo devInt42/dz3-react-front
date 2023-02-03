@@ -34,7 +34,6 @@ const SubMenuGroup = (props) => {
   }, [depth, parentSeq]);
 
   const callChild = useCallback(async () => {
-    console.log(count);
     if (count > 0) {
       let sendChild = {
         menuDepth: depth,
