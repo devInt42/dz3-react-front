@@ -6,14 +6,17 @@ const PopInfo = (props) => {
   const [userInfo, setUserInfo] = useState(null);
   const [sessionRes, setSessionRes] = useState(null);
   const [mainInfo, setMainInfo] = useState(null);
-
+  const [checkedUserInfo, setCheckedUserInfo] = useState(null);
+  // 세션 스토리지 값
   useEffect(() => {
     setSessionRes(props.sessionRes);
   }, [props]);
 
+  // 현재 로그인한 유저 값
   useEffect(() => {
     setUserInfo(props.userInfo);
   }, [sessionRes]);
+
   useEffect(() => {
     settingMain();
   }, [userInfo]);
@@ -30,15 +33,38 @@ const PopInfo = (props) => {
     }
   }, [sessionRes, userInfo]);
 
+  // 라디오버튼 체크시 값변경
   const radioValue = (e) => {
-    console.log(e.target.id);
-  };
+    let temp = [];
 
+    userInfo.forEach((list) => {
+      if (e.target.id == list.companySeq) {
+        temp = list;
+      }
+    });
+    setCheckedUserInfo({
+      employeeSeq: temp.employeeSeq,
+      departmentSeq: temp.departmentSeq,
+      workplaceSeq: temp.workplaceSeq,
+      companySeq: temp.companySeq,
+      companyCode: temp.companyCode,
+    });
+  };
   const sendMainRes = (e) => {};
 
   useEffect(() => {
     sendMainRes(mainInfo);
   }, [mainInfo]);
+
+  // 버튼 클릭시 사용자 정보 변경
+  const changeLoginStatus = async () => {
+    try {
+    } catch {
+    } finally {
+      window.location.reload();
+    }
+  };
+
   return (
     <Container>
       {mainInfo && (
@@ -152,11 +178,12 @@ const PopInfo = (props) => {
           justifyContent: "space-evenly",
         }}
       >
-        <Button variant="outline-primary" style={{ width: "20%" }}>
-          확인
-        </Button>
-        <Button variant="outline-danger" style={{ width: "20%" }}>
-          취소
+        <Button
+          variant="outline-primary"
+          style={{ width: "20%" }}
+          onClick={changeLoginStatus}
+        >
+          변경
         </Button>
       </Row>
     </Container>
