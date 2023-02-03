@@ -23,10 +23,7 @@ function EmpDept() {
                         <th>부서구분</th>
                         <td>부부서</td>
                     </tr>
-                    <tr>
-                        <th>인사/회계 부서</th>
-                        <td colSpan={3}>설정</td>
-                    </tr>
+                    
                     <tr>
                         <th>직급</th>
                         <td>사원</td>
@@ -35,14 +32,10 @@ function EmpDept() {
                     </tr>
                     <tr>
                         <th>재직구분</th>
-                        <td>재직</td>
-                        <th>고용구분</th>
-                        <td>1235</td>
+                        <td colSpan={3}>재직</td>
+                        
                     </tr>
-                    <tr>
-                        <th>직무</th>
-                        <td colSpan={3}>일반업무</td>
-                    </tr>
+                    
                     <tr>
                         <th>입사일</th>
                         <td>2022</td>
@@ -61,9 +54,7 @@ function EmpDept() {
                     </tr>
                     <tr>
                         <th>조직도</th>
-                        <td>사용</td>
-                        <th>대화/쪽지 조직도</th>
-                        <td>미사용</td>
+                        <td colSpan={3}>사용</td>
                     </tr>
                 </tbody>
             </table>
