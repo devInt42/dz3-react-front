@@ -54,9 +54,9 @@ const DepartmentDepth = (props) => {
     return (
         <div>
             {
-                department && department.map((child) => {
+                department && department.map((child,idx) => {
                     return (
-                        <div key={child.departmentSeq}>
+                        <div key={idx}>
                             {child.departmentParent == seq &&
                                 <div style={{ paddingLeft: depth * 20 + 20 }}
                                     >

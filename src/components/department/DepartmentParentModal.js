@@ -47,10 +47,10 @@ export default function DepartmentParentModal(props) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                    <div id="modal-modal-title" variant="h6" component="h2">
                         <b>상위부서를 선택해 주십시오.</b>
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    </div>
+                    <div id="modal-modal-description" sx={{ mt: 2 }}>
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 550 }} aria-label="simple table">
                                 <TableHead>
@@ -73,7 +73,7 @@ export default function DepartmentParentModal(props) {
                                                         props.setDepartmentParentDepth(department.departmentDepth);
                                                         handleClose();
                                                     }}
-                                                    hover={{backgroundColor:"gray"}}
+                                                    id = "department-modal"
                                                 >
                                                     <TableCell>{props.companyName}</TableCell>
                                                     <TableCell>{props.workplaceName}</TableCell>
@@ -86,7 +86,7 @@ export default function DepartmentParentModal(props) {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Typography>
+                    </div>
                 </Box>
             </Modal>
         </div>

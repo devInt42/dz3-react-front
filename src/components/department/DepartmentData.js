@@ -55,7 +55,7 @@ const DepartmentData = (props) => {
                                         seq={departmentdata.departmentSeq} setDepartmentSeq={props.setDepartmentSeq}
                                         setWorkplaceSeq={props.setWorkplaceSeq} setCompanySeq={props.setCompanySeq}
                                         refresh={props.refresh} setSearch={props.setSearch}
-                                        setDetailFlag={props.setDetailFlag}
+                                        setDetailFlag={props.setDetailFlag} 
                                     />}
                                 </div>
 

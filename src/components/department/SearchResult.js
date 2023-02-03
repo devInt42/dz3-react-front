@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import "./css/DepartmentSearchResult.css"
 export default function AlignItemsList(props) {
     return (
+        props.searchData.length > 0 ?
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             {
                 props.searchData && props.searchData.map((department, idx) => {
@@ -41,9 +42,14 @@ export default function AlignItemsList(props) {
                             </ListItem>
                             <Divider variant="inset" component="li"/>
                         </div>
+                        
                     )
                 })
             }
         </List>
+        :
+        <div>
+            <div>검색 결과가 없습니다.</div>
+        </div>
     );
 }
