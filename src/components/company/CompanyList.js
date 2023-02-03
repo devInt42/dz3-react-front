@@ -13,8 +13,8 @@ function CompanyList(props) {
         setCompany(props.searchData)
     }, [props.searchData])
 
-    useEffect(() => {
-    }, [company, props.refresh])
+     useEffect(() => {
+     }, [company, props.refresh])
     
     return (
         company&&

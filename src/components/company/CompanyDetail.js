@@ -318,7 +318,7 @@ const CompanyDetail = ((props) => {
                                 }}
                                 isValid={`${companyCode}`.length < 4 ? false : codeDupliCheck === 1 ? false : true}
                                 isInvalid={`${companyCode}`.length < 4 ? checked > 0 ? true : false : codeDupliCheck === 1 ? true : false}
-                                defaultValue={companyCode}
+                                value={companyCode || ""}
                                 style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
                             /></td>
                             <td className="company-table-title">사용 여부</td>
@@ -340,7 +340,7 @@ const CompanyDetail = ((props) => {
                                 placeholder="회사 이름을 입력해 주십시오."
                                 onChange={e => setCompanyName(e.target.value)}
                                 style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
-                                defaultValue={companyName}
+                                value={companyName || ""}
                                 isValid={checked > 0 ? true : false}
                                 isInvalid={checked < 1 ? false : companyName.length > 0 ? false : true}
                             /></td>
@@ -350,7 +350,7 @@ const CompanyDetail = ((props) => {
                             <td className="company-table-content"><Form.Control
                                 placeholder="회사 업태를 입력해 주십시오."
                                 onChange={e => setCompanyBusiness(e.target.value)}
-                                defaultValue={companyBusiness}
+                                value={companyBusiness || ""}
                                 isValid={checked > 0 ? true : false}
                                 isInvalid={checked < 1 ? false : companyBusiness.length > 0 ? false : true}
                                 style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
@@ -361,7 +361,7 @@ const CompanyDetail = ((props) => {
                             <td className="company-table-content"><Form.Control
                                 placeholder="회사 종목을 입력해 주십시오."
                                 onChange={e => setCompanyItem(e.target.value)}
-                                defaultValue={companyItem}
+                                value={companyItem || ""}
                                 isValid={checked > 0 ? true : false}
                                 isInvalid={checked < 1 ? false : companyItem.length > 0 ? false : true}
                                 style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
@@ -400,7 +400,7 @@ const CompanyDetail = ((props) => {
                                     <Form.Control
                                         placeholder="대표 전화를 입력해 주십시오."
                                         onChange={e => { setCompanyCall(PhoneNumber(areaCode + e.target.value)) }}
-                                        defaultValue={`${companyCall}`.substring(areaCode.length)}
+                                        value={`${companyCall}`.substring(areaCode.length) || ""}
                                         isValid={callStyle}
                                         isInvalid={`${companyCall}`.length < 1 ? '' : callStyle ? false : true}
                                         style= {{zIndex:0}}
@@ -411,7 +411,7 @@ const CompanyDetail = ((props) => {
                             <td className="company-table-content"><Form.Control
                                 placeholder="대표 팩스를 입력해 주십시오."
                                 onChange={e => { setCompanyFax(FaxNumber(e.target.value)); }}
-                                defaultValue={companyFax}
+                                value={companyFax || ""}
                                 isValid={faxStyle}
                                 isInvalid={`${companyFax}`.length < 1 ? '' : faxStyle ? false : true}
                                 style= {{zIndex:0}}
@@ -424,7 +424,7 @@ const CompanyDetail = ((props) => {
                                 <Form.Control
                                     placeholder="사업자 등록번호를 입력해 주십시오."
                                     onChange={e => setCompanyRegist(registNumber(e.target.value))}
-                                    defaultValue={companyRegist}
+                                    value={companyRegist || ""}
                                     isValid={registStyle}
                                     isInvalid={`${companyRegist}`.length < 1 ? checked > 0 ? true : false : registStyle ? false : true}
                                     style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
@@ -441,7 +441,7 @@ const CompanyDetail = ((props) => {
                                         placeholder="법인 번호를 입력해 주십시오."
                                         aria-describedby="basic-addon1"
                                         onChange={e => setCompanyCorporate(corporateNumber(e.target.value))}
-                                        defaultValue={companyCorporate}
+                                        value={companyCorporate || ""}
                                         isValid={corporateStyle}
                                         isInvalid={`${companyCorporate}`.length < 1 ? checked > 0 ? true : false : corporateStyle ? false : true}
                                         style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
@@ -454,7 +454,7 @@ const CompanyDetail = ((props) => {
                             <td className="company-table-content"><Form.Control
                                 placeholder="대표자명을 입력해 주십시오."
                                 onChange={e => setCompanyPresident(e.target.value)}
-                                defaultValue={companyPresident}
+                                value={companyPresident || ""}
                                 isValid={checked > 0 ? true : false}
                                 isInvalid={checked < 1 ? false : companyPresident.length > 0 ? false : true}
                                 style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
@@ -470,7 +470,7 @@ const CompanyDetail = ((props) => {
                                     </select>
                                     <Form.Control
                                         aria-describedby="basic-addon1"
-                                        defaultValue={companyForeigner}
+                                        value={companyForeigner || ""}
                                         readOnly
                                     />
                                 </div>
@@ -481,7 +481,7 @@ const CompanyDetail = ((props) => {
                             <td colSpan={3} className="company-table-content">
                                 <div className="company-table-td-twocontent">
                                     <Form.Control
-                                        defaultValue={companyZipCode}
+                                        value={companyZipCode}
                                         onFocus={() => {
                                             companyZipCode.length > 0 ? setZipcodeIsOpen(false) : setZipcodeIsOpen(true);
                                         }}
@@ -513,7 +513,7 @@ const CompanyDetail = ((props) => {
                                             onFocus={() =>
                                                 address.length === 0 && setZipcodeIsOpen(true)
                                             }
-                                            defaultValue={address}
+                                            value={address || ""}
                                             onChange={(e) => { setAddress(e.target.value); }}
                                             style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
                                             isValid={checked > 0 ? true : false}
@@ -525,7 +525,7 @@ const CompanyDetail = ((props) => {
                                         <Form.Control
                                             placeholder="상세 주소를 입력해 주십시오."
                                             onChange={e => { setDetailAddr(e.target.value) }}
-                                            defaultValue={detailAddr}
+                                            value={detailAddr || ""}
                                             onBlur = {() => setCompanyAddr(address + " / " + detailAddr)}
                                         />
                                     </div>
@@ -540,7 +540,7 @@ const CompanyDetail = ((props) => {
                                     aria-label="Username"
                                     aria-describedby="basic-addon1"
                                     onChange={e => setCompanyHomepage(e.target.value)}
-                                    defaultValue={companyHomepage}
+                                    value={companyHomepage || ""}
                                 />
                             </td>
                         </tr>
@@ -548,13 +548,13 @@ const CompanyDetail = ((props) => {
                             <td className="company-table-title">설립일</td>
                             <td className="company-table-content">
                                 <input type="date" onChange={e => setCompanyEstablish(e.target.value)}
-                                    defaultValue={companyEstablish}
+                                    value={companyEstablish || ""}
                                 />
                             </td>
                             <td className="company-table-title">폐업일</td>
                             <td className="company-table-content">
                                 <input type="date" onChange={e => setCompanyClosingday(e.target.value)}
-                                    defaultValue={companyClosingDay}
+                                    value={companyClosingDay || ""}
                                 />
                             </td>
                         </tr>

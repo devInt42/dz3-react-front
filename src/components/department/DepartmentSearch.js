@@ -11,7 +11,7 @@ const DepartmentSearch = (props) => {
     const [company, setCompany] = useState();
     const [searchCompanySeq, setSearchCompanySeq] = useState(0);
     useEffect(() => {
-        if (JSON.parse(window.sessionStorage.getItem("empInfo")).companySeq === 999) {
+        if (JSON.parse(window.sessionStorage.getItem("empInfo")).employeeSeq === 999) {
             axios.get(`${baseUrl}/department/list/company`)
                 .then(res => setCompanyList(res.data))
                 .catch(error => console.log(error))
