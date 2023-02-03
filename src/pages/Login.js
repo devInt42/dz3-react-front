@@ -13,6 +13,7 @@ const Login = () => {
   // 페이지 진입 혹은 새로고침시 세션스토리지 초기화
   useState(() => {
     window.sessionStorage.removeItem("empInfo");
+    window.sessionStorage.removeItem("menuName");
   }, []);
 
   const changeComId = (e) => {
