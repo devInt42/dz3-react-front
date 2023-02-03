@@ -42,13 +42,6 @@ const PopInfo = (props) => {
         temp = list;
       }
     });
-    setCheckedUserInfo({
-      employeeSeq: temp.employeeSeq,
-      departmentSeq: temp.departmentSeq,
-      workplaceSeq: temp.workplaceSeq,
-      companySeq: temp.companySeq,
-      companyCode: temp.companyCode,
-    });
   };
   const sendMainRes = (e) => {};
 
