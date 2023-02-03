@@ -10,7 +10,7 @@ const EmployeeDetail = (props) => {
   const [deptDetail, setDeptDetail] = useState([]);
   const [companyName, setCompanyName] = useState();
   const baseUrl = "http://localhost:8080";
-
+  const [selectEmp, setSelectEmp] = useState(null);
   //modal에서 값 받아오기
   useEffect(() => {
     async function getEmplSeq() {
@@ -19,7 +19,7 @@ const EmployeeDetail = (props) => {
     }
     getEmplSeq();
   }, [props]);
-
+  useEffect(() => {}, [deptDetail]);
   useEffect(() => {
     async function getComName() {
       const result = await props.companyName;
@@ -28,23 +28,31 @@ const EmployeeDetail = (props) => {
     getComName();
   }, [props]);
 
+  useEffect(() => {
+    setSelectEmp(props.selectEmp);
+  }, [props]);
+  useEffect(() => {
+    getEmplElement();
+  }, [selectEmp]);
+
   //직원 상세 페이지
   const getEmplElement = useCallback(async () => {
     let EmplData = {
-      employeeSeq: employeeSeq,
+      employeeSeq: selectEmp.employeeSeq,
+      companySeq: selectEmp.companySeq,
     };
     try {
       const EmplDataResult = await axios.get(
-        `${baseUrl}/employee/emplist/${employeeSeq}`,
+        `${baseUrl}/department-employee/detail`,
         {
           params: EmplData,
         }
       );
-      setDeptDetail(EmplDataResult.data[0]);
+      setDeptDetail(EmplDataResult.data);
     } catch (error) {
       console.log(error);
     }
-  }, [employeeSeq]);
+  }, [selectEmp]);
 
   useEffect(() => {
     if (employeeSeq == null) {
@@ -64,8 +72,6 @@ const EmployeeDetail = (props) => {
           },
         }
       );
-      console.log(LoginDataResult.data);
-
       setDeptDetail(LoginDataResult.data[0]);
     } catch (error) {
       console.log(error);
@@ -79,48 +85,50 @@ const EmployeeDetail = (props) => {
 
   return (
     <div className="SearchDetail">
-      <Container>
-        <Row>
-          <BsFillFileEarmarkPersonFill
-            size="100"
-            style={{ paddingTop: "15px", paddingLeft: "20px" }}
-          />
-        </Row>
-        <br />
-
-        <Row>
-          <span className="Searchcenter">{deptDetail.employeeName}</span>
-        </Row>
-        <Row>
-          {" "}
-          <span className="Searchcenter">
-            <RxPerson size="16" /> {deptDetail.employeeId}
-          </span>
-        </Row>
-        <Row>
-          {" "}
-          <span className="Searchcenter">
-            <FaBirthdayCake size="13" /> {deptDetail.employeeBirth}{" "}
-          </span>
-        </Row>
-        <div>
+      {deptDetail && (
+        <Container>
+          <Row>
+            <BsFillFileEarmarkPersonFill
+              size="100"
+              style={{ paddingTop: "15px", paddingLeft: "20px" }}
+            />
+          </Row>
           <br />
-          <ul className="list-group">
-            <li className="list-group-item">
-              소속회사 : {deptDetail.companyName}
-            </li>
-            <li className="list-group-item">
-              전화번호 : {deptDetail.employeePh}
-            </li>
-            <li className="list-group-item">
-              회사메일 : {deptDetail.employeeCmail}
-            </li>
-            <li className="list-group-item">
-              개인메일 : {deptDetail.employeePmail}
-            </li>
-          </ul>
-        </div>
-      </Container>
+
+          <Row>
+            <span className="Searchcenter">{deptDetail.employeeName}</span>
+          </Row>
+          <Row>
+            {" "}
+            <span className="Searchcenter">
+              <RxPerson size="16" /> {deptDetail.employeeId}
+            </span>
+          </Row>
+          <Row>
+            {" "}
+            <span className="Searchcenter">
+              <FaBirthdayCake size="13" /> {deptDetail.employeeBirth}{" "}
+            </span>
+          </Row>
+          <div>
+            <br />
+            <ul className="list-group">
+              <li className="list-group-item">
+                소속회사 : {deptDetail.companyName}
+              </li>
+              <li className="list-group-item">
+                전화번호 : {deptDetail.employeePh}
+              </li>
+              <li className="list-group-item">
+                회사메일 : {deptDetail.employeeCmail}
+              </li>
+              <li className="list-group-item">
+                개인메일 : {deptDetail.employeePmail}
+              </li>
+            </ul>
+          </div>
+        </Container>
+      )}
     </div>
   );
 };

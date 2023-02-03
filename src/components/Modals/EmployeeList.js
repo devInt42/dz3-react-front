@@ -14,13 +14,9 @@ const EmployeeList = (props) => {
   const [companyName, setCompanyName] = useState();
   const [employeeName, setEmployeeName] = useState();
 
-  //modal.js로 값이동
-  useEffect(() => {
-    props.sendEmployeeSeq(employeeSeq);
-  }, [employeeSeq]);
-
-  function sendEmployeeSeq(a) {
-    setEmployeeSeq(a);
+  // 선택한 사원의 리스트 전송
+  function sendPointEmpList(a) {
+    props.sendPointEmpList(a);
   }
 
   //modal에서 값받아서 넣기
@@ -141,8 +137,9 @@ const EmployeeList = (props) => {
           <Row
             key={`${dList.companyName}${dList.employeeSeq}`}
             onClick={() => {
-              sendEmployeeSeq(dList.employeeSeq);
-            }}>
+              sendPointEmpList(dList);
+            }}
+          >
             <Col sm={3} className="image">
               <div style={{ padding: "25px" }}>
                 <BsFillFileEarmarkPersonFill size="70" />
@@ -160,7 +157,8 @@ const EmployeeList = (props) => {
                     textAlign: "left",
                     margin: "0",
                     padding: "0",
-                  }}>
+                  }}
+                >
                   &#40;&nbsp; {dList.employeeId}&nbsp;&#41;
                 </span>
               </Row>
