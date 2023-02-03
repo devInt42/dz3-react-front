@@ -17,14 +17,11 @@ function CallMenu(props) {
 
   const [childMenu, setChildMenu] = useState([]);
   const [flag, setFlag] = useState(false);
+
+  // 메뉴리스트 받아오기
   const getSubMenuList = useCallback(async () => {
     let sendData = { menuParent: menuSequence };
     try {
-      //   const apiResult = await axios({
-      //     url: baseUrl + "/menu/menulist/" + menuSequence,
-      //     method: "get",
-      //   });
-
       const apiResult = await axios.get(`${baseUrl}/auth-employee/employee`, {
         params: sendData,
         headers: {

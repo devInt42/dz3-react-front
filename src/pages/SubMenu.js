@@ -6,10 +6,10 @@ import MenuSet from "./MenuSet";
 import { Outlet, useNavigate } from "react-router-dom";
 import ContentsMapping from "./ContentsMapping";
 
-import TreeView from '@mui/lab/TreeView';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import TreeItem from '@mui/lab/TreeItem';
+import TreeView from "@mui/lab/TreeView";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import TreeItem from "@mui/lab/TreeItem";
 
 function SubMenu(props) {
   const navigate = useNavigate();
@@ -32,7 +32,6 @@ function SubMenu(props) {
   const [childMenu, setChildMenu] = useState([]);
   const [isActive, setIsActive] = useState(false);
 
-  console.log("childfhfghfghfghfghfghfgh" + childMenu)
   const getSubMenuList = useCallback(async () => {
     try {
       const apiResult = await axios({
@@ -63,17 +62,27 @@ function SubMenu(props) {
           {subMenu.map((menu) => {
             return (
               <div className={style.check} key={menu.menuSeq}>
-                <div className={style.item}
+                <div
+                  className={style.item}
                   style={{
                     paddingLeft: (menu.menuDepth - 1) * 20,
-                    paddingRight: "20px",}}>
-                  <div className={style.menu_btn}
-                    onClick={() => {childMenu.includes(menu.menuSeq) ? setChildMenu(childMenu.filter(data => data != menu.menuSeq)) :
-                     setChildMenu([...childMenu, menu.menuSeq]);}}>
-                   {menu.menuName}
+                    paddingRight: "20px",
+                  }}
+                >
+                  <div
+                    className={style.menu_btn}
+                    onClick={() => {
+                      childMenu.includes(menu.menuSeq)
+                        ? setChildMenu(
+                            childMenu.filter((data) => data != menu.menuSeq)
+                          )
+                        : setChildMenu([...childMenu, menu.menuSeq]);
+                    }}
+                  >
+                    {menu.menuName}
                   </div>
                 </div>
-                {childMenu.includes(menu.menuSeq)  && (
+                {childMenu.includes(menu.menuSeq) && (
                   <SubMenu menuSeq={menu.menuSeq} />
                 )}
               </div>
@@ -83,7 +92,6 @@ function SubMenu(props) {
         </div>
       )}
     </div>
-
 
     // <TreeView
     //   aria-label="file system navigator"

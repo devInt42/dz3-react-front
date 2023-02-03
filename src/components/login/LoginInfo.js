@@ -3,7 +3,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Row, Col, OverlayTrigger, Popover } from "react-bootstrap";
 import PopInfo from "./PopInfo";
-import style from "./css/GNB.module.css";
+import style from "../menu/css/GNB.module.css";
 import { ReactComponent as Down } from "./css/Down.svg";
 import { ReactComponent as Logout } from "./css/Logout.svg";
 
