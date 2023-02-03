@@ -51,13 +51,10 @@ const DepartmentDepth = (props) => {
         getData();
     }, [count, props.refresh])
     
-    useEffect(() => {
-    }, [department])
-
     return (
         <div>
             {
-                department && department.map((child, idx) => {
+                department && department.map((child) => {
                     return (
                         <div key={child.departmentSeq}>
                             {child.departmentParent == seq &&
@@ -71,16 +68,19 @@ const DepartmentDepth = (props) => {
                                         props.setDepartmentSeq(child.departmentSeq);
                                         props.setCompanySeq(child.companySeq);
                                         props.setSearch(false);
+                                        props.setDetailFlag(true);
                                     }}>
-                                        {index.includes(child.departmentSeq) ? <AiFillFolderOpen className="departmentlist-icon" /> :
+                                        {index.includes(child.departmentSeq) ? 
+                                        <AiFillFolderOpen className="departmentlist-icon" /> :
                                             <AiFillFolder className="departmentlist-icon" />}
                                         {child.departmentCode}.{child.departmentName}
                                     </div>
                                 </div>
                             }
-                            {index.includes(child.departmentSeq) && <DepartmentDepth depth={child.departmentDepth} key={idx} seq={child.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq} 
+                            {index.includes(child.departmentSeq) && <DepartmentDepth depth={child.departmentDepth} 
+                            key={child.departmentSeq} seq={child.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq} 
                             setWorkplaceSeq = {props.setWorkplaceSeq} setCompanySeq = {props.setCompanySeq}
-                            setSearch = {props.setSearch}
+                            setSearch = {props.setSearch} setDetailFlag = {props.setDetailFlag} refresh = {props.refresh}
                             />}
                         </div>
                     )

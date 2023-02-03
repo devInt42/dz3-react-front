@@ -34,7 +34,7 @@ function Layout() {
   }, []);
   return (
     <Container fluid>
-      <Row>
+      <Row style={{height: "100vh"}}>
         <Col md="auto" className={style.layout_lnb}>
           <LNB getMenuInfo={getMenuInfo} />
         </Col>

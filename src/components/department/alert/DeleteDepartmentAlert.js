@@ -21,6 +21,7 @@ const DeleteDepartmentAlert = (props) => {
             props.setRefresh(props.refresh + 1);
             props.setCheckDelete(false);
             props.InitSeq();
+            props.setDetailFlag(false);
         }
         if(!result.isConfirmed) {
             props.setCheckDelete(false);
