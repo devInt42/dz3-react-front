@@ -4,9 +4,7 @@ import { TfiClose } from 'react-icons/tfi'
 import './ZippopupZipCode.css'
 
 const ZippopupZipCode = (props) => {
-    console.log("ZippopupZipCode")
     const handleZipCode = (data) => {
-        console.log(data);
         let address = `${data.address}`
 
         data.buildingName === "" ? address = address : address = address + ` (${data.buildingName})`;

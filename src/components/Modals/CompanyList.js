@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { TreeView, TreeItem } from "@mui/lab";
 import { ReactComponent as Folder } from "../authGroup/folder.svg";
 import { ReactComponent as FolderOpen } from "../authGroup/folderopen.svg";
-import WorkplaceGroup from "../modals/WorkplaceGroup";
+import WorkplaceGroup from "./WorkplaceGroup";
 
 const CompanyList = (props) => {
   const baseUrl = "http://localhost:8080";

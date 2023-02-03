@@ -20,6 +20,7 @@ const UpdateDepartmentAlert = (props) => {
             props.Update(props.seq);
             props.setAllCheck(false);
             props.setRefresh(props.refresh + 1);
+            props.setInsertForm(false);
         }
         if(!result.isConfirmed) {
             props.setAllCheck(false);
