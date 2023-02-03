@@ -38,7 +38,6 @@ const AllEmployeeList = (props) => {
         authSeq: authSeq,
         companySeq: pointCompanySeq,
       };
-      console.log(data);
       try {
         const dataResult = await axios.get(
           `${baseUrl}/department-employee/auth`,
@@ -155,7 +154,6 @@ const AllEmployeeList = (props) => {
         companySeq: pointCompanySeq,
         employeeName: employeeName,
       };
-      console.log(getEmplData);
       try {
         const getEmplElementResult = await axios.get(
           `${baseUrl}/department-employee/search`,

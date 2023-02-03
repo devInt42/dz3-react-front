@@ -15,6 +15,7 @@ const AddGroup = () => {
   const [returnCode, setReturnCode] = useState(null);
   const [returnName, setReturnName] = useState(null);
   const [disabled, setDisabled] = useState(false);
+
   // 회사 리스트 불러오기
   useEffect(() => {}, [selectCompanySeq]);
   const selectCompanyArea = async () => {
@@ -25,7 +26,7 @@ const AddGroup = () => {
         },
       });
       setCompanyList(resCompany.data);
-      if (resCompany.data.length == 1) {
+      if (resCompany.data.length >= 1) {
         setSelectCompanySeq(resCompany.data[0].companySeq);
       }
     } catch (error) {
@@ -42,7 +43,7 @@ const AddGroup = () => {
 
   // 상태 변환 및 중복 체크
   const changeAuthCode = (e) => {
-    setInputCode(e.target.value);
+    setInputCode(e.target.value.toUpperCase());
   };
   const changeAuthName = (e2) => {
     setInputName(e2.target.value);
@@ -96,6 +97,7 @@ const AddGroup = () => {
         authCode: inputCode,
         authName: inputName,
       });
+
       const headers = {
         "Content-type": "application/json; charset=UTF-8",
         Accept: "*/*",
@@ -149,9 +151,18 @@ const AddGroup = () => {
                   inputCode.length > 0 ? (returnCode > 0 ? true : false) : true
                 }
               />
-              <Form.Control.Feedback type="invalid">
-                중복된 권한코드입니다.
+              <Form.Control.Feedback type="valid">
+                사용 가능합니다
               </Form.Control.Feedback>
+              {inputCode.length === 0 ? (
+                <Form.Control.Feedback type="invalid">
+                  공백은 사용 불가능합니다.
+                </Form.Control.Feedback>
+              ) : (
+                <Form.Control.Feedback type="invalid">
+                  중복된 권한코드 입니다.
+                </Form.Control.Feedback>
+              )}
             </Form.Group>
             <Form.Group className="mb-3" controlId="inputAuthName">
               <Form.Label>권한명</Form.Label>
@@ -166,10 +177,21 @@ const AddGroup = () => {
                   inputName.length > 0 ? (returnName > 0 ? true : false) : true
                 }
               />
-              <Form.Control.Feedback type="invalid">
-                중복된 권한명 입니다.
+
+              <Form.Control.Feedback type="valid">
+                사용 가능합니다
               </Form.Control.Feedback>
+              {inputName.length === 0 ? (
+                <Form.Control.Feedback type="invalid">
+                  공백은 사용 불가능합니다.
+                </Form.Control.Feedback>
+              ) : (
+                <Form.Control.Feedback type="invalid">
+                  중복된 권한명 입니다.
+                </Form.Control.Feedback>
+              )}
             </Form.Group>
+
             <button type="submit" id="sendGroupBtn" disabled={disabled}>
               추가하기
             </button>
