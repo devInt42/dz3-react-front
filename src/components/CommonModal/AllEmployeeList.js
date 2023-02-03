@@ -1,15 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { json } from "react-router-dom";
-import { ConstructionOutlined } from "@mui/icons-material";
-import { sample, sampleSize } from "lodash";
 
 const AllEmployeeList = (props) => {
   const [departmentSeq, setDepartmentSeq] = useState(0);
   const baseUrl = "http://localhost:8080";
   const [deptList, setDeptList] = useState([]);
   const [page, setPage] = useState(1);
-  const [countEmployee, setCountEmployee] = useState(0);
   const [checkedList, setCheckedLists] = useState([]);
   const [employeeName, setEmployeeName] = useState();
   const [companySeq, setCompanySeq] = useState();
@@ -33,13 +29,13 @@ const AllEmployeeList = (props) => {
     getEmplName();
   }, [props]);
 
-  useEffect(() => {
-    async function getAuthSeq() {
-      const result = await props.authSeq;
-      setAuthSeq(result);
-    }
-    getAuthSeq();
-  }, [props]);
+  // useEffect(() => {
+  //   async function getAuthSeq() {
+  //     const result = await props.authSeq;
+  //     setAuthSeq(result);
+  //   }
+  //   getAuthSeq();
+  // }, [props]);
 
   useEffect(() => {
     async function getPointCompanySeq() {
@@ -49,31 +45,31 @@ const AllEmployeeList = (props) => {
     getPointCompanySeq();
   }, [props]);
 
-  useEffect(() => {
-    initLoad();
-  }, [authSeq, pointCompanySeq]);
+  // useEffect(() => {
+  //   initLoad();
+  // }, [authSeq, pointCompanySeq]);
 
-  const initLoad = async () => {
-    if (authSeq != "" && pointCompanySeq != "") {
-      let data = {
-        authSeq: authSeq,
-        companySeq: pointCompanySeq,
-      };
-      try {
-        const dataResult = await axios.get(
-          `${baseUrl}/department-employee/auth`,
-          {
-            params: data,
-          }
-        );
-        setCheckedLists(dataResult.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+  // const initLoad = async () => {
+  //   if (authSeq != "" && pointCompanySeq != "") {
+  //     let data = {
+  //       authSeq: authSeq,
+  //       companySeq: pointCompanySeq,
+  //     };
+  //     try {
+  //       const dataResult = await axios.get(
+  //         `${baseUrl}/department-employee/auth`,
+  //         {
+  //           params: data,
+  //         }
+  //       );
+  //       setCheckedLists(dataResult.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
 
-  useEffect(() => {}, [checkedList]);
+  // useEffect(() => {}, [checkedList]);
 
   //checkedList가 바뀔때마다 modal로 값 전송
   const sendInfo = () => {
@@ -99,11 +95,6 @@ const AllEmployeeList = (props) => {
           }
         );
         setDeptList(dataResult.data);
-
-        const dataResult2 = await axios.get(
-          `${baseUrl}/department-employee/count/${departmentSeq}`
-        );
-        setCountEmployee(dataResult2.data);
       } catch (error) {
         console.log(error);
       }
@@ -113,6 +104,11 @@ const AllEmployeeList = (props) => {
   useEffect(() => {
     getDeptList();
     setPage(1);
+  }, [departmentSeq]);
+
+  useEffect(() => {
+    onCheckedElement();
+    console.log("랜더링");
   }, [departmentSeq]);
 
   //개별 클릭시 발생하는 함수
@@ -128,8 +124,6 @@ const AllEmployeeList = (props) => {
       // 5. setDeptList에 (temp) 값 넣기 --> deptlist는 일부 애들만 check가 true로 변경되어있는 해당 전체 페이지값
       // 6. checked가 true인애들만 filter로 걸러서 걔랑 deptlist(4)의 길이가 같으면 true
 
-      // Q. 페이지에 체크가 3개라면 다음페이지 직원수가 3명이면 length로 비교가 가능한지?
-
       try {
         if (checked) {
           deptList.map((dept) => {
@@ -141,9 +135,9 @@ const AllEmployeeList = (props) => {
 
               //temp 에 tempObj 와 같은 배열 값 갈아끼우기
               temp.splice(temp.lastIndexOf(idx), 1, tempObj);
-              // console.log(temp);
+              console.log("temp" + temp);
               setDeptList(temp);
-              // console.log(deptList);
+              // console.log("체크시" + deptList);
               return;
             }
           });
@@ -152,6 +146,18 @@ const AllEmployeeList = (props) => {
           setCheckedLists(
             checkedList.filter((el) => el.employeeSeq !== list.employeeSeq)
           );
+          //temp에 check값 false로 변경
+          deptList.map((dept) => {
+            if (dept.employeeSeq === list.employeeSeq) {
+              let idx = list;
+              let temp = deptList;
+              let tempObj = { ...idx, checked: false };
+              temp.splice(temp.lastIndexOf(idx), 1, tempObj);
+              setDeptList(temp);
+              // console.log("취소시" + deptList);
+              return;
+            }
+          });
         }
       } catch (error) {
         console.log(error);
@@ -207,17 +213,20 @@ const AllEmployeeList = (props) => {
                     <input
                       key={0}
                       type="checkbox"
+                      // onChange={(e) =>
+                      //   onCheckedElement(e.target.checked, deptList)
+                      // }
                       checked={(() => {
                         let temp = deptList.filter(
                           (dept) => dept.checked === true
                         );
-                        if (temp.length + 1 === deptList.length) {
-                          // console.log(temp.length + 1);
-                          // console.log(deptList.length);
+                        if (temp.length === deptList.length) {
+                          console.log("t" + temp.length);
+                          console.log("d" + deptList.length);
                           return true;
                         } else {
-                          // console.log(temp.length + 1);
-                          // console.log(deptList.length);
+                          console.log("t" + temp.length);
+                          console.log("d" + deptList.length);
                           return false;
                         }
                       })()}
