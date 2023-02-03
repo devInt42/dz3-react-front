@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CgMenuBoxed } from "react-icons/cg";
 import style from "./css/GNB.module.css";
@@ -32,8 +32,20 @@ function GNB(props) {
       .catch((error) => console.log(error));
   }, []);
 
+  const [retain, setRetain] = useState("");
+  useEffect(()=>{
+    if(props.menuName == ""){
+      return;
+    }else{
+      window.sessionStorage.setItem("menuName", JSON.stringify(props.menuName));
+      setRetain(window.sessionStorage.getItem("menuName"))
+    }
+  }, [props.menuName])
+  console.log("retain" + window.sessionStorage.getItem("menuName"))
+
   const goMain=()=>{
     props.setMenuName("");
+    window.sessionStorage.removeItem("menuName");
     navigate(`/dz3`);
   }
 
@@ -66,12 +78,13 @@ function GNB(props) {
           </button>
         </Col>
       </Row>
-      {props.menuName == "" ? <Main/> :
+      {/* {props.menuName == "" ? <Main/> : */}
+      {window.sessionStorage.getItem("menuName") == null ? <Main/> :
       <div className={style.gnb_bar}>
       <CgMenuBoxed
         style={{ width: "50px", height: "50px", margin: "10px" }}
       />
-      {props.menuName}
+      {props.menuName == "" ? JSON.parse(window.sessionStorage.getItem("menuName")) : props.menuName}
     </div>
       }
     </div>

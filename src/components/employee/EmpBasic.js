@@ -127,7 +127,7 @@ function EmpBasic(props) {
                         </td>
                         <th>결재 비밀번호</th>
                         <td>
-                        {checked ?
+                        {checked2 ?
                             <input type="text" className={style.emp_pwd} value={approvalPwd || ""}
                                 onChange={(e) => { setApprovalPwd(e.target.value) }} autoComplete="off" /> :
                             <input type="password" className={style.emp_pwd} value={approvalPwd || ""}
