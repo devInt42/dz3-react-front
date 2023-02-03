@@ -46,7 +46,6 @@ const DepartmentDetail = (props) => {
         }
         setNotRequire('');
         setDepartmentDepth(0);
-
     }, [props.workplaceSeq])
 
     //부서 데이터 조회
@@ -125,13 +124,13 @@ const DepartmentDetail = (props) => {
 
     //코드중복처리
     useEffect(() => {
-        if (`${departmentCode}` === `${firstCode}` && props.departmentSeq !== 0) {
+        if (`${departmentCode}` == `${firstCode}` && props.departmentSeq !== 0) {
             setCodeDupliCheck(0);
         }
         else if (`${departmentCode}`.length > 0 && departmentCode != undefined) {
             const param = {
                 "departmentCode": departmentCode,
-                "workplaceSeq": props.workplaceSeq,
+                "companySeq": props.companySeq,
             }
             axios.get(`${baseUrl}/department/info/check/`, {
                 params: param
@@ -208,6 +207,9 @@ const DepartmentDetail = (props) => {
         setDepartmentParentDepth(departmentDepth);
         setAllCheck(false);
         setCheckDelete(false);
+        setFirstCode("");
+        setFirstName("");
+        setChecked(0);
         props.setInsertForm(true);
     }
 

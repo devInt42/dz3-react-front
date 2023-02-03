@@ -51,10 +51,6 @@ const DepartmentDepth = (props) => {
         getData();
     }, [count, props.refresh])
     
-    useEffect(() => {
-        console.log(department);
-    },[props.refresh])
-
     return (
         <div>
             {
@@ -74,7 +70,8 @@ const DepartmentDepth = (props) => {
                                         props.setSearch(false);
                                         props.setDetailFlag(true);
                                     }}>
-                                        {index.includes(child.departmentSeq) ? <AiFillFolderOpen className="departmentlist-icon" /> :
+                                        {index.includes(child.departmentSeq) ? 
+                                        <AiFillFolderOpen className="departmentlist-icon" /> :
                                             <AiFillFolder className="departmentlist-icon" />}
                                         {child.departmentCode}.{child.departmentName}
                                     </div>
@@ -83,7 +80,7 @@ const DepartmentDepth = (props) => {
                             {index.includes(child.departmentSeq) && <DepartmentDepth depth={child.departmentDepth} 
                             key={child.departmentSeq} seq={child.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq} 
                             setWorkplaceSeq = {props.setWorkplaceSeq} setCompanySeq = {props.setCompanySeq}
-                            setSearch = {props.setSearch} setDetailFlag = {props.setDetailFlag} 
+                            setSearch = {props.setSearch} setDetailFlag = {props.setDetailFlag} refresh = {props.refresh}
                             />}
                         </div>
                     )
