@@ -99,7 +99,8 @@ function CallMenu(props) {
             );
           })}
           {lastSeq == 0 ? (
-            <NotSelectedMenu></NotSelectedMenu>
+            // <NotSelectedMenu></NotSelectedMenu>
+            <></>
           ) : (
             <ContentsMapping lastSeq={lastSeq} />
           )}

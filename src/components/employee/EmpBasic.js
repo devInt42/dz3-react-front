@@ -191,7 +191,9 @@ function EmpBasic(props) {
                             <input type="text" className={style.emp_input} value={employeePh || ""} onChange={(e) => { setEmployeePh(e.target.value) }} />
                         </td>
                         <th>전화번호(집)</th>
-                        <td>call</td>
+                        <td>
+                            <input type="text" className={style.emp_input} value={employeeHcall || ""} onChange={(e) => { setEmployeeHcall(e.target.value) }} />
+                        </td>
                     </tr>
                     <tr>
                         <th>주소</th>
