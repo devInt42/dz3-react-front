@@ -9,7 +9,7 @@ const CompanyData = (props) => {
     const [companyIsOpen, setCompanyIsOpen] = useState([]);
     useEffect(() => {
         if (props.companySeq != "" || props.companySeq != undefined) {
-            if (JSON.parse(window.sessionStorage.getItem("empInfo")).companySeq === 999) {
+            if (JSON.parse(window.sessionStorage.getItem("empInfo")).employeeSeq === 999) {
                 axios.get(`${baseUrl}/department/list/company/${props.companySeq}`)
                     .then(res => setCompany(res.data))
                     .catch(error => console.log(error))
