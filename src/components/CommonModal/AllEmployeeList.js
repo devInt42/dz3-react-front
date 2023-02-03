@@ -14,36 +14,19 @@ const AllEmployeeList = (props) => {
 
   //값 받아서 departmentSeq 설정
   useEffect(() => {
-    async function getDeptSeq() {
-      const result = await props.departmentSeq;
-      setDepartmentSeq(result);
-    }
-    getDeptSeq();
+    getProps();
   }, [props]);
 
-  useEffect(() => {
-    async function getEmplName() {
-      const result = await props.employeeName;
-      setEmployeeName(result);
-    }
-    getEmplName();
+  const getProps = useCallback(async () => {
+    setDepartmentSeq(props.departmentSeq);
+    setEmployeeName(props.employeeName);
+    setAuthSeq(props.authSeq);
+    setPointCompanySeq(props.pointCompanySeq);
   }, [props]);
-
-  useEffect(() => {
-    async function getAuthSeq() {
-      const result = await props.authSeq;
-      setAuthSeq(result);
-    }
-    getAuthSeq();
-  }, [props]);
-
-  useEffect(() => {
-    async function getPointCompanySeq() {
-      const result = await props.pointCompanySeq;
-      setPointCompanySeq(result);
-    }
-    getPointCompanySeq();
-  }, [props]);
+  useEffect(() => {}, [departmentSeq]);
+  useEffect(() => {}, [employeeName]);
+  useEffect(() => {}, [authSeq]);
+  useEffect(() => {}, [pointCompanySeq]);
 
   useEffect(() => {
     initLoad();
@@ -55,6 +38,7 @@ const AllEmployeeList = (props) => {
         authSeq: authSeq,
         companySeq: pointCompanySeq,
       };
+      console.log(data);
       try {
         const dataResult = await axios.get(
           `${baseUrl}/department-employee/auth`,
@@ -134,7 +118,6 @@ const AllEmployeeList = (props) => {
 
               //temp 에 tempObj 와 같은 배열 값 갈아끼우기
               temp.splice(temp.lastIndexOf(idx), 1, tempObj);
-              console.log(temp);
               setDeptList(temp);
 
               return;
@@ -153,7 +136,6 @@ const AllEmployeeList = (props) => {
               let tempObj = { ...idx, checked: false };
               temp.splice(temp.lastIndexOf(idx), 1, tempObj);
               setDeptList(temp);
-              // console.log("취소시" + deptList);
               return;
             }
           });
@@ -170,9 +152,10 @@ const AllEmployeeList = (props) => {
     if (employeeName == null) {
     } else {
       let getEmplData = {
-        companySeq: companySeq,
+        companySeq: pointCompanySeq,
         employeeName: employeeName,
       };
+      console.log(getEmplData);
       try {
         const getEmplElementResult = await axios.get(
           `${baseUrl}/department-employee/search`,
@@ -220,17 +203,14 @@ const AllEmployeeList = (props) => {
                           (dept) => dept.checked === true
                         );
                         if (temp.length === deptList.length) {
-                          console.log("t" + temp.length);
-                          console.log("d" + deptList.length);
                           return true;
                         } else {
-                          console.log("t" + temp.length);
-                          console.log("d" + deptList.length);
                           return false;
                         }
                       })()}
                       className="custom-control-input"
-                      id="customCheck2"></input>
+                      id="customCheck2"
+                    ></input>
                   </th>
                   <th scope="col">회사</th>
                   <th scope="col">사업장</th>
@@ -260,10 +240,12 @@ const AllEmployeeList = (props) => {
                               return false;
                             }
                           })()}
-                          id="customCheck2"></input>
+                          id="customCheck2"
+                        ></input>
                         <label
                           className="custom-control-label"
-                          htmlFor="customCheck1"></label>
+                          htmlFor="customCheck1"
+                        ></label>
                       </div>
                     </td>
                     <td>{dept.companyName}</td>
