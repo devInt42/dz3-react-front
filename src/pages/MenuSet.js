@@ -84,7 +84,7 @@ function MenuSet() {
   function updateValid() {
     if (menuCode.length == 0 || menuName.length == 0) {
       setUpdateFail(<UpdateFailMenuAlert setUpdateCheck={setUpdateCheck} />);
-    } else setUpdateCheck(true);
+    }else setUpdateCheck(true);
   }
 
   return (

@@ -25,7 +25,6 @@ function UpdateMenuAlert(props) {
             Swal.fire('수정이 완료되었습니다.', '', 'success', '#3085d6');
             props.setUpdateCheck(false);
         }
-
         if (!result.isConfirmed) {
             props.setUpdateCheck(false);
         }

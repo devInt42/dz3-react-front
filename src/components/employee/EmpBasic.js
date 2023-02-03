@@ -80,9 +80,7 @@ function EmpBasic(props) {
     }, [empSelected])
 
     const label = { inputProps: { 'aria-label': 'Size switch demo' } };
-    console.log(employeeGender)
-
-
+   
     return (
         <div>
             <table className={style.basic_tbl}>
