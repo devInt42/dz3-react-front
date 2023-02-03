@@ -44,10 +44,10 @@ const CompanyDetail = ((props) => {
         setCompanyEstablish("");
         setCompanyClosingday("");
         setCompanyFax("");
-        setCompanyForeigner("");
+        setCompanyForeigner("내국인");
         setCompanyZipCode("");
         setUseYN("N");
-        setPcBuisness("");
+        setPcBuisness("법인");
         setChecked(0);
         props.companySeq &&
             axios.get(`${baseUrl}/company/info/${props.companySeq}`)
@@ -319,7 +319,7 @@ const CompanyDetail = ((props) => {
                                 isValid={`${companyCode}`.length < 4 ? false : codeDupliCheck === 1 ? false : true}
                                 isInvalid={`${companyCode}`.length < 4 ? checked > 0 ? true : false : codeDupliCheck === 1 ? true : false}
                                 value={companyCode}
-                                Style="z-index: 0; background-color:#ffe9e9"
+                                style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
                             /></td>
                             <td className="company-table-title">사용 여부</td>
                             <td>
@@ -339,7 +339,7 @@ const CompanyDetail = ((props) => {
                             <td colSpan={3} className="company-table-content"><Form.Control
                                 placeholder="회사 이름을 입력해 주십시오."
                                 onChange={e => setCompanyName(e.target.value)}
-                                Style="z-index: 0; background-color:#ffe9e9"
+                                style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
                                 value={companyName}
                                 isValid={checked > 0 ? true : false}
                                 isInvalid={checked < 1 ? false : companyName.length > 0 ? false : true}
@@ -353,7 +353,7 @@ const CompanyDetail = ((props) => {
                                 value={companyBusiness}
                                 isValid={checked > 0 ? true : false}
                                 isInvalid={checked < 1 ? false : companyBusiness.length > 0 ? false : true}
-                                Style="z-index:0; background-color:#ffe9e9"
+                                style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
                             />
                             </td>
 
@@ -364,7 +364,7 @@ const CompanyDetail = ((props) => {
                                 value={companyItem}
                                 isValid={checked > 0 ? true : false}
                                 isInvalid={checked < 1 ? false : companyItem.length > 0 ? false : true}
-                                Style="z-index:0; background-color:#ffe9e9"
+                                style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
                             />
                             </td>
                         </tr>
@@ -377,7 +377,7 @@ const CompanyDetail = ((props) => {
                                             setCompanyCall("");
                                             setAreaCode(e.target.value)
                                         }}>
-                                        <option value="" selected>직접 입력</option>
+                                        <option value="">직접 입력</option>
                                         <option value="010-">010</option>
                                         <option value="02-">02</option>
                                         <option value="031-">031</option>
@@ -403,7 +403,7 @@ const CompanyDetail = ((props) => {
                                         value={`${companyCall}`.substring(areaCode.length)}
                                         isValid={callStyle}
                                         isInvalid={`${companyCall}`.length < 1 ? '' : callStyle ? false : true}
-                                        Style="z-index:0;"
+                                        style= {{zIndex:0}}
                                     />
                                 </div>
                             </td>
@@ -414,7 +414,7 @@ const CompanyDetail = ((props) => {
                                 value={companyFax}
                                 isValid={faxStyle}
                                 isInvalid={`${companyFax}`.length < 1 ? '' : faxStyle ? false : true}
-                                Style="z-index:0"
+                                style= {{zIndex:0}}
                             />
                             </td>
                         </tr>
@@ -427,15 +427,15 @@ const CompanyDetail = ((props) => {
                                     value={companyRegist}
                                     isValid={registStyle}
                                     isInvalid={`${companyRegist}`.length < 1 ? checked > 0 ? true : false : registStyle ? false : true}
-                                    Style="z-index:0;  background-color:#ffe9e9"
+                                    style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
                                 /></td>
                             <td className="company-table-title">법인 번호</td>
                             <td className="company-table-content">
                                 <div className="company-table-td-twocontent">
                                     <select className="company-select-option" onChange={e => setPcBuisness(e.target.value)}>
-                                        <option value= "" selected>선택</option>
-                                        <option value="법인" selected={pcBuisness === "법인" ? true:false}>법인</option>
-                                        <option value="개인" selected={pcBuisness === "개인" ? true:false}>개인</option>
+                                        <option value= "" disabled>선택</option>
+                                        <option value="법인">법인</option>
+                                        <option value="개인">개인</option>
                                     </select>
                                     <Form.Control
                                         placeholder="법인 번호를 입력해 주십시오."
@@ -444,7 +444,7 @@ const CompanyDetail = ((props) => {
                                         value={companyCorporate}
                                         isValid={corporateStyle}
                                         isInvalid={`${companyCorporate}`.length < 1 ? checked > 0 ? true : false : corporateStyle ? false : true}
-                                        Style="z-index:0;  background-color:#ffe9e9"
+                                        style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
                                     />
                                 </div>
                             </td>
@@ -457,16 +457,16 @@ const CompanyDetail = ((props) => {
                                 value={companyPresident}
                                 isValid={checked > 0 ? true : false}
                                 isInvalid={checked < 1 ? false : companyPresident.length > 0 ? false : true}
-                                Style=" z-index:0; background-color:#ffe9e9"
+                                style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
                             /></td>
                             <td className="company-table-title">외국인 여부</td>
                             <td className="company-table-content">
                                 <div className="company-table-td-twocontent">
                                     <select name="area-code" className="company-select-option"
                                         onChange={(e) => setCompanyForeigner(e.target.value)}>
-                                        <option value= "" selected>선택</option>
-                                        <option value="내국인" selected = {companyForeigner === "내국인" ? true : false}>내국인</option>
-                                        <option value="외국인" selected = {companyForeigner === "외국인" ? true : false}>외국인</option>
+                                        <option value= "" disabled>외국인여부</option>
+                                        <option value="내국인">내국인</option>
+                                        <option value="외국인">외국인</option>
                                     </select>
                                     <Form.Control
                                         aria-describedby="basic-addon1"
@@ -487,7 +487,7 @@ const CompanyDetail = ((props) => {
                                         }}
                                         isValid={checked > 0 ? true : false}
                                         isInvalid={checked < 1 ? false : companyZipCode.length > 0 ? false : true}
-                                        Style="background-color:#ffe9e9; z-index:0; #ffe9e9; width: 200px"
+                                        style= {{zIndex:0, backgroundColor:"#ffe9e9", width: "200px"}}  
                                     />
                                     <button className="addressnumbtn" type="button" onClick={() => setZipcodeIsOpen(true)}>우편번호 검색
                                     </button>
@@ -515,7 +515,7 @@ const CompanyDetail = ((props) => {
                                             }
                                             value={address}
                                             onChange={(e) => { setAddress(e.target.value); }}
-                                            Style=" z-index:0; background-color:#ffe9e9"
+                                            style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
                                             isValid={checked > 0 ? true : false}
                                             isInvalid={checked < 1 ? false : address.length > 0 ? false : true}
                                             readOnly

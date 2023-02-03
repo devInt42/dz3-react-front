@@ -44,7 +44,7 @@ function Listcompany(props) {
                             onClick={() => {
                                 props.setCompanySeq(company.companySeq);
                                 props.setDetailFlag(true);
-                            }}>
+                            }} key = {company.companySeq}>
                             <li>{company.companyCode}{company.companyName}
                                 {company.companyPresident}{company.pcBuisness}</li>
                         </div>
