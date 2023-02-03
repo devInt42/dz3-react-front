@@ -6,7 +6,7 @@ const PopInfo = (props) => {
   const [userInfo, setUserInfo] = useState(null);
   const [sessionRes, setSessionRes] = useState(null);
   const [mainInfo, setMainInfo] = useState(null);
-  const [checkedUserInfo, setCheckedUserInfo] = useState(null);
+  const [account, setAccount] = useState(null);
   // 세션 스토리지 값
   useEffect(() => {
     setSessionRes(props.sessionRes);
@@ -20,7 +20,9 @@ const PopInfo = (props) => {
   useEffect(() => {
     settingMain();
   }, [userInfo]);
+
   useEffect(() => {}, [mainInfo]);
+
   const settingMain = useCallback(() => {
     let session = [];
     session.push(JSON.parse(sessionRes));
@@ -31,16 +33,22 @@ const PopInfo = (props) => {
         }
       });
     }
-  }, [sessionRes, userInfo]);
+  }, [userInfo]);
 
   // 라디오버튼 체크시 값변경
-  const radioValue = (e) => {
+  const onChangeAccount = (e) => {
     let temp = [];
-
     userInfo.forEach((list) => {
       if (e.target.id == list.companySeq) {
         temp = list;
       }
+    });
+    setAccount({
+      employeeSeq: temp.employeeSeq,
+      workplaceSeq: temp.workplaceSeq,
+      departmentSeq: temp.departmentSeq,
+      companySeq: temp.companySeq,
+      companyCode: temp.companyCode,
     });
   };
   const sendMainRes = (e) => {};
@@ -48,13 +56,18 @@ const PopInfo = (props) => {
   useEffect(() => {
     sendMainRes(mainInfo);
   }, [mainInfo]);
+  useEffect(() => {}, [account]);
 
   // 버튼 클릭시 사용자 정보 변경
   const changeLoginStatus = async () => {
-    try {
-    } catch {
-    } finally {
-      window.location.reload();
+    if (account != null) {
+      try {
+        window.sessionStorage.removeItem("empInfo");
+        window.sessionStorage.setItem("empInfo", JSON.stringify(account));
+      } catch {
+      } finally {
+        window.location.reload();
+      }
     }
   };
 
@@ -131,8 +144,8 @@ const PopInfo = (props) => {
                         name="company"
                         id={item.companySeq}
                         value={item.companySeq}
-                        onClick={radioValue}
-                        checked
+                        onClick={onChangeAccount}
+                        defaultChecked
                       />
                       &nbsp;
                       {item.companyName}
@@ -144,7 +157,7 @@ const PopInfo = (props) => {
                         name="company"
                         id={item.companySeq}
                         value={item.companySeq}
-                        onClick={radioValue}
+                        onClick={onChangeAccount}
                       />
                       &nbsp;
                       {item.companyName}
