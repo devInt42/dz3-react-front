@@ -139,11 +139,10 @@ const EmployeeList = (props) => {
       {deptList &&
         deptList.map((dList) => (
           <Row
-            key={dList.employeeSeq}
+            key={`${dList.companyName}${dList.employeeSeq}`}
             onClick={() => {
               sendEmployeeSeq(dList.employeeSeq);
-            }}
-          >
+            }}>
             <Col sm={3} className="image">
               <div style={{ padding: "25px" }}>
                 <BsFillFileEarmarkPersonFill size="70" />
@@ -161,13 +160,12 @@ const EmployeeList = (props) => {
                     textAlign: "left",
                     margin: "0",
                     padding: "0",
-                  }}
-                >
+                  }}>
                   &#40;&nbsp; {dList.employeeId}&nbsp;&#41;
                 </span>
               </Row>
               <Row className="Searchstage">
-                {companyName} &gt; {dList.workplaceName} &gt;
+                {dList.companyName} &gt; {dList.workplaceName} &gt;
                 {dList.departmentName}
               </Row>
               <Row className="Searchphnum">

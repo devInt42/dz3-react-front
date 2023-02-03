@@ -64,6 +64,8 @@ const EmployeeDetail = (props) => {
           },
         }
       );
+      console.log(LoginDataResult.data);
+
       setDeptDetail(LoginDataResult.data[0]);
     } catch (error) {
       console.log(error);
@@ -104,7 +106,9 @@ const EmployeeDetail = (props) => {
         <div>
           <br />
           <ul className="list-group">
-            <li className="list-group-item">소속회사 : {companyName}</li>
+            <li className="list-group-item">
+              소속회사 : {deptDetail.companyName}
+            </li>
             <li className="list-group-item">
               전화번호 : {deptDetail.employeePh}
             </li>
