@@ -46,13 +46,8 @@ const CompanyList = (props) => {
     sendCompanyName(companyNameList[0]?.companyName);
   });
 
-  //자손에서 값 받아오기
-  const sendDepartmentSeq = (e) => {
-    props.sendDepartmentSeq(e);
-  };
-
-  const sendWorkplaceSeq = (e) => {
-    props.sendWorkplaceSeq(e);
+  const sendPointList = (e) => {
+    props.sendPointList(e);
   };
 
   //값 저장
@@ -80,8 +75,7 @@ const CompanyList = (props) => {
               id={companyItem.companySeq.toString()}>
               <WorkplaceGroup
                 companySeq={companyItem.companySeq}
-                sendDepartmentSeq={sendDepartmentSeq}
-                sendWorkplaceSeq={sendWorkplaceSeq}
+                sendPointList={sendPointList}
               />
             </TreeItem>
           </div>
