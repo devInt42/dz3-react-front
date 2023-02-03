@@ -29,13 +29,13 @@ const AllEmployeeList = (props) => {
     getEmplName();
   }, [props]);
 
-  // useEffect(() => {
-  //   async function getAuthSeq() {
-  //     const result = await props.authSeq;
-  //     setAuthSeq(result);
-  //   }
-  //   getAuthSeq();
-  // }, [props]);
+  useEffect(() => {
+    async function getAuthSeq() {
+      const result = await props.authSeq;
+      setAuthSeq(result);
+    }
+    getAuthSeq();
+  }, [props]);
 
   useEffect(() => {
     async function getPointCompanySeq() {
@@ -45,31 +45,31 @@ const AllEmployeeList = (props) => {
     getPointCompanySeq();
   }, [props]);
 
-  // useEffect(() => {
-  //   initLoad();
-  // }, [authSeq, pointCompanySeq]);
+  useEffect(() => {
+    initLoad();
+  }, [authSeq, pointCompanySeq]);
 
-  // const initLoad = async () => {
-  //   if (authSeq != "" && pointCompanySeq != "") {
-  //     let data = {
-  //       authSeq: authSeq,
-  //       companySeq: pointCompanySeq,
-  //     };
-  //     try {
-  //       const dataResult = await axios.get(
-  //         `${baseUrl}/department-employee/auth`,
-  //         {
-  //           params: data,
-  //         }
-  //       );
-  //       setCheckedLists(dataResult.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
+  const initLoad = async () => {
+    if (authSeq != "" && pointCompanySeq != "") {
+      let data = {
+        authSeq: authSeq,
+        companySeq: pointCompanySeq,
+      };
+      try {
+        const dataResult = await axios.get(
+          `${baseUrl}/department-employee/auth`,
+          {
+            params: data,
+          }
+        );
+        setCheckedLists(dataResult.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
-  // useEffect(() => {}, [checkedList]);
+  useEffect(() => {}, [checkedList]);
 
   //checkedList가 바뀔때마다 modal로 값 전송
   const sendInfo = () => {
@@ -108,7 +108,6 @@ const AllEmployeeList = (props) => {
 
   useEffect(() => {
     onCheckedElement();
-    console.log("랜더링");
   }, [departmentSeq]);
 
   //개별 클릭시 발생하는 함수
@@ -135,9 +134,9 @@ const AllEmployeeList = (props) => {
 
               //temp 에 tempObj 와 같은 배열 값 갈아끼우기
               temp.splice(temp.lastIndexOf(idx), 1, tempObj);
-              console.log("temp" + temp);
+              console.log(temp);
               setDeptList(temp);
-              // console.log("체크시" + deptList);
+
               return;
             }
           });
