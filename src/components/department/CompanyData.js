@@ -8,21 +8,23 @@ const CompanyData = (props) => {
     const [company, setCompany] = useState([]);
     const [companyIsOpen, setCompanyIsOpen] = useState([]);
     useEffect(() => {
-        if (props.companySeq != "" || props.companySeq != undefined) {
-            if (JSON.parse(window.sessionStorage.getItem("empInfo")).employeeSeq === 999) {
-                axios.get(`${baseUrl}/department/list/company/${props.companySeq}`)
-                    .then(res => setCompany(res.data))
-                    .catch(error => console.log(error))
-            }
-            else {
-                axios.get
-                    (`${baseUrl}/department/list/company/${JSON.parse(window.sessionStorage.getItem("empInfo")).companySeq}`)
-                    .then(res => setCompany(res.data))
-                    .catch(error => console.log(error))
-            }
+        if (props.companySeq != undefined) {
+            axios.get(`${baseUrl}/department/list/company`, {
+                headers: { Authorization: window.sessionStorage.getItem("empInfo") }
+            })
+                .then(res => setCompany(res.data))
+                .catch(error => console.log(error))
+        }
+    }, [])
+
+    useEffect(() => {
+        if (props.companySeq != "" && props.companySeq != undefined) {
+            axios.get(`${baseUrl}/department/list/company/${props.companySeq}`)
+                .then(res => setCompany(res.data))
+                .catch(error => console.log(error))
+            console.log(company);
         }
     }, [props.companySeq])
-
     const [toggleIcon, setToggleIcon] = useState([]);
 
 
