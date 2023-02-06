@@ -11,10 +11,12 @@ const SubMenuGroup = (props) => {
   const [childList, setChildList] = useState([]);
   const [count, setCount] = useState(0);
   const [checkedList, setCheckedList] = useState([]);
+  let [propsCheck, setPropsCheck] = useState(false);
   useEffect(() => {
     setDepth(props.depth + 1);
     setParentSeq(props.parentSeq);
     setCheckedList(props.checkedList);
+    setPropsCheck(props.checked);
   }, [props]);
 
   // 가져올 값이 있는지 확인
@@ -98,6 +100,9 @@ const SubMenuGroup = (props) => {
                 if (tempList.length > 0) {
                   return true;
                 } else {
+                  if (propsCheck == true) {
+                    return true;
+                  }
                   return false;
                 }
               })()}
@@ -113,6 +118,16 @@ const SubMenuGroup = (props) => {
                 id={childItem.id}
                 sendDummySeq={sendDummySeq}
                 checkedList={checkedList}
+                checked={(() => {
+                  let tempList = checkedList.filter(
+                    (data) => data.menuSeq === childItem.menuSeq
+                  );
+                  if (tempList.length > 0) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                })()}
               />
             </TreeItem>
           </div>
