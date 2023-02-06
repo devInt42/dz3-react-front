@@ -4,7 +4,6 @@ import { Form, OverlayTrigger, Popover, Container } from "react-bootstrap";
 import { ReactComponent as Plus } from "./plus.svg";
 import "./AuthGroup.css";
 import axios from "axios";
-import { set } from "lodash";
 
 const AddGroup = () => {
   const baseUrl = "http://localhost:8080";
