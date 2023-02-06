@@ -34,6 +34,11 @@ function EmployeeSet() {
 
     const [employeeSeq, setEmpSeq] = useState(0);
 
+    const [selectAct, setSelectAct] = useState(true);
+    const clickEmp = () => {
+        setSelectAct(false);
+    }
+
     return (
         <div>
             <div className={style.wrap}>
@@ -51,7 +56,7 @@ function EmployeeSet() {
                         <div style={{fontSize: "15px", textAlign: "center", marginTop: "8px"}}>
                             사용자&nbsp;:&nbsp;<span style={{color: "rgba(9, 132, 247, 0.63)", fontWeight: "bolder"}}>{employee.length}</span>명
                         </div><hr/>
-                        <Nav className="authNav" variant="pills" style={navStyle}>
+                        <Nav className="authNav" variant="pills" style={navStyle} onClick={clickEmp}>
                             {employee.map((emp, i) => (
                                     <Nav.Item key={i} style={navItemStyle} onClick={() => setEmpSeq(emp.employeeSeq)}>
                                         <Nav.Link className="authLnb" eventKey={emp.employeeSeq} style={navLinkStyle}>
@@ -98,7 +103,7 @@ function EmployeeSet() {
                                 </Tabs>
                             </Box>
                             <TabPanel value={value} index={0}>
-                                <EmpBasic employeeSeq={employeeSeq} />
+                                <EmpBasic employeeSeq={employeeSeq} clickEmp={clickEmp} selectAct={selectAct} setSelectAct={setSelectAct}/>
                             </TabPanel>
                             <TabPanel value={value} index={1}>
                                 <EmpDept />

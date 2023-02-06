@@ -57,3 +57,20 @@ body{
    padding-right: 15px;
    padding-left: 7px;
 }
+
+/* CRUD 버튼스타일 */
+.menu_btn {
+    text-align: center;
+  }.menu_btn button {
+    margin: 10px;
+    width: 100px;
+    height: 40px;
+    background-color: rgba(251, 251, 252, 0.486);
+    border-radius: 10%;
+    border-color: rgb(73, 137, 231);
+}.menu_btn button:hover {
+    background-color: rgba(9, 132, 247, 0.63);
+    transition: 0.3s;
+    color: aliceblue;
+    font-weight: bold;
+}

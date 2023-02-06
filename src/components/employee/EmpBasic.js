@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import EmpBasicSaveAlert from "../alert/EmpBasicSaveAlert";
+import EmpBasicSaveFailAlert from "../alert/EmpBasicSaveFailAlert";
+import EmpBasicUpdateAlert from "../alert/EmpBasicUpdateAlert";
+import EmpBasicUpdateFailAlert from "../alert/EmpBasicUpdateFailAlert";
+import EmpBasicDeleteAlert from "../alert/EmpBasicDeleteAlert";
 
 import style from "./css/EmpBasic.module.css"
 
 import { BsFilePerson } from "react-icons/bs";
+import { FcPlus } from "react-icons/fc";
 
 import Switch from '@mui/material/Switch';
 import Radio from '@mui/material/Radio';
@@ -32,6 +38,8 @@ function EmpBasic(props) {
             .catch((error) => console.log(error));
     }, []);
 
+    const [employeeSeq, setEmployeeSeq] = useState(0);
+    const [employeeCode, setEmployeeCode] = useState("");
     const [employeeId, setEmployeeId] = useState("");
     const [employeeName, setEmployeeName] = useState("");
     const [employeeBirth, setEmployeeBirth] = useState("");
@@ -59,6 +67,8 @@ function EmpBasic(props) {
 
     useEffect(() => {
         if (props.employeeSeq > 0) {
+            setEmployeeSeq(empSelected.employeeSeq);
+            setEmployeeCode(empSelected.employeeCode);
             setEmployeeId(empSelected.employeeId);
             setEmployeeName(empSelected.employeeName);
             setEmployeeBirth(empSelected.employeeBirth);
@@ -73,47 +83,105 @@ function EmpBasic(props) {
             setEmployeeLanguage(empSelected.employeeLanguage);
             setEmployeeHcall(empSelected.employeeHcall);
             setApprovalPwd(empSelected.approvalPwd);
-            if (empSelected.useYN == "1") {
+            if (empSelected.useYN == "Y") {
                 setUseYN(true);
             } else { setUseYN(false); }
         }
     }, [empSelected])
 
+    const [useEmp, setUseEmp] = useState("");
+    useEffect(() => {
+        if (useYN) { setUseEmp("Y") } else { setUseEmp("N") }
+    }, [useYN]);
+
     const label = { inputProps: { 'aria-label': 'Size switch demo' } };
-   
+
+    const newSave = () => {
+        setEmployeeCode(""); setEmployeeBirth("");
+        setEmployeeName(""); setEmployeePwd(""); setEmployeePh("");
+        setEmployeeId(""); setEmployeePmail(""); setEmployeeCmail("");
+        setEmployeeAddr(""); setEmployeeHcall(""); setApprovalPwd("");
+        setEmployeeGender(""); setEmployeeLanguage(""); setEmployeeJoin("");
+        setEmployeeLeave(""); props.clickEmp(); props.setSelectAct(true);
+    }
+
+    const [insertCheck, setInsertCheck] = useState(false);
+    const [insertFail, setInsertFail] = useState();
+    function insertValid() {
+        if (employeeName.length == 0 || employeePwd.length == 0 || employeeCode.length == 0 ||
+            approvalPwd.length == 0 || employeeJoin.length == 0) {
+            setInsertFail(<EmpBasicSaveFailAlert setInsertCheck={setInsertCheck} />);
+        } else { setInsertCheck(true); }
+    }
+
+    const [updateCheck, setUpdateCheck] = useState(false);
+    const [updateFail, setUpdateFail] = useState();
+    function updateValid() {
+        if (employeeName.length == 0 || employeePwd.length == 0 || employeeCode.length == 0 ||
+            approvalPwd.length == 0 || employeeJoin.length == 0) {
+            setUpdateFail(<EmpBasicUpdateFailAlert setUpdateCheck={setUpdateCheck} />);
+        } else { setUpdateCheck(true); }
+    }
+
+    const [deleteCheck, setDeleteCheck] = useState(false);
+    function deleteValid(){
+        if(employeeName.length == 0){
+            alert("삭제시 사원 이름은 필수입니다.");
+        }else{setDeleteCheck(true);}
+    }
+
+    // const mailurl = employeeCmail.split("@");
+    // console.log(mailurl[1])
+
     return (
         <div>
+            <h5 style={{ display: "inline" }}>사원 상세</h5>
+            <span style={{ float: "right" }} onClick={newSave}><FcPlus />새로 저장하기</span>
             <table className={style.basic_tbl}>
                 <thead></thead>
                 <tbody>
                     <tr>
-                        <th>사진</th>
-                        <td colSpan={3}>
+                        <th rowSpan={2}>사진</th>
+                        <td rowSpan={2}>
                             <BsFilePerson style={{ width: "40px", height: "40px" }} />
+                        </td>
+                        <th>사원번호</th>
+                        <td>
+                            <input type="text" className={style.emp_input} style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
+                                value={employeeCode || ""} onChange={(e) => { setEmployeeCode(e.target.value) }} />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>생년월일</th>
+                        <td>
+                            <input type="date" value={employeeBirth || ""} onChange={(e) => { setEmployeeBirth(e.target.value) }} />
                         </td>
                     </tr>
                     <tr>
                         <th>이름</th>
                         <td colSpan={3}>
-                            <input type="text" className={style.emp_input} value={employeeName || ""} onChange={(e) => { setEmployeeName(e.target.value) }} />
+                            <input type="text" className={style.emp_input} style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
+                                value={employeeName || ""} onChange={(e) => { setEmployeeName(e.target.value) }} />
                         </td>
                     </tr>
                     <tr>
                         <th>로그인 ID</th>
                         <td>
-                            <input type="text" className={style.emp_input} value={employeeId || ""} onChange={(e) => { setEmployeeId(e.target.value) }} />
+                            <input type="text" className={style.emp_input} value={employeeId || ""} style={{ backgroundColor: "rgba(175, 174, 174, 0.328)" }}
+                                onChange={(e) => { setEmployeeId(e.target.value) }} />
                         </td>
                         <th>메일 ID</th>
                         <td>
-                            <input type="text" className={style.emp_input} value={employeeCmail || ""} onChange={(e) => { setEmployeeCmail(e.target.value) }} />
+                            <input type="text" className={style.emp_input} value={employeeCmail || ""} style={{ backgroundColor: "rgba(175, 174, 174, 0.328)" }}
+                                onChange={(e) => { setEmployeeCmail(e.target.value) }} />
                         </td>
                     </tr>
                     <tr>
                         <th>로그인 비밀번호</th>
                         <td>{checked ?
-                            <input type="text" className={style.emp_pwd} value={employeePwd || ""}
+                            <input type="text" className={style.emp_pwd} value={employeePwd || ""} style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
                                 onChange={(e) => { setEmployeePwd(e.target.value) }} autoComplete="off" /> :
-                            <input type="password" className={style.emp_pwd} value={employeePwd || ""}
+                            <input type="password" className={style.emp_pwd} value={employeePwd || ""} style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
                                 onChange={(e) => { setEmployeePwd(e.target.value) }} autoComplete="current-password" />
                         }
                             <Checkbox
@@ -125,12 +193,12 @@ function EmpBasic(props) {
                         </td>
                         <th>결재 비밀번호</th>
                         <td>
-                        {checked2 ?
-                            <input type="text" className={style.emp_pwd} value={approvalPwd || ""}
-                                onChange={(e) => { setApprovalPwd(e.target.value) }} autoComplete="off" /> :
-                            <input type="password" className={style.emp_pwd} value={approvalPwd || ""}
-                                onChange={(e) => { setApprovalPwd(e.target.value) }} autoComplete="current-password" />
-                        }
+                            {checked2 ?
+                                <input type="text" className={style.emp_pwd} value={approvalPwd || ""} style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
+                                    onChange={(e) => { setApprovalPwd(e.target.value) }} autoComplete="off" /> :
+                                <input type="password" className={style.emp_pwd} value={approvalPwd || ""} style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
+                                    onChange={(e) => { setApprovalPwd(e.target.value) }} autoComplete="current-password" />
+                            }
                             <Checkbox
                                 checked={checked2}
                                 onChange={handleChange2}
@@ -202,7 +270,7 @@ function EmpBasic(props) {
                     <tr>
                         <th>최초 입사일</th>
                         <td>
-                            <input type="date" value={employeeJoin || ""} onChange={(e) => { setEmployeeJoin(e.target.value) }} />
+                            <input type="date" value={employeeJoin || ""} onChange={(e) => { setEmployeeJoin(e.target.value) }} style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }} />
                         </td>
                         <th>최종 퇴사일</th>
                         <td>
@@ -221,8 +289,90 @@ function EmpBasic(props) {
                     </tr>
                 </tbody>
             </table>
+            <div className={style.menu_btn}>
+                {props.selectAct == true ?
+                    <><button onClick={insertValid}>저장</button><div>수정/삭제는 왼쪽 사원을 선택해주세요.</div></> : <>
+                        <button onClick={updateValid}>수정</button>
+                        <button onClick={deleteValid}>삭제</button></>}
+            </div>
+            {insertCheck && <EmpBasicSaveAlert setInsertCheck={setInsertCheck} insertEmp={insertEmp} />}{insertFail}
+            {updateCheck && <EmpBasicUpdateAlert setUpdateCheck={setUpdateCheck} updateEmp={updateEmp} />}{updateFail}
+            {deleteCheck && <EmpBasicDeleteAlert setDeleteCheck={setDeleteCheck} employeeName={employeeName} deleteEmp={deleteEmp}/>}
         </div>
     );
+
+    async function insertEmp() {
+        const url = baseUrl + "/employee";
+        const data = {
+            employeeCode: employeeCode,
+            employeeId: employeeId,
+            employeeName: employeeName,
+            employeeBirth: employeeBirth,
+            employeePwd: employeePwd,
+            employeePh: employeePh,
+            employeePmail: employeePmail,
+            employeeCmail: employeeCmail,
+            employeeAddr: employeeAddr,
+            employeeJoin: employeeJoin,
+            employeeLeave: employeeLeave,
+            employeeGender: employeeGender,
+            employeeLanguage: employeeLanguage,
+            useYN: useEmp,
+            employeeHcall: employeeHcall,
+            approvalPwd: approvalPwd
+        }
+        console.log(data);
+        axios({
+            method: "post", url: url, data: JSON.stringify(data), headers: { "Content-Type": "application/json" },
+        }).then((res) => { console.log("저장성공!!"); }).catch((error) => { console.log(error); })
+    }
+
+    async function updateEmp() {
+        const url = baseUrl + "/employee/emplist/update/" + employeeSeq;
+        const data = {
+            employeeCode: employeeCode,
+            employeeId: employeeId,
+            employeeName: employeeName,
+            employeeBirth: employeeBirth,
+            employeePwd: employeePwd,
+            employeePh: employeePh,
+            employeePmail: employeePmail,
+            employeeCmail: employeeCmail,
+            employeeAddr: employeeAddr,
+            employeeJoin: employeeJoin,
+            employeeLeave: employeeLeave,
+            employeeGender: employeeGender,
+            employeeLanguage: employeeLanguage,
+            useYN: useEmp,
+            employeeHcall: employeeHcall,
+            approvalPwd: approvalPwd
+        }
+        console.log("update data : " + data)
+        axios({
+            method: "patch",
+            url: url,
+            data: JSON.stringify(data),
+            headers: { "Content-Type": "application/json" },
+        }).then((res) => {
+                console.log("수정성공!!");
+            }).catch((error) => {
+                console.log(error);
+            });
+    }
+
+    async function deleteEmp(){
+        const url = baseUrl + "/employee/emplist/delete/" + employeeSeq;
+        axios({
+            method: "delete",
+            url: url,
+          })
+            .then((res) => {
+              console.log("삭제성공!!");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+    }
 }
 
 export default EmpBasic;
