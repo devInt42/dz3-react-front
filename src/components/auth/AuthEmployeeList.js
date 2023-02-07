@@ -62,7 +62,9 @@ const AuthEmployeeList = (props) => {
                     {eList.companyName}&gt;{eList.workplaceName}&gt;
                     {eList.departmentName}
                   </td>
-                  <td>{eList.title}</td>
+                  <td>
+                    {eList.position}&#47;{eList.duty}
+                  </td>
                   <td>
                     {eList.employeeName}
                     &nbsp; &#40;&nbsp;{eList.employeeId}
