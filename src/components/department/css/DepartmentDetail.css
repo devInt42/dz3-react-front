@@ -45,3 +45,7 @@
 .content-have-button {
     display:flex;
 }
+
+#department-modal:hover {
+    background-color: gray;
+}

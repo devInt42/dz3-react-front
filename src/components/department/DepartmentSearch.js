@@ -1,3 +1,4 @@
+import { Token } from '@mui/icons-material';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
@@ -9,25 +10,19 @@ const DepartmentSearch = (props) => {
     const [searchName, setSearchName] = useState(null);
     const [companyList, setCompanyList] = useState([]);
     const [company, setCompany] = useState();
-    const [searchCompanySeq, setSearchCompanySeq] = useState(0);
     useEffect(() => {
-        if (JSON.parse(window.sessionStorage.getItem("empInfo")).companySeq === 999) {
-            axios.get(`${baseUrl}/department/list/company`)
-                .then(res => setCompanyList(res.data))
+            axios.get(`${baseUrl}/department/list/company`, {
+                headers: {Authorization: window.sessionStorage.getItem("empInfo")}
+            })
+                .then(res => {setCompany(res.data); setCompanyList(res.data)})
                 .catch(error => console.log(error))
-        }
-        else {
-            axios.get(`${baseUrl}/company/info/${JSON.parse(window.sessionStorage.getItem("empInfo")).companySeq}`)
-                .then(res => setCompany(res.data))
-                .catch(error => console.log(error))
-            props.setCompanySeq(JSON.parse(window.sessionStorage.getItem("empInfo")).companySeq);
-        }
-    }, [props])
+    }, [])
+    
     function FindDepartment() {
         const param =
         {
             "searchName": searchName,
-            "searchCompanySeq": props.companySeq != 0 ? props.companySeq : JSON.parse(window.sessionStorage.getItem("empInfo")).companySeq
+            "searchCompanySeq": props.companySeq != 0 && props.companySeq != undefined ? props.companySeq : JSON.parse(window.sessionStorage.getItem("empInfo")).companySeq
         }
         console.log(param);
         axios.get(`${baseUrl}/department/find`, {
@@ -42,7 +37,7 @@ const DepartmentSearch = (props) => {
             회사 <input type="text" placeholder='코드/사업장/부서명을 입력하세요.'
                 onChange={e => { setSearchName(e.target.value) }} />
             <select
-                onChange={e => { setSearchCompanySeq(e.target.value); props.setCompanySeq(e.target.value) }}
+                onChange={e => {props.setCompanySeq(e.target.value)}}
             >
                 <option disabled>-회사 선택-</option>
                 {
