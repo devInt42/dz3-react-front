@@ -37,20 +37,22 @@ const EmployeeDetail = (props) => {
 
   //직원 상세 페이지
   const getEmplElement = useCallback(async () => {
-    let EmplData = {
-      employeeSeq: selectEmp.employeeSeq,
-      companySeq: selectEmp.companySeq,
-    };
-    try {
-      const EmplDataResult = await axios.get(
-        `${baseUrl}/department-employee/detail`,
-        {
-          params: EmplData,
-        }
-      );
-      setDeptDetail(EmplDataResult.data);
-    } catch (error) {
-      console.log(error);
+    if (selectEmp != null) {
+      let EmplData = {
+        employeeSeq: selectEmp.employeeSeq,
+        companySeq: selectEmp.companySeq,
+      };
+      try {
+        const EmplDataResult = await axios.get(
+          `${baseUrl}/department-employee/detail`,
+          {
+            params: EmplData,
+          }
+        );
+        setDeptDetail(EmplDataResult.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [selectEmp]);
 

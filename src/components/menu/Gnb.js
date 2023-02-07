@@ -65,9 +65,13 @@ function GNB(props) {
           <LoginInfo />
         </Col>
         <Col xs={2} className={style.gnb_Imtree}>
-          <button
+          <div
             className={style.gnb_Imtree_btn}
-            style={{ border: "none", backgroundColor: "white" }}
+            style={{
+              border: "none",
+              backgroundColor: "white",
+              cursor: "pointer",
+            }}
           >
             <ImTree size="30" onClick={openModal}></ImTree>
             <OrganizationChart
@@ -75,11 +79,12 @@ function GNB(props) {
               close={closeModal}
               header="조직도"
             ></OrganizationChart>
-          </button>
+          </div>
         </Col>
       </Row>
       {/* {props.menuName == "" ? <Main/> : */}
-      {props.menuName == "" && window.sessionStorage.getItem("menuName") == null ? (
+      {props.menuName == "" &&
+      window.sessionStorage.getItem("menuName") == null ? (
         <Main />
       ) : (
         <div className={style.gnb_bar}>
