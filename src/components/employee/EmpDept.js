@@ -2,20 +2,26 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import style from "./css/EmpDept.module.css"
+import EmpDepartmentModal from "./EmpDepartmentModal";
+import { Form } from "react-bootstrap";
 
 function EmpDept(props) {
     const baseUrl = 'http://localhost:8080';
-
+    const [department, setDepartment] = useState({});
     const [cWDdata, setCWDData] = useState({});
     const [employee, setEmployee] = useState([]);
     const [companyName, setCompanyName] = useState("");
     const [workplaceName, setWorkplaceName] = useState("");
     const [departmentName, setDepartmentName] = useState("");
-    const [departmentSeq, setDepartmentSeq] = useState(0);
     const [mainCompanyYN, setMainCompanyYN] = useState("Y");
     const [mainDepartmentYN, setMainDepartmentYN] = useState("Y");
-
+    const [companySeq, setCompanySeq] = useState(0);
+    const [workplaceSeq, setWorkplaceSeq] = useState(0);
+    const [departmentSeq, setDepartmentSeq] = useState(0);
+    const [departmentCall, setDepartmentCall] = useState("");
+    const [departmentFax, setDepartmentFax] = useState("");
     useEffect(() => {
+
         axios.get(`${baseUrl}/department-employee/belong`, {
             params: {
                 "employeeSeq": props.employeeSeq
@@ -27,19 +33,55 @@ function EmpDept(props) {
         axios.get(`${baseUrl}/employee/emplist/${props.employeeSeq}`)
             .then(res => setEmployee(res.data[0]))
             .catch(error => console.log(error));
-            
 
+    }, [props.employeeSeq])
+
+    useEffect(() => {
+        setCompanySeq(cWDdata.companySeq);
+        setWorkplaceSeq(cWDdata.workplaceSeq);
+        setCompanyName(cWDdata.companyName);
+        setWorkplaceName(cWDdata.workplaceName);
+        setDepartmentName(cWDdata.departmentName);
         setMainCompanyYN(cWDdata.mainCompanyYN);
         setMainDepartmentYN(cWDdata.mainDepartmentYN);
-    }, [props.employeeSeq])
+        setDepartmentCall(cWDdata.departmentCall);
+        setDepartmentFax(cWDdata.departmentFax);
+    },[employee])
+
+    useEffect(() => {
+        if (departmentSeq != undefined && departmentSeq != null) {
+            axios.get(`${baseUrl}/department/list/${departmentSeq}`)
+                .then(res => setDepartment(res.data))
+                .catch(error => console.log(error))
+            setDepartmentCall(department.departmentCall);
+            setDepartmentFax(department.departmentFax);
+        }
+    }, [departmentSeq])
+    
     return (
         <div>
             <table className={style.dept_tbl}>
                 <thead></thead>
                 <tbody>
                     <tr>
-                        <th>회사/부서</th>
-                        <td colSpan={3}>{cWDdata.companyName}/{cWDdata.workplaceName}/{cWDdata.departmentName}</td>
+                        <th>회사</th>
+                        <td>{cWDdata.companyName}</td>
+                        <th>부서</th>
+                        <td>
+                            <div className="content-have-button">
+                                <Form.Control
+                                    onChange={e => setDepartmentName(e.target.value)}
+                                    value={departmentName || ""}
+                                    placeholder="부서를 선택해 주십시오."
+                                    style={{ zIndex: "0", backgroundColor: "rgba(241, 199, 199, 0.328)" }}
+                                    readOnly
+                                />
+                                <EmpDepartmentModal
+                                    companySeq={companySeq} workplaceSeq={workplaceSeq} departmentSeq={departmentSeq}
+                                    setWorkplaceSeq={setWorkplaceSeq} setDepartmentSeq={setDepartmentSeq}
+                                    setDepartmentName={setDepartmentName} />
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <th>사번</th>
@@ -51,13 +93,13 @@ function EmpDept(props) {
                             <input type='radio'
                                 name='main-company-yn'
                                 value='Y'
-                                onChange={(e) => { setMainCompanyYN(e.target.value); }} 
+                                onChange={(e) => { setMainCompanyYN(e.target.value); }}
                                 checked={mainCompanyYN === "Y" ? true : false} /><label>주회사</label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <input type='radio'
                                 name='main-company-yn'
                                 value='N'
-                                onChange={(e) => { setMainCompanyYN(e.target.value) }} 
+                                onChange={(e) => { setMainCompanyYN(e.target.value) }}
                                 checked={mainCompanyYN === "N" ? true : false} /><label>부회사</label>
                         </td>
                         <th>부서구분</th>
@@ -65,13 +107,13 @@ function EmpDept(props) {
                             <input type='radio'
                                 name='main-department-yn'
                                 value='Y'
-                                onChange={(e) => { setMainDepartmentYN(e.target.value); }} 
+                                onChange={(e) => { setMainDepartmentYN(e.target.value); }}
                                 checked={mainDepartmentYN === "Y" ? true : false} /><label>주부서</label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <input type='radio'
                                 name='main-department-yn'
                                 value='N'
-                                onChange={(e) => { setMainDepartmentYN(e.target.value) }} 
+                                onChange={(e) => { setMainDepartmentYN(e.target.value) }}
                                 checked={mainDepartmentYN === "N" ? true : false} /><label>부부서</label></td>
                     </tr>
 
@@ -95,13 +137,14 @@ function EmpDept(props) {
                     </tr>
                     <tr>
                         <th>전화번호</th>
-                        <td>{employee.employeePh}</td>
+                        <td><input type="text" value={departmentCall || ""} 
+                                onChange={(e) => { setDepartmentCall(e.target.value) }} /></td>
                         <th>팩스번호</th>
-                        <td>01012345678</td>
+                        <td>{departmentFax  || "-"}</td>
                     </tr>
                     <tr>
                         <th>주소</th>
-                        <td colSpan={3}>{cWDdata.departmentLoc}</td>
+                        <td colSpan={3}>1</td>
                     </tr>
                     <tr>
                         <th>조직도</th>
