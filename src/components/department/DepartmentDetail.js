@@ -30,7 +30,10 @@ const DepartmentDetail = (props) => {
     const [notRequire, setNotRequire] = useState('');
     const [allCheck, setAllCheck] = useState(false);
     const [checkDelete, setCheckDelete] = useState(false);
-    
+    const [departmentCall, setDepartmentCall] = useState("");
+    const [departmentFax, setDepartmentFax] = useState("");
+    const [areaCode, setAreaCode] = useState("");
+
     //사업장 seq로 회사, 사업장 이름 조회하고 department 에 데이터 셋팅
     const getWorkplace = async () => {
         try {
@@ -73,8 +76,11 @@ const DepartmentDetail = (props) => {
             setDepartmentDepth(0);
             setAllCheck(false);
             setCheckDelete(false);
+            setDepartmentCall("");
+            setDepartmentFax("");
+            setAreaCode("");
         }
-        
+
     }, [props.departmentSeq])
 
 
@@ -95,6 +101,23 @@ const DepartmentDetail = (props) => {
         }
     }
 
+
+    //전화번호, 팩스번호 스타일
+    const [callStyle, setCallStyle] = useState(false);
+    const [faxStyle, setFaxStyle] = useState(false);
+    useEffect(() => {
+
+        departmentCall < 0 ? setDepartmentCall('') : CallNumberCheck(departmentCall) ? setCallStyle(true) : setCallStyle(false);
+
+    }, [departmentCall])
+
+    useEffect(() => {
+
+        departmentFax < 0 ? setDepartmentFax('') : FaxNumberCheck(departmentFax) ? setFaxStyle(true) : setFaxStyle(false);
+
+    }, [departmentFax])
+
+    //값 표기
     useEffect(() => {
         if (JSON.stringify(department) !== '{}') {
             getNames();
@@ -107,6 +130,8 @@ const DepartmentDetail = (props) => {
         setDepartmentParentSeq(department.departmentParent);
         setDepartmentDepth(department.departmentDepth);
         setUseYN(department.useYN);
+        setDepartmentCall((department.departmentCall == null) ? "" : department.departmentCall);
+        setDepartmentFax(department.departmentFax == null ? "" : department.departmentFax);
     }, [department])
 
     // 로딩
@@ -209,6 +234,8 @@ const DepartmentDetail = (props) => {
         setCheckDelete(false);
         setFirstCode("");
         setFirstName("");
+        setDepartmentCall("");
+        setDepartmentFax("");
         setChecked(0);
         props.setInsertForm(true);
     }
@@ -222,7 +249,9 @@ const DepartmentDetail = (props) => {
         "departmentName": departmentName,
         "departmentLoc": departmentLoc,
         "useYN": useYN,
-        "departmentDepth": departmentDepth
+        "departmentDepth": departmentDepth,
+        "departmentCall": departmentCall,
+        "departmentFax": departmentFax
     }
     const InsertData = () => {
         const param = {
@@ -263,31 +292,31 @@ const DepartmentDetail = (props) => {
                             (props.departmentSeq !== 0 && !props.insertForm) &&
                             <button onClick={() => InsertForm()}>추가</button>
                         }
-                        { (props.departmentSeq !== 0 || props.workplaceSeq !== 0)
-                         && <button onClick={() => AllCheck()}>저장</button>}
+                        {(props.departmentSeq !== 0 || props.workplaceSeq !== 0)
+                            && <button onClick={() => AllCheck()}>저장</button>}
                         {
                             props.insertForm && allCheck &&
                             <SaveDepartmentAlert setAllCheck={setAllCheck} InsertData={InsertData}
-                                setRefresh={props.setRefresh} InitSeq={props.InitSeq} refresh={props.refresh} 
-                                setInsertForm = {props.setInsertForm} setDetailFlag = {props.setDetailFlag}/>
+                                setRefresh={props.setRefresh} InitSeq={props.InitSeq} refresh={props.refresh}
+                                setInsertForm={props.setInsertForm} setDetailFlag={props.setDetailFlag} />
                         }
                         {
                             (props.departmentSeq !== 0 && allCheck && !props.insertForm) &&
                             <UpdateDepartmentAlert setAllCheck={setAllCheck} Update={Update} seq={props.departmentSeq}
-                                setRefresh={props.setRefresh} refresh={props.refresh}  setInsertForm = {props.setInsertForm}/>
+                                setRefresh={props.setRefresh} refresh={props.refresh} setInsertForm={props.setInsertForm} />
                         }
                         {
                             (props.departmentSeq !== 0 && checkDelete) &&
                             <DeleteDepartmentAlert setCheckDelete={setCheckDelete} Delete={Delete}
-                                setRefresh={props.setRefresh} InitSeq={props.InitSeq} refresh={props.refresh} 
-                                setInsertForm = {props.setInsertForm} setDetailFlag = {props.setDetailFlag}/>
+                                setRefresh={props.setRefresh} InitSeq={props.InitSeq} refresh={props.refresh}
+                                setInsertForm={props.setInsertForm} setDetailFlag={props.setDetailFlag} />
                         }
 
                         {
-                            (props.departmentSeq !== 0 && !props.insertForm )&& <button type="button"
+                            (props.departmentSeq !== 0 && !props.insertForm) && <button type="button"
                                 onClick={() => setCheckDelete(true)}>삭제</button>
                         }
-                        <button id="department-detail-closebtn" onClick={() => { props.InitSeq(); props.setDetailFlag(false); props.setInsertForm(false); props.setSearch(false)}}><TfiClose /></button>
+                        <button id="department-detail-closebtn" onClick={() => { props.InitSeq(); props.setDetailFlag(false); props.setInsertForm(false); props.setSearch(false) }}><TfiClose /></button>
                     </div>
                 </div>
                 {notRequire}
@@ -353,6 +382,56 @@ const DepartmentDetail = (props) => {
                             /></td>
                         </tr>
                         <tr>
+                            <td className="department-table-title">전화 번호</td>
+                            <td className="department-table-content">
+                                <div className="company-table-td-twocontent">
+                                    <select name="area-code" className="company-select-option"
+                                        onChange={(e) => {
+                                            setDepartmentCall("");
+                                            setAreaCode(e.target.value)
+                                        }}>
+                                        <option value="">직접 입력</option>
+                                        <option value="010-">010</option>
+                                        <option value="02-">02</option>
+                                        <option value="031-">031</option>
+                                        <option value="032-">032</option>
+                                        <option value="033-">033</option>
+                                        <option value="041-">041</option>
+                                        <option value="042-">042</option>
+                                        <option value="043-">043</option>
+                                        <option value="044-">044</option>
+                                        <option value="051-">051</option>
+                                        <option value="052-">052</option>
+                                        <option value="053-">053</option>
+                                        <option value="054-">054</option>
+                                        <option value="055-">055</option>
+                                        <option value="061-">061</option>
+                                        <option value="062-">062</option>
+                                        <option value="063-">063</option>
+                                        <option value="064-">064</option>
+                                    </select>
+                                    <Form.Control
+                                        placeholder="대표 전화를 입력해 주십시오."
+                                        onChange={e => { setDepartmentCall(CallNumber(areaCode + e.target.value)) }}
+                                        value={`${departmentCall}`.substring(areaCode.length) || ""}
+                                        isValid={callStyle}
+                                        isInvalid={`${departmentCall}`.length < 1 ? '' : callStyle ? false : true}
+                                        style={{ zIndex: 0 }}
+                                    />
+                                </div>
+                            </td>
+                            <td className="department-table-title">대표 팩스</td>
+                            <td className="department-table-content"><Form.Control
+                                placeholder="대표 팩스를 입력해 주십시오."
+                                onChange={e => { setDepartmentFax(FaxNumber(e.target.value)); }}
+                                value={departmentFax || ""}
+                                isValid={faxStyle}
+                                isInvalid={`${departmentFax}`.length < 1 ? '' : faxStyle ? false : true}
+                                style={{ zIndex: 0 }}
+                            />
+                            </td>
+                        </tr>
+                        <tr>
                             <th className="department-table-title">부서주소</th>
                             <td className="department-table-content"><Form.Control
                                 placeholder="부서 주소를 입력해주세요"
@@ -391,6 +470,82 @@ const DepartmentDetail = (props) => {
         let result = "";
         result = value.substring(0, 4);
         return result;
+    }
+    //자동으로 하이픈 삽입
+    function CallNumber(value) {
+        if (!value) {
+            return "";
+        }
+
+        value = value.replace(/[^0-9]/g, "");
+
+        let result = [];
+        let restNumber = "";
+
+        if (value.startsWith("02")) {
+            //서울 지역번호
+            result.push(value.substr(0, 2));
+            restNumber = value.substring(2);
+        }
+        else if (value.startsWith("1")) {
+            // 지역 번호가 없는 경우
+            // 1xxx-yyyy
+            restNumber = value;
+        } else {
+            // 나머지 3자리 지역번호
+            // 0xx-yyyy-zzzz
+            result.push(value.substr(0, 3));
+            restNumber = value.substring(3);
+        }
+
+        if (restNumber.length === 7) {
+            // 7자리만 남았을 때는 xxx-yyyy
+            result.push(restNumber.substring(0, 3));
+            result.push(restNumber.substring(3));
+        } else {
+            result.push(restNumber.substring(0, 4));
+            result.push(restNumber.substring(4));
+        }
+        return result.filter((val) => val).join("-");
+    }
+    function FaxNumber(value) {
+        if (!value) { return ""; }
+
+        value = value.replace(/[^0-9]/g, "");
+        let result = [];
+        let restNumber = "";
+
+        if (value.startsWith("02")) {
+            result.push(value.substring(0, 2));
+            restNumber = value.substring(2);
+        } else if (value.startsWith("0505") || value.startsWith("0504")) {
+            result.push(value.substring(0, 4));
+            restNumber = value.substring(4);
+        }
+        else {
+            result.push(value.substring(0, 3));
+            restNumber = value.substring(3);
+        }
+
+        if (restNumber.length === 7) {
+            result.push(restNumber.substring(0, 3));
+            result.push(restNumber.substring(3));
+        } else {
+            result.push(restNumber.substring(0, 4));
+            result.push(restNumber.substring(4));
+        }
+        return result.filter((val) => val).join("-");
+    }
+
+    //유효성 검사를 하기 위한 함수
+    function CallNumberCheck(value) { //대표번호 유효성 검사
+        const check = /^0[0-9]{1,2}-[0-9]{3,4}-[0-9]{4}$/;
+        return check.test(value);
+    }
+
+    function FaxNumberCheck(value) {
+        const check = /(^02[0-9]{0}|^01[0-9]{1}|050[0-9]{1}|[0-9]{3})-[0-9]{3,4}-[0-9]{4}$/;
+        return check.test(value);
     }
 }
 
