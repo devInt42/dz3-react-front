@@ -32,6 +32,7 @@ const AllEmployeeList = (props) => {
     initLoad();
   }, [authSeq, pointCompanySeq]);
 
+  //권한 값 받아오기
   const initLoad = async () => {
     if (authSeq != "" && pointCompanySeq != "") {
       let data = {
@@ -94,8 +95,6 @@ const AllEmployeeList = (props) => {
   useEffect(() => {
     onCheckedElement();
   }, [departmentSeq]);
-
-  //전체 클릭시 발생하는 함수
 
   //개별 클릭시 발생하는 함수
   const onCheckedElement = useCallback(
@@ -196,11 +195,15 @@ const AllEmployeeList = (props) => {
                     <input
                       key={0}
                       type="checkbox"
-                      checked={deptList
-                        .map((d) => d.employeeId)
-                        .every((item) =>
-                          checkedList.map((cl) => cl.employeeId).includes(item)
-                        )}
+                      checked={
+                        deptList
+                          .map((d) => d.employeeSeq)
+                          .every((item) =>
+                            checkedList
+                              .map((cl) => cl.employeeSeq)
+                              .includes(item)
+                          ) && deptList.length !== 0
+                      }
                       onChange={(e) => {
                         if (e.target.checked) {
                           setCheckedLists([
@@ -208,8 +211,8 @@ const AllEmployeeList = (props) => {
                             ...deptList.filter(
                               (d) =>
                                 !checkedList
-                                  .map((it) => it.employeeId)
-                                  .includes(d.employeeId)
+                                  .map((it) => it.employeeSeq)
+                                  .includes(d.employeeSeq)
                             ),
                           ]);
                         } else {
@@ -217,13 +220,12 @@ const AllEmployeeList = (props) => {
                             checkedList.filter(
                               (d) =>
                                 !deptList
-                                  .map((it) => it.employeeId)
-                                  .includes(d.employeeId)
+                                  .map((it) => it.employeeSeq)
+                                  .includes(d.employeeSeq)
                             )
                           );
                         }
                       }}
-                      onClick={(e) => console.log(checkedList, deptList)}
                       // checked={(() => {
                       //   let a = deptList.filter(
                       //     (dept) => dept.checked === true
@@ -238,9 +240,7 @@ const AllEmployeeList = (props) => {
                       // })()}
                       className="custom-control-input"
                       id="customCheck2"></input>
-                    <button onClick={(e) => console.log(checkedList)}>
-                      ㅇ
-                    </button>
+                    <button onClick={(e) => console.log(checkedList)}></button>
                   </th>
                   <th scope="col">회사</th>
                   <th scope="col">사업장</th>
