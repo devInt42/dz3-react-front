@@ -45,6 +45,8 @@ const AllEmployeeList = (props) => {
             params: data,
           }
         );
+        console.log("auth");
+        console.log(dataResult.data);
         setCheckedLists(dataResult.data);
       } catch (error) {
         console.log(error);
@@ -249,7 +251,7 @@ const AllEmployeeList = (props) => {
                     <td>{dept.companyName}</td>
                     <td>{dept.workplaceName}</td>
                     <td>{dept.departmentName}</td>
-                    <td>{dept.title}</td>
+                    <td>{dept.position}</td>
                     <td>{dept.employeeName}</td>
                     <td>{dept.employeePmail}</td>
                   </tr>
