@@ -8,6 +8,7 @@ import { BsFilePerson } from "react-icons/bs";
 import style from "../components/employee/css/EmployeeSet.module.css";
 import EmpBasic from "../components/employee/EmpBasic";
 import EmpDept from "../components/employee/EmpDept";
+import SearchAppBar from "../components/employee/SearchAppBar";
 
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -48,8 +49,8 @@ function EmployeeSet() {
                 </span><hr />
             </div>
             <Container fluid>
-                <Row md="auto" style={{ border: "1px solid black", width: "100%", height: "50px" }}>
-
+                <Row md="auto" style={{ border: "1px solid black", width: "100%", height: "55px" }}>
+                    <SearchAppBar/>
                 </Row>
                 <Row md="auto" style={{ border: "1px solid black" }}>
                     <Col md="auto" style={{ border: "1px solid black", height: "100vh", width: "15%", padding: "0px", overflow: "scroll" }}>
