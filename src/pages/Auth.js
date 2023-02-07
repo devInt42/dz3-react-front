@@ -194,7 +194,8 @@ const Auth = () => {
   }
 
   function getInfo(obj) {
-    setModalRes(obj);
+    // setModalRes(obj);
+    console.log(obj);
     SaveCompanyAlert();
   }
   return (
@@ -214,13 +215,11 @@ const Auth = () => {
               alignItems: "center",
               justifyContent: "flex-end",
               marginBottom: "10px",
-            }}
-          >
+            }}>
             <Button
               variant="outline-secondary"
               style={{ width: "5%" }}
-              onClick={openModal}
-            >
+              onClick={openModal}>
               편집
             </Button>
 
@@ -231,8 +230,7 @@ const Auth = () => {
               header="사용자 권한 설정"
               authSeq={authSeq}
               pointCompanySeq={pointCompanySeq}
-              selectCompanySeq={selectCompanySeq}
-            ></CommonModal>
+              selectCompanySeq={selectCompanySeq}></CommonModal>
           </Row>
           <AuthEmployeeList
             authSeq={authSeq}

@@ -14,14 +14,9 @@ const EmployeeList = (props) => {
   const [companyName, setCompanyName] = useState();
   const [employeeName, setEmployeeName] = useState();
 
-  //modal.js로 값이동
-  useEffect(() => {
-    props.sendEmployeeSeq(employeeSeq);
-    // console.log(employeeSeq);
-  }, [employeeSeq]);
-
-  function sendEmployeeSeq(a) {
-    setEmployeeSeq(a);
+  // 선택한 사원의 리스트 전송
+  function sendPointEmpList(a) {
+    props.sendPointEmpList(a);
   }
 
   //modal에서 값받아서 넣기
@@ -140,9 +135,9 @@ const EmployeeList = (props) => {
       {deptList &&
         deptList.map((dList) => (
           <Row
-            key={dList.employeeSeq}
+            key={`${dList.companyName}${dList.employeeSeq}`}
             onClick={() => {
-              sendEmployeeSeq(dList.employeeSeq);
+              sendPointEmpList(dList);
             }}
           >
             <Col sm={3} className="image">
@@ -168,7 +163,7 @@ const EmployeeList = (props) => {
                 </span>
               </Row>
               <Row className="Searchstage">
-                {companyName} &gt; {dList.workplaceName} &gt;
+                {dList.companyName} &gt; {dList.workplaceName} &gt;
                 {dList.departmentName}
               </Row>
               <Row className="Searchphnum">

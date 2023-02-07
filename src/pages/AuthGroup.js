@@ -11,16 +11,16 @@ const AuthGroup = () => {
   const [selectCompanySeq, setSelectCompanySeq] = useState();
   const [pointCompanySeq, setPointCompanySeq] = useState();
   const [checkedRes, setCheckedRes] = useState([]);
-  const [sendList, setSendList] = useState([]);
   const [originList, setOriginList] = useState([]);
   const [insertList, setInsertList] = useState(null);
   const [deleteList, setDeleteList] = useState(null);
+  const [refresh, setRefresh] = useState(false);
   useEffect(() => {}, [selectCompanySeq]);
   useEffect(() => {}, [pointCompanySeq]);
   useEffect(() => {}, [authSeq]);
   useEffect(() => {}, [checkedRes]);
   useEffect(() => {}, [originList]);
-
+  useEffect(() => {}, [refresh]);
   const sendAuthSeq = (authSeq) => {
     setAuthSeq(authSeq);
   };
@@ -81,6 +81,11 @@ const AuthGroup = () => {
             headers,
           }
         );
+
+        if (sendRes.status === 200) {
+          alert("추가되었습니다.");
+          setRefresh(true);
+        }
       } catch (error) {
         console.log(error);
       }

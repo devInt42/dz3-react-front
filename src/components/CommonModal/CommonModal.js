@@ -109,7 +109,10 @@ const CommonModal = (props) => {
 
               <Row>
                 <Col sm={5} className="AllCompanyList">
-                  <AllCompanyList sendDepartmentSeq={sendDepartmentSeq} />
+                  <AllCompanyList
+                    sendDepartmentSeq={sendDepartmentSeq}
+                    pointCompanySeq={pointCompanySeq}
+                  />
                 </Col>
                 <Col sm={7}>
                   <Row sm={7} className="AllCheckbox">

@@ -12,3 +12,16 @@
     height: 500px;
     width: 500px;
 }
+.company-item {
+    cursor: pointer;
+}
+.active-item{
+    cursor: pointer;
+    background-color: lightblue;
+    border: 1px solid blue; 
+    
+}
+
+.workplace-item {
+    cursor: pointer;
+}

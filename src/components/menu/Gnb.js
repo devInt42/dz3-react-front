@@ -41,7 +41,6 @@ function GNB(props) {
       setRetain(window.sessionStorage.getItem("menuName"));
     }
   }, [props.menuName]);
-  console.log("retain" + window.sessionStorage.getItem("menuName"));
 
   const goMain = () => {
     props.setMenuName("");

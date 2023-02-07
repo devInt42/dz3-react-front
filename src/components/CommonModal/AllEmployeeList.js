@@ -6,7 +6,6 @@ const AllEmployeeList = (props) => {
   const baseUrl = "http://localhost:8080";
   const [deptList, setDeptList] = useState([]);
   const [page, setPage] = useState(1);
-  const [countEmployee, setCountEmployee] = useState(0);
   const [checkedList, setCheckedLists] = useState([]);
   const [employeeName, setEmployeeName] = useState();
   const [companySeq, setCompanySeq] = useState();
@@ -15,36 +14,19 @@ const AllEmployeeList = (props) => {
 
   //값 받아서 departmentSeq 설정
   useEffect(() => {
-    async function getDeptSeq() {
-      const result = await props.departmentSeq;
-      setDepartmentSeq(result);
-    }
-    getDeptSeq();
+    getProps();
   }, [props]);
 
-  useEffect(() => {
-    async function getEmplName() {
-      const result = await props.employeeName;
-      setEmployeeName(result);
-    }
-    getEmplName();
+  const getProps = useCallback(async () => {
+    setDepartmentSeq(props.departmentSeq);
+    setEmployeeName(props.employeeName);
+    setAuthSeq(props.authSeq);
+    setPointCompanySeq(props.pointCompanySeq);
   }, [props]);
-
-  useEffect(() => {
-    async function getAuthSeq() {
-      const result = await props.authSeq;
-      setAuthSeq(result);
-    }
-    getAuthSeq();
-  }, [props]);
-
-  useEffect(() => {
-    async function getPointCompanySeq() {
-      const result = await props.pointCompanySeq;
-      setPointCompanySeq(result);
-    }
-    getPointCompanySeq();
-  }, [props]);
+  useEffect(() => {}, [departmentSeq]);
+  useEffect(() => {}, [employeeName]);
+  useEffect(() => {}, [authSeq]);
+  useEffect(() => {}, [pointCompanySeq]);
 
   useEffect(() => {
     initLoad();
@@ -96,11 +78,6 @@ const AllEmployeeList = (props) => {
           }
         );
         setDeptList(dataResult.data);
-
-        const dataResult2 = await axios.get(
-          `${baseUrl}/department-employee/count/${departmentSeq}`
-        );
-        setCountEmployee(dataResult2.data);
       } catch (error) {
         console.log(error);
       }
@@ -112,34 +89,55 @@ const AllEmployeeList = (props) => {
     setPage(1);
   }, [departmentSeq]);
 
-  //전체 클릭시 발생하는 함수
-  const onCheckedAll = useCallback(
-    (checked) => {
-      if (checked) {
-        const temp = [];
-
-        deptList.forEach((list) => temp.push(list));
-        let merged = checkedList.concat(temp);
-        let unique = merged.filter((item, pos) => merged.indexOf(item) === pos);
-        setCheckedLists(unique);
-      } else {
-        setCheckedLists([]);
-      }
-    },
-    [deptList]
-  );
+  useEffect(() => {
+    onCheckedElement();
+  }, [departmentSeq]);
 
   //개별 클릭시 발생하는 함수
   const onCheckedElement = useCallback(
     async (checked, list) => {
-      console.log(list);
+      // list  : 클릭한 하나의 값
+      // deptlist : 그 페이지 값
+      // temp : 일치하는 employeeSeq
+      // 1. deptList에서 list값(하나)의 seq를 찾음.
+      // 2. temp = deptlist
+      // 3. tempObj = deptList[하나 값] checked => true로 변경 (원래정보 + checked 데이터가 담겨있는 객체)
+      // 4. temp에 tempObj값을 합해줌 (리액트 배열 갈아끼기)
+      // 5. setDeptList에 (temp) 값 넣기 --> deptlist는 일부 애들만 check가 true로 변경되어있는 해당 전체 페이지값
+      // 6. checked가 true인애들만 filter로 걸러서 걔랑 deptlist(4)의 길이가 같으면 true
+
       try {
         if (checked) {
+          deptList.map((dept) => {
+            if (dept.employeeSeq === list.employeeSeq) {
+              let idx = list;
+              let temp = deptList;
+
+              let tempObj = { ...idx, checked: true };
+
+              //temp 에 tempObj 와 같은 배열 값 갈아끼우기
+              temp.splice(temp.lastIndexOf(idx), 1, tempObj);
+              setDeptList(temp);
+
+              return;
+            }
+          });
           setCheckedLists([...checkedList, list]);
         } else {
           setCheckedLists(
             checkedList.filter((el) => el.employeeSeq !== list.employeeSeq)
           );
+          //temp에 check값 false로 변경
+          deptList.map((dept) => {
+            if (dept.employeeSeq === list.employeeSeq) {
+              let idx = list;
+              let temp = deptList;
+              let tempObj = { ...idx, checked: false };
+              temp.splice(temp.lastIndexOf(idx), 1, tempObj);
+              setDeptList(temp);
+              return;
+            }
+          });
         }
       } catch (error) {
         console.log(error);
@@ -153,7 +151,7 @@ const AllEmployeeList = (props) => {
     if (employeeName == null) {
     } else {
       let getEmplData = {
-        companySeq: companySeq,
+        companySeq: pointCompanySeq,
         employeeName: employeeName,
       };
       try {
@@ -179,7 +177,7 @@ const AllEmployeeList = (props) => {
 
   //check된 값 저장 배열
   useEffect(() => {}, [checkedList]);
-  useEffect(() => {}, [onCheckedAll]);
+  // useEffect(() => {}, [onCheckedAll]);
   useEffect(() => {}, [onCheckedElement]);
 
   return (
@@ -195,9 +193,19 @@ const AllEmployeeList = (props) => {
                     <input
                       key={0}
                       type="checkbox"
-                      readOnly
-                      onClick={(e) => onCheckedAll(e.target.checked)}
-                      // checked={deptList.forEach()}
+                      // onChange={(e) =>
+                      //   onCheckedElement(e.target.checked, deptList)
+                      // }
+                      checked={(() => {
+                        let temp = deptList.filter(
+                          (dept) => dept.checked === true
+                        );
+                        if (temp.length === deptList.length) {
+                          return true;
+                        } else {
+                          return false;
+                        }
+                      })()}
                       className="custom-control-input"
                       id="customCheck2"
                     ></input>
