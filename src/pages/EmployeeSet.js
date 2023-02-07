@@ -107,7 +107,7 @@ function EmployeeSet() {
                                 <EmpBasic employeeSeq={employeeSeq} clickEmp={clickEmp} selectAct={selectAct} setSelectAct={setSelectAct}/>
                             </TabPanel>
                             <TabPanel value={value} index={1}>
-                                <EmpDept />
+                                <EmpDept  employeeSeq = {employeeSeq} />
                             </TabPanel>
                         </Box>
                     </Col>
