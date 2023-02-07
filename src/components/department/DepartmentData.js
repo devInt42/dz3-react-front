@@ -8,7 +8,8 @@ const DepartmentData = (props) => {
     const [department, setDepartment] = useState([]);
     const [departmentIsOpen, setDepartmentIsOpen] = useState([]);
     const [toggleIcon, setToggleIcon] = useState([]);
-
+    const [active, setActive] = useState(0);
+    const [departmentFocus, setDepartmentFocus] = useState(0);
     useEffect(() => {
         const param = {
             departmentDepth: 0,
@@ -35,7 +36,9 @@ const DepartmentData = (props) => {
                             {
                                 props.workplaceSeq === departmentdata.workplaceSeq &&
                                 <div className="departmentlist">
-                                    <div onClick={() => {
+                                    <div className = {departmentdata.departmentSeq === departmentFocus ? 
+                                    "active-item": "department-item"}
+                                    onClick={() => {
                                         departmentIsOpen.includes(departmentdata.departmentSeq) ?
                                             setDepartmentIsOpen(departmentIsOpen.filter(department => department !== departmentdata.departmentSeq)) :
                                             setDepartmentIsOpen([...departmentIsOpen, departmentdata.departmentSeq]);
@@ -44,6 +47,9 @@ const DepartmentData = (props) => {
                                         props.setCompanySeq(departmentdata.companySeq);
                                         props.setDetailFlag(true);
                                         props.setSearch(false);
+                                        props.setFocus("");
+                                        props.setFocusWorkplace("");
+                                        setDepartmentFocus(departmentdata.departmentSeq);
                                     }}>
                                         {toggleIcon.includes(departmentdata.departmentSeq) ? <AiFillFolderOpen className="departmentlist-icon" /> :
 
@@ -51,11 +57,14 @@ const DepartmentData = (props) => {
 
                                         {departmentdata.departmentCode}.{departmentdata.departmentName}
                                     </div>
-                                    {departmentIsOpen.includes(departmentdata.departmentSeq) && <DepartmentDepth depth={departmentdata.departmentDepth}
+                                    {departmentIsOpen.includes(departmentdata.departmentSeq) && <DepartmentDepth 
+                                        depth={departmentdata.departmentDepth}
                                         seq={departmentdata.departmentSeq} setDepartmentSeq={props.setDepartmentSeq}
                                         setWorkplaceSeq={props.setWorkplaceSeq} setCompanySeq={props.setCompanySeq}
                                         refresh={props.refresh} setSearch={props.setSearch}
-                                        setDetailFlag={props.setDetailFlag} 
+                                        setDetailFlag={props.setDetailFlag} setFocus = {props.setFocus} 
+                                        setFocusWorkplace = {props.setFocusWorkplace} setDepartmentFocus = {setDepartmentFocus}
+                                        departmentFocus = {departmentFocus}
                                     />}
                                 </div>
 

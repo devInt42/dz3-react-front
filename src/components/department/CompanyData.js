@@ -7,6 +7,7 @@ const CompanyData = (props) => {
     const baseUrl = "http://localhost:8080";
     const [company, setCompany] = useState([]);
     const [companyIsOpen, setCompanyIsOpen] = useState([]);
+    const [focus, setFocus] = useState("");
     useEffect(() => {
         if (props.companySeq != undefined) {
             axios.get(`${baseUrl}/department/list/company`, {
@@ -25,6 +26,7 @@ const CompanyData = (props) => {
             console.log(company);
         }
     }, [props.companySeq])
+    
     const [toggleIcon, setToggleIcon] = useState([]);
 
 
@@ -37,7 +39,8 @@ const CompanyData = (props) => {
             {company && company.map((companydata) => {
                 return (
                     <div key={companydata.companySeq}>
-                        <div onClick={() => {
+                        <div className = {`${companydata.companySeq === focus ? "active-item" : "company-item" }`} 
+                        onClick={() => {
                             companyIsOpen.includes(companydata.companySeq) ?
                                 setCompanyIsOpen(companyIsOpen.filter((company) => company !== companydata.companySeq))
                                 :
@@ -46,6 +49,7 @@ const CompanyData = (props) => {
                             props.setDetailFlag(false);
                             props.setDepartmentSeq(0);
                             props.setWorkplaceSeq(0);
+                            setFocus(companydata.companySeq);
                         }}>
                             <HiOutlineBuildingOffice2 className="companylist-icon" />{companydata.companyCode}.{companydata.companyName}
                             {toggleIcon.includes(companydata.companySeq) ? <HiChevronDown /> : <HiChevronUp />}
@@ -53,7 +57,7 @@ const CompanyData = (props) => {
                         {companyIsOpen.includes(companydata.companySeq) && <WorkplaceData companySeq={companydata.companySeq} key={companydata.companySeq}
                             setDepartmentSeq={props.setDepartmentSeq} setWorkplaceSeq={props.setWorkplaceSeq}
                             setCompanySeq={props.setCompanySeq} refresh={props.refresh} setSearch={props.setSearch}
-                            setDetailFlag={props.setDetailFlag} />
+                            setDetailFlag={props.setDetailFlag} setFocus = {setFocus}/>
                         }
                     </div>
                 )
