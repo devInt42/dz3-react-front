@@ -196,6 +196,11 @@ const AllEmployeeList = (props) => {
                     <input
                       key={0}
                       type="checkbox"
+                      checked={deptList
+                        .map((d) => d.employeeId)
+                        .every((item) =>
+                          checkedList.map((cl) => cl.employeeId).includes(item)
+                        )}
                       onChange={(e) => {
                         if (e.target.checked) {
                           setCheckedLists([
