@@ -11,7 +11,7 @@ import style from "../components/images/images.module.css"
 function Main() {
     return (
         <div className={style.backImg}>
-            <div className={style.main_title}>LastDanth 10</div>
+            <div className={style.main_title}>LastDanth <span style={{color: "rgba(0, 170, 255)"}}>10</span></div>
             {/* <img src={backImg} className={style.backImg}/> */}
             <div className={style.itemWrapper}>
                 <figure style={{ width: '100%' }}>

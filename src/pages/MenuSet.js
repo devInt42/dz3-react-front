@@ -3,6 +3,7 @@ import axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
 import { VscExpandAll } from "react-icons/vsc";
 import { GrCircleAlert } from "react-icons/gr";
+import { FcPlus } from "react-icons/fc";
 
 import style from "../components/menu/css/MenuSet.module.css";
 
@@ -70,6 +71,7 @@ function MenuSet() {
     setMenuCode(resultMenu.menuCode);
     setMenuName(resultMenu.menuName);
     setMenuParent(resultMenu.menuParent);
+    setSelectActive(false);
   };
 
   const [deleteCheck, setDeleteCheck] = useState(false);
@@ -85,6 +87,16 @@ function MenuSet() {
     if (menuCode.length == 0 || menuName.length == 0) {
       setUpdateFail(<UpdateFailMenuAlert setUpdateCheck={setUpdateCheck} />);
     } else setUpdateCheck(true);
+  }
+
+  const exceptMenu = menu.filter((item) => item.menuSeq != menuSeq);
+
+  const [selectActive, setSelectActive] = useState(false);
+  const newInsert = () => {
+    setMenuCode("");
+    setMenuName("");
+    setMenuParent(0);
+    setSelectActive(true);
   }
 
   return (
@@ -124,7 +136,8 @@ function MenuSet() {
             }}
           >
             <div className={style.tableWrap}>
-              <h6>메뉴 상세</h6>
+              <h5 style={{ display: "inline" }}>메뉴 상세</h5>
+              <span style={{ float: "right" }} onClick={newInsert}><FcPlus />새로 저장하기</span>
               <table className={style.setTable}>
                 <thead></thead>
                 <tbody>
@@ -136,7 +149,7 @@ function MenuSet() {
                         value={menuCode || ""}
                         className={style.menu_btn_input}
                         onChange={insertMenuCode}
-                        />
+                      />
                     </td>
                   </tr>
 
@@ -159,11 +172,18 @@ function MenuSet() {
                         onChange={insertMenuParent}
                         value={menuParent}
                       >
-                        {menu.map((menu, i) => (
+                        {/* {menu.map((menu, i) => ( */}
+                        {selectActive == true ? menu.map((menu, i) => (
                           <option value={menu.menuSeq} key={i}>
                             {menu.menuName}
                           </option>
-                        ))}
+                        )) :
+                          exceptMenu.map((menu, i) => (
+                            <option value={menu.menuSeq} key={i}>
+                              {menu.menuName}
+                            </option>
+                          ))
+                        }
                       </select>
                     </td>
                   </tr>
@@ -182,14 +202,33 @@ function MenuSet() {
                 </tbody>
               </table>
               <div className={style.menu_btn}>
-                <button
-                  className={style.menu_save}
-                  onClick={() => {
-                    validCheck();
-                  }}
-                >
-                  저장
-                </button>
+                {
+                  selectActive == true ?
+                    <><button
+                      className={style.menu_save}
+                      onClick={() => {
+                        validCheck();
+                      }}
+                    >
+                      저장
+                    </button>
+                    <div>수정/삭제는 왼쪽 메뉴를 선택해주세요.</div></>
+                    : <>
+                      <button
+                        className={style.menu_delete}
+                        onClick={() => deleteValid()}
+                      >
+                        삭제
+                      </button>
+                      <button
+                        className={style.menu_update}
+                        onClick={() => {
+                          updateValid();
+                        }}
+                      >
+                        수정
+                      </button></>
+                }
                 {inputCheck && (
                   <SaveMenuAlert
                     setInputCheck={setInputCheck}
@@ -199,12 +238,7 @@ function MenuSet() {
                   />
                 )}
                 {saveFail}
-                <button
-                  className={style.menu_delete}
-                  onClick={() => deleteValid()}
-                >
-                  삭제
-                </button>
+
                 {deleteCheck && (
                   <DeleteMenuAlert
                     deleteMenu={deleteMenu}
@@ -213,14 +247,7 @@ function MenuSet() {
                     setDeleteCheck={setDeleteCheck}
                   />
                 )}
-                <button
-                  className={style.menu_update}
-                  onClick={() => {
-                    updateValid();
-                  }}
-                >
-                  수정
-                </button>
+
                 {updateCheck && (
                   <UpdateMenuAlert
                     updateMenu={updateMenu}

@@ -79,7 +79,7 @@ function GNB(props) {
         </Col>
       </Row>
       {/* {props.menuName == "" ? <Main/> : */}
-      {window.sessionStorage.getItem("menuName") == null ? (
+      {props.menuName == "" && window.sessionStorage.getItem("menuName") == null ? (
         <Main />
       ) : (
         <div className={style.gnb_bar}>
