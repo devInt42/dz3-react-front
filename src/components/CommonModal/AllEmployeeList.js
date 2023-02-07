@@ -93,17 +93,19 @@ const AllEmployeeList = (props) => {
     onCheckedElement();
   }, [departmentSeq]);
 
+  //전체 클릭시 발생하는 함수
+
   //개별 클릭시 발생하는 함수
   const onCheckedElement = useCallback(
     async (checked, list) => {
       // list  : 클릭한 하나의 값
       // deptlist : 그 페이지 값
-      // temp : 일치하는 employeeSeq
+      // a : 일치하는 employeeSeq
       // 1. deptList에서 list값(하나)의 seq를 찾음.
-      // 2. temp = deptlist
+      // 2. a = deptlist
       // 3. tempObj = deptList[하나 값] checked => true로 변경 (원래정보 + checked 데이터가 담겨있는 객체)
       // 4. temp에 tempObj값을 합해줌 (리액트 배열 갈아끼기)
-      // 5. setDeptList에 (temp) 값 넣기 --> deptlist는 일부 애들만 check가 true로 변경되어있는 해당 전체 페이지값
+      // 5. setDeptList에 (a) 값 넣기 --> deptlist는 일부 애들만 check가 true로 변경되어있는 해당 전체 페이지값
       // 6. checked가 true인애들만 filter로 걸러서 걔랑 deptlist(4)의 길이가 같으면 true
 
       try {
@@ -111,14 +113,13 @@ const AllEmployeeList = (props) => {
           deptList.map((dept) => {
             if (dept.employeeSeq === list.employeeSeq) {
               let idx = list;
-              let temp = deptList;
+              let a = deptList;
 
               let tempObj = { ...idx, checked: true };
 
-              //temp 에 tempObj 와 같은 배열 값 갈아끼우기
-              temp.splice(temp.lastIndexOf(idx), 1, tempObj);
-              setDeptList(temp);
-
+              //temp에 tempObj 와 같은 배열 값 갈아끼우기
+              a.splice(a.lastIndexOf(idx), 1, tempObj);
+              setDeptList(a);
               return;
             }
           });
@@ -131,10 +132,10 @@ const AllEmployeeList = (props) => {
           deptList.map((dept) => {
             if (dept.employeeSeq === list.employeeSeq) {
               let idx = list;
-              let temp = deptList;
+              let a = deptList;
               let tempObj = { ...idx, checked: false };
-              temp.splice(temp.lastIndexOf(idx), 1, tempObj);
-              setDeptList(temp);
+              a.splice(a.lastIndexOf(idx), 1, tempObj);
+              setDeptList(a);
               return;
             }
           });
@@ -177,8 +178,8 @@ const AllEmployeeList = (props) => {
 
   //check된 값 저장 배열
   useEffect(() => {}, [checkedList]);
-  // useEffect(() => {}, [onCheckedAll]);
   useEffect(() => {}, [onCheckedElement]);
+  // useEffect(() => {}, [onCheckedAll]);
 
   return (
     <div>
@@ -193,22 +194,46 @@ const AllEmployeeList = (props) => {
                     <input
                       key={0}
                       type="checkbox"
-                      // onChange={(e) =>
-                      //   onCheckedElement(e.target.checked, deptList)
-                      // }
-                      checked={(() => {
-                        let temp = deptList.filter(
-                          (dept) => dept.checked === true
-                        );
-                        if (temp.length === deptList.length) {
-                          return true;
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setCheckedLists([
+                            ...checkedList,
+                            ...deptList.filter(
+                              (d) =>
+                                !checkedList
+                                  .map((it) => it.employeeId)
+                                  .includes(d.employeeId)
+                            ),
+                          ]);
                         } else {
-                          return false;
+                          setCheckedLists(
+                            checkedList.filter(
+                              (d) =>
+                                !deptList
+                                  .map((it) => it.employeeId)
+                                  .includes(d.employeeId)
+                            )
+                          );
                         }
-                      })()}
+                      }}
+                      onClick={(e) => console.log(checkedList, deptList)}
+                      // checked={(() => {
+                      //   let a = deptList.filter(
+                      //     (dept) => dept.checked === true
+                      //   );
+                      //   // console.log("check가 true인애 length:");
+                      //   console.log(deptList);
+                      //   if (a.length === deptList.length) {
+                      //     return true;
+                      //   } else {
+                      //     return false;
+                      //   }
+                      // })()}
                       className="custom-control-input"
-                      id="customCheck2"
-                    ></input>
+                      id="customCheck2"></input>
+                    <button onClick={(e) => console.log(checkedList)}>
+                      ㅇ
+                    </button>
                   </th>
                   <th scope="col">회사</th>
                   <th scope="col">사업장</th>
@@ -228,6 +253,7 @@ const AllEmployeeList = (props) => {
                           onChange={(e) =>
                             onCheckedElement(e.target.checked, dept)
                           }
+                          //체크 유지 값
                           checked={(() => {
                             let tempList = checkedList.filter(
                               (data) => data.employeeSeq === dept.employeeSeq
@@ -238,12 +264,10 @@ const AllEmployeeList = (props) => {
                               return false;
                             }
                           })()}
-                          id="customCheck2"
-                        ></input>
+                          id="customCheck2"></input>
                         <label
                           className="custom-control-label"
-                          htmlFor="customCheck1"
-                        ></label>
+                          htmlFor="customCheck1"></label>
                       </div>
                     </td>
                     <td>{dept.companyName}</td>
