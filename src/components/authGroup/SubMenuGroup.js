@@ -11,7 +11,7 @@ const SubMenuGroup = (props) => {
   const [childList, setChildList] = useState([]);
   const [count, setCount] = useState(0);
   const [checkedList, setCheckedList] = useState([]);
-  let [propsCheck, setPropsCheck] = useState(false);
+  const [propsCheck, setPropsCheck] = useState(false);
   useEffect(() => {
     setDepth(props.depth + 1);
     setParentSeq(props.parentSeq);
@@ -19,6 +19,32 @@ const SubMenuGroup = (props) => {
     setPropsCheck(props.checked);
   }, [props]);
 
+  //더미값 보내기
+  const setTempList = async (e) => {
+    const temp = [];
+    childList.forEach((list) => {
+      if (list.menuSeq == e.target.value) {
+        temp.push(list);
+      }
+    });
+    props.sendDummySeq(temp, e.target.checked);
+  };
+
+  // 부모 선택됐을경우
+  useEffect(() => {
+    const temp = [];
+    if (propsCheck === true) {
+      childList.forEach((list) => {
+        temp.push(list);
+        props.sendChildListSeq(temp, true);
+      });
+    }
+  }, [propsCheck]);
+
+  // 자식 전체체크
+  const sendChildListSeq = (list, checked) => {
+    props.sendChildListSeq(list, true);
+  };
   // 가져올 값이 있는지 확인
   const countChild = useCallback(async () => {
     let sendChild = {
@@ -67,17 +93,6 @@ const SubMenuGroup = (props) => {
     props.sendDummySeq(list, checked);
   };
 
-  //더미값 보내기
-  const setTempList = async (e) => {
-    const temp = [];
-    childList.forEach((list) => {
-      if (list.menuSeq == e.target.value) {
-        temp.push(list);
-      }
-    });
-    props.sendDummySeq(temp, e.target.checked);
-  };
-
   return (
     <>
       {childList &&
@@ -100,9 +115,6 @@ const SubMenuGroup = (props) => {
                 if (tempList.length > 0) {
                   return true;
                 } else {
-                  if (propsCheck == true) {
-                    return true;
-                  }
                   return false;
                 }
               })()}
@@ -117,6 +129,7 @@ const SubMenuGroup = (props) => {
                 depth={childItem.menuDepth}
                 id={childItem.id}
                 sendDummySeq={sendDummySeq}
+                sendChildListSeq={sendChildListSeq}
                 checkedList={checkedList}
                 checked={(() => {
                   let tempList = checkedList.filter(

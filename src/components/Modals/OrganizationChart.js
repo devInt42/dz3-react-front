@@ -108,7 +108,6 @@ const OrganizationChart = (props) => {
                   </Col>
                   <Col sm={1}>
                     <button
-                      type="button"
                       className="btn btn-secondary"
                       onClick={sendInputText}
                     >

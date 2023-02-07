@@ -21,6 +21,9 @@ const Department = () => {
         setWorkplaceSeq(0);
         setDepartmentSeq(0);
     }
+    useEffect(() => {
+        console.log(searchData)
+    }, [searchData])
     return (
         <div>
             <h2>부서 관리</h2>

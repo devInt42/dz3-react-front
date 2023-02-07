@@ -43,7 +43,7 @@ function Layout() {
             <GNB menuName={menuName} setMenuName={setMenuName} />
           </Row>
           <Row>
-            {menuName == "" ? (
+             {menuName == "" ? (
               <></>
             ) : (
               <Col md="auto" className={style.layout_callmenu}>

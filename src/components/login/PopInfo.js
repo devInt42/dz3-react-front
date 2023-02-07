@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
+import DeptDepth from "../../pages/DeptDepth";
 import { ReactComponent as Checked } from "./css/Checked.svg";
 
 const PopInfo = (props) => {
@@ -93,7 +94,7 @@ const PopInfo = (props) => {
             </Row>
             <Row>
               {mainInfo?.companyName}&gt;{mainInfo?.workplaceName}
-              &gt;{mainInfo?.departmentName}
+              <DeptDepth />
             </Row>
           </Col>
         </Row>
@@ -136,7 +137,7 @@ const PopInfo = (props) => {
           <tbody>
             {userInfo &&
               userInfo.map((item) => (
-                <tr id={item.companySeq}>
+                <tr key={item.companySeq.toString()} id={item.companySeq}>
                   {item.companySeq == mainInfo?.companySeq ? (
                     <td id="tableChecked">
                       <input

@@ -11,11 +11,7 @@ const AuthMenu = (props) => {
   const [menuList, setMenuList] = useState([]);
   const [checkedList, setCheckedList] = useState([]); //값 저장
   const [originList, setOriginList] = useState([]); //값 저장
-  const [dummy, setDummy] = useState([]);
   const [authSeq, setAuthSeq] = useState(null);
-  const [sendList, setSendList] = useState([]);
-  const [insertList, setInsertList] = useState(null);
-  const [deleteList, setDeleteList] = useState(null);
   const [selectCompanySeq, setSelectCompanySeq] = useState(null);
   const [pointCompanySeq, setPointCompanySeq] = useState(null);
 
@@ -77,20 +73,11 @@ const AuthMenu = (props) => {
 
   // 자식으로 값보내고 받기
   const sendDummySeq = (list, checked) => {
-    onCheckedElement(checked, { menuSeq: list[0].menuSeq, authSeq: authSeq });
-  };
-
-  // 해당 메뉴값 찾기
-  const setAuthDummyMenu = (e) => {
-    const temp = [];
-    menuList.forEach((list) => {
-      if (list.menuSeq == e.target.value) {
-        temp.push({ menuSeq: list.menuSeq, authSeq: authSeq });
-      }
+    list.forEach((el) => {
+      onCheckedElement(checked, { menuSeq: el.menuSeq, authSeq: authSeq });
     });
-    onCheckedElement(e.target.checked, temp[0]);
+    // onCheckedElement(checked, { menuSeq: list[0].menuSeq, authSeq: authSeq });
   };
-
   //개별 클릭시 발생하는 함수
   const onCheckedElement = useCallback(
     async (checked, list) => {
@@ -108,6 +95,57 @@ const AuthMenu = (props) => {
     },
     [checkedList]
   );
+  // 해당 메뉴값 찾기
+  const setAuthDummyMenu = (e) => {
+    const temp = [];
+    menuList.forEach((list) => {
+      if (list.menuSeq == e.target.value) {
+        temp.push({ menuSeq: list.menuSeq, authSeq: authSeq });
+      }
+    });
+    onCheckedElement(e.target.checked, temp[0]);
+  };
+
+  // 자식 전체체크
+  const sendChildListSeq = (list) => {
+    const temp = [];
+    list.forEach((elem) => {
+      temp.push({ menuSeq: elem.menuSeq, authSeq: authSeq });
+    });
+    allCheckedElement(temp, true);
+  };
+
+  //개별 클릭시 발생하는 함수
+  const allCheckedElement = useCallback(
+    async (list, checked) => {
+      const temp = [];
+
+      list.map((item) => {
+        let flag = true;
+        checkedList.map((li) => {
+          if (item.menuSeq === li.menuSeq) {
+            flag = false;
+          }
+        });
+        if (flag === true) {
+          temp.push(item);
+        }
+      });
+      try {
+        if (checked) {
+          setCheckedList([...checkedList, ...temp]);
+        } else {
+          setCheckedList(
+            checkedList.filter((el) => el.menuSeq !== list.menuSeq)
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [checkedList]
+  );
+
   const sendCheckedList = () => {
     props.sendCheckedList(checkedList);
   };
@@ -162,6 +200,7 @@ const AuthMenu = (props) => {
                   depth={menuItem.menuDepth}
                   id={menuItem.menuCode}
                   sendDummySeq={sendDummySeq}
+                  sendChildListSeq={sendChildListSeq}
                   checkedList={checkedList}
                   checked={(() => {
                     let tempList = checkedList.filter(

@@ -34,7 +34,7 @@ const CompanySearch = (props) => {
                         : (setSearchCompanyCode(e.target.value) || setSearchCompanyName(""))
                 }} />
             사용여부 <select onChange={e => setSearchUseYN(e.target.value)}>
-                <option value="" selected>선택</option>
+                <option value="">선택</option>
                 <option value="Y">사용</option>
                 <option value="N">미사용</option>
             </select>
