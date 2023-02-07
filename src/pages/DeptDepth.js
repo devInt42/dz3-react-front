@@ -3,7 +3,6 @@ import { gt } from "lodash";
 import { useEffect, useCallback, useState } from "react";
 
 const DeptDepth = (props) => {
-  const [parent, setParent] = useState(0);
   const baseUrl = "http://localhost:8080";
   const [companySeq, setCompanySeq] = useState(0);
   const [departmentSeq, setDepartmentSeq] = useState(0);
@@ -20,24 +19,30 @@ const DeptDepth = (props) => {
   }, [departmentSeq]);
   useEffect(() => {}, [departmentList]);
   const init = useCallback(async () => {
-    let sendData = {
-      companySeq: companySeq,
-      departmentSeq: departmentSeq,
-    };
-    try {
-      let initRes = await axios.get(`${baseUrl}/department-employee/emp-dept`, {
-        params: sendData,
-        headers: {
-          Authorization: window.sessionStorage.getItem("empInfo"),
-        },
-      });
-      setDepartmentList(initRes.data);
-      console.log(initRes.data);
-    } catch (error) {}
+    if (companySeq != null && departmentSeq != null) {
+      let sendData = {
+        companySeq: companySeq,
+        departmentSeq: departmentSeq,
+      };
+      try {
+        let initRes = await axios.get(
+          `${baseUrl}/department-employee/emp-dept`,
+          {
+            params: sendData,
+            headers: {
+              Authorization: window.sessionStorage.getItem("empInfo"),
+            },
+          }
+        );
+        setDepartmentList(initRes.data);
+      } catch (error) {}
+    }
   }, []);
 
   return (
-    <div style={{ width: "9rem", margin: "0", padding: "0" }}>
+    <div
+      style={{ width: "9rem", margin: "0", padding: "0", textAlign: "left" }}
+    >
       {departmentList &&
         departmentList.map((item) => (
           <span key={item.departmentSeq.toString()}>

@@ -137,7 +137,7 @@ const PopInfo = (props) => {
           <tbody>
             {userInfo &&
               userInfo.map((item) => (
-                <tr id={item.companySeq}>
+                <tr key={item.companySeq.toString()} id={item.companySeq}>
                   {item.companySeq == mainInfo?.companySeq ? (
                     <td id="tableChecked">
                       <input
