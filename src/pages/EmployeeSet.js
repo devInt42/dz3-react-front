@@ -9,6 +9,7 @@ import style from "../components/employee/css/EmployeeSet.module.css";
 import EmpBasic from "../components/employee/EmpBasic";
 import EmpDept from "../components/employee/EmpDept";
 import SearchAppBar from "../components/employee/SearchAppBar";
+import EmpLnb from "../components/employee/EmpLnb";
 
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -24,14 +25,6 @@ function EmployeeSet() {
     };
 
     const baseUrl = "http://localhost:8080";
-    const [employee, setEmployee] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get(baseUrl + "/employee/emplist")
-            .then((response) => setEmployee(response.data))
-            .catch((error) => console.log(error));
-    }, []);
 
     const [employeeSeq, setEmpSeq] = useState(0);
 
@@ -39,6 +32,15 @@ function EmployeeSet() {
     const clickEmp = () => {
         setSelectAct(false);
     }
+
+    const [selectCompany, setSelectCompany] = useState(0);
+    // const [companyEmp, setCompanyEmp] = useState([]);
+    // useEffect(()=>{
+    //     axios.get(`${baseUrl}/department-employee/companyemp/${selectCompany}`)
+    //     .then((response) => setCompanyEmp(response.data))
+    //     .catch((error) => console.log(error));
+    // },[selectCompany])
+    // console.log("compemp: " + companyEmp)
 
     return (
         <div>
@@ -50,49 +52,11 @@ function EmployeeSet() {
             </div>
             <Container fluid>
                 <Row md="auto" style={{ border: "1px solid black", width: "100%", height: "55px" }}>
-                    <SearchAppBar/>
+                    <SearchAppBar selectCompany={selectCompany} setSelectCompany={setSelectCompany}/>
                 </Row>
                 <Row md="auto" style={{ border: "1px solid black" }}>
                     <Col md="auto" style={{ border: "1px solid black", height: "100vh", width: "15%", padding: "0px", overflow: "scroll" }}>
-                        <div style={{fontSize: "15px", textAlign: "center", marginTop: "8px"}}>
-                            사용자&nbsp;:&nbsp;<span style={{color: "rgba(9, 132, 247, 0.63)", fontWeight: "bolder"}}>{employee.length}</span>명
-                        </div><hr/>
-                        <Nav className="authNav" variant="pills" style={navStyle} onClick={clickEmp}>
-                            {employee.map((emp, i) => (
-                                    <Nav.Item key={i} style={navItemStyle} onClick={() => setEmpSeq(emp.employeeSeq)}>
-                                        <Nav.Link className="authLnb" eventKey={emp.employeeSeq} style={navLinkStyle}>
-                                            {/* <BsFilePerson style={{width: "40px", height: "40px"}}/> */}
-                                            <div style={{
-                                                margin: "5px",
-                                                textAlign: "right",
-                                                fontSize: "10px",
-                                                color: "#868e96",
-                                                fontWeight: "bold",}}>
-                                                {emp.employeeBirth}
-                                            </div>
-                                            <div style={{
-                                                margin: "5px",
-                                                textAlign: "right",
-                                                fontSize: "13px",
-                                                fontWeight: "bold",
-                                            }}>
-                                                {emp.employeeId}
-                                                <span>&nbsp;-&nbsp;</span>
-                                                {emp.employeeName}
-                                            </div>
-                                        </Nav.Link>
-                                    </Nav.Item>
-                                ))}
-                        </Nav>
-                        {/* {employee.map((emp, i) => {
-                            return (
-                                <div key={i} onClick={() => { setEmpSeq(emp.employeeSeq) }}>
-                                    <div>{emp.employeeName}</div>
-                                    <div>{emp.employeeId}</div>
-                                    <div>{emp.employeeBirth}</div><hr />
-                                </div>
-                            )
-                        })} */}
+                        <EmpLnb clickEmp={clickEmp} setEmpSeq={setEmpSeq}/>
                     </Col>
                     <Col md="auto" style={{ border: "1px solid black", height: "100vh", width: "85%" }}>
                         <Box sx={{ width: '100%' }}>
@@ -151,34 +115,3 @@ function a11yProps(index) {
         'aria-controls': `simple-tabpanel-${index}`,
     };
 }
-
-const authLnbStyle = {
-    width: "100%",
-    height: "700px",
-    float: "left",
-    border: "1px solid #efefef",
-    backgroundColor: "#f9f9f9",
-    justifyContent: "center",
-  };
-  const navStyle = {
-    border: "1px solid #efefef",
-    backgroundColor: "#f9f9f9",
-    margin: "0 auto",
-    display: "flex",
-    justifyContent: "flex-start",
-    flexDirection: "column",
-    alignItems: "center",
-  };
-  
-  const navItemStyle = {
-    width: "100%",
-    height: "50px",
-  };
-  
-  const navLinkStyle = {
-    width: "100%",
-    height: "50px",
-    margin: "0 auto",
-    marginTop: "3px",
-    padding: "0",
-  };
