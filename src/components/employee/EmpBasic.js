@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Form from 'react-bootstrap/Form';
 import EmpBasicSaveAlert from "../alert/EmpBasicSaveAlert";
 import EmpBasicSaveFailAlert from "../alert/EmpBasicSaveFailAlert";
 import EmpBasicUpdateAlert from "../alert/EmpBasicUpdateAlert";
@@ -133,6 +134,17 @@ function EmpBasic(props) {
     // const mailurl = employeeCmail.split("@");
     // console.log(mailurl[1])
 
+    // 로그인ID, 메일ID 중복체크
+    const idCheck = async () => {
+        try{
+            axios.get(`${baseUrl}/employee/emplist/checkid`, {
+                params: {"employeeId": props.employeeId}
+            })
+        }catch(error) {
+            console.log(error);
+        }
+    }
+
     return (
         <div>
             <h5 style={{ display: "inline" }}>사원 상세</h5>
@@ -167,8 +179,19 @@ function EmpBasic(props) {
                     <tr>
                         <th>로그인 ID</th>
                         <td>
-                            <input type="text" className={style.emp_input} value={employeeId || ""} style={{ backgroundColor: "rgba(175, 174, 174, 0.328)" }}
-                                onChange={(e) => { setEmployeeId(e.target.value) }} />
+                            <Form.Group>
+                                <Form.Control type="text" className={style.emp_input} value={employeeId || ""}
+                                    style={{ backgroundColor: "rgba(175, 174, 174, 0.328)" }}
+                                    onChange={(e) => { setEmployeeId(e.target.value) }}
+                                    autoComplete="off"
+                                />
+                                <Form.Control.Feedback type="valid">
+                                    사용 가능한 ID 입니다.
+                                </Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">
+                                    중복된 아이디가 존재합니다.
+                                </Form.Control.Feedback>
+                            </Form.Group>
                         </td>
                         <th>메일 ID</th>
                         <td>
@@ -295,7 +318,7 @@ function EmpBasic(props) {
                         <button onClick={updateValid}>수정</button>
                         <button onClick={deleteValid}>삭제</button></>}
             </div>
-            {insertCheck && <EmpBasicSaveAlert setInsertCheck={setInsertCheck} insertEmp={insertEmp} />}{insertFail}
+            {insertCheck && <EmpBasicSaveAlert setInsertCheck={setInsertCheck} insertEmp={insertEmp} employeeId={employeeId}/>}{insertFail}
             {updateCheck && <EmpBasicUpdateAlert setUpdateCheck={setUpdateCheck} updateEmp={updateEmp} />}{updateFail}
             {deleteCheck && <EmpBasicDeleteAlert setDeleteCheck={setDeleteCheck} employeeName={employeeName} deleteEmp={deleteEmp}/>}
         </div>

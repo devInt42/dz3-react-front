@@ -34,13 +34,14 @@ function EmployeeSet() {
     }
 
     const [selectCompany, setSelectCompany] = useState(0);
-    // const [companyEmp, setCompanyEmp] = useState([]);
-    // useEffect(()=>{
-    //     axios.get(`${baseUrl}/department-employee/companyemp/${selectCompany}`)
-    //     .then((response) => setCompanyEmp(response.data))
-    //     .catch((error) => console.log(error));
-    // },[selectCompany])
-    // console.log("compemp: " + companyEmp)
+    const [companyEmp, setCompanyEmp] = useState([]);
+    useEffect(()=>{
+        axios.get(`${baseUrl}/department-employee/companyemp`, {
+            params: {"selectCompany": selectCompany}
+        })
+        .then((response) => setCompanyEmp(response.data))
+        .catch((error) => console.log(error));
+    },[selectCompany])
 
     return (
         <div>
