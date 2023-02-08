@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -25,18 +24,19 @@ const style = {
 };
 
 
-
-export default function DepartmentParentModal(props) {
+export default function EmpDepartmentModal(props) {
     const baseUrl = "http://localhost:8080";
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [departmentParent, setDepartmentParent] = React.useState([]);
+    const [departmentList, setDepartmentList] = React.useState([]);
     React.useEffect(() => {
-        axios.get(`${baseUrl}/department/departmentparent/${props.workplaceSeq}`)
-            .then(res => setDepartmentParent(res.data))
+        if(props.companySeq != null && props.companySeq != undefined) {
+        axios.get(`${baseUrl}/department-employee/select/list/${props.companySeq}`)
+            .then(res => setDepartmentList(res.data))
             .catch(error => console.log(error))
-    }, [props.workplaceSeq])
+        }
+    }, [props.companySeq])
     return (
         <div>
             <Button onClick={handleOpen}>찾기</Button>
@@ -48,7 +48,7 @@ export default function DepartmentParentModal(props) {
             >
                 <Box sx={style}>
                     <div id="modal-modal-title" variant="h6" component="h2">
-                        <b>상위부서를 선택해 주십시오.</b>
+                        <b>부서를 선택해 주십시오.</b>
                     </div>
                     <div id="modal-modal-description" sx={{ mt: 2 }}>
                         <TableContainer component={Paper}>
@@ -64,19 +64,21 @@ export default function DepartmentParentModal(props) {
                                 <TableBody>
                                     {
 
-                                        departmentParent && departmentParent.map((department, idx) => {
+                                        departmentList && departmentList.map((department, idx) => {
                                             return (
                                                 <TableRow key={idx} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                     onClick={() => {
-                                                        props.setDepartmentParentName(department.departmentName);
-                                                        props.setDepartmentParentSeq(department.departmentSeq);
-                                                        props.setDepartmentParentDepth(department.departmentDepth);
+                                                        props.setDepartmentSeq(department.departmentSeq);
+                                                        props.setDepartmentName(department.departmentName);
+                                                        props.setDepartmentCall(department.departmentCall);
+                                                        props.setDepartmentFax(department.departmentFax);
+                                                        props.setWorkplaceSeq(department.workplaceSeq);
                                                         handleClose();
                                                     }}
-                                                    id = "department-modal"
+                                                    id="department-modal"
                                                 >
-                                                    <TableCell>{props.companyName}</TableCell>
-                                                    <TableCell>{props.workplaceName}</TableCell>
+                                                    <TableCell>{department.companyName}</TableCell>
+                                                    <TableCell>{department.workplaceName}</TableCell>
                                                     <TableCell>{department.departmentCode}</TableCell>
                                                     <TableCell>{department.departmentName}</TableCell>
                                                 </TableRow>

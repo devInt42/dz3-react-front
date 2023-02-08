@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CgMenuBoxed } from "react-icons/cg";
 import style from "./css/GNB.module.css";
-import { BsPersonCircle } from "react-icons/bs";
+
 import { ImTree } from "react-icons/im";
 import { Row, Col } from "react-bootstrap";
-import LoginInfo from "./LoginInfo";
+import LoginInfo from "../login/LoginInfo";
 import Main from "../../pages/Main";
 import OrganizationChart from "../modals/OrganizationChart";
 function GNB(props) {
@@ -32,12 +32,21 @@ function GNB(props) {
       .catch((error) => console.log(error));
   }, []);
 
-  const goMain=()=>{
-    props.setMenuName("");
-    navigate(`/dz3`);
-  }
+  const [retain, setRetain] = useState("");
+  useEffect(() => {
+    if (props.menuName == "") {
+      return;
+    } else {
+      window.sessionStorage.setItem("menuName", JSON.stringify(props.menuName));
+      setRetain(window.sessionStorage.getItem("menuName"));
+    }
+  }, [props.menuName]);
 
-  console.log("asdad"+props.menuName)
+  const goMain = () => {
+    props.setMenuName("");
+    window.sessionStorage.removeItem("menuName");
+    navigate(`/dz3`);
+  };
   return (
     <div>
       <Row className={style.gnb_header}>
@@ -56,24 +65,37 @@ function GNB(props) {
           <LoginInfo />
         </Col>
         <Col xs={2} className={style.gnb_Imtree}>
-          <button className={style.gnb_Imtree_btn} style={{border: "none", backgroundColor:"white"}}>
+          <div
+            className={style.gnb_Imtree_btn}
+            style={{
+              border: "none",
+              backgroundColor: "white",
+              cursor: "pointer",
+            }}
+          >
             <ImTree size="30" onClick={openModal}></ImTree>
             <OrganizationChart
               open={modalOpen}
               close={closeModal}
               header="조직도"
             ></OrganizationChart>
-          </button>
+          </div>
         </Col>
       </Row>
-      {props.menuName == "" ? <Main/> :
-      <div className={style.gnb_bar}>
-      <CgMenuBoxed
-        style={{ width: "50px", height: "50px", margin: "10px" }}
-      />
-      {props.menuName}
-    </div>
-      }
+      {/* {props.menuName == "" ? <Main/> : */}
+      {props.menuName == "" &&
+      window.sessionStorage.getItem("menuName") == null ? (
+        <Main />
+      ) : (
+        <div className={style.gnb_bar}>
+          <CgMenuBoxed
+            style={{ width: "50px", height: "50px", margin: "10px" }}
+          />
+          {props.menuName == ""
+            ? JSON.parse(window.sessionStorage.getItem("menuName"))
+            : props.menuName}
+        </div>
+      )}
     </div>
   );
 }

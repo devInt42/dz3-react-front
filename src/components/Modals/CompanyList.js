@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { TreeView, TreeItem } from "@mui/lab";
 import { ReactComponent as Folder } from "../authGroup/folder.svg";
 import { ReactComponent as FolderOpen } from "../authGroup/folderopen.svg";
-import WorkplaceGroup from "../modals/WorkplaceGroup";
+import WorkplaceGroup from "./WorkplaceGroup";
 
 const CompanyList = (props) => {
   const baseUrl = "http://localhost:8080";
@@ -46,13 +46,8 @@ const CompanyList = (props) => {
     sendCompanyName(companyNameList[0]?.companyName);
   });
 
-  //자손에서 값 받아오기
-  const sendDepartmentSeq = (e) => {
-    props.sendDepartmentSeq(e);
-  };
-
-  const sendWorkplaceSeq = (e) => {
-    props.sendWorkplaceSeq(e);
+  const sendPointList = (e) => {
+    props.sendPointList(e);
   };
 
   //값 저장
@@ -67,21 +62,23 @@ const CompanyList = (props) => {
       defaultCollapseIcon={<FolderOpen />}
       defaultExpandIcon={<Folder />}
       sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-      multiSelect>
+      multiSelect
+    >
       {companyNameList &&
         companyNameList.map((companyItem) => (
           <div
             key={`C${companyItem.companySeq}`}
-            style={{ display: "flex", alignItems: "flex-start" }}>
+            style={{ display: "flex", alignItems: "flex-start" }}
+          >
             <TreeItem
               key={`C${companyItem.companySeq}`}
               nodeId={companyItem.companySeq.toString()}
               label={companyItem.companyName}
-              id={companyItem.companySeq.toString()}>
+              id={companyItem.companySeq.toString()}
+            >
               <WorkplaceGroup
                 companySeq={companyItem.companySeq}
-                sendDepartmentSeq={sendDepartmentSeq}
-                sendWorkplaceSeq={sendWorkplaceSeq}
+                sendPointList={sendPointList}
               />
             </TreeItem>
           </div>

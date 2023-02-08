@@ -51,19 +51,18 @@ const DepartmentDepth = (props) => {
         getData();
     }, [count, props.refresh])
     
-    useEffect(() => {
-    }, [department])
-
     return (
         <div>
             {
-                department && department.map((child, idx) => {
+                department && department.map((child,idx) => {
                     return (
-                        <div key={child.departmentSeq}>
+                    <div className = "department-list"
+                    key={idx}>
                             {child.departmentParent == seq &&
                                 <div style={{ paddingLeft: depth * 20 + 20 }}
                                     >
-                                     <div onClick={() => {
+                                     <div className = {child.departmentSeq === props.departmentFocus ? "active-item":"department-item"}
+                                     onClick={() => {
                                         index.includes(child.departmentSeq) ?
                                         setIndex(index.filter(department => department !=child.departmentSeq)) :
                                         setIndex([...index, child.departmentSeq]);
@@ -71,16 +70,24 @@ const DepartmentDepth = (props) => {
                                         props.setDepartmentSeq(child.departmentSeq);
                                         props.setCompanySeq(child.companySeq);
                                         props.setSearch(false);
+                                        props.setDetailFlag(true);
+                                        props.setFocus("");
+                                        props.setFocusWorkplace("");
+                                        props.setDepartmentFocus(child.departmentSeq);
                                     }}>
-                                        {index.includes(child.departmentSeq) ? <AiFillFolderOpen className="departmentlist-icon" /> :
+                                        {index.includes(child.departmentSeq)? 
+                                        <AiFillFolderOpen className="departmentlist-icon" /> :
                                             <AiFillFolder className="departmentlist-icon" />}
                                         {child.departmentCode}.{child.departmentName}
                                     </div>
                                 </div>
                             }
-                            {index.includes(child.departmentSeq) && <DepartmentDepth depth={child.departmentDepth} key={idx} seq={child.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq} 
+                            {index.includes(child.departmentSeq) && <DepartmentDepth depth={child.departmentDepth} 
+                            key={child.departmentSeq} seq={child.departmentSeq} setDepartmentSeq = {props.setDepartmentSeq} 
                             setWorkplaceSeq = {props.setWorkplaceSeq} setCompanySeq = {props.setCompanySeq}
-                            setSearch = {props.setSearch}
+                            setSearch = {props.setSearch} setDetailFlag = {props.setDetailFlag} refresh = {props.refresh}
+                            setFocus = {props.setFocus} setFocusWorkplace = {props.setFocusWorkplace} 
+                            setDepartmentFocus = {props.setDepartmentFocus}  departmentFocus = {props.departmentFocus}
                             />}
                         </div>
                     )

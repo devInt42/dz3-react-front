@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Table, Row, Button } from "react-bootstrap";
+import React, { useEffect, useState, useCallback } from "react";
+import { Table, Row } from "react-bootstrap";
 import axios from "axios";
 
 const AuthEmployeeList = (props) => {
@@ -12,7 +12,7 @@ const AuthEmployeeList = (props) => {
     setPointCompanySeq(props.pointCompanySeq);
   }, [props]);
 
-  const authEmployeeApiList = async () => {
+  const authEmployeeApiList = useCallback(async () => {
     let sendData = {
       authSeq: authSeq,
       companySeq: pointCompanySeq,
@@ -33,11 +33,11 @@ const AuthEmployeeList = (props) => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [authSeq]);
 
   useEffect(() => {
     authEmployeeApiList();
-  }, [authSeq]);
+  }, [authSeq, pointCompanySeq]);
 
   return (
     <>
@@ -45,9 +45,6 @@ const AuthEmployeeList = (props) => {
         <Table striped bordered hover style={tableCss}>
           <thead>
             <tr>
-              <th style={tableColum1}>
-                <input type="checkbox" />
-              </th>
               <th style={tableColum2}>조직정보</th>
               <th style={tableColum3}>직급/직책</th>
               <th style={tableColum3}>이름(ID)</th>
@@ -57,12 +54,13 @@ const AuthEmployeeList = (props) => {
             {resList &&
               resList.map((eList) => (
                 <tr key={eList.employeeSeq} id={eList.employeeSeq}>
-                  <td></td>
                   <td className="authEmployeeList">
                     {eList.companyName}&gt;{eList.workplaceName}&gt;
                     {eList.departmentName}
                   </td>
-                  <td>{eList.title}</td>
+                  <td>
+                    {eList.position}&#47;{eList.duty}
+                  </td>
                   <td>
                     {eList.employeeName}
                     &nbsp; &#40;&nbsp;{eList.employeeId}

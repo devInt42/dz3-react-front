@@ -3,9 +3,9 @@ import axios from "axios";
 import { TreeView, TreeItem } from "@mui/lab";
 import { ReactComponent as Folder } from "../authGroup/folder.svg";
 import { ReactComponent as FolderOpen } from "../authGroup/folderopen.svg";
-import DepartmentName from "./DepartmentName";
+import SubDepartment from "./SubDepartment";
 
-const DepartmentGroup = (props) => {
+const DepartmentParent = (props) => {
   const baseUrl = "http://localhost:8080";
   const [companySeq, setCompanySeq] = useState(0);
   const [workplaceSeq, setWorkplaceSeq] = useState(0);
@@ -112,7 +112,7 @@ const DepartmentGroup = (props) => {
                 nodeId={item.departmentSeq.toString()}
                 label={item.departmentName}
                 onClick={getDeptSeq}>
-                <DepartmentName
+                <SubDepartment
                   companySeq={item.companySeq}
                   workplaceSeq={item.workplaceSeq}
                   parentSeq={item.departmentSeq}
@@ -126,4 +126,4 @@ const DepartmentGroup = (props) => {
     </div>
   );
 };
-export default DepartmentGroup;
+export default DepartmentParent;

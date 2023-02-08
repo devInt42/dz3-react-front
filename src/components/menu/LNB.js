@@ -34,9 +34,10 @@ function LNB(props) {
 
   const getMenuList = useCallback(async () => {
     try {
-      const apiResult = await axios({
-        url: baseUrl + "/menu/menulist",
-        method: "get",
+      const apiResult = await axios.get(`${baseUrl}/auth-employee/employee`, {
+        headers: {
+          Authorization: window.sessionStorage.getItem("empInfo"),
+        },
       });
       setLmenu(apiResult.data);
     } catch (error) {
@@ -47,13 +48,6 @@ function LNB(props) {
   useEffect(() => {
     getMenuList();
   }, []);
-
-  // useEffect(() => {
-  //     axios
-  //         .get(baseUrl + "/menu/menulist")
-  //         .then((response) => setLmenu(response.data))
-  //         .catch((error) => console.log(error));
-  // }, []);
 
   return (
     <div className={style.lnb}>
@@ -115,7 +109,11 @@ function LNB(props) {
                 )}
                 {menuVisible && (
                   <button
-                    className={menuVisible ? style.lnb_callMenu : style.lnb_callMenu_false}
+                    className={
+                      menuVisible
+                        ? style.lnb_callMenu
+                        : style.lnb_callMenu_false
+                    }
                     onClick={() => {
                       sendParent(menu.menuName, menu.menuSeq);
                     }}

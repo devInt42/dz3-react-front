@@ -3,7 +3,7 @@ import axios from "axios";
 import { TreeView, TreeItem } from "@mui/lab";
 import { ReactComponent as Folder } from "../authGroup/folder.svg";
 import { ReactComponent as FolderOpen } from "../authGroup/folderopen.svg";
-import DepartmentGroup from "./DepartmentGroup";
+import DepartmentParent from "./DepartmentParent";
 const WorkplaceGroup = (props) => {
   const baseUrl = "http://localhost:8080";
   const [companySeq, setCompanySeq] = useState(0);
@@ -42,8 +42,8 @@ const WorkplaceGroup = (props) => {
   }, [companySeq]);
 
   // 부모에게 부서값 전달
-  const sendDepartmentSeq = (e) => {
-    props.sendDepartmentSeq(e);
+  const sendPointList = (e) => {
+    props.sendPointList(e);
   };
 
   return (
@@ -64,10 +64,10 @@ const WorkplaceGroup = (props) => {
                 key={`W${workplaceItem.workplaceSeq}`}
                 nodeId={workplaceItem.workplaceSeq.toString()}
                 label={workplaceItem.workplaceName}>
-                <DepartmentGroup
+                <DepartmentParent
                   companySeq={workplaceItem.companySeq}
                   workplaceSeq={workplaceItem.workplaceSeq}
-                  sendDepartmentSeq={sendDepartmentSeq}
+                  sendPointList={sendPointList}
                 />
               </TreeItem>
             </div>

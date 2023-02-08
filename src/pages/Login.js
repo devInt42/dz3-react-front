@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Container, Row } from "react-bootstrap";
-import "../components/login/Login.css";
+import "../components/login/css/Login.css";
 const Login = () => {
   const [inputComId, setInputComId] = useState("");
   const [inputEmpId, setInputEmpId] = useState("");
@@ -13,6 +13,7 @@ const Login = () => {
   // 페이지 진입 혹은 새로고침시 세션스토리지 초기화
   useState(() => {
     window.sessionStorage.removeItem("empInfo");
+    window.sessionStorage.removeItem("menuName");
   }, []);
 
   const changeComId = (e) => {

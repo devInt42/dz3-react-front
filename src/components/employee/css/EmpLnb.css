@@ -1,0 +1,15 @@
+.menuArea {
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.menuArea::-webkit-scrollbar {
+  width: 5px;
+}
+
+.menuArea::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #e3e3e3; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}

@@ -34,7 +34,7 @@ function Layout() {
   }, []);
   return (
     <Container fluid>
-      <Row>
+      <Row style={{height: "100vh"}}>
         <Col md="auto" className={style.layout_lnb}>
           <LNB getMenuInfo={getMenuInfo} />
         </Col>
@@ -43,7 +43,7 @@ function Layout() {
             <GNB menuName={menuName} setMenuName={setMenuName} />
           </Row>
           <Row>
-            {menuName == "" ? (
+             {menuName == "" ? (
               <></>
             ) : (
               <Col md="auto" className={style.layout_callmenu}>

@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
+body{
+    font-family: "Noto Sans KR", sans-serif;
+}
 
 .basic_tbl{
     width: 100%;
@@ -15,5 +19,58 @@
 .basic_tbl td {
     font-size: 12px;
     border: 1px solid rgb(8, 8, 8);
-    padding: 10px;
+    padding: 7px;
+}
+
+.emp_input[type="text"] {
+    width: 100%;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 3px;
+    box-sizing: border-box;
+    transition: 0.3s;
+    font-size: 13px;
+  }.emp_input[type="text"]:focus {
+    border-color: rgb(100, 173, 247);
+    box-shadow: 0 0 5px 0.1px rgb(100, 173, 247);
+}
+
+.emp_pwd {
+    width: 35%;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 3px;
+    box-sizing: border-box;
+    transition: 0.3s;
+    font-size: 13px;
+  }.emp_pwd:focus {
+    border-color: rgb(100, 173, 247);
+    box-shadow: 0 0 5px 0.1px rgb(100, 173, 247);
+}
+
+.emp_input_gender{
+    font-size: 12px;
+    font-weight: bold;
+}.emp_input_gender input[type=radio]+label{
+   padding-right: 15px;
+   padding-left: 7px;
+}
+
+/* CRUD 버튼스타일 */
+.menu_btn {
+    text-align: center;
+  }.menu_btn button {
+    margin: 10px;
+    width: 100px;
+    height: 40px;
+    background-color: rgba(251, 251, 252, 0.486);
+    border-radius: 10%;
+    border-color: rgb(73, 137, 231);
+}.menu_btn button:hover {
+    background-color: rgba(9, 132, 247, 0.63);
+    transition: 0.3s;
+    color: aliceblue;
+    font-weight: bold;
 }

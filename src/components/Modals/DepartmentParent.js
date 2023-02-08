@@ -3,15 +3,16 @@ import axios from "axios";
 import { TreeView, TreeItem } from "@mui/lab";
 import { ReactComponent as Folder } from "../authGroup/folder.svg";
 import { ReactComponent as FolderOpen } from "../authGroup/folderopen.svg";
-import DepartmentName from "./DepartmentName";
+import SubDepartment from "./SubDepartment";
 
-const DepartmentGroup = (props) => {
+const DepartmentParent = (props) => {
   const baseUrl = "http://localhost:8080";
   const [companySeq, setCompanySeq] = useState(0);
   const [workplaceSeq, setWorkplaceSeq] = useState(0);
   const [departmentGroupList, setDepartmentGroupList] = useState([]);
   const [count, setCount] = useState(0);
   const [departmentSeq, setDepartmentSeq] = useState(0);
+  const [pointList, setPointList] = useState([]);
 
   //회사 값, 사업장 값 받아오기
   useEffect(() => {
@@ -72,26 +73,27 @@ const DepartmentGroup = (props) => {
     }
   }, [count]);
 
-  //클릭시 부서 정보 추출
-  const getDeptSeq = (e) => {
+  //클릭시 부서, 사업장 정보 추출
+  const getPointList = (e) => {
     const temp = [];
     departmentGroupList.forEach((list) => {
       if (list.departmentName === e.target.innerText) {
         temp.push(list);
       }
     });
-    setDepartmentSeq(temp[0].departmentSeq);
+    setPointList(temp[0]);
   };
-  useEffect(() => {
-    sendDepartmentSeq(departmentSeq);
-  }, [departmentSeq]);
 
   // 부모에게 부서값 전달
-  const sendDepartmentSeq = (e) => {
+  const sendPointList = (e) => {
     if (e != 0) {
-      props.sendDepartmentSeq(e);
+      props.sendPointList(e);
     }
   };
+
+  useEffect(() => {
+    sendPointList(pointList);
+  }, [pointList]);
 
   return (
     <div style={{ border: "1px solid #f3f3f3" }}>
@@ -111,13 +113,13 @@ const DepartmentGroup = (props) => {
                 key={`D${item.departmentSeq}`}
                 nodeId={item.departmentSeq.toString()}
                 label={item.departmentName}
-                onClick={getDeptSeq}>
-                <DepartmentName
+                onClick={getPointList}>
+                <SubDepartment
                   companySeq={item.companySeq}
                   workplaceSeq={item.workplaceSeq}
                   parentSeq={item.departmentSeq}
                   depth={item.departmentDepth}
-                  sendDepartmentSeq={sendDepartmentSeq}
+                  sendPointList={sendPointList}
                 />
               </TreeItem>
             </div>
@@ -126,4 +128,4 @@ const DepartmentGroup = (props) => {
     </div>
   );
 };
-export default DepartmentGroup;
+export default DepartmentParent;

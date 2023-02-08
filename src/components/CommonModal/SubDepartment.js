@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { TreeItem } from "@mui/lab";
 
-const DepartmentName = (props) => {
+const SubDepartment = (props) => {
   const baseUrl = "http://localhost:8080";
   const [companySeq, setCompanySeq] = useState(0);
   const [workplaceSeq, setWorkplaceSeq] = useState(0);
@@ -114,7 +114,7 @@ const DepartmentName = (props) => {
               nodeId={departmentNameItem.departmentSeq.toString()}
               label={departmentNameItem.departmentName}
               onClick={getDeptSeq}>
-              <DepartmentName
+              <SubDepartment
                 companySeq={departmentNameItem.companySeq}
                 workplaceSeq={departmentNameItem.workplaceSeq}
                 parentSeq={departmentNameItem.departmentSeq}
@@ -128,4 +128,4 @@ const DepartmentName = (props) => {
   );
 };
 
-export default DepartmentName;
+export default SubDepartment;

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Alert } from "react-bootstrap";
 import AuthLnb from "../components/auth/AuthLnb";
 import AuthEmployeeList from "../components/auth/AuthEmployeeList";
 import withReactContent from "sweetalert2-react-content";
@@ -194,7 +194,8 @@ const Auth = () => {
   }
 
   function getInfo(obj) {
-    setModalRes(obj);
+    // setModalRes(obj);
+    console.log(obj);
     SaveCompanyAlert();
   }
   return (
