@@ -11,7 +11,6 @@ const DepartmentParent = (props) => {
   const [workplaceSeq, setWorkplaceSeq] = useState(0);
   const [departmentGroupList, setDepartmentGroupList] = useState([]);
   const [count, setCount] = useState(0);
-  const [departmentSeq, setDepartmentSeq] = useState(0);
   const [pointList, setPointList] = useState([]);
 
   //회사 값, 사업장 값 받아오기

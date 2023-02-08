@@ -42,48 +42,36 @@ const CompanyList = (props) => {
     getComSeq();
   }, [companyName]);
 
-  //companyName 전달
-  useEffect(() => {
-    sendCompanyName(companyNameList[0]?.companyName);
-  });
-
   const sendPointList = (e) => {
     props.sendPointList(e);
   };
 
-  //값 저장
-  async function sendCompanyName(a) {
-    setCompanyName(a);
-  }
-
   return (
-    <div className="DeptCom">
-      <TreeView
-        className="companyTree"
-        aria-label="file system navigator"
-        defaultCollapseIcon={<FolderOpen />}
-        defaultExpandIcon={<Folder />}
-        sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-        multiSelect>
-        {companyNameList &&
-          companyNameList.map((companyItem) => (
-            <div
+    <TreeView
+      className="companyTree"
+      aria-label="file system navigator"
+      defaultCollapseIcon={<FolderOpen />}
+      defaultExpandIcon={<Folder />}
+      sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+      multiSelect>
+      {companyNameList &&
+        companyNameList.map((companyItem) => (
+          <div
+            key={`C${companyItem.companySeq}`}
+            style={{ display: "flex", alignItems: "flex-start" }}>
+            <TreeItem
               key={`C${companyItem.companySeq}`}
-              style={{ display: "flex", alignItems: "flex-start" }}>
-              <TreeItem
-                key={`C${companyItem.companySeq}`}
-                nodeId={companyItem.companySeq.toString()}
-                label={companyItem.companyName}
-                id={companyItem.companySeq.toString()}>
-                <WorkplaceGroup
-                  companySeq={companyItem.companySeq}
-                  sendPointList={sendPointList}
-                />
-              </TreeItem>
-            </div>
-          ))}
-      </TreeView>
-    </div>
+              nodeId={companyItem.companySeq.toString()}
+              label={companyItem.companyName}
+              id={companyItem.companySeq.toString()}>
+              <WorkplaceGroup
+                companySeq={companyItem.companySeq}
+                sendPointList={sendPointList}
+              />
+            </TreeItem>
+          </div>
+        ))}
+    </TreeView>
   );
 };
 export default CompanyList;
