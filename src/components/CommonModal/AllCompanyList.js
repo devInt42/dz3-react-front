@@ -13,6 +13,7 @@ const AllCompanyList = (props) => {
   useEffect(() => {
     initSetting();
   }, [props]);
+
   // 선택한 회사값 받기
   const initSetting = useCallback(() => {
     setCompanySeq(props.pointCompanySeq);
@@ -20,6 +21,7 @@ const AllCompanyList = (props) => {
   useEffect(() => {
     getCompany();
   }, [companySeq]);
+
   // 로그인 - 선택된 회사 받아오기
   const getCompany = useCallback(async () => {
     let send = {
@@ -58,20 +60,17 @@ const AllCompanyList = (props) => {
       defaultCollapseIcon={<FolderOpen />}
       defaultExpandIcon={<Folder />}
       sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-      multiSelect
-    >
+      multiSelect>
       {companyNameList &&
         companyNameList.map((companyItem) => (
           <div
             key={`C${companyItem.companySeq}`}
-            style={{ display: "flex", alignItems: "flex-start" }}
-          >
+            style={{ display: "flex", alignItems: "flex-start" }}>
             <TreeItem
               key={`C${companyItem.companySeq}`}
               nodeId={companyItem.companySeq.toString()}
               label={companyItem.companyName}
-              id={companyItem.companySeq.toString()}
-            >
+              id={companyItem.companySeq.toString()}>
               <WorkplaceGroup
                 companySeq={companyItem.companySeq}
                 sendDepartmentSeq={sendDepartmentSeq}

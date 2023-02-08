@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { TreeItem } from "@mui/lab";
 
-const DepartmentName = (props) => {
+const SubDepartment = (props) => {
   const baseUrl = "http://localhost:8080";
   const [companySeq, setCompanySeq] = useState(0);
   const [workplaceSeq, setWorkplaceSeq] = useState(0);
@@ -10,7 +10,7 @@ const DepartmentName = (props) => {
   const [departmentDepth, setDepartmentDepth] = useState(0);
   const [count, setCount] = useState(0);
   const [departmentNameList, setDepartmentNameList] = useState([]);
-  const [pointList, setPointList] = useState([]);
+  const [departmentSeq, setDepartmentSeq] = useState(0);
 
   //회사 값, 사업장 값 받아오기
   useEffect(() => {
@@ -80,27 +80,27 @@ const DepartmentName = (props) => {
     getDepartment();
   }, [count]);
 
-  //클릭시 부서, 사업장 정보 추출
-  const getPointList = (e) => {
+  //클릭시 부서 정보 추출
+  const getDeptSeq = (e) => {
     const temp = [];
     departmentNameList.forEach((list) => {
       if (list.departmentName === e.target.innerText) {
         temp.push(list);
       }
     });
-    setPointList(temp[0]);
+    setDepartmentSeq(temp[0].departmentSeq);
   };
 
   // 부모에게 부서값 전달
-  const sendPointList = (e) => {
+  const sendDepartmentSeq = (e) => {
     if (e != 0) {
-      props.sendPointList(e);
+      props.sendDepartmentSeq(e);
     }
   };
 
   useEffect(() => {
-    sendPointList(pointList);
-  }, [pointList]);
+    sendDepartmentSeq(departmentSeq);
+  }, [departmentSeq]);
 
   return (
     <>
@@ -113,13 +113,13 @@ const DepartmentName = (props) => {
               key={`D${departmentNameItem.departmentSeq}`}
               nodeId={departmentNameItem.departmentSeq.toString()}
               label={departmentNameItem.departmentName}
-              onClick={getPointList}>
-              <DepartmentName
+              onClick={getDeptSeq}>
+              <SubDepartment
                 companySeq={departmentNameItem.companySeq}
                 workplaceSeq={departmentNameItem.workplaceSeq}
                 parentSeq={departmentNameItem.departmentSeq}
                 depth={departmentNameItem.departmentDepth}
-                sendDepartmentSeq={sendPointList}
+                sendDepartmentSeq={sendDepartmentSeq}
               />
             </TreeItem>
           </div>
@@ -128,4 +128,4 @@ const DepartmentName = (props) => {
   );
 };
 
-export default DepartmentName;
+export default SubDepartment;

@@ -11,6 +11,7 @@ const EmployeeDetail = (props) => {
   const [companyName, setCompanyName] = useState();
   const baseUrl = "http://localhost:8080";
   const [selectEmp, setSelectEmp] = useState(null);
+
   //modal에서 값 받아오기
   useEffect(() => {
     async function getEmplSeq() {
