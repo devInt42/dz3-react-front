@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Alert } from "react-bootstrap";
 import AuthLnb from "../components/auth/AuthLnb";
 import AuthEmployeeList from "../components/auth/AuthEmployeeList";
 import withReactContent from "sweetalert2-react-content";
@@ -215,11 +215,13 @@ const Auth = () => {
               alignItems: "center",
               justifyContent: "flex-end",
               marginBottom: "10px",
-            }}>
+            }}
+          >
             <Button
               variant="outline-secondary"
               style={{ width: "5%" }}
-              onClick={openModal}>
+              onClick={openModal}
+            >
               편집
             </Button>
 
@@ -230,7 +232,8 @@ const Auth = () => {
               header="사용자 권한 설정"
               authSeq={authSeq}
               pointCompanySeq={pointCompanySeq}
-              selectCompanySeq={selectCompanySeq}></CommonModal>
+              selectCompanySeq={selectCompanySeq}
+            ></CommonModal>
           </Row>
           <AuthEmployeeList
             authSeq={authSeq}
