@@ -491,6 +491,7 @@ const DepartmentDetail = (props) => {
                                     <div className="company-table-td-address-input">
 
                                         <Form.Control
+                                            className = "department-input"
                                             onFocus={() =>
                                                 address.length === 0 && setZipcodeIsOpen(true)
                                             }
@@ -504,6 +505,7 @@ const DepartmentDetail = (props) => {
                                     </div>
                                     <div className="company-table-td-address-input">
                                         <Form.Control
+                                            className = "department-input"
                                             placeholder="상세 주소를 입력해 주십시오."
                                             onChange={e => { setDetailAddr(e.target.value) }}
                                             value={detailAddr || ""}
@@ -518,6 +520,7 @@ const DepartmentDetail = (props) => {
                             <td className="department-table-content">
                                 <div className="department-table-content-flex">
                                     <Form.Check
+                                        className = "department-input"
                                         type="switch"
                                         id="custom-switch"
                                         onChange={() => { useYN === "N" ? setUseYN("Y") : setUseYN("N"); }}

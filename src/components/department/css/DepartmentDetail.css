@@ -49,3 +49,17 @@
 #department-modal:hover {
     background-color: gray;
 }
+
+.emp_input[type="text"] {
+    width: 100%;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    outline: none;
+    padding: 3px;
+    box-sizing: border-box;
+    transition: 0.3s;
+    font-size: 13px;
+  }.emp_input[type="text"]:focus {
+    border-color: rgb(100, 173, 247);
+    box-shadow: 0 0 5px 0.1px rgb(100, 173, 247);
+}
