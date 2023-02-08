@@ -4,7 +4,7 @@ import "../modals/SearchModal.css";
 import CompanyList from "./CompanyList";
 
 const DepartmentModal = (props) => {
-  const { open, close, header } = props;
+  const { open, close, header, getInfoCaLLback } = props;
   const [departmentSeq, setDepartmentSeq] = useState();
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [employeeSeq, setEmployeeSeq] = useState();
@@ -14,7 +14,9 @@ const DepartmentModal = (props) => {
   const [selectEmp, setSelectEmp] = useState(null);
   const [checkItem, setCheckItem] = useState([]);
 
-  console.log(pointList); //솔루션 플랫폼
+  function SelelctEmplList() {
+    getInfoCaLLback(pointList);
+  }
 
   // emplist에서 선택한 사원의 모든 정보 받아오기
   const sendPointEmpList = (i) => {
