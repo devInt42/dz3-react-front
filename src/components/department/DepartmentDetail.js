@@ -9,7 +9,8 @@ import DepartmentParentModal from "./DepartmentParentModal";
 import SaveDepartmentAlert from "./alert/SaveDepartmentAlert";
 import UpdateDepartmentAlert from "./alert/UpdateDepartmentAlert";
 import DeleteDepartmentAlert from "./alert/DeleteDepartmentAlert";
-
+import ZippopupDom from "./zipcode/ZippopupDom";
+import ZippopupPostCode from "./zipcode/ZippopupZipCode";
 const DepartmentDetail = (props) => {
     const baseUrl = "http://localhost:8080";
     const [firstCode, setFirstCode] = useState("");
@@ -33,7 +34,13 @@ const DepartmentDetail = (props) => {
     const [departmentCall, setDepartmentCall] = useState("");
     const [departmentFax, setDepartmentFax] = useState("");
     const [areaCode, setAreaCode] = useState("");
-
+    const [zipcodeIsOpen, setZipcodeIsOpen] = useState();
+    const [departmentZipCode, setDepartmentZipCode] = useState("");
+    const [address, setAddress] = useState("");
+    const [detailAddr, setDetailAddr] = useState("");
+    useEffect(() => {
+        setDepartmentLoc(address);
+    }, [address])
     //사업장 seq로 회사, 사업장 이름 조회하고 department 에 데이터 셋팅
     const getWorkplace = async () => {
         try {
@@ -79,6 +86,10 @@ const DepartmentDetail = (props) => {
             setDepartmentCall("");
             setDepartmentFax("");
             setAreaCode("");
+            setDepartmentZipCode("");
+            setAddress("");
+            setDetailAddr("");
+            setDepartmentLoc("");
         }
 
     }, [props.departmentSeq])
@@ -122,14 +133,18 @@ const DepartmentDetail = (props) => {
         if (JSON.stringify(department) !== '{}') {
             getNames();
         }
+        let temaddr = department.departmentLoc;
+        let splitaddr = (temaddr || '').split(' / ');
+        setAddress(splitaddr[0]);
+        setDetailAddr(splitaddr[1]);
         setDepartmentName(department.departmentName);
         setDepartmentCode(department.departmentCode);
         setFirstCode(department.departmentCode);
         setFirstName(department.departmentName);
-        setDepartmentLoc(department.departmentLoc);
         setDepartmentParentSeq(department.departmentParent);
         setDepartmentDepth(department.departmentDepth);
         setUseYN(department.useYN);
+        setDepartmentZipCode(department.departmentZipCode);
         setDepartmentCall((department.departmentCall == null) ? "" : department.departmentCall);
         setDepartmentFax(department.departmentFax == null ? "" : department.departmentFax);
     }, [department])
@@ -218,6 +233,14 @@ const DepartmentDetail = (props) => {
             setNotRequire(<SaveFailDepartmentAlert />)
             return false;
         }
+        if(departmentZipCode == null || departmentZipCode == undefined) {
+            setNotRequire(<SaveFailDepartmentAlert />)
+            return false;
+        }
+        if(departmentLoc == null || departmentLoc == undefined) {
+            setNotRequire(<SaveFailDepartmentAlert />)
+            return false;
+        }
         setAllCheck(true);
         return true
     }
@@ -237,6 +260,7 @@ const DepartmentDetail = (props) => {
         setDepartmentCall("");
         setDepartmentFax("");
         setChecked(0);
+        setDepartmentZipCode("");
         props.setInsertForm(true);
     }
 
@@ -251,7 +275,8 @@ const DepartmentDetail = (props) => {
         "useYN": useYN,
         "departmentDepth": departmentDepth,
         "departmentCall": departmentCall,
-        "departmentFax": departmentFax
+        "departmentFax": departmentFax,
+        "departmentZipCode": departmentZipCode
     }
     const InsertData = () => {
         const param = {
@@ -433,15 +458,60 @@ const DepartmentDetail = (props) => {
                         </tr>
                         <tr>
                             <th className="department-table-title">부서주소</th>
-                            <td className="department-table-content"><Form.Control
-                                placeholder="부서 주소를 입력해주세요"
-                                style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
-                                onChange={e => setDepartmentLoc(e.target.value)}
-                                value={departmentLoc || ''}
-                                isValid={firstName === departmentName ?
-                                    false : `${departmentLoc}`.length < 1 ? false : true}
-                                isInvalid={`${departmentLoc}`.length < 1 && checked > 0 ? true : false}
-                            /></td>
+                            <td colSpan={3} className="company-table-content">
+                                <div className="company-table-td-twocontent">
+                                    <Form.Control
+                                        value={departmentZipCode || ""}
+                                        onFocus={() => {
+                                            `${departmentZipCode}`.length > 0 ? setZipcodeIsOpen(false) : setZipcodeIsOpen(true);
+                                        }}
+                                        isValid={(checked > 0 && `${departmentZipCode}`.length > 0 && departmentZipCode != null && departmentZipCode != undefined)
+                                         ? true : false}
+                                        isInvalid={checked < 1 ? false : `${departmentZipCode}`.length > 0 ? false : true}
+                                        style= {{zIndex:0, backgroundColor:"#ffe9e9", width: "200px"}}  
+                                    />
+                                    <button className="addressnumbtn" type="button" onClick={() => setZipcodeIsOpen(true)}>우편번호 검색
+                                    </button>
+                                </div>
+
+                                <div id="zippopupdom">
+                                    {
+                                        zipcodeIsOpen && (
+                                            <ZippopupDom>
+                                                <ZippopupPostCode
+                                                    onClose={setZipcodeIsOpen}
+                                                    setDepartmentZipCode={setDepartmentZipCode}
+                                                    setAddress={setAddress}
+                                                />
+                                            </ZippopupDom>
+                                        )
+                                    }
+                                </div>
+                                <div className="company-table-td-address">
+                                    <div className="company-table-td-address-input">
+
+                                        <Form.Control
+                                            onFocus={() =>
+                                                address.length === 0 && setZipcodeIsOpen(true)
+                                            }
+                                            value={address || ""}
+                                            onChange={(e) => { setAddress(e.target.value); setDetailAddr("")}}
+                                            style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
+                                            isValid={checked > 0 ? true : false}
+                                            isInvalid={checked < 1 ? false : address.length > 0 ? false : true}
+                                            readOnly
+                                        />
+                                    </div>
+                                    <div className="company-table-td-address-input">
+                                        <Form.Control
+                                            placeholder="상세 주소를 입력해 주십시오."
+                                            onChange={e => { setDetailAddr(e.target.value) }}
+                                            value={detailAddr || ""}
+                                            onBlur = {() => setDepartmentLoc(address + " / " + detailAddr)}
+                                        />
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <th className="department-table-title">사용여부</th>
