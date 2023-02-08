@@ -10,9 +10,11 @@ const DepartmentModal = (props) => {
   const [employeeSeq, setEmployeeSeq] = useState();
   const [companyName, setCompanyName] = useState();
   const [text, setText] = useState();
-  const [employeeName, setEmployeeName] = useState();
   const [pointList, setPointList] = useState([]);
   const [selectEmp, setSelectEmp] = useState(null);
+  const [checkItem, setCheckItem] = useState([]);
+
+  console.log(pointList); //솔루션 플랫폼
 
   // emplist에서 선택한 사원의 모든 정보 받아오기
   const sendPointEmpList = (i) => {
@@ -26,19 +28,6 @@ const DepartmentModal = (props) => {
   };
   const sendPointList = (e) => {
     setPointList(e);
-  };
-  const onChange = (e) => {
-    setText(e.target.value);
-  };
-
-  //버튼 누르면 값 이동
-  const sendInputText = () => {
-    setEmployeeName(text);
-  };
-
-  //초기화
-  const reset = () => {
-    setText("");
   };
 
   //처음에 실행하고 바뀔때만 렌더링
@@ -78,7 +67,6 @@ const DepartmentModal = (props) => {
               className="OrganicBtn"
               onClick={() => {
                 close();
-                reset();
               }}>
               X
             </button>
@@ -93,6 +81,12 @@ const DepartmentModal = (props) => {
                       sendCompanyName={sendCompanyName}
                     />
                   </Col>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    onClick={SelelctEmplList}>
+                    확인
+                  </button>
                 </Row>
               </div>
             </div>
