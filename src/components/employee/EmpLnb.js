@@ -31,7 +31,10 @@ function EmpLnb(props) {
   };
   return (
     <>
-      <Row className="menuArea">
+      <Row
+        className="menuArea"
+        style={{ diplay: "flex", alignContent: "flex-start" }}
+      >
         <div
           style={{
             fontSize: "15px",
