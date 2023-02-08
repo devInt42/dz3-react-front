@@ -20,7 +20,7 @@ function EmpDept(props) {
   const [departmentSeq, setDepartmentSeq] = useState(0);
   const [departmentCall, setDepartmentCall] = useState("");
   const [departmentFax, setDepartmentFax] = useState("");
-
+  const [groupList, setGroupList] = useState([]);
   useEffect(() => {
     axios
       .get(`${baseUrl}/department-employee/belong`, {
@@ -28,7 +28,10 @@ function EmpDept(props) {
           employeeSeq: props.employeeSeq,
         },
       })
-      .then((res) => setCWDData(res.data))
+      .then((res) => {
+        console.log(res.data);
+        setGroupList(res.data);
+      })
       .catch((error) => console.log(error));
 
     axios
