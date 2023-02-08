@@ -514,7 +514,7 @@ const CompanyDetail = ((props) => {
                                                 address.length === 0 && setZipcodeIsOpen(true)
                                             }
                                             value={address || ""}
-                                            onChange={(e) => { setAddress(e.target.value); }}
+                                            onChange={(e) => { setAddress(e.target.value); setDetailAddr("") }}
                                             style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
                                             isValid={checked > 0 ? true : false}
                                             isInvalid={checked < 1 ? false : address.length > 0 ? false : true}
