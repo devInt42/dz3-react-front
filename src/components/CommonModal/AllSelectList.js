@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { TrySharp } from "@mui/icons-material";
+import { useCallback, useEffect, useState } from "react";
 
 const AllSelectList = (props) => {
   const [checkItem, setCheckItem] = useState([]);
@@ -17,7 +18,15 @@ const AllSelectList = (props) => {
     JSON.parse
   );
 
-  //해당 직원이름 출력
+  const checklength = useCallback(async () => {
+    // console.log(uniqueObjArr.length);
+    props.sendCheckLength(uniqueObjArr.length);
+  }, [checkItem]);
+
+  useEffect(() => {
+    checklength();
+  }, [checkItem]);
+
   return (
     <div className="AllSelectSpace">
       {uniqueObjArr && uniqueObjArr.map((list) => list.employeeName + "ㅤ")}

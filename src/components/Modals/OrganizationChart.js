@@ -77,11 +77,11 @@ const OrganizationChart = (props) => {
             {header}
 
             <button
+              className="OrganicBtn"
               onClick={() => {
                 close();
                 reset();
-              }}
-            >
+              }}>
               X
             </button>
           </header>
@@ -92,8 +92,7 @@ const OrganizationChart = (props) => {
                   <Col sm={3}>
                     <select
                       className="form-select"
-                      aria-label="Default select example"
-                    >
+                      aria-label="Default select example">
                       <option>사원명</option>
                     </select>
                   </Col>
@@ -103,14 +102,12 @@ const OrganizationChart = (props) => {
                       className="form-control"
                       placeholder="검색어를 입력하세요."
                       onChange={onChange}
-                      value={text || ""}
-                    ></input>
+                      value={text || ""}></input>
                   </Col>
                   <Col sm={1}>
                     <button
                       className="btn btn-secondary"
-                      onClick={sendInputText}
-                    >
+                      onClick={sendInputText}>
                       검색
                     </button>
                   </Col>

@@ -159,6 +159,7 @@ const AllEmployeeList = (props) => {
                     <input
                       key={0}
                       type="checkbox"
+                      //deptList에 employeeSeq에 CheckList에 seq값이 포함하는게 다 있으면 true
                       checked={
                         deptList
                           .map((d) => d.employeeSeq)
@@ -168,6 +169,8 @@ const AllEmployeeList = (props) => {
                               .includes(item)
                           ) && deptList.length !== 0
                       }
+                      //setCheckList(체크리스트 값  + deptList중에 checkList에 없는 값
+                      // setCheckList( deptList와 checkList가 일치하지 않는 값)
                       onChange={(e) => {
                         if (e.target.checked) {
                           setCheckedLists([
