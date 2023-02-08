@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-import CommonModal from "../components/commonModal/CommonModal";
+import DepartmentModal from "../components/departmentModal/DepartmentModal";
 import withReactContent from "sweetalert2-react-content";
 import { BsPersonCircle } from "react-icons/bs";
 
@@ -42,12 +42,11 @@ const Home2 = () => {
     <React.Fragment>
       <BsPersonCircle size="30" onClick={openModal}></BsPersonCircle>
 
-      <CommonModal
+      <DepartmentModal
         open={modalOpen}
         close={closeModal}
         getInfoCaLLback={getInfo}
-        header="회사부서 사용자 선택"
-      ></CommonModal>
+        header="부서 사용자 선택"></DepartmentModal>
     </React.Fragment>
   );
 };

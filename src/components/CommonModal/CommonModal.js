@@ -6,7 +6,6 @@ import AllSelectList from "./AllSelectList";
 import AllEmployeeList from "./AllEmployeeList";
 import "../modals/OrganizationChart";
 import "../modals/SearchModal.css";
-import { fontWeight } from "@mui/system";
 
 const CommonModal = (props) => {
   const { open, close, header, getInfoCaLLback } = props;

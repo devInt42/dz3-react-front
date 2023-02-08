@@ -222,3 +222,15 @@
   width: 500px;
   height: 200px;
 }
+
+.DeptModalBtn {
+  padding-top: 10px;
+  /* margin-left: 550px; */
+}
+
+.DeptCom {
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  width: 1135px;
+  height: 600px;
+}

@@ -10,6 +10,8 @@ import AuthGroup from "./pages/AuthGroup";
 import Department from "./components/department/Department";
 import NotSelected from "./pages/NotSelected";
 import EmployeeSet from "./pages/EmployeeSet";
+import Home2 from "./pages/Home2";
+
 function App() {
   return (
     <Routes>
@@ -24,6 +26,7 @@ function App() {
         <Route path="employeeset" element={<EmployeeSet />} />
         <Route exact path="company" element={<Company />} />
         <Route exact path="department" element={<Department />} />
+        <Route exact path="Home2" element={<Home2 />} />
       </Route>
     </Routes>
   );
