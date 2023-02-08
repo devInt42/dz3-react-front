@@ -195,7 +195,7 @@ const AllEmployeeList = (props) => {
                       }}
                       className="custom-control-input"
                       id="customCheck2"></input>
-                    <button onClick={(e) => console.log(checkedList)}></button>
+                    {/* <button onClick={(e) => console.log(checkedList)}></button> */}
                   </th>
                   <th scope="col">회사</th>
                   <th scope="col">사업장</th>

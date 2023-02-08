@@ -6,6 +6,7 @@ import AllSelectList from "./AllSelectList";
 import AllEmployeeList from "./AllEmployeeList";
 import "../modals/OrganizationChart";
 import "../modals/SearchModal.css";
+import { fontWeight } from "@mui/system";
 
 const CommonModal = (props) => {
   const { open, close, header, getInfoCaLLback } = props;
@@ -37,7 +38,6 @@ const CommonModal = (props) => {
   };
   const sendCheckLength = (i) => {
     setCheckCount(i);
-    // console.log(checkCount);
   };
 
   //버튼 누르면 값 이동
@@ -127,8 +127,18 @@ const CommonModal = (props) => {
                   </Row>
                   <Row>
                     <div>
-                      <span className="CommonBtn">• 선택목록 {checkCount}</span>
-                      <button onClick={SelelctEmplList}>확인 </button>
+                      <span className="CommonBtn">
+                        • 선택목록{" "}
+                        <span style={{ fontWeight: "bolder" }}>
+                          {checkCount}
+                        </span>
+                      </span>
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onClick={SelelctEmplList}>
+                        확인
+                      </button>
                     </div>
                   </Row>
                   <Row sm={4} className="AllChoiceEmp">

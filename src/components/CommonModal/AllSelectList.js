@@ -19,7 +19,6 @@ const AllSelectList = (props) => {
   );
 
   const checklength = useCallback(async () => {
-    // console.log(uniqueObjArr.length);
     props.sendCheckLength(uniqueObjArr.length);
   }, [checkItem]);
 
