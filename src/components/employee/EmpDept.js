@@ -20,8 +20,8 @@ function EmpDept(props) {
     const [departmentSeq, setDepartmentSeq] = useState(0);
     const [departmentCall, setDepartmentCall] = useState("");
     const [departmentFax, setDepartmentFax] = useState("");
+    
     useEffect(() => {
-
         axios.get(`${baseUrl}/department-employee/belong`, {
             params: {
                 "employeeSeq": props.employeeSeq
@@ -39,6 +39,7 @@ function EmpDept(props) {
     useEffect(() => {
         setCompanySeq(cWDdata.companySeq);
         setWorkplaceSeq(cWDdata.workplaceSeq);
+        setDepartmentSeq(cWDdata.departmentSeq);
         setCompanyName(cWDdata.companyName);
         setWorkplaceName(cWDdata.workplaceName);
         setDepartmentName(cWDdata.departmentName);
@@ -46,18 +47,23 @@ function EmpDept(props) {
         setMainDepartmentYN(cWDdata.mainDepartmentYN);
         setDepartmentCall(cWDdata.departmentCall);
         setDepartmentFax(cWDdata.departmentFax);
-    },[employee])
+        console.log(cWDdata)
+    },[cWDdata])
 
     useEffect(() => {
         if (departmentSeq != undefined && departmentSeq != null) {
             axios.get(`${baseUrl}/department/list/${departmentSeq}`)
                 .then(res => setDepartment(res.data))
                 .catch(error => console.log(error))
-            setDepartmentCall(department.departmentCall);
-            setDepartmentFax(department.departmentFax);
         }
-    }, [departmentSeq])
+    }, [props.employeeSeq])
     
+    useEffect(() => {
+        setDepartmentCall(department.departmentCall);
+        setDepartmentFax(department.departmentFax);
+        console.log("call" + departmentCall);
+        console.log("fax" + departmentFax);
+    },[department])
     return (
         <div>
             <table className={style.dept_tbl}>
@@ -137,10 +143,9 @@ function EmpDept(props) {
                     </tr>
                     <tr>
                         <th>전화번호</th>
-                        <td><input type="text" value={departmentCall || ""} 
-                                onChange={(e) => { setDepartmentCall(e.target.value) }} /></td>
+                        <td><input type="text" value={departmentCall || cWDdata.departmentCall || "-"}                                                                          /></td>
                         <th>팩스번호</th>
-                        <td>{departmentFax  || "-"}</td>
+                        <td>{departmentFax  || cWDdata.departmentCall || "-"}</td>
                     </tr>
                     <tr>
                         <th>주소</th>

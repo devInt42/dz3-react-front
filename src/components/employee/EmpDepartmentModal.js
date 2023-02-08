@@ -31,11 +31,11 @@ export default function EmpDepartmentModal(props) {
     const handleClose = () => setOpen(false);
     const [departmentList, setDepartmentList] = React.useState([]);
     React.useEffect(() => {
+        if(props.companySeq != null && props.companySeq != undefined) {
         axios.get(`${baseUrl}/department-employee/select/list/${props.companySeq}`)
             .then(res => setDepartmentList(res.data))
             .catch(error => console.log(error))
-
-        console.log(departmentList);
+        }
     }, [props.companySeq])
     return (
         <div>
@@ -70,6 +70,8 @@ export default function EmpDepartmentModal(props) {
                                                     onClick={() => {
                                                         props.setDepartmentSeq(department.departmentSeq);
                                                         props.setDepartmentName(department.departmentName);
+                                                        props.setDepartmentCall(department.departmentCall);
+                                                        props.setDepartmentFax(department.departmentFax);
                                                         props.setWorkplaceSeq(department.workplaceSeq);
                                                         handleClose();
                                                     }}
