@@ -58,7 +58,10 @@ function EmpDept(props) {
     if (departmentSeq != undefined && departmentSeq != null) {
       axios
         .get(`${baseUrl}/department/list/${departmentSeq}`)
-        .then((res) => setDepartment(res.data))
+        .then((res) => {
+          console.log(res.data);
+          setDepartment(res.data);
+        })
         .catch((error) => console.log(error));
     }
   }, [props.employeeSeq]);
@@ -103,7 +106,7 @@ function EmpDept(props) {
           </tr>
           <tr>
             <th>사번</th>
-            <td colSpan={3}>{employee.employeeCode}</td>
+            <td colSpan={3}>{employee?.employeeCode}</td>
           </tr>
           <tr>
             <th>회사구분</th>
@@ -169,9 +172,9 @@ function EmpDept(props) {
 
           <tr>
             <th>입사일</th>
-            <td>{employee.employeeJoin}</td>
+            <td>{employee?.employeeJoin}</td>
             <th>퇴사일</th>
-            <td>{employee.employeeLeave}</td>
+            <td>{employee?.employeeLeave}</td>
           </tr>
           <tr>
             <th>전화번호</th>
