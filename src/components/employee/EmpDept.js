@@ -67,9 +67,9 @@ function EmpDept(props) {
   return (
     <div>
       {groupList &&
-        groupList.map((group) => {
+        groupList.map((group, idx) => {
           return (
-            <table className={style.dept_tbl}>
+            <table className={style.dept_tbl} key = {idx}>
               <thead></thead>
               <tbody>
                 <tr>
@@ -100,7 +100,7 @@ function EmpDept(props) {
                   <td>
                     <input
                       type="radio"
-                      name="main-company-yn"
+                      name= "main-company-yn"
                       value="Y"
                       onChange={(e) => {
                         setMainCompanyYN(e.target.value);
@@ -110,6 +110,7 @@ function EmpDept(props) {
                     <label>주회사</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input
+                    
                       type="radio"
                       name="main-company-yn"
                       value="N"
@@ -154,9 +155,8 @@ function EmpDept(props) {
                 </tr>
                 <tr>
                   <th>재직구분</th>
-                  <td colSpan={3}>재직</td>
+                  <td>ㅎㅇ</td>
                 </tr>
-
                 <tr>
                   <th>입사일</th>
                   <td></td>
@@ -168,19 +168,15 @@ function EmpDept(props) {
                   <td>
                     <input
                       type="text"
-                      value={departmentCall || groupList.departmentCall || "-"}
+                      value={group.departmentCall || "-"}
                     />
                   </td>
                   <th>팩스번호</th>
-                  <td>{departmentFax || groupList.departmentCall || "-"}</td>
+                  <td>{group.departmentFax || "-"}</td>
                 </tr>
                 <tr>
                   <th>주소</th>
-                  <td colSpan={3}>1</td>
-                </tr>
-                <tr>
-                  <th>조직도</th>
-                  <td colSpan={3}>사용</td>
+                  <td colSpan={3}>{group.departmentZipCode} | {group.departmentLoc}</td>
                 </tr>
               </tbody>
             </table>

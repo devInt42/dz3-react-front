@@ -14,7 +14,7 @@ const DepartmentSearch = (props) => {
             axios.get(`${baseUrl}/department/list/company`, {
                 headers: {Authorization: window.sessionStorage.getItem("empInfo")}
             })
-                .then(res => {setCompany(res.data); setCompanyList(res.data)})
+                .then(res => {setCompany(res.data[0]); setCompanyList(res.data)})
                 .catch(error => console.log(error))
     }, [])
     
