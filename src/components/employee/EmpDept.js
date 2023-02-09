@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import style from "./css/EmpDept.module.css";
 import { Form } from "react-bootstrap";
-import DepartmentModal from "../departmentModal/DepartmentModal";
-import { Button } from "react-bootstrap";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import ManageModal from "../departmentModal/ManageModal";
 
 function EmpDept(props) {
   const baseUrl = "http://localhost:8080";
@@ -23,40 +20,6 @@ function EmpDept(props) {
   const [departmentFax, setDepartmentFax] = useState("");
   const [groupList, setGroupList] = useState([]);
   const [test, setTest] = useState();
-
-  //modal
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-
-  function SaveCompanyAlert(props) {
-    const MySwal = withReactContent(Swal);
-    MySwal.fire({
-      title: "저장하시겠습니까?",
-      icon: "info",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "저장",
-      cancelButtonText: "취소",
-      width: "600px",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire("저장이 완료되었습니다.", "", "success", "#3085d6");
-        setModalOpen(false);
-      }
-    });
-  }
-
-  function getInfo(obj) {
-    console.log(obj);
-    SaveCompanyAlert();
-  }
 
   //사원의 조직정보
   useEffect(() => {
@@ -121,19 +84,7 @@ function EmpDept(props) {
                           backgroundColor: "rgba(241, 199, 199, 0.328)",
                         }}
                       />
-                      <Button
-                        variant="outline-secondary"
-                        style={{ width: "5%" }}
-                        onClick={openModal}>
-                        편집
-                      </Button>
-
-                      <DepartmentModal
-                        companySeq={group.companySeq}
-                        open={modalOpen}
-                        close={closeModal}
-                        getInfoCaLLback={getInfo}
-                        header="부서 사용자 선택"></DepartmentModal>
+                      <ManageModal companySeq={group.companySeq} />
                     </div>
                   </td>
                 </tr>

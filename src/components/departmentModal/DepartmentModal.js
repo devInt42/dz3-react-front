@@ -14,7 +14,6 @@ const DepartmentModal = (props) => {
   //dept에서 seq 받아오기
   const getComSeq = useCallback(() => {
     setCompanySeq(props.companySeq);
-    // console.log("CompanySeq: " + props.companySeq);
   }, [props]);
 
   useEffect(() => {

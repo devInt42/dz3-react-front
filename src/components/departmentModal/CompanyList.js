@@ -15,13 +15,12 @@ const CompanyList = (props) => {
   //회사 seq 받아오기
   const companySetting = useCallback(() => {
     setCompanySeq(props.companySeq);
-    // console.log("companyList" + props.companySeq);
   }, [props]);
 
   useEffect(() => {
     companySetting();
-  }, [props]);
-  console.log("dd" + companySeq);
+  }, [companySeq]);
+
   // 회사값 받아오기
   const getCompany = useCallback(async () => {
     if (companySeq != null) {
@@ -39,7 +38,6 @@ const CompanyList = (props) => {
           }
         );
         setCompanyNameList(companyDataResult.data);
-        console.log(companyDataResult.data);
       } catch (error) {
         console.log(error);
       }
