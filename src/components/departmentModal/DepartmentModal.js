@@ -9,6 +9,17 @@ const DepartmentModal = (props) => {
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [employeeSeq, setEmployeeSeq] = useState();
   const [companyName, setCompanyName] = useState();
+  const [companySeq, setCompanySeq] = useState();
+
+  //dept에서 seq 받아오기
+  const getComSeq = useCallback(() => {
+    setCompanySeq(props.companySeq);
+    // console.log("CompanySeq: " + props.companySeq);
+  }, [props]);
+
+  useEffect(() => {
+    getComSeq();
+  }, [props]);
 
   const [pointList, setPointList] = useState([]);
 
@@ -27,7 +38,6 @@ const DepartmentModal = (props) => {
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
   const changeWorkSeq = useCallback(() => {}, [workplaceSeq]);
   const changeEmplSeq = useCallback(() => {}, [employeeSeq]);
-  const changeComSeq = useCallback(() => {}, [departmentSeq]);
 
   useEffect(() => {
     setWorkplaceSeq(pointList.workplaceSeq);
@@ -44,11 +54,7 @@ const DepartmentModal = (props) => {
   useEffect(() => {
     changeEmplSeq();
   }, [employeeSeq]);
-
-  useEffect(() => {
-    changeComSeq();
-  }, [departmentSeq]);
-
+  useEffect(() => {}, [companySeq]);
   return (
     <div className={open ? "openModal modal dept" : "modal dept"}>
       {open ? (
@@ -70,6 +76,7 @@ const DepartmentModal = (props) => {
               <CompanyList
                 sendPointList={sendPointList}
                 sendCompanyName={sendCompanyName}
+                companySeq={companySeq}
               />
             </div>
             <div style={{ paddingTop: "10px" }}>

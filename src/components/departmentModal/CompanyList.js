@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TreeView, TreeItem } from "@mui/lab";
 import { ReactComponent as Folder } from "../authGroup/folder.svg";
 import { ReactComponent as FolderOpen } from "../authGroup/folderopen.svg";
@@ -10,29 +10,46 @@ const CompanyList = (props) => {
   const baseUrl = "http://localhost:8080";
   const [companyNameList, setCompanyNameList] = useState([]);
   const [companyName, setCompanyName] = useState();
+  const [companySeq, setCompanySeq] = useState();
 
-  // 로그인 - 선택된 회사
-  const getCompany = async () => {
-    try {
-      const companyDataResult = await axios.get(
-        `${baseUrl}/department-employee/companyElement`,
-        {
-          headers: {
-            Authorization: window.sessionStorage.getItem("empInfo"),
-          },
-        }
-      );
-      setCompanyNameList(companyDataResult.data);
-      console.log(companyDataResult);
-    } catch (error) {
-      console.log(error);
+  //회사 seq 받아오기
+  const companySetting = useCallback(() => {
+    setCompanySeq(props.companySeq);
+    // console.log("companyList" + props.companySeq);
+  }, [props]);
+
+  useEffect(() => {
+    companySetting();
+  }, [props]);
+  console.log("dd" + companySeq);
+  // 회사값 받아오기
+  const getCompany = useCallback(async () => {
+    if (companySeq != null) {
+      let send = {
+        companySeq: companySeq,
+      };
+      try {
+        const companyDataResult = await axios.get(
+          `${baseUrl}/department-employee/companyElement`,
+          {
+            params: send,
+            headers: {
+              Authorization: window.sessionStorage.getItem("empInfo"),
+            },
+          }
+        );
+        setCompanyNameList(companyDataResult.data);
+        console.log(companyDataResult.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  };
+  }, [companySeq]);
 
   //회사가 바뀔때마다 가져오는값 달라짐
   useEffect(() => {
     getCompany();
-  }, []);
+  }, [companySeq]);
 
   // Modal.js로 값 전송
   useEffect(() => {
