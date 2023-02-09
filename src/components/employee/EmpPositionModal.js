@@ -29,14 +29,21 @@ export default function EmpPositionModal(props) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [departmentList, setDepartmentList] = React.useState([]);
+    const [list, setList] = React.useState([]);
     React.useEffect(() => {
-        if(props.companySeq != null && props.companySeq != undefined) {
-        axios.get(`${baseUrl}/department-employee/select/list/${props.companySeq}`)
-            .then(res => setDepartmentList(res.data))
+       
+        if(props.type === "POSITION") {
+            axios.get(`${baseUrl}/department-employee/position`)
+            .then(res => setList(res.data))
             .catch(error => console.log(error))
         }
-    }, [props.companySeq])
+        else if(props.type === "DUTY") {
+            axios.get(`${baseUrl}/department-employee/duty`)
+            .then(res => setList(res.data))
+            .catch(error => console.log(error))
+        }
+        console.log(list);
+    }, [])
     return (
         <div>
             <Button onClick={handleOpen}>찾기</Button>
@@ -48,39 +55,48 @@ export default function EmpPositionModal(props) {
             >
                 <Box sx={style}>
                     <div id="modal-modal-title" variant="h6" component="h2">
-                        <b>부서를 선택해 주십시오.</b>
+                        <b>직급을 선택해 주십시오.</b>
                     </div>
                     <div id="modal-modal-description" sx={{ mt: 2 }}>
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 550 }} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>회사</TableCell>
-                                        <TableCell>사업장</TableCell>
-                                        <TableCell>부서 코드</TableCell>
-                                        <TableCell>부서</TableCell>
+                                        <TableCell>코드</TableCell>
+                                        <TableCell>직급</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {
 
-                                        departmentList && departmentList.map((department, idx) => {
+                                        list && list.map((item, idx) => {
                                             return (
                                                 <TableRow key={idx} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                     onClick={() => {
-                                                        props.setDepartmentSeq(department.departmentSeq);
-                                                        props.setDepartmentName(department.departmentName);
-                                                        props.setDepartmentCall(department.departmentCall);
-                                                        props.setDepartmentFax(department.departmentFax);
-                                                        props.setWorkplaceSeq(department.workplaceSeq);
+                                                        (props.type === "POSITION" && 
+                                                        props.setPosition(item.position), props.setPosition(item.positionCode))
+                                                        (props.type === "DUTY" && 
+                                                        props.setDuty(item.duty), props.setDutyCode(item.dutyCode))
                                                         handleClose();
                                                     }}
-                                                    id="department-modal"
+                                                    id="item-modal"
                                                 >
-                                                    <TableCell>{department.companyName}</TableCell>
-                                                    <TableCell>{department.workplaceName}</TableCell>
-                                                    <TableCell>{department.departmentCode}</TableCell>
-                                                    <TableCell>{department.departmentName}</TableCell>
+                                                {
+                                                props.type === "POSITION" && 
+                                                <>
+                                                    <TableCell>{item.positionCode}</TableCell>
+                                                    <TableCell>{item.position}</TableCell>
+                                                </>
+                                                }
+                                                {
+                                                    props.type === "DUTY" &&
+                                                    <>
+                                                        <TableCell>{item.dutyCode}</TableCell>
+                                                        <TableCell>{item.duty}</TableCell>
+                                                    </>
+                                                }
+                                                    
+                                                    
                                                 </TableRow>
                                             )
                                         })
