@@ -11,6 +11,7 @@ import style from "./css/EmpBasic.module.css";
 
 import { BsFilePerson } from "react-icons/bs";
 import { FcPlus } from "react-icons/fc";
+import { MdAlternateEmail } from "react-icons/md";
 import "./css/EmpLnb.css";
 
 import Switch from "@mui/material/Switch";
@@ -47,6 +48,8 @@ function EmpBasic(props) {
     const [employeePwd, setEmployeePwd] = useState("");
     const [employeePh, setEmployeePh] = useState("");
     const [employeePmail, setEmployeePmail] = useState("");
+    const [pmailDomain, setPmailDomain] = useState("");
+    const [pmailId, setPmailId] = useState("");
     const [employeeCmail, setEmployeeCmail] = useState("");
     const [employeeAddr, setEmployeeAddr] = useState("");
     const [employeeJoin, setEmployeeJoin] = useState("");
@@ -56,6 +59,8 @@ function EmpBasic(props) {
     const [useYN, setUseYN] = useState(true);
     const [employeeHcall, setEmployeeHcall] = useState("");
     const [approvalPwd, setApprovalPwd] = useState("");
+    const [firstId, setFirstId] = useState("");
+    const [FirstMail, setFirstMail] = useState("");
 
     const [checked, setChecked] = useState(true);
     const handleChange = (event) => {
@@ -84,11 +89,19 @@ function EmpBasic(props) {
             setEmployeeLanguage(empSelected.employeeLanguage);
             setEmployeeHcall(empSelected.employeeHcall);
             setApprovalPwd(empSelected.approvalPwd);
+            setFirstId(empSelected.employeeId);
+            setFirstMail(empSelected.employeeCmail);
             if (empSelected.useYN == "Y") {
                 setUseYN(true);
             } else {
                 setUseYN(false);
             }
+            if(empSelected.employeePmail != "" && empSelected.employeePmail != undefined){
+                let emailtmp = empSelected.employeePmail.split("@");
+                setPmailId(emailtmp[0])
+                setPmailDomain(emailtmp[1])
+            }
+            
         }
     }, [empSelected]);
 
@@ -119,6 +132,10 @@ function EmpBasic(props) {
         setEmployeeLanguage("");
         setEmployeeJoin("");
         setEmployeeLeave("");
+        setFirstId("");
+        setFirstMail("");
+        setPmailDomain("");
+        setPmailId("");
         props.clickEmp();
         props.setSelectAct(true);
     };
@@ -129,7 +146,6 @@ function EmpBasic(props) {
         if (
             employeeName.length == 0 ||
             employeePwd.length == 0 ||
-            employeeCode.length == 0 ||
             approvalPwd.length == 0 ||
             employeeJoin.length == 0
         ) {
@@ -145,7 +161,6 @@ function EmpBasic(props) {
         if (
             employeeName.length == 0 ||
             employeePwd.length == 0 ||
-            employeeCode.length == 0 ||
             approvalPwd.length == 0 ||
             employeeJoin.length == 0
         ) {
@@ -183,16 +198,29 @@ function EmpBasic(props) {
         }
     };
 
-    // 회사메일 도메인 자르기
-    const mailurl = employeeCmail.split("@");
-    console.log(mailurl[0])
-    console.log(mailurl[1])
+    useEffect(() => {
+        if (employeeCmail != "" && employeeCmail != undefined)
+            cmailCheck();
+    }, [employeeCmail]);
 
+    const [returnCmail, setReturnCmail] = useState([]);
+    const cmailCheck = async () => {
+        try {
+            let cmailRes = await axios.get(`${baseUrl}/employee/emplist/checkcmail`, {
+                params: { employeeCmail: employeeCmail },
+            });
+            setReturnCmail(cmailRes.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    console.log(pmailId + "@" + pmailDomain)
     return (
         <div>
             <h5 style={{ display: "inline" }}>사원 상세</h5>
             <span style={{ float: "right" }} onClick={newSave}>
-                <FcPlus />
+                <FcPlus />&nbsp;
                 신규 입사자 등록
             </span>
             <table className={style.basic_tbl}>
@@ -244,47 +272,67 @@ function EmpBasic(props) {
                                     }}
                                     autoComplete="off"
                                     isValid={
-                                        employeeId != "" ? (returnId.length > 0 ? false : true) : false
+                                        employeeId != "" ? firstId == employeeId ? true : (returnId.length > 0 ? false : true) : false
                                     }
                                     isInvalid={
-                                        employeeId != "" ? (returnId.length > 0 ? true : false) : true
+                                        employeeId != "" ? firstId == employeeId ? false : (returnId.length > 0 ? true : false) : true
                                     }
                                 />
+                                {firstId == employeeId ? <Form.Control.Feedback type="valid">현재 로그인 ID 입니다.</Form.Control.Feedback> : 
+                                employeeId != "" && employeeId != undefined &&
+                                <>
                                 <Form.Control.Feedback type="valid">
                                     사용 가능한 ID 입니다.
                                 </Form.Control.Feedback>
                                 <Form.Control.Feedback type="invalid">
                                     중복된 아이디가 존재합니다.
-                                </Form.Control.Feedback>
+                                </Form.Control.Feedback> </>}
                             </Form.Group>
                         </td>
                         <th>메일 ID</th>
                         <td>
-                            <input
-                                type="text"
-                                className={style.emp_input}
-                                value={employeeCmail || ""}
-                                style={{ backgroundColor: "rgba(175, 174, 174, 0.328)" }}
-                                onChange={(e) => {
-                                    setEmployeeCmail(e.target.value);
-                                }}
-                            />
+                            <Form.Group>
+                                <Form.Control
+                                    type="text"
+                                    className={style.emp_input}
+                                    value={employeeCmail || ""}
+                                    style={{ backgroundColor: "rgba(175, 174, 174, 0.328)" }}
+                                    onChange={(e) => {
+                                        setEmployeeCmail(e.target.value);
+                                    }}
+                                    autoComplete="off"
+                                    isValid={
+                                        employeeCmail != "" ? FirstMail == employeeCmail ? true :(returnCmail.length > 0 ? false : true) : false
+                                    }
+                                    isInvalid={
+                                        employeeCmail != "" ? FirstMail == employeeCmail ? false :(returnCmail.length > 0 ? true : false) : true
+                                    }
+                                />
+                                {FirstMail == employeeCmail ? <Form.Control.Feedback type="valid">현재 메일 ID 입니다.</Form.Control.Feedback> :
+                                employeeCmail != "" && employeeCmail != undefined && <>
+                                <Form.Control.Feedback type="valid">
+                                    사용 가능한 메일입니다.
+                                </Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">
+                                    중복된 메일이 존재합니다.
+                                </Form.Control.Feedback></>}
+                            </Form.Group>
                         </td>
                     </tr>
                     <tr>
                         <th>로그인 비밀번호</th>
                         <td>
-                            
-                                <input
-                                    type="password"
-                                    className={style.emp_pwd}
-                                    value={employeePwd || ""}
-                                    style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
-                                    onChange={(e) => {
-                                        setEmployeePwd(e.target.value);
-                                    }}
-                                    autoComplete="off"
-                                />
+
+                            <input
+                                type="password"
+                                className={style.emp_pwd}
+                                value={employeePwd || ""}
+                                style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
+                                onChange={(e) => {
+                                    setEmployeePwd(e.target.value);
+                                }}
+                                autoComplete="off"
+                            />
                             {/* {checked ? (
                             ) : (
                                 <input
@@ -308,18 +356,18 @@ function EmpBasic(props) {
                         </td>
                         <th>결재 비밀번호</th>
                         <td>
-                            
-                                <input
-                                    type="password"
-                                    className={style.emp_pwd}
-                                    value={approvalPwd || ""}
-                                    style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
-                                    onChange={(e) => {
-                                        setApprovalPwd(e.target.value);
-                                    }}
-                                    autoComplete="off"
-                                />
-                                {/* {checked2 ? (
+
+                            <input
+                                type="password"
+                                className={style.emp_pwd}
+                                value={approvalPwd || ""}
+                                style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
+                                onChange={(e) => {
+                                    setApprovalPwd(e.target.value);
+                                }}
+                                autoComplete="off"
+                            />
+                            {/* {checked2 ? (
                             ) : (
                                 <input
                                     type="text"
@@ -402,11 +450,26 @@ function EmpBasic(props) {
                             <input
                                 type="text"
                                 className={style.emp_input}
-                                value={employeePmail || ""}
+                                style={{width: "45%"}}
+                                // value={employeePmail || ""}
+                                 value={pmailId || ""}
                                 onChange={(e) => {
-                                    setEmployeePmail(e.target.value);
+                                    setPmailId(e.target.value);
                                 }}
-                            />
+                            />&nbsp;&nbsp;<MdAlternateEmail style={{width: "20px", height: "20px"}}/>&nbsp;&nbsp;
+                            <Form.Select size="sm" style={{width: "45%", display: "inline"}} 
+                             value={pmailDomain || ""}
+                                onChange={(e) => setPmailDomain(e.target.value)}>
+                                <option value="naver.com">naver.com</option>
+                                <option value="gmail.com">gmail.com</option>
+                                <option value="daum.net">daum.net</option>
+                                <option value="kokao.com">kokao.com</option>
+                                <option value="korea.kr">korea.kr</option>
+                                <option value="msn.com">msn.com</option>
+                                <option value="nate.com">nate.com</option>
+                                <option value="narasarang.or.kr">narasarang.or.kr</option>
+                                <option value="tistory.com">tistory.com</option>
+                            </Form.Select>
                         </td>
                     </tr>
 

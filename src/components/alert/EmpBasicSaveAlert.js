@@ -7,9 +7,6 @@ function EmpBasicSaveAlert(props) {
   const MySwal = withReactContent(Swal);
   const baseUrl = "http://localhost:8080";
 
-  const [test, setTest] = useState([]);
-  useEffect(()=>{console.log(test)}, [test])
-  
   MySwal.fire({
     title: '저장하시겠습니까?',
     icon: 'info',
@@ -22,18 +19,12 @@ function EmpBasicSaveAlert(props) {
 
   }).then(result => {
     if(result.isConfirmed) {
-      axios.get(`${baseUrl}/employee/emplist/checkid`, {
-        params: {"employeeId": props.employeeId}
-    })
-    .then((response) => setTest(response.data))
-    .catch((error) => console.log(error));
-        // Swal.fire('저장이 완료되었습니다.', '', 'success','#3085d6');
-        // props.insertEmp();
-        console.log(test)
-        props.setInsertCheck(false);
+      props.insertEmp();
+      Swal.fire('저장이 완료되었습니다.', '', 'success','#3085d6');
+      props.setInsertCheck(false);
     }
     if(!result.isConfirmed) {
-        props.setInsertCheck(false);
+      props.setInsertCheck(false);
     }
   })
 }

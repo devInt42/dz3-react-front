@@ -37,7 +37,7 @@ body{
 }
 
 .emp_pwd {
-    width: 35%;
+    width: 100%;
     border: 1px solid #aaa;
     border-radius: 4px;
     outline: none;
