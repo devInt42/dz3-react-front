@@ -23,6 +23,7 @@ const CompanyList = (props) => {
         }
       );
       setCompanyNameList(companyDataResult.data);
+      console.log(companyDataResult);
     } catch (error) {
       console.log(error);
     }

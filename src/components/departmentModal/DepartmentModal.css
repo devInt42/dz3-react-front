@@ -17,9 +17,9 @@
 }
 
 .dept.modal > section {
-  width: 23%;
+  width: 25%;
   max-width: 75%;
-  height: 400px;
+  height: 570px;
   margin: 0 auto;
   border-radius: 0.3rem;
   background-color: #fff;
@@ -75,5 +75,8 @@
 }
 
 .DeptModalDiv1 {
-  height: 270px;
+  height: 400px;
+  padding-top: 15px;
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
 }

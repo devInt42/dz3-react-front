@@ -1,4 +1,3 @@
-import { Row, Col } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
 import "./DepartmentModal.css";
 import CompanyList from "./CompanyList";
@@ -65,16 +64,28 @@ const DepartmentModal = (props) => {
             </button>
           </header>
           <main>
+            <div style={{ paddingBottom: "15px" }}>• 선택 가능 목록</div>
             <div className="DeptModalDiv1">
               <CompanyList
                 sendPointList={sendPointList}
                 sendCompanyName={sendCompanyName}
               />
             </div>
-            <div class="DeptModalDiv2">
+            <div style={{ paddingTop: "10px" }}>
+              <span style={{ paddingRight: "5px", marginLeft: "150px" }}>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onClick={() => {
+                    close();
+                  }}>
+                  취소
+                </button>
+              </span>
+
               <button
                 type="button"
-                class="btn btn-secondary"
+                class="btn btn-primary"
                 onClick={SelelctEmplList}>
                 확인
               </button>
