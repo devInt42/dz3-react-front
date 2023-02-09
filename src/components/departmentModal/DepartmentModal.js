@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import "./DepartmentModal.css";
 import CompanyList from "./CompanyList";
+import { Button } from "react-bootstrap";
 
 const DepartmentModal = (props) => {
   const { open, close, header, getInfoCaLLback } = props;
@@ -73,22 +74,22 @@ const DepartmentModal = (props) => {
             </div>
             <div style={{ paddingTop: "10px" }}>
               <span style={{ paddingRight: "5px", marginLeft: "150px" }}>
-                <button
-                  type="button"
-                  class="btn btn-secondary"
+                <Button
+                  variant="secondary"
                   onClick={() => {
                     close();
                   }}>
                   취소
-                </button>
+                </Button>
               </span>
-
-              <button
-                type="button"
-                class="btn btn-primary"
-                onClick={SelelctEmplList}>
-                확인
-              </button>
+              <span>
+                <Button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={SelelctEmplList}>
+                  확인
+                </Button>
+              </span>
             </div>
           </main>
         </section>
