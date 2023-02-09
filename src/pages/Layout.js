@@ -54,6 +54,8 @@ function Layout() {
           alert("접근권한이 없습니다.");
           sessionStorage.removeItem("menuName");
           navigate("/dz3");
+        } else {
+          sessionStorage.setItem("menuName", JSON.stringify("시스템설정"));
         }
       } catch {}
     }
