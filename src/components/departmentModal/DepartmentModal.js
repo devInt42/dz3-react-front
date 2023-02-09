@@ -1,7 +1,7 @@
-import { Row, Col } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
 import "./DepartmentModal.css";
 import CompanyList from "./CompanyList";
+import { Button } from "react-bootstrap";
 
 const DepartmentModal = (props) => {
   const { open, close, header, getInfoCaLLback } = props;
@@ -65,19 +65,31 @@ const DepartmentModal = (props) => {
             </button>
           </header>
           <main>
+            <div style={{ paddingBottom: "15px" }}>• 선택 가능 목록</div>
             <div className="DeptModalDiv1">
               <CompanyList
                 sendPointList={sendPointList}
                 sendCompanyName={sendCompanyName}
               />
             </div>
-            <div class="DeptModalDiv2">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                onClick={SelelctEmplList}>
-                확인
-              </button>
+            <div style={{ paddingTop: "10px" }}>
+              <span style={{ paddingRight: "5px", marginLeft: "150px" }}>
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    close();
+                  }}>
+                  취소
+                </Button>
+              </span>
+              <span>
+                <Button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={SelelctEmplList}>
+                  확인
+                </Button>
+              </span>
             </div>
           </main>
         </section>
