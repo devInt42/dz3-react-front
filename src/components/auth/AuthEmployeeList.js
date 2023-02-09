@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Table, Row } from "react-bootstrap";
 import axios from "axios";
-
+import DepartmentTree from "./DepartmentTree";
 const AuthEmployeeList = (props) => {
   const baseUrl = "http://localhost:8080";
   const [authSeq, setAuthSeq] = useState(null);
@@ -54,9 +54,12 @@ const AuthEmployeeList = (props) => {
             {resList &&
               resList.map((eList) => (
                 <tr key={eList.employeeSeq} id={eList.employeeSeq}>
-                  <td className="authEmployeeList">
-                    {eList.companyName}&gt;{eList.workplaceName}&gt;
-                    {eList.departmentName}
+                  <td
+                    className="authEmployeeList"
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
+                    {eList.companyName}&gt;{eList.workplaceName}
+                    <DepartmentTree departmentSeq={eList.departmentSeq} />
                   </td>
                   <td>
                     {eList.position}&#47;{eList.duty}
