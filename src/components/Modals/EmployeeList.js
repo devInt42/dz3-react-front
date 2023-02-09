@@ -1,8 +1,9 @@
+import { padding } from "@mui/system";
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import { Row, Col } from "react-bootstrap";
 import { BsTelephonePlus, BsFillFileEarmarkPersonFill } from "react-icons/bs";
-
+import DepartmentTree from "../auth/DepartmentTree";
 const EmployeeList = (props) => {
   const baseUrl = "http://localhost:8080";
   const [companySeq, setCompanySeq] = useState();
@@ -162,12 +163,18 @@ const EmployeeList = (props) => {
                   &#40;&nbsp; {dList.employeeId}&nbsp;&#41;
                 </span>
               </Row>
-              <Row className="Searchstage">
-                {dList.companyName} &gt; {dList.workplaceName} &gt;
-                {dList.departmentName}
+              <Row className="Searchstage" style={{ display: "flex" }}>
+                <p style={{ margin: "0", padding: "0", display: "flex" }}>
+                  {dList.companyName}&gt;
+                  {dList.workplaceName}
+                  <DepartmentTree
+                    key={`${dList.companyName}${dList.employeeSeq}`}
+                    departmentSeq={dList.departmentSeq}
+                  />
+                </p>
               </Row>
               <Row className="Searchphnum">
-                <div style={{ width: "35px" }}>
+                <div style={{ width: "35px", margin: "0" }}>
                   <BsTelephonePlus />
                 </div>
                 {dList.employeePh}

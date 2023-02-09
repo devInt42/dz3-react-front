@@ -103,17 +103,20 @@ const DepartmentParent = (props) => {
         defaultCollapseIcon={<FolderOpen />}
         defaultExpandIcon={<Folder />}
         sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-        multiSelect>
+        multiSelect
+      >
         {departmentGroupList &&
           departmentGroupList.map((item) => (
             <div
               key={`D${item.departmentSeq}`}
-              style={{ display: "flex", alignItems: "flex-start" }}>
+              style={{ display: "flex", alignItems: "flex-start" }}
+            >
               <TreeItem
                 key={`D${item.departmentSeq}`}
                 nodeId={item.departmentSeq.toString()}
                 label={item.departmentName}
-                onClick={getPointList}>
+                onClick={getPointList}
+              >
                 <SubDepartment
                   companySeq={item.companySeq}
                   workplaceSeq={item.workplaceSeq}

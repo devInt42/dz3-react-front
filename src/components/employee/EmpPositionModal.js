@@ -24,7 +24,7 @@ const style = {
 };
 
 
-export default function EmpDepartmentModal(props) {
+export default function EmpPositionModal(props) {
     const baseUrl = "http://localhost:8080";
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);

@@ -194,8 +194,7 @@ const Auth = () => {
   }
 
   function getInfo(obj) {
-    // setModalRes(obj);
-    console.log(obj);
+    setModalRes(obj);
     SaveCompanyAlert();
   }
   return (
