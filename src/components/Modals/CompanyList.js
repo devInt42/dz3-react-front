@@ -62,7 +62,6 @@ const CompanyList = (props) => {
       defaultCollapseIcon={<FolderOpen />}
       defaultExpandIcon={<Folder />}
       sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-      multiSelect
     >
       {companyNameList &&
         companyNameList.map((companyItem) => (

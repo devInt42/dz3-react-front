@@ -103,7 +103,6 @@ const DepartmentParent = (props) => {
         defaultCollapseIcon={<FolderOpen />}
         defaultExpandIcon={<Folder />}
         sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-        multiSelect
       >
         {departmentGroupList &&
           departmentGroupList.map((item) => (

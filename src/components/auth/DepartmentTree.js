@@ -8,7 +8,6 @@ const DepartmentTree = (props) => {
     setDepartmentSeq(props.departmentSeq);
   }, [props]);
   useEffect(() => {
-    console.log(departmentSeq);
     callDept();
   }, [departmentSeq]);
   const callDept = async () => {
