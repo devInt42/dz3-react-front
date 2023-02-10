@@ -100,10 +100,10 @@ const CompanyDetail = (props) => {
   let [areaCode, setAreaCode] = useState("");
   let [companyFax, setCompanyFax] = useState("");
   let [companyZipCode, setCompanyZipCode] = useState("");
-  let [companyForeigner, setCompanyForeigner] = useState();
+  let [companyForeigner, setCompanyForeigner] = useState("");
   let [address, setAddress] = useState("");
-  let [zipcodeIsOpen, setZipcodeIsOpen] = useState();
-  let [pcBuisness, setPcBuisness] = useState();
+  let [zipcodeIsOpen, setZipcodeIsOpen] = useState("");
+  let [pcBuisness, setPcBuisness] = useState("");
   let [codeDupliCheck, setCodeDupliCheck] = useState(1);
 
   const data = {
@@ -521,9 +521,6 @@ const CompanyDetail = (props) => {
                   onChange={(e) => setPcBuisness(e.target.value)}
                   defaultValue={pcBuisness}
                 >
-                  <option value="" disabled>
-                    선택
-                  </option>
                   <option value="법인">법인</option>
                   <option value="개인">개인</option>
                 </select>
