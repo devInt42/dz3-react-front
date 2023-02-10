@@ -30,6 +30,15 @@ export default function EmpPositionModal(props) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [list, setList] = React.useState([]);
+    
+    function setP(value) {
+        props.setPosition(value.position);
+        props.setPositionCode(value.positionCode);
+    }
+    function setD(value) {
+        props.setDuty(value.duty); 
+        props.setDutyCode(value.dutyCode);
+    }
     React.useEffect(() => {
        
         if(props.type === "POSITION") {
@@ -73,10 +82,9 @@ export default function EmpPositionModal(props) {
                                             return (
                                                 <TableRow key={idx} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                     onClick={() => {
-                                                        (props.type === "POSITION" && 
-                                                        props.setPosition(item.position), props.setPosition(item.positionCode))
-                                                        (props.type === "DUTY" && 
-                                                        props.setDuty(item.duty), props.setDutyCode(item.dutyCode))
+                                                        props.type === "POSITION" ?
+                                                        setP(item) :
+                                                        setD(item)
                                                         handleClose();
                                                     }}
                                                     id="item-modal"

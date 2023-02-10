@@ -36,13 +36,14 @@ function EmpDept(props) {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setGroupList(res.data);
       })
       .catch((error) => console.log(error));
-    console.log(groupList);
   }, [props.employeeSeq]);
 
+  useEffect(() => {
+    console.log(groupList);
+  }, [groupList])
   // useEffect(() => {
   //   setCompanySeq(groupList.companySeq);
   //   setWorkplaceSeq(groupList.workplaceSeq);
@@ -71,13 +72,25 @@ function EmpDept(props) {
   //   console.log("call" + departmentCall);
   //   console.log("fax" + departmentFax);
   // }, [department]);
+
+
+  const updateObject = (seq, obj)=> {
+    let copyGroupList = [...groupList];
+    const findIndex = groupList.findIndex(
+      element => element.departmentSeq == seq
+    )
+    if (findIndex != -1) {
+      copyGroupList[findIndex] = { ...copyGroupList[findIndex], ...obj}
+    }
+    setGroupList(copyGroupList);
+  }
   return (
     <div>
       {groupList &&
         groupList.map((group, idx) => {
           return (
             <div>
-              <table className={style.dept_tbl} key={idx}>
+              <table className={style.dept_tbl}>
                 <thead></thead>
                 <tbody>
                   <tr>
@@ -88,10 +101,7 @@ function EmpDept(props) {
                       <div className="content-have-button">
                         <Form.Control
                           onChange={(e) => {
-                            setGroupList([...groupList, {
-                              id: group.departmentSeq,
-                              departmentName: e.target.value
-                            }])
+                            updateObject(group.departmentSeq, {departmentName: e.target.value});
                           }}
                           value={group.departmentName || ""}
                           placeholder="부서를 선택해 주십시오."
@@ -107,13 +117,12 @@ function EmpDept(props) {
                   <tr>
                     <th>사번</th>
                     <td colSpan={3}><Form.Control
-                      onChange={(e) => {
-                        setGroupList([...groupList, {
-                          id: group.departmentSeq,
-                          employeeCode: e.target.value
-                        }])
-                      }}
-                      value={group.employeeCode || ""}
+                      onChange={
+                        (e) => {
+                          updateObject(group.departmentSeq, {employeeCode:e.target.value})
+                        }
+                      }
+                      defaultValue={group.employeeCode}
                       placeholder="사번을 입력해 주십시오."
                       style={{
                         zIndex: "0",
@@ -126,13 +135,10 @@ function EmpDept(props) {
                     <td>
                       <input
                         type="radio"
-                        name="main-company-yn"
+                        name={`main-company-yn${group.departmentSeq}`}
                         value="Y"
-                        onChange={(e) => {
-                          setGroupList([...groupList, {
-                            id: group.departmentSeq,
-                            mainCompanyYN: e.target.value
-                          }])
+                        onChange={() => {
+                          updateObject(group.departmentSeq, {mainCompanyYN: "Y"})
                         }}
                         checked={group.mainCompanyYN === "Y" ? true : false}
                       />
@@ -140,13 +146,10 @@ function EmpDept(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <input
                         type="radio"
-                        name="main-company-yn"
+                        name={`main-company-yn${group.departmentSeq}`}
                         value="N"
-                        onChange={(e) => {
-                          setGroupList([...groupList, {
-                            id: group.departmentSeq,
-                            mainCompanyYN: e.target.value
-                          }])
+                        onChange={() => {
+                          updateObject(group.departmentSeq, {mainCompanyYN: "N"})
                         }}
                         checked={group.mainCompanyYN === "N" ? true : false}
                       />
@@ -156,29 +159,23 @@ function EmpDept(props) {
                     <td>
                       <input
                         type="radio"
-                        name="main-department-yn"
+                        name={`main-department-yn${group.departmentSeq}`}
                         value="Y"
-                        onChange={(e) => {
-                          setGroupList([...groupList, {
-                            id: group.departmentSeq,
-                            mainDepartmentYN: e.target.value
-                          }])
+                        onChange={() => {
+                          updateObject(group.departmentSeq, {mainDepartmentYN: "Y"})
                         }}
-                       checked={group.mainDepartmentYN === "Y" ? true : false}
+                        checked={group.mainDepartmentYN === "Y" || group.departmentSeq ? true : false}
                       />
                       <label>주부서</label>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <input
                         type="radio"
-                        name="main-department-yn"
+                        name={`main-department-yn${group.departmentSeq}`}
                         value="N"
-                        onChange={(e) => {
-                          setGroupList([...groupList, {
-                            id: group.departmentSeq,
-                            mainDepartmentYN: e.target.value
-                          }])
+                        onChange={() => {
+                          updateObject(group.departmentSeq, {mainDepartmentYN: "Y"})
                         }}
-                      checked={group.mainDepartmentYN === "N" ? true : false}
+                        checked={group.mainDepartmentYN === "N" || group.departmentSeq ? true : false}
                       />
                       <label>부부서</label>
                     </td>
@@ -187,28 +184,19 @@ function EmpDept(props) {
                   <tr>
                     <th>직급</th>
                     <td>
-                    <input type="text" value={`${group.positionCode}.${group.position}`}
-                    onChange = {e => {
-                      
-                      setGroupList([...groupList, {
-                        id: group.departmentSeq,
-                        positionCode: positionCode,
-                        position: position,
-                      }])
-                    }}/>
-                    <EmpPositionModal departmentSeq = {group.departmentSeq} type = {positionModal}
-                    setDuty = {setDuty}/></td>
+                      <input type="text" value={`${group.positionCode}.${group.position}`}
+                        onChange={() => {
+                          updateObject(group.departmentSeq, {positionCode: positionCode, position: position})
+                        }} />
+                      <EmpPositionModal departmentSeq={group.departmentSeq} type={positionModal}
+                        setPosition={setPosition} setPositionCode={setPositionCode} /></td>
                     <th>직책</th>
                     <td>
-                    <input type="text" value={`${group.dutyCode}.${group.duty}`}
-                    onChange = {e => {
-                      setGroupList([...groupList, {
-                        id: group.departmentSeq,
-                        dutyCode: dutyCode,
-                        duty: duty,
-                      }])
-                    }}/><EmpPositionModal departmentSeq = {group.departmentSeq} type = {dutyModal}
-                    setPosition = {setPosition}/>
+                      <input type="text" value={`${group.dutyCode}.${group.duty}`}
+                        onChange={() => {
+                          updateObject(group.departmentSeq, {positionCode: positionCode, position: position})
+                        }} /><EmpPositionModal departmentSeq={group.departmentSeq} type={dutyModal}
+                          setDuty={setDuty} setDutyCode={setDutyCode} />
                     </td>
                   </tr>
                   <tr>
