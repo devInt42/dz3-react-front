@@ -11,7 +11,6 @@ const DepartmentParent = (props) => {
   const [workplaceSeq, setWorkplaceSeq] = useState(0);
   const [departmentGroupList, setDepartmentGroupList] = useState([]);
   const [count, setCount] = useState(0);
-  const [departmentSeq, setDepartmentSeq] = useState(0);
   const [pointList, setPointList] = useState([]);
 
   //회사 값, 사업장 값 받아오기
@@ -50,7 +49,7 @@ const DepartmentParent = (props) => {
     }
   }, [companySeq, workplaceSeq]);
 
-  // 선택된 회사에 부서 Group값 받아오기
+  //선택된 회사에 부서 Group값 받아오기
   const getDepartmentGroup = useCallback(async () => {
     if (count > 0) {
       let departmentGroupData = {
@@ -86,7 +85,7 @@ const DepartmentParent = (props) => {
 
   // 부모에게 부서값 전달
   const sendPointList = (e) => {
-    if (e != 0) {
+    if (e !== 0) {
       props.sendPointList(e);
     }
   };
@@ -103,20 +102,17 @@ const DepartmentParent = (props) => {
         defaultCollapseIcon={<FolderOpen />}
         defaultExpandIcon={<Folder />}
         sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-        multiSelect
-      >
+        multiSelect>
         {departmentGroupList &&
           departmentGroupList.map((item) => (
             <div
               key={`D${item.departmentSeq}`}
-              style={{ display: "flex", alignItems: "flex-start" }}
-            >
+              style={{ display: "flex", alignItems: "flex-start" }}>
               <TreeItem
                 key={`D${item.departmentSeq}`}
                 nodeId={item.departmentSeq.toString()}
                 label={item.departmentName}
-                onClick={getPointList}
-              >
+                onClick={getPointList}>
                 <SubDepartment
                   companySeq={item.companySeq}
                   workplaceSeq={item.workplaceSeq}

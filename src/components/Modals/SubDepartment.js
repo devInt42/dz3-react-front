@@ -89,6 +89,7 @@ const SubDepartment = (props) => {
       }
     });
     setPointList(temp[0]);
+    console.log(pointList);
   };
 
   // 부모에게 부서값 전달
