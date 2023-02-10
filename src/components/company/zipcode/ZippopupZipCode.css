@@ -1,9 +1,12 @@
-#modal {
-   display: flex;
-   align-items: flex-start;
-   width:700px;
-   height:500px;
-   z-index: 100;
-   box-shadow: rgba(0,0,0,0.5) 0 0 0 9999px;
-   justify-content: center;
+.postModal {
+  position: absolute;
+  inset: 0px;
+  top: 25%;
+  left: 25%;
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(255, 255, 255);
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
 }

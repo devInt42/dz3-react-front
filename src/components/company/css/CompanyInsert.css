@@ -5,54 +5,54 @@
     padding: 0px 15px 15px 15px;
 } */
 .company-table {
-    border-top: 2px solid black;
-    margin: 10px 0px 0px 10px;
-    width:100%;
+  border-top: 2px solid black;
+  margin: 10px 0px 0px 10px;
+  width: 100%;
 }
 .company-table tr {
-    border-bottom: 1px solid grey;
+  border-bottom: 1px solid grey;
 }
 .company-table .company-table-title {
-    background-color: rgb(250, 242, 242);
-    text-align: end;
-    font-weight: bold;
+  background-color: #efefef;
+  text-align: end;
+  font-weight: bold;
 }
 .company-table-title {
-    width:200px;
-    height:50px;
+  width: 200px;
+  height: 50px;
 }
 .company-table-content {
-    padding:5px;
+  padding: 5px;
 }
 
-.company-table-td-twocontent{
-    display:flex;
+.company-table-td-twocontent {
+  display: flex;
 }
 .littletitle {
-    font-size:20px;
+  font-size: 20px;
 }
 
 .infoheader {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 .infoclosebutton {
-    border: none;
-    background-color: transparent;
+  border: none;
+  background-color: transparent;
 }
 
 .company-select-option {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 .company-table-td-address {
-    display:flex;
-    margin: 5px 5px 0px 0px;
-    justify-content: space-around;
+  display: flex;
+  margin: 5px 5px 0px 0px;
+  justify-content: space-around;
 }
 .company-table-td-address-input {
-    width:100%;
-    margin-right:5px;
+  width: 100%;
+  margin-right: 5px;
 }
 .addressnumbtn {
-    margin-left: 5px;
+  margin-left: 5px;
 }
