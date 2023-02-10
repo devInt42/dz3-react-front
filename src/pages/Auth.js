@@ -17,6 +17,8 @@ const Auth = () => {
   const [originList, setOriginList] = useState([]);
   const [insertList, setInsertList] = useState(null);
   const [deleteList, setDeleteList] = useState(null);
+  const [insertComplete, setInsertComplete] = useState(false);
+  const [deleteComplete, setDeleteComplete] = useState(false);
 
   const sendAuthSeq = (authSeq) => {
     setAuthSeq(authSeq);
@@ -43,6 +45,7 @@ const Auth = () => {
             headers,
           }
         );
+        setInsertComplete(true);
       } catch (error) {
         console.log(error);
       }
@@ -64,6 +67,7 @@ const Auth = () => {
             headers,
           }
         );
+        setDeleteComplete(true);
       } catch (error) {
         console.log(error);
       }
@@ -145,9 +149,10 @@ const Auth = () => {
   }, [modalRes]);
   useEffect(() => {
     sendInsertRes();
+  }, [insertList]);
+  useEffect(() => {
     sendDeleteRes();
-  }, [insertList, deleteList]);
-
+  }, [deleteList]);
   //현재 권한-사원 리스트 불러오기
   const loadOrigin = useCallback(async () => {
     let send = {
@@ -197,6 +202,13 @@ const Auth = () => {
     setModalRes(obj);
     SaveCompanyAlert();
   }
+
+  useEffect(() => {
+    setInsertComplete(false);
+  }, [insertComplete]);
+  useEffect(() => {
+    setDeleteComplete(false);
+  }, [deleteComplete]);
   return (
     <Container fluid="true" className="Auth" id="AuthPage">
       <Row>
@@ -237,6 +249,8 @@ const Auth = () => {
           <AuthEmployeeList
             authSeq={authSeq}
             pointCompanySeq={pointCompanySeq}
+            insertComplete={insertComplete}
+            deleteComplete={deleteComplete}
           />
         </Col>
       </Row>

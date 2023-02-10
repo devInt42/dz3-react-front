@@ -45,8 +45,6 @@ const AllEmployeeList = (props) => {
             params: data,
           }
         );
-        console.log("auth");
-        console.log(dataResult.data);
         setCheckedLists(dataResult.data);
       } catch (error) {
         console.log(error);
@@ -106,9 +104,7 @@ const AllEmployeeList = (props) => {
             checkedList.filter((el) => el.employeeSeq !== list.employeeSeq)
           );
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     [checkedList]
   );
@@ -194,7 +190,8 @@ const AllEmployeeList = (props) => {
                         }
                       }}
                       className="custom-control-input"
-                      id="customCheck2"></input>
+                      id="customCheck2"
+                    ></input>
                     <button onClick={(e) => console.log(checkedList)}></button>
                   </th>
                   <th scope="col">회사</th>
@@ -226,10 +223,12 @@ const AllEmployeeList = (props) => {
                               return false;
                             }
                           })()}
-                          id="customCheck2"></input>
+                          id="customCheck2"
+                        ></input>
                         <label
                           className="custom-control-label"
-                          htmlFor="customCheck1"></label>
+                          htmlFor="customCheck1"
+                        ></label>
                       </div>
                     </td>
                     <td>{dept.companyName}</td>
