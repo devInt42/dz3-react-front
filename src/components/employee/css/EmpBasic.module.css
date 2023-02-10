@@ -74,3 +74,17 @@ body{
     color: aliceblue;
     font-weight: bold;
 }
+
+.emp_addr_input{
+    margin-right: 10px;
+    margin-left: 10px;
+    text-align: center;
+    border-radius: 10%;
+    border-color: rgb(73, 137, 231);
+    height: 30px;
+}.emp_addr_input:hover{
+    background-color: rgba(9, 132, 247, 0.63);
+    transition: 0.2s;
+    color: aliceblue;
+    font-weight: bold;
+}

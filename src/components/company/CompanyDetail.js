@@ -219,7 +219,7 @@ const CompanyDetail = ((props) => {
             return false;
         }
         if (companyName.length === 0) {
-            setNotRequire(<SaveFailCompanyAlert />)
+            setNotRequire(<SaveFailCompanyAlert/>)
             return false;
         }
         if (companyBusiness.length === 0) {

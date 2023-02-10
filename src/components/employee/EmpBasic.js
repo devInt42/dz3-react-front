@@ -6,6 +6,8 @@ import EmpBasicSaveFailAlert from "../alert/EmpBasicSaveFailAlert";
 import EmpBasicUpdateAlert from "../alert/EmpBasicUpdateAlert";
 import EmpBasicUpdateFailAlert from "../alert/EmpBasicUpdateFailAlert";
 import EmpBasicDeleteAlert from "../alert/EmpBasicDeleteAlert";
+import ZippopupPostCode from "./zipcode/ZippopupZipCode";
+import ZippopupDom from "./zipcode/ZippopupDom";
 
 import style from "./css/EmpBasic.module.css";
 
@@ -52,8 +54,10 @@ function EmpBasic(props) {
     const [pmailId, setPmailId] = useState("");
     const [employeeCmail, setEmployeeCmail] = useState("");
     const [employeeAddr, setEmployeeAddr] = useState("");
+    const [firstAddr, setFirstAddr] = useState("");
+    const [addrCode, setAddrCode] = useState("");
     const [employeeJoin, setEmployeeJoin] = useState("");
-    const [employeeLeave, setEmployeeLeave] = useState("");
+    const [employeeLeave, setEmployeeLeave] = useState(null);
     const [employeeGender, setEmployeeGender] = useState("");
     const [employeeLanguage, setEmployeeLanguage] = useState("");
     const [useYN, setUseYN] = useState(true);
@@ -61,6 +65,8 @@ function EmpBasic(props) {
     const [approvalPwd, setApprovalPwd] = useState("");
     const [firstId, setFirstId] = useState("");
     const [FirstMail, setFirstMail] = useState("");
+
+    const [zipcodeIsOpen, setZipcodeIsOpen] = useState();
 
     const [checked, setChecked] = useState(true);
     const handleChange = (event) => {
@@ -96,12 +102,12 @@ function EmpBasic(props) {
             } else {
                 setUseYN(false);
             }
-            if(empSelected.employeePmail != "" && empSelected.employeePmail != undefined){
+            if (empSelected.employeePmail != "" && empSelected.employeePmail != undefined) {
                 let emailtmp = empSelected.employeePmail.split("@");
                 setPmailId(emailtmp[0])
                 setPmailDomain(emailtmp[1])
             }
-            
+
         }
     }, [empSelected]);
 
@@ -136,6 +142,8 @@ function EmpBasic(props) {
         setFirstMail("");
         setPmailDomain("");
         setPmailId("");
+        setFirstAddr("");
+        setAddrCode("");
         props.clickEmp();
         props.setSelectAct(true);
     };
@@ -144,6 +152,7 @@ function EmpBasic(props) {
     const [insertFail, setInsertFail] = useState();
     function insertValid() {
         if (
+            employeeBirth.length == 0 ||
             employeeName.length == 0 ||
             employeePwd.length == 0 ||
             approvalPwd.length == 0 ||
@@ -159,6 +168,7 @@ function EmpBasic(props) {
     const [updateFail, setUpdateFail] = useState();
     function updateValid() {
         if (
+            employeeBirth.length == 0 ||
             employeeName.length == 0 ||
             employeePwd.length == 0 ||
             approvalPwd.length == 0 ||
@@ -168,6 +178,8 @@ function EmpBasic(props) {
                 <EmpBasicUpdateFailAlert setUpdateCheck={setUpdateCheck} />
             );
         } else {
+            if (employeeId == "") setReturnId([]);
+            if (employeeCmail == "") setReturnCmail([]);
             setUpdateCheck(true);
         }
     }
@@ -181,7 +193,7 @@ function EmpBasic(props) {
         }
     }
 
-    // 로그인ID, 메일ID 중복체크
+    // 로그인ID 중복체크
     useEffect(() => {
         if (employeeId != "" && employeeId != undefined) idCheck();
     }, [employeeId]);
@@ -198,6 +210,7 @@ function EmpBasic(props) {
         }
     };
 
+    // 메일ID 중복체크
     useEffect(() => {
         if (employeeCmail != "" && employeeCmail != undefined)
             cmailCheck();
@@ -215,7 +228,6 @@ function EmpBasic(props) {
         }
     };
 
-    console.log(pmailId + "@" + pmailDomain)
     return (
         <div>
             <h5 style={{ display: "inline" }}>사원 상세</h5>
@@ -233,7 +245,7 @@ function EmpBasic(props) {
                             <img src={process.env.PUBLIC_URL + "/empimg.png"}
                                 style={{ width: "60px", height: "60px" }} />
                         </td>
-                        <th>이름</th>
+                        <th>* 이름</th>
                         <td>
                             <input
                                 type="text"
@@ -247,7 +259,7 @@ function EmpBasic(props) {
                         </td>
                     </tr>
                     <tr>
-                        <th>생년월일</th>
+                        <th>* 생년월일</th>
                         <td>
                             <input
                                 type="date"
@@ -255,6 +267,7 @@ function EmpBasic(props) {
                                 onChange={(e) => {
                                     setEmployeeBirth(e.target.value);
                                 }}
+                                style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
                             />
                         </td>
                     </tr>
@@ -278,15 +291,15 @@ function EmpBasic(props) {
                                         employeeId != "" ? firstId == employeeId ? false : (returnId.length > 0 ? true : false) : true
                                     }
                                 />
-                                {firstId == employeeId ? <Form.Control.Feedback type="valid">현재 로그인 ID 입니다.</Form.Control.Feedback> : 
-                                employeeId != "" && employeeId != undefined &&
-                                <>
-                                <Form.Control.Feedback type="valid">
-                                    사용 가능한 ID 입니다.
-                                </Form.Control.Feedback>
-                                <Form.Control.Feedback type="invalid">
-                                    중복된 아이디가 존재합니다.
-                                </Form.Control.Feedback> </>}
+                                {firstId == employeeId ? <Form.Control.Feedback type="valid">현재 로그인 ID 입니다.</Form.Control.Feedback> :
+                                    employeeId != "" && employeeId != undefined &&
+                                    <>
+                                        <Form.Control.Feedback type="valid">
+                                            사용 가능한 ID 입니다.
+                                        </Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid">
+                                            중복된 아이디가 존재합니다.
+                                        </Form.Control.Feedback> </>}
                             </Form.Group>
                         </td>
                         <th>메일 ID</th>
@@ -302,25 +315,25 @@ function EmpBasic(props) {
                                     }}
                                     autoComplete="off"
                                     isValid={
-                                        employeeCmail != "" ? FirstMail == employeeCmail ? true :(returnCmail.length > 0 ? false : true) : false
+                                        employeeCmail != "" ? FirstMail == employeeCmail ? true : (returnCmail.length > 0 ? false : true) : false
                                     }
                                     isInvalid={
-                                        employeeCmail != "" ? FirstMail == employeeCmail ? false :(returnCmail.length > 0 ? true : false) : true
+                                        employeeCmail != "" ? FirstMail == employeeCmail ? false : (returnCmail.length > 0 ? true : false) : true
                                     }
                                 />
                                 {FirstMail == employeeCmail ? <Form.Control.Feedback type="valid">현재 메일 ID 입니다.</Form.Control.Feedback> :
-                                employeeCmail != "" && employeeCmail != undefined && <>
-                                <Form.Control.Feedback type="valid">
-                                    사용 가능한 메일입니다.
-                                </Form.Control.Feedback>
-                                <Form.Control.Feedback type="invalid">
-                                    중복된 메일이 존재합니다.
-                                </Form.Control.Feedback></>}
+                                    employeeCmail != "" && employeeCmail != undefined && <>
+                                        <Form.Control.Feedback type="valid">
+                                            사용 가능한 메일입니다.
+                                        </Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid">
+                                            중복된 메일이 존재합니다.
+                                        </Form.Control.Feedback></>}
                             </Form.Group>
                         </td>
                     </tr>
                     <tr>
-                        <th>로그인 비밀번호</th>
+                        <th>* 로그인 비밀번호</th>
                         <td>
 
                             <input
@@ -354,7 +367,7 @@ function EmpBasic(props) {
                             />
                             비밀번호 표시 */}
                         </td>
-                        <th>결재 비밀번호</th>
+                        <th>* 결재 비밀번호</th>
                         <td>
 
                             <input
@@ -450,15 +463,15 @@ function EmpBasic(props) {
                             <input
                                 type="text"
                                 className={style.emp_input}
-                                style={{width: "45%"}}
+                                style={{ width: "45%" }}
                                 // value={employeePmail || ""}
-                                 value={pmailId || ""}
+                                value={pmailId || ""}
                                 onChange={(e) => {
                                     setPmailId(e.target.value);
                                 }}
-                            />&nbsp;&nbsp;<MdAlternateEmail style={{width: "20px", height: "20px"}}/>&nbsp;&nbsp;
-                            <Form.Select size="sm" style={{width: "45%", display: "inline"}} 
-                             value={pmailDomain || ""}
+                            />&nbsp;&nbsp;<MdAlternateEmail style={{ width: "20px", height: "20px" }} />&nbsp;&nbsp;
+                            <Form.Select size="sm" style={{ width: "45%", display: "inline" }}
+                                value={pmailDomain || ""}
                                 onChange={(e) => setPmailDomain(e.target.value)}>
                                 <option value="naver.com">naver.com</option>
                                 <option value="gmail.com">gmail.com</option>
@@ -481,8 +494,9 @@ function EmpBasic(props) {
                                 className={style.emp_input}
                                 value={employeePh || ""}
                                 onChange={(e) => {
-                                    setEmployeePh(e.target.value);
+                                    setEmployeePh(PhoneNumber(e.target.value));
                                 }}
+                                maxLength={13}
                             />
                         </td>
                         <th>전화번호(집)</th>
@@ -492,14 +506,33 @@ function EmpBasic(props) {
                                 className={style.emp_input}
                                 value={employeeHcall || ""}
                                 onChange={(e) => {
-                                    setEmployeeHcall(e.target.value);
+                                    setEmployeeHcall(PhoneNumber(e.target.value));
                                 }}
+                                maxLength={13}
                             />
                         </td>
                     </tr>
                     <tr>
                         <th>주소</th>
                         <td colSpan={3}>
+                            <input type="text" className={style.emp_input} style={{ width: "20%" }}
+                                value={addrCode || ""} onChange={(e) => {setAddrCode(e.target.value)}} readOnly/>
+                            <input type="text" className={style.emp_input} style={{ width: "50%" }} 
+                                value={firstAddr || ""} onChange={(e) => {setFirstAddr(e.target.value)}} readOnly/>
+                            <button className={style.emp_addr_input} onClick={() => setZipcodeIsOpen(true)}>우편번호 검색</button>
+                            <div id="zippopupdom">
+                                {
+                                    zipcodeIsOpen && (
+                                        <ZippopupDom>
+                                            <ZippopupPostCode
+                                                onClose={setZipcodeIsOpen}
+                                                setFirstAddr={setFirstAddr}
+                                                setAddrCode={setAddrCode}
+                                            />
+                                        </ZippopupDom>
+                                    )
+                                }
+                            </div>
                             <input
                                 type="text"
                                 className={style.emp_input}
@@ -507,11 +540,12 @@ function EmpBasic(props) {
                                 onChange={(e) => {
                                     setEmployeeAddr(e.target.value);
                                 }}
+                                placeholder="상세 주소를 입력해 주세요."
                             />
                         </td>
                     </tr>
                     <tr>
-                        <th>최초 입사일</th>
+                        <th>* 최초 입사일</th>
                         <td>
                             <input
                                 type="date"
@@ -524,13 +558,14 @@ function EmpBasic(props) {
                         </td>
                         <th>최종 퇴사일</th>
                         <td>
-                            <input
-                                type="date"
-                                value={employeeLeave || ""}
-                                onChange={(e) => {
-                                    setEmployeeLeave(e.target.value);
-                                }}
-                            />
+                            {props.selectAct == true ? <></> :
+                                <input
+                                    type="date"
+                                    value={employeeLeave || ""}
+                                    onChange={(e) => {
+                                        setEmployeeLeave(e.target.value);
+                                    }}
+                                />}
                         </td>
                     </tr>
                     <tr>
@@ -574,7 +609,9 @@ function EmpBasic(props) {
                 <EmpBasicSaveAlert
                     setInsertCheck={setInsertCheck}
                     insertEmp={insertEmp}
-                    employeeId={employeeId}
+                    employeeId={employeeId} returnId={returnId} firstId={firstId}
+                    employeeCmail={employeeCmail} returnCmail={returnCmail} FirstMail={FirstMail}
+                    employeeName={employeeName}
                 />
             )}
             {insertFail}
@@ -582,6 +619,9 @@ function EmpBasic(props) {
                 <EmpBasicUpdateAlert
                     setUpdateCheck={setUpdateCheck}
                     updateEmp={updateEmp}
+                    employeeId={employeeId} returnId={returnId} firstId={firstId}
+                    employeeCmail={employeeCmail} returnCmail={returnCmail} FirstMail={FirstMail}
+                    employeeName={employeeName}
                 />
             )}
             {updateFail}
@@ -604,7 +644,7 @@ function EmpBasic(props) {
             employeeBirth: employeeBirth,
             employeePwd: employeePwd,
             employeePh: employeePh,
-            employeePmail: employeePmail,
+            employeePmail: pmailId + "@" + pmailDomain,
             employeeCmail: employeeCmail,
             employeeAddr: employeeAddr,
             employeeJoin: employeeJoin,
@@ -639,7 +679,7 @@ function EmpBasic(props) {
             employeeBirth: employeeBirth,
             employeePwd: employeePwd,
             employeePh: employeePh,
-            employeePmail: employeePmail,
+            employeePmail: pmailId + "@" + pmailDomain,
             employeeCmail: employeeCmail,
             employeeAddr: employeeAddr,
             employeeJoin: employeeJoin,
@@ -678,6 +718,44 @@ function EmpBasic(props) {
                 console.log(error);
             });
     }
+    //자동으로 하이픈 삽입
+    function PhoneNumber(value) {
+        if (!value) {
+            return "";
+        }
+
+        value = value.replace(/[^0-9]/g, "");
+
+        let result = [];
+        let restNumber = "";
+
+        if (value.startsWith("02")) {
+            //서울 지역번호
+            result.push(value.substr(0, 2));
+            restNumber = value.substring(2);
+        }
+        else if (value.startsWith("1")) {
+            // 지역 번호가 없는 경우
+            // 1xxx-yyyy
+            restNumber = value;
+        } else {
+            // 나머지 3자리 지역번호
+            // 0xx-yyyy-zzzz
+            result.push(value.substr(0, 3));
+            restNumber = value.substring(3);
+        }
+
+        if (restNumber.length === 7) {
+            // 7자리만 남았을 때는 xxx-yyyy
+            result.push(restNumber.substring(0, 3));
+            result.push(restNumber.substring(3));
+        } else {
+            result.push(restNumber.substring(0, 4));
+            result.push(restNumber.substring(4));
+        }
+        return result.filter((val) => val).join("-");
+    }
+
 }
 
 export default EmpBasic;
