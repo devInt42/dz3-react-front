@@ -37,7 +37,6 @@ const CommonModal = (props) => {
   };
   const sendCheckLength = (i) => {
     setCheckCount(i);
-    // console.log(checkCount);
   };
 
   //버튼 누르면 값 이동
@@ -74,7 +73,8 @@ const CommonModal = (props) => {
               onClick={() => {
                 close();
                 reset();
-              }}>
+              }}
+            >
               X
             </button>
           </header>
@@ -84,7 +84,8 @@ const CommonModal = (props) => {
                 <Col sm={3}>
                   <select
                     className="form-select"
-                    aria-label="Default select example">
+                    aria-label="Default select example"
+                  >
                     <option>사원명</option>
                   </select>
                 </Col>
@@ -95,14 +96,16 @@ const CommonModal = (props) => {
                       className="form-control"
                       placeholder="검색어를 입력하세요."
                       onChange={onChange}
-                      value={text || ""}></input>
+                      value={text || ""}
+                    ></input>
                   </div>
                 </Col>
                 <Col sm={1}>
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={sendInputText}>
+                    onClick={sendInputText}
+                  >
                     검색
                   </button>
                 </Col>

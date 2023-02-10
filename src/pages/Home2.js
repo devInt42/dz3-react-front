@@ -34,7 +34,6 @@ const Home2 = () => {
   }
 
   function getInfo(obj) {
-    // console.log(obj);
     SaveCompanyAlert();
   }
 

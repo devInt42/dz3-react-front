@@ -2,26 +2,9 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
 import style from "../css/SystemSet.module.css";
-import MenuSet from "./MenuSet";
-import { Outlet, useNavigate } from "react-router-dom";
 import ContentsMapping from "./ContentsMapping";
 
-import TreeView from "@mui/lab/TreeView";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import TreeItem from "@mui/lab/TreeItem";
-
 function SubMenu(props) {
-  const navigate = useNavigate();
-
-  // const sendLastSeq = (lastSeq) => {
-  //   <ContentsMapping />
-  //   console.log(lastSeq)
-  //   console.log("여기까지는 오는데 왜 안돼 ㅅㅂ")
-
-  //   props.getLastMenuSeq(lastSeq);
-  // }
-
   const [lastSeq, setLastSeq] = useState(0);
 
   const menuSequence = props.menuSeq;
@@ -38,7 +21,6 @@ function SubMenu(props) {
         url: baseUrl + "/menu/menulist/" + menuSequence,
         method: "get",
       });
-      //console.log(apiResult.data)
       if (apiResult.data == 0) {
         setLastSeq(menuSequence);
       } else {

@@ -50,7 +50,8 @@ const AuthGroupLnb = (props) => {
       setAuthList(companyAuthApiResult.data);
       setCountAuth(companyAuthApiCountResult.data);
     } catch (error) {
-      console.log(error);
+      setAuthList([]);
+      setCountAuth(0);
     }
   }, [active, selectCompanySeq, complete]);
 
@@ -88,7 +89,8 @@ const AuthGroupLnb = (props) => {
       setAuthList(searchAuthApiResult.data);
       setCountAuth(companyAuthApiCountResult.data);
     } catch (error) {
-      console.log(error);
+      setAuthList([]);
+      setCountAuth(0);
     }
   };
 

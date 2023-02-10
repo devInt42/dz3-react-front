@@ -28,8 +28,10 @@ const DepartmentTree = (props) => {
   return (
     <div style={{ margin: "0", display: "flex" }}>
       {deptTree &&
-        deptTree.map((item) => (
-          <p style={{ margin: "0" }}>&gt;{item.departmentName}</p>
+        deptTree.map((item, idx) => (
+          <p key={idx} style={{ margin: "0" }}>
+            &gt;{item.departmentName}
+          </p>
         ))}
     </div>
   );

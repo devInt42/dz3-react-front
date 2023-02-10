@@ -97,7 +97,7 @@ function MenuSet() {
     setMenuName("");
     setMenuParent(0);
     setSelectActive(true);
-  }
+  };
 
   return (
     <div>
@@ -137,7 +137,10 @@ function MenuSet() {
           >
             <div className={style.tableWrap}>
               <h5 style={{ display: "inline" }}>메뉴 상세</h5>
-              <span style={{ float: "right" }} onClick={newInsert}><FcPlus />새로 저장하기</span>
+              <span style={{ float: "right" }} onClick={newInsert}>
+                <FcPlus />
+                새로 저장하기
+              </span>
               <table className={style.setTable}>
                 <thead></thead>
                 <tbody>
@@ -173,17 +176,17 @@ function MenuSet() {
                         value={menuParent}
                       >
                         {/* {menu.map((menu, i) => ( */}
-                        {selectActive == true ? menu.map((menu, i) => (
-                          <option value={menu.menuSeq} key={i}>
-                            {menu.menuName}
-                          </option>
-                        )) :
-                          exceptMenu.map((menu, i) => (
-                            <option value={menu.menuSeq} key={i}>
-                              {menu.menuName}
-                            </option>
-                          ))
-                        }
+                        {selectActive == true
+                          ? menu.map((menu, i) => (
+                              <option value={menu.menuSeq} key={i}>
+                                {menu.menuName}
+                              </option>
+                            ))
+                          : exceptMenu.map((menu, i) => (
+                              <option value={menu.menuSeq} key={i}>
+                                {menu.menuName}
+                              </option>
+                            ))}
                       </select>
                     </td>
                   </tr>
@@ -202,9 +205,9 @@ function MenuSet() {
                 </tbody>
               </table>
               <div className={style.menu_btn}>
-                {
-                  selectActive == true ?
-                    <><button
+                {selectActive == true ? (
+                  <>
+                    <button
                       className={style.menu_save}
                       onClick={() => {
                         validCheck();
@@ -212,23 +215,26 @@ function MenuSet() {
                     >
                       저장
                     </button>
-                    <div>수정/삭제는 왼쪽 메뉴를 선택해주세요.</div></>
-                    : <>
-                      <button
-                        className={style.menu_delete}
-                        onClick={() => deleteValid()}
-                      >
-                        삭제
-                      </button>
-                      <button
-                        className={style.menu_update}
-                        onClick={() => {
-                          updateValid();
-                        }}
-                      >
-                        수정
-                      </button></>
-                }
+                    <div>수정/삭제는 왼쪽 메뉴를 선택해주세요.</div>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className={style.menu_delete}
+                      onClick={() => deleteValid()}
+                    >
+                      삭제
+                    </button>
+                    <button
+                      className={style.menu_update}
+                      onClick={() => {
+                        updateValid();
+                      }}
+                    >
+                      수정
+                    </button>
+                  </>
+                )}
                 {inputCheck && (
                   <SaveMenuAlert
                     setInputCheck={setInputCheck}
@@ -274,16 +280,13 @@ function MenuSet() {
       menuParent: menuParent,
       menuDepth: menuDepth + 1,
     };
-    console.log(data);
     axios({
       method: "post",
       url: url,
       data: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
     })
-      .then((res) => {
-        console.log("저장성공!!");
-      })
+      .then((res) => {})
       .catch((error) => {
         console.log(error);
       });
@@ -295,9 +298,7 @@ function MenuSet() {
       method: "delete",
       url: url,
     })
-      .then((res) => {
-        console.log("삭제성공!!");
-      })
+      .then((res) => {})
       .catch((error) => {
         console.log(error);
       });
@@ -317,9 +318,7 @@ function MenuSet() {
       data: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
     })
-      .then((res) => {
-        console.log("수정성공!!");
-      })
+      .then((res) => {})
       .catch((error) => {
         console.log(error);
       });
