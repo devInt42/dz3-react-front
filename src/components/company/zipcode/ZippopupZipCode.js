@@ -1,13 +1,9 @@
 import DaumPostCode from "react-daum-postcode";
-// /import Modal from "react-modal";
-import { Modal } from "react-bootstrap";
+import Modal from "react-modal";
 import { TfiClose } from "react-icons/tfi";
+import { Row } from "react-bootstrap";
 import "./ZippopupZipCode.css";
-import style from "../zipcode/ZippopupZipCode.css";
-import { useState } from "react";
 const ZippopupZipCode = (props) => {
-  const [show, setShow] = useState(true);
-
   const handleZipCode = (data) => {
     let address = `${data.address}`;
 
@@ -20,19 +16,32 @@ const ZippopupZipCode = (props) => {
     props.onClose(false);
   };
   return (
-    <Modal
-      show={show}
-      onHide={() => setShow(false)}
-      dialogClassName="modal-90w"
-      aria-labelledby="example-custom-modal-styling-title"
-    >
-      <Modal.Header closeButton></Modal.Header>
-      <Modal.Body>
+    <Modal isOpen={true} id="postModal">
+      <Row
+        style={{
+          width: "100%",
+          height: "50px",
+        }}
+      >
+        <button
+          className="infoclosebutton"
+          onClick={() => props.onClose(false)}
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "flex-end",
+          }}
+        >
+          <TfiClose />
+        </button>
+      </Row>
+      <Row style={{ width: "100%" }}>
         <DaumPostCode
+          style={{ height: "50vh" }}
           onComplete={(data) => handleZipCode(data)}
           className="post-code"
         />
-      </Modal.Body>
+      </Row>
     </Modal>
   );
 };

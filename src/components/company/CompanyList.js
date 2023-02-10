@@ -1,7 +1,6 @@
-import { fontSize } from "@mui/system";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Nav, Form, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 function CompanyList(props) {
   const baseUrl = "http://localhost:8080";
   const [company, setCompany] = useState();

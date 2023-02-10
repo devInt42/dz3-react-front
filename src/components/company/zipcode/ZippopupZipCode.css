@@ -1,12 +1,16 @@
-.postModal {
-  position: absolute;
-  inset: 0px;
-  top: 25%;
-  left: 25%;
-  border: 1px solid rgb(204, 204, 204);
-  background: rgb(255, 255, 255);
-  overflow: auto;
-  border-radius: 4px;
-  outline: none;
-  padding: 20px;
+#postModal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 700px;
+  height: 600px !important;
+  z-index: 100;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 0 9999px;
+  justify-content: flex-start !important;
+  position: absolute !important;
+  left: 30% !important;
+  top: 20% !important;
+  inset: none !important;
+  margin: 0;
+  padding: 0;
 }
