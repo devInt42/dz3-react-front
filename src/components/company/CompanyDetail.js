@@ -361,7 +361,7 @@ const CompanyDetail = (props) => {
                     ? true
                     : false
                 }
-                value={companyCode || ""}
+                defaultValue={companyCode}
                 style={{ zIndex: 0, backgroundColor: "#ffe9e9" }}
               />
             </td>
@@ -387,7 +387,7 @@ const CompanyDetail = (props) => {
                 placeholder="회사 이름을 입력해 주십시오."
                 onChange={(e) => setCompanyName(e.target.value)}
                 style={{ zIndex: 0, backgroundColor: "#ffe9e9" }}
-                value={companyName || ""}
+                defaultValue={companyName}
                 isValid={checked > 0 ? true : false}
                 isInvalid={
                   checked < 1 ? false : companyName.length > 0 ? false : true
@@ -401,7 +401,7 @@ const CompanyDetail = (props) => {
               <Form.Control
                 placeholder="회사 업태를 입력해 주십시오."
                 onChange={(e) => setCompanyBusiness(e.target.value)}
-                value={companyBusiness || ""}
+                defaultValue={companyBusiness || ""}
                 isValid={checked > 0 ? true : false}
                 isInvalid={
                   checked < 1
@@ -419,7 +419,7 @@ const CompanyDetail = (props) => {
               <Form.Control
                 placeholder="회사 종목을 입력해 주십시오."
                 onChange={(e) => setCompanyItem(e.target.value)}
-                value={companyItem || ""}
+                defaultValue={companyItem}
                 isValid={checked > 0 ? true : false}
                 isInvalid={
                   checked < 1 ? false : companyItem.length > 0 ? false : true
@@ -439,6 +439,7 @@ const CompanyDetail = (props) => {
                     setCompanyCall("");
                     setAreaCode(e.target.value);
                   }}
+                  defaultValue=""
                 >
                   <option value="">직접 입력</option>
                   <option value="010-">010</option>
@@ -465,7 +466,9 @@ const CompanyDetail = (props) => {
                   onChange={(e) => {
                     setCompanyCall(PhoneNumber(areaCode + e.target.value));
                   }}
-                  value={`${companyCall}`.substring(areaCode.length) || ""}
+                  defaultValue={
+                    `${companyCall}`.substring(areaCode.length) || ""
+                  }
                   isValid={callStyle}
                   isInvalid={
                     `${companyCall}`.length < 1 ? "" : callStyle ? false : true
@@ -481,7 +484,7 @@ const CompanyDetail = (props) => {
                 onChange={(e) => {
                   setCompanyFax(FaxNumber(e.target.value));
                 }}
-                value={companyFax || ""}
+                defaultValue={companyFax}
                 isValid={faxStyle}
                 isInvalid={
                   `${companyFax}`.length < 1 ? "" : faxStyle ? false : true
@@ -496,7 +499,7 @@ const CompanyDetail = (props) => {
               <Form.Control
                 placeholder="사업자 등록번호를 입력해 주십시오."
                 onChange={(e) => setCompanyRegist(registNumber(e.target.value))}
-                value={companyRegist || ""}
+                defaultValue={companyRegist}
                 isValid={registStyle}
                 isInvalid={
                   `${companyRegist}`.length < 1
@@ -516,6 +519,7 @@ const CompanyDetail = (props) => {
                 <select
                   className="company-select-option"
                   onChange={(e) => setPcBuisness(e.target.value)}
+                  defaultValue={pcBuisness}
                 >
                   <option value="" disabled>
                     선택
@@ -529,7 +533,7 @@ const CompanyDetail = (props) => {
                   onChange={(e) =>
                     setCompanyCorporate(corporateNumber(e.target.value))
                   }
-                  value={companyCorporate || ""}
+                  defaultValue={companyCorporate}
                   isValid={corporateStyle}
                   isInvalid={
                     `${companyCorporate}`.length < 1
@@ -551,7 +555,7 @@ const CompanyDetail = (props) => {
               <Form.Control
                 placeholder="대표자명을 입력해 주십시오."
                 onChange={(e) => setCompanyPresident(e.target.value)}
-                value={companyPresident || ""}
+                defaultValue={companyPresident}
                 isValid={checked > 0 ? true : false}
                 isInvalid={
                   checked < 1
@@ -570,16 +574,14 @@ const CompanyDetail = (props) => {
                   name="area-code"
                   className="company-select-option"
                   onChange={(e) => setCompanyForeigner(e.target.value)}
+                  defaultValue={companyForeigner}
                 >
-                  <option value="" disabled>
-                    외국인여부
-                  </option>
                   <option value="내국인">내국인</option>
                   <option value="외국인">외국인</option>
                 </select>
                 <Form.Control
                   aria-describedby="basic-addon1"
-                  value={companyForeigner || ""}
+                  value={companyForeigner}
                   readOnly
                 />
               </div>
@@ -590,7 +592,7 @@ const CompanyDetail = (props) => {
             <td colSpan={3} className="company-table-content">
               <div className="company-table-td-twocontent">
                 <Form.Control
-                  value={companyZipCode}
+                  defaultValue={companyZipCode}
                   onFocus={() => {
                     companyZipCode.length > 0
                       ? setZipcodeIsOpen(false)
@@ -636,7 +638,7 @@ const CompanyDetail = (props) => {
                     onFocus={() =>
                       address.length === 0 && setZipcodeIsOpen(true)
                     }
-                    value={address || ""}
+                    value={address}
                     onChange={(e) => {
                       setAddress(e.target.value);
                       setDetailAddr("");
@@ -655,7 +657,7 @@ const CompanyDetail = (props) => {
                     onChange={(e) => {
                       setDetailAddr(e.target.value);
                     }}
-                    value={detailAddr || ""}
+                    defaultValue={detailAddr}
                     onBlur={() => setCompanyAddr(address + " / " + detailAddr)}
                   />
                 </div>
@@ -670,7 +672,7 @@ const CompanyDetail = (props) => {
                 aria-label="Username"
                 aria-describedby="basic-addon1"
                 onChange={(e) => setCompanyHomepage(e.target.value)}
-                value={companyHomepage || ""}
+                defaultValue={companyHomepage}
               />
             </td>
           </tr>
@@ -680,7 +682,7 @@ const CompanyDetail = (props) => {
               <input
                 type="date"
                 onChange={(e) => setCompanyEstablish(e.target.value)}
-                value={companyEstablish || ""}
+                defaultValue={companyEstablish}
               />
             </td>
             <td className="company-table-title">폐업일</td>
@@ -688,7 +690,7 @@ const CompanyDetail = (props) => {
               <input
                 type="date"
                 onChange={(e) => setCompanyClosingday(e.target.value)}
-                value={companyClosingDay || ""}
+                defaultValue={companyClosingDay}
               />
             </td>
           </tr>

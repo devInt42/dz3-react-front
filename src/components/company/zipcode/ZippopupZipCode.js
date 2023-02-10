@@ -16,7 +16,7 @@ const ZippopupZipCode = (props) => {
     props.onClose(false);
   };
   return (
-    <Modal isOpen={true} id="postModal">
+    <Modal isOpen={true} ariaHideApp={false} id="postModal">
       <Row
         style={{
           width: "100%",
