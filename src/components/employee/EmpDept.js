@@ -30,7 +30,6 @@ function EmpDept(props) {
   const [departmentSeq, setDepartmentSeq] = useState();
   const [dupliCheck, setDupliCheck] = useState(0);
   const [firstData, setFirstData] = useState([]);
-  const [checked, setChecked] = useState(0);
   const [notRequire, setNotRequire] = useState('');
   //사원의 조직정보
   useEffect(() => {
@@ -96,9 +95,20 @@ function EmpDept(props) {
     const findIndex = groupList.findIndex(element => element.companySeq == seq);
     return firstData[findIndex].employeeCode == groupList[findIndex].employeeCode;
   }
+  const firstDepartmentCheck = (seq) => {
+    const findIndex = groupList.findIndex(element => element.companySeq == seq);
+    return firstData[findIndex].departmentName == groupList[findIndex].departmentName;
+  }
+
+  const InsertData = () => {
+    
+  }
 
   const AllCheck = () => {
-    setChecked(checked + 1);
+    if(firstData === groupList) {
+      setNotRequire(<SaveFailEmployeeAlert text = '' title = "수정 된 사항이 없습니다."/>)
+      return false;
+    }
     if(employeeCodeCheck == 1) {
       setNotRequire(<SaveFailEmployeeAlert text = "사번이 입력되지 않았습니다." title = "필수 값이 입력되지 않았습니다"/>)
       return false;
@@ -168,6 +178,7 @@ function EmpDept(props) {
                             zIndex: "0",
                             backgroundColor: "rgba(241, 199, 199, 0.328)",
                           }}
+                          isValid = {firstDepartmentCheck(group.companySeq) ? '' : group.departmentName != null || group.departmentName != undefined}
                           readOnly
                         />
                       </div>
