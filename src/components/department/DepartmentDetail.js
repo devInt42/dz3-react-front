@@ -261,6 +261,8 @@ const DepartmentDetail = (props) => {
         setDepartmentFax("");
         setChecked(0);
         setDepartmentZipCode("");
+        setDetailAddr("");
+        setAddress("");
         props.setInsertForm(true);
     }
 
@@ -268,36 +270,30 @@ const DepartmentDetail = (props) => {
     const data = {
         "companySeq": props.companySeq,
         "workplaceSeq": props.workplaceSeq,
+        "departmentSeq": props.departmentSeq,
         "departmentParent": departmentParentSeq,
         "departmentCode": departmentCode,
         "departmentName": departmentName,
         "departmentLoc": departmentLoc,
         "useYN": useYN,
-        "departmentDepth": departmentDepth,
+        "departmentDepth": departmentParentDepth,
         "departmentCall": departmentCall,
         "departmentFax": departmentFax,
-        "departmentZipCode": departmentZipCode
+        "departmentZipCode": departmentZipCode,
     }
     const InsertData = () => {
-        const param = {
-            "departmentParentDepth": departmentParentDepth,
-        }
         axios.post(`${baseUrl}/department/insert`, JSON.stringify(data), {
             headers: {
                 "Content-Type": 'application/json'
-            },
-            params: param
+            }
         })
     }
-    const Update = (seq) => {
-        const param = {
-            "departmentParentDepth": departmentParentDepth,
-        }
-        axios.post(`${baseUrl}/department/update/${seq}`, JSON.stringify(data), {
+    const Update = () => {
+        console.log(departmentParentDepth);
+        axios.post(`${baseUrl}/department/update`, JSON.stringify(data), {
             headers: {
                 "Content-Type": 'application/json'
             },
-            params: param
         })
     }
     const Delete = () => {
@@ -327,7 +323,7 @@ const DepartmentDetail = (props) => {
                         }
                         {
                             (props.departmentSeq !== 0 && allCheck && !props.insertForm) &&
-                            <UpdateDepartmentAlert setAllCheck={setAllCheck} Update={Update} seq={props.departmentSeq}
+                            <UpdateDepartmentAlert setAllCheck={setAllCheck} Update={Update}
                                 setRefresh={props.setRefresh} refresh={props.refresh} setInsertForm={props.setInsertForm} />
                         }
                         {

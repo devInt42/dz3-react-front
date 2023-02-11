@@ -71,6 +71,7 @@ export default function DepartmentParentModal(props) {
                                                         props.setDepartmentParentName(department.departmentName);
                                                         props.setDepartmentParentSeq(department.departmentSeq);
                                                         props.setDepartmentParentDepth(department.departmentDepth);
+                                                        console.log(department.departmentDepth);
                                                         handleClose();
                                                     }}
                                                     id = "department-modal"
