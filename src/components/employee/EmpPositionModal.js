@@ -32,12 +32,10 @@ export default function EmpPositionModal(props) {
     const [list, setList] = React.useState([]);
     
     function setP(value) {
-        props.setPosition(value.position);
-        props.setPositionCode(value.positionCode);
+        props.updateObject(props.departmentSeq, {position: value.position, positionCode: value.positionCode});
     }
     function setD(value) {
-        props.setDuty(value.duty); 
-        props.setDutyCode(value.dutyCode);
+        props.updateObject(props.departmentSeq, {duty: value.duty, dutyCode: value.dutyCode});
     }
     React.useEffect(() => {
        
@@ -51,7 +49,6 @@ export default function EmpPositionModal(props) {
             .then(res => setList(res.data))
             .catch(error => console.log(error))
         }
-        console.log(list);
     }, [])
     return (
         <div>
@@ -77,7 +74,6 @@ export default function EmpPositionModal(props) {
                                 </TableHead>
                                 <TableBody>
                                     {
-
                                         list && list.map((item, idx) => {
                                             return (
                                                 <TableRow key={idx} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -103,8 +99,6 @@ export default function EmpPositionModal(props) {
                                                         <TableCell>{item.duty}</TableCell>
                                                     </>
                                                 }
-                                                    
-                                                    
                                                 </TableRow>
                                             )
                                         })
