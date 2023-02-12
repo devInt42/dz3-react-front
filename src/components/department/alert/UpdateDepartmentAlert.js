@@ -17,7 +17,7 @@ const UpdateDepartmentAlert = (props) => {
     }).then(result => {
         if(result.isConfirmed) {
             Swal.fire('수정이 완료되었습니다.', '', 'success','#3085d6');
-            props.Update(props.seq);
+            props.Update();
             props.setAllCheck(false);
             props.setRefresh(props.refresh + 1);
             props.setInsertForm(false);

@@ -45,8 +45,6 @@ const AllEmployeeList = (props) => {
             params: data,
           }
         );
-        console.log("auth");
-        console.log(dataResult.data);
         setCheckedLists(dataResult.data);
       } catch (error) {
         console.log(error);
@@ -106,9 +104,7 @@ const AllEmployeeList = (props) => {
             checkedList.filter((el) => el.employeeSeq !== list.employeeSeq)
           );
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     [checkedList]
   );

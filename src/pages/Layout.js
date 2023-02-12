@@ -1,19 +1,21 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import LNB from "../components/menu/LNB";
 import GNB from "../components/menu/GNB";
 import { Container, Row, Col } from "react-bootstrap";
-
+import axios from "axios";
 import style from "./Layout.module.css";
 
 import React, { useState, useCallback, useEffect } from "react";
-import SubMenu from "../components/menu/SubMenu";
 import CallMenu from "./CallMenu";
 import Main from "./Main";
 import { PropaneSharp } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 function Layout() {
+  const baseUrl = "http://localhost:8080";
   const [menuSeq, setMenuSeq] = useState(0);
   const [menuName, setMenuName] = useState("");
+  const [authResult, setAuthResult] = useState(null);
+  const location = useLocation();
   const getMenuInfo = useCallback(
     (menuName, menuSeq) => {
       setMenuSeq(menuSeq);
@@ -31,10 +33,36 @@ function Layout() {
       alert("로그인 후에 이용해주세요");
       navigate("/login");
     }
+    authCheck(location.pathname);
   }, []);
+
+  const authCheck = async (pathUrl) => {
+    if (pathUrl != "/dz3") {
+      let data = { menuUrl: pathUrl };
+      try {
+        let initAuth = await axios.get(
+          `${baseUrl}/auth-employee/availability`,
+          {
+            params: data,
+            headers: {
+              Authorization: window.sessionStorage.getItem("empInfo"),
+            },
+          }
+        );
+        if (initAuth.data === 0) {
+          alert("접근권한이 없습니다.");
+          sessionStorage.removeItem("menuName");
+          navigate("/dz3");
+        } else {
+          sessionStorage.setItem("menuName", JSON.stringify("시스템설정"));
+        }
+      } catch {}
+    }
+  };
+
   return (
     <Container fluid>
-      <Row style={{height: "100vh"}}>
+      <Row style={{ height: "100vh" }}>
         <Col md="auto" className={style.layout_lnb}>
           <LNB getMenuInfo={getMenuInfo} />
         </Col>
@@ -43,7 +71,7 @@ function Layout() {
             <GNB menuName={menuName} setMenuName={setMenuName} />
           </Row>
           <Row>
-             {menuName == "" ? (
+            {menuName == "" ? (
               <></>
             ) : (
               <Col md="auto" className={style.layout_callmenu}>

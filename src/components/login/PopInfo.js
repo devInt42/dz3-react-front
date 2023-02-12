@@ -8,6 +8,8 @@ const PopInfo = (props) => {
   const [sessionRes, setSessionRes] = useState(null);
   const [mainInfo, setMainInfo] = useState(null);
   const [account, setAccount] = useState(null);
+  const [complete, setComplete] = useState(false);
+
   // 세션 스토리지 값
   useEffect(() => {
     setSessionRes(props.sessionRes);
@@ -19,8 +21,11 @@ const PopInfo = (props) => {
   }, [sessionRes]);
 
   useEffect(() => {
+    setComplete(false);
+  }, [complete]);
+  useEffect(() => {
     settingMain();
-  }, [userInfo]);
+  }, [userInfo, complete]);
 
   useEffect(() => {}, [mainInfo]);
 
@@ -34,7 +39,7 @@ const PopInfo = (props) => {
         }
       });
     }
-  }, [userInfo]);
+  }, [userInfo, complete]);
 
   // 라디오버튼 체크시 값변경
   const onChangeAccount = (e) => {
@@ -65,6 +70,8 @@ const PopInfo = (props) => {
       try {
         window.sessionStorage.removeItem("empInfo");
         window.sessionStorage.setItem("empInfo", JSON.stringify(account));
+        props.sendComplete(true);
+        setComplete(true);
       } catch {
       } finally {
         window.location.reload();

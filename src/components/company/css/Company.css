@@ -1,76 +1,115 @@
-
 #companyform {
-    display: flex;
+  display: flex;
 }
 
 .emphasisfont {
-    color : #25acfd;
+  color: #00aaff;
 }
 
 .line {
-    border-color: #d6d6d6;
+  border-color: #d6d6d6;
 }
 
 .companylistbox {
-    overflow: scroll;
-    border: 1px solid gray;
-    width: 330px;
-    height: 500px;
-    background-color: #f0f0f0;
+  overflow-y: scroll;
+  border: 2px solid efefef;
+  width: 330px;
+  height: 500px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.companylistbox::-webkit-scrollbar {
+  width: 5px;
+}
+
+.companylistbox::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #e3e3e3; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
 }
 .companylistboxheader {
-    border-bottom: 1px solid gray;
-    height: 30px;
-    padding: 10px 5px 5px 10px;
+  border-bottom: 2px solid #efefef;
+  height: 30px;
+  padding: 10px 5px 5px 10px;
+  margin-bottom: 10px;
 }
 .companylistbox ul {
-    padding: 0px 0px 0px 10px;
+  padding: 0px 0px 0px 10px;
 }
 .box {
-    border: 1px solid gray;
-    border-radius: 10px;
-    width: 280px;
-    height: 70px;
-    margin-bottom: 5px;
+  border: 2px solid #efefef;
+  border-radius: 10px;
+  width: 280px;
+  height: 70px;
+  margin-bottom: 5px;
 }
 
 .box li {
-    list-style: none;
+  list-style: none;
 }
-
-
+.companylistmenu {
+  background-color: #fff;
+}
 .companylistmenu:hover {
-    background-color: tomato;
-    opacity: 0.3;
+  background-color: #f3cf98;
+  cursor: pointer;
+}
+.companylistmenu:focus-visible {
+  background-color: #000;
+  cursor: pointer;
 }
 #idaddbox {
-    border-bottom: 1px solid gray;
-    border-left: 1px solid gray;
-    border-right:1px solid gray;
-    width: 330px;
-    height: 150px;
-    display: flex;
-    justify-content: center;
+  border: 2px solid #efefef;
+  width: 330px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
 }
 
 #idaddbutton {
-    border: none;
-    background-color: transparent;
+  border: none;
+  background-color: transparent;
 }
 #addfont {
-    font-size: 20px;
-    opacity: 0.5;
+  font-size: 20px;
+  opacity: 0.5;
 }
 
 #companynotselectform {
-    width:100%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .company-info {
-    width:100%;
-    margin: 20px;
+  width: 100%;
+  margin: 20px;
+}
+
+.box.companylistmenu {
+  display: flex;
+  justify-content: center;
+}
+
+p.개인 {
+  color: #fff;
+  font-size: 14px;
+  border-radius: 15px;
+  width: 50%;
+  text-align: center;
+  background-color: #00aaff;
+}
+p.법인 {
+  color: #fff;
+  font-size: 14px;
+  border-radius: 15px;
+  width: 50%;
+  text-align: center;
+  background-color: #8168ff;
 }

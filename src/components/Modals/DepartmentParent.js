@@ -101,8 +101,7 @@ const DepartmentParent = (props) => {
         aria-label="file system navigator"
         defaultCollapseIcon={<FolderOpen />}
         defaultExpandIcon={<Folder />}
-        sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-        multiSelect>
+        sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}>
         {departmentGroupList &&
           departmentGroupList.map((item) => (
             <div

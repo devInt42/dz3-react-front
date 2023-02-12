@@ -31,6 +31,7 @@ function CallMenu(props) {
       if (apiResult.data == 0) {
         setLastSeq(menuSequence);
         setFlag(false);
+        setSubMenu([]);
       } else {
         setSubMenu(apiResult.data);
         setFlag(true);
@@ -49,7 +50,7 @@ function CallMenu(props) {
       {menuSequence == 0 ? (
         <></>
       ) : (
-        //  flag == false ? (
+        // flag == false ? (
         //   <></>
         // ) :
         <div>

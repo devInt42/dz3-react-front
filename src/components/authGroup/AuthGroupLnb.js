@@ -15,9 +15,12 @@ const AuthGroupLnb = (props) => {
   const [active, setActive] = useState(1);
   const [authName, setAuthName] = useState(null);
   const [companyList, setCompanyList] = useState(null);
-
+  const [complete, setComplete] = useState(false);
   let items = [];
 
+  useEffect(() => {
+    setComplete(false);
+  }, [complete]);
   // 회사별 권한 및 해당하는 권한수 카운트 API
   const companyAuthApiCall = useCallback(async () => {
     let companyData = {
@@ -47,14 +50,15 @@ const AuthGroupLnb = (props) => {
       setAuthList(companyAuthApiResult.data);
       setCountAuth(companyAuthApiCountResult.data);
     } catch (error) {
-      console.log(error);
+      setAuthList([]);
+      setCountAuth(0);
     }
-  }, [active, selectCompanySeq]);
+  }, [active, selectCompanySeq, complete]);
 
   useEffect(() => {
     setActive(1);
     companyAuthApiCall();
-  }, [selectCompanySeq]);
+  }, [selectCompanySeq, complete]);
 
   // 검색 API
   const searchAuthbyName = async (e) => {
@@ -85,7 +89,8 @@ const AuthGroupLnb = (props) => {
       setAuthList(searchAuthApiResult.data);
       setCountAuth(companyAuthApiCountResult.data);
     } catch (error) {
-      console.log(error);
+      setAuthList([]);
+      setCountAuth(0);
     }
   };
 
@@ -207,6 +212,10 @@ const AuthGroupLnb = (props) => {
     selectCompanyArea();
   }, []);
 
+  // 새로고침 완료시 렌더링
+  const sendComplete = (e) => {
+    setComplete(e);
+  };
   return (
     <>
       <Row className="AuthLnb" style={authLnbStyle}>
@@ -319,7 +328,7 @@ const AuthGroupLnb = (props) => {
             ))}
         </Nav>
         <Row className="addAuthGroup" style={addBoxStyle}>
-          <AddGroup />
+          <AddGroup sendComplete={sendComplete} />
         </Row>
         <Row
           style={{ backgroundColor: "#f9f9f9", border: "1px solid #efefef" }}

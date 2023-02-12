@@ -39,7 +39,6 @@ const ManageModal = (props) => {
   }
 
   function getInfo(obj) {
-    // console.log(obj);
     SaveCompanyAlert();
   }
   return (

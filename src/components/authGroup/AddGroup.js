@@ -5,7 +5,7 @@ import { ReactComponent as Plus } from "./plus.svg";
 import "./AuthGroup.css";
 import axios from "axios";
 
-const AddGroup = () => {
+const AddGroup = (props) => {
   const baseUrl = "http://localhost:8080";
   const [companyList, setCompanyList] = useState();
   const [selectCompanySeq, setSelectCompanySeq] = useState();
@@ -106,6 +106,7 @@ const AddGroup = () => {
         .post(`${baseUrl}/auth/add`, body, { headers })
         .then((res) => {
           alert("추가 되었습니다.");
+          props.sendComplete(true);
         })
         .catch((e) => {
           if (e.response && e.response.status === 500) {

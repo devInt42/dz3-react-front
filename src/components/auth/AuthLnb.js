@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Nav, Form, Row, Pagination, Col } from "react-bootstrap";
+import { Nav, Form, Row, Pagination } from "react-bootstrap";
 import axios from "axios";
 import "../auth/Auth.css";
 import { ReactComponent as Search } from "./search.svg";
@@ -46,7 +46,8 @@ const AuthLnb = (props) => {
       setAuthList(companyAuthApiResult.data);
       setCountAuth(companyAuthApiCountResult.data);
     } catch (error) {
-      console.log(error);
+      setAuthList([]);
+      setCountAuth(0);
     }
   }, [active, selectCompanySeq]);
 

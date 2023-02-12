@@ -22,7 +22,6 @@ function DeleteMenuAlert(props) {
         .get("http://localhost:8080/menu/menulist/" + menuSequence)
         .then((response) => {
           if (response.data == 0) {
-            console.log(response.data);
             props.deleteMenu(menuSequence);
             Swal.fire("삭제가 완료되었습니다.", "", "success", "#3085d6");
           } else {
@@ -32,7 +31,6 @@ function DeleteMenuAlert(props) {
               "error",
               "#3085d6"
             );
-            console.log(response.data);
           }
         })
         .catch((error) => console.log(error));

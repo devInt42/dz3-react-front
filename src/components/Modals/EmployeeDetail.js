@@ -90,10 +90,10 @@ const EmployeeDetail = (props) => {
     <div className="SearchDetail">
       {deptDetail && (
         <Container>
-          <Row>
-            <BsFillFileEarmarkPersonFill
-              size="100"
-              style={{ paddingTop: "15px", paddingLeft: "20px" }}
+          <Row style={{ display: "flex", justifyContent: "center" }}>
+            <img
+              src={process.env.PUBLIC_URL + "/empimg.png"}
+              style={{ paddingTop: "15px", width: "30%" }}
             />
           </Row>
           <br />

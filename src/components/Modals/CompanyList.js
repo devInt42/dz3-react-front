@@ -61,8 +61,7 @@ const CompanyList = (props) => {
       aria-label="file system navigator"
       defaultCollapseIcon={<FolderOpen />}
       defaultExpandIcon={<Folder />}
-      sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-      multiSelect>
+      sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}>
       {companyNameList &&
         companyNameList.map((companyItem) => (
           <div

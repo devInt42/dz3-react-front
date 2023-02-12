@@ -8,7 +8,6 @@ const DepartmentTree = (props) => {
     setDepartmentSeq(props.departmentSeq);
   }, [props]);
   useEffect(() => {
-    console.log(departmentSeq);
     callDept();
   }, [departmentSeq]);
   const callDept = async () => {
@@ -29,8 +28,10 @@ const DepartmentTree = (props) => {
   return (
     <div style={{ margin: "0", display: "flex" }}>
       {deptTree &&
-        deptTree.map((item) => (
-          <p style={{ margin: "0" }}>&gt;{item.departmentName}</p>
+        deptTree.map((item, idx) => (
+          <div key={idx} style={{ margin: "0" }}>
+            &gt;{item.departmentName}
+          </div>
         ))}
     </div>
   );
