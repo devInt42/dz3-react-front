@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -13,6 +12,9 @@ import IconButton from "@mui/material/IconButton";
 export default function SearchAppBar(props) {
   const baseUrl = "http://localhost:8080";
   const [companyList, setCompanyList] = useState([]);
+  const [employeeName, setEmployeeName] = useState("");
+  const [employeementStatus, setEmployeementStatus] = useState("");
+
   useEffect(() => {
     axios
       .get(baseUrl + "/company/info")
@@ -20,15 +22,21 @@ export default function SearchAppBar(props) {
       .catch((error) => console.log(error));
   }, []);
 
-  const [search, setSearch] = useState("");
+  //이름/id/mail id
   const searchChange = (e) => {
-    setSearch(e.target.value);
+    setEmployeeName(e.target.value);
   };
 
+  //회사
   const companyChange = (e) => {
     props.setSelectCompany(e.target.value);
   };
-  console.log(props.selectCompany);
+
+  //재직상태
+  const employmentStatus = (e) => {
+    setEmployeementStatus(e.target.value);
+  };
+
   return (
     <Box
       component="form"
@@ -56,40 +64,26 @@ export default function SearchAppBar(props) {
           })}
         </Select>
       </FormControl>
+
       <FormControl fullWidth size="small">
         <InputLabel id="demo-simple-select-label">재직구분</InputLabel>
-
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
+          value={employeementStatus}
           label="재직구분"
-          value={props.selectCompany}
-          // onChange={companyChange}
-        >
-          <MenuItem value={0}>전체</MenuItem>
-          <MenuItem value={1}>재직</MenuItem>
-          <MenuItem value={2}>퇴직</MenuItem>
+          onChange={employmentStatus}>
+          <MenuItem value={"J00"}>전체</MenuItem>
+          <MenuItem value={"J01"}>J01.재직</MenuItem>
+          <MenuItem value={"J05"}>J05.퇴직</MenuItem>
         </Select>
       </FormControl>
-
-      {/* <FormControl size="small">
-        <InputLabel id="demo-simple-select-label">재직구분</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="재직구분"
-        >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl> */}
 
       <TextField
         label="이름/ID/Mail ID"
         variant="outlined"
         size="small"
-        value={search}
+        value={employeeName}
         onChange={searchChange}
       />
       <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
