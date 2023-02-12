@@ -173,14 +173,14 @@ const EmployeeList = (props) => {
                 </span>
               </Row>
               <Row className="Searchstage" style={{ display: "flex" }}>
-                <p style={{ margin: "0", padding: "0", display: "flex" }}>
+                <div style={{ margin: "0", padding: "0", display: "flex" }}>
                   {dList.companyName}&gt;
                   {dList.workplaceName}
                   <DepartmentTree
                     key={`${dList.companyName}${dList.employeeSeq}`}
                     departmentSeq={dList.departmentSeq}
                   />
-                </p>
+                </div>
               </Row>
               <Row className="Searchphnum">
                 <div style={{ width: "35px", margin: "0" }}>

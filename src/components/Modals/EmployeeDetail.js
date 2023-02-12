@@ -86,6 +86,13 @@ const EmployeeDetail = (props) => {
     getLoginInfo();
   }, []);
 
+  //정규식
+  const regexMail = (e) => {
+    if (e != null) {
+      let text = e.replace(/^(www\.)?/, "");
+      return text;
+    }
+  };
   return (
     <div className="SearchDetail">
       {deptDetail && (
@@ -123,7 +130,8 @@ const EmployeeDetail = (props) => {
                 전화번호 : {deptDetail.employeePh}
               </li>
               <li className="list-group-item">
-                회사메일 : {deptDetail.employeeCmail}
+                회사메일 : {deptDetail.employeeCmail}&#64;
+                {regexMail(deptDetail.companyHomepage)}
               </li>
               <li className="list-group-item">
                 개인메일 : {deptDetail.employeePmail}

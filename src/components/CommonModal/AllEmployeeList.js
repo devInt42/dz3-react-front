@@ -141,7 +141,13 @@ const AllEmployeeList = (props) => {
   //check된 값 저장 배열
   useEffect(() => {}, [checkedList]);
   useEffect(() => {}, [onCheckedElement]);
-
+  //정규식
+  const regexMail = (e) => {
+    if (e != null) {
+      let text = e.replace(/^(www\.)?/, "");
+      return text;
+    }
+  };
   return (
     <div>
       <div className="container">
@@ -236,7 +242,10 @@ const AllEmployeeList = (props) => {
                     <td>{dept.departmentName}</td>
                     <td>{dept.position}</td>
                     <td>{dept.employeeName}</td>
-                    <td>{dept.employeePmail}</td>
+                    <td>
+                      {dept.employeeCmail}&#64;
+                      {regexMail(dept.companyHomepage)}
+                    </td>
                   </tr>
                 ))}
               </tbody>
