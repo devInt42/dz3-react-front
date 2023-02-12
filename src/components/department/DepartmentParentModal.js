@@ -39,7 +39,12 @@ export default function DepartmentParentModal(props) {
   return (
     <div>
       <Button onClick={handleOpen}>찾기</Button>
-      <Modal open={open} onClose={handleClose}>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={style}>
           <div id="modal-modal-title" variant="h6" component="h2">
             <b>상위부서를 선택해 주십시오.</b>
@@ -74,6 +79,7 @@ export default function DepartmentParentModal(props) {
                             props.setDepartmentParentDepth(
                               department.departmentDepth
                             );
+                            console.log(department.departmentDepth);
                             handleClose();
                           }}
                           id="department-modal"

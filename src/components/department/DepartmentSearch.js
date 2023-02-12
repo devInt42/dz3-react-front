@@ -1,4 +1,3 @@
-import { Token } from "@mui/icons-material";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -14,7 +13,7 @@ const DepartmentSearch = (props) => {
         headers: { Authorization: window.sessionStorage.getItem("empInfo") },
       })
       .then((res) => {
-        setCompany(res.data);
+        setCompany(res.data[0]);
         setCompanyList(res.data);
       })
       .catch((error) => console.log(error));
@@ -28,6 +27,7 @@ const DepartmentSearch = (props) => {
           ? props.companySeq
           : JSON.parse(window.sessionStorage.getItem("empInfo")).companySeq,
     };
+    console.log(param);
     axios
       .get(`${baseUrl}/department/find`, {
         params: param,
