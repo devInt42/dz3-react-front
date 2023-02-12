@@ -105,7 +105,7 @@ function EmpDept(props) {
   }
 
   const AllCheck = () => {
-    if(firstData === groupList) {
+    if(JSON.stringify(firstData) == JSON.stringify(groupList)) {
       setNotRequire(<SaveFailEmployeeAlert text = '' title = "수정 된 사항이 없습니다."/>)
       return false;
     }
@@ -155,6 +155,7 @@ function EmpDept(props) {
   return (
     <div>
       {notRequire}
+      <button onClick = {AllCheck}>저장</button>
       {groupList &&
         groupList.map((group, idx) => {
           return (
@@ -189,6 +190,7 @@ function EmpDept(props) {
                     <td colSpan={3}><Form.Control
                       onChange={
                         (e) => {
+                          firstCodeCheck(group.companySeq) ? setDupliCheck(0) :
                           codeDupliCheck(group.companySeq, e.target.value);
                           updateObject(group.departmentSeq, { employeeCode: e.target.value })
                         }
