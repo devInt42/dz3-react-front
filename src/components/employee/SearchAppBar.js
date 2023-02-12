@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import SearchIcon from "@mui/icons-material/Search";
-import IconButton from "@mui/material/IconButton";
+import { Form, Row, Col } from "react-bootstrap";
+import { ReactComponent as Search } from "../auth/search.svg";
 
 export default function SearchAppBar(props) {
   const baseUrl = "http://localhost:8080";
   const [companyList, setCompanyList] = useState([]);
   const [employeeName, setEmployeeName] = useState("");
-  const [employeementStatus, setEmployeementStatus] = useState("");
-
+  const [employeeStatus, setEmployeeStatus] = useState("");
+  const [selectCompany, setSelectCompany] = useState("");
   useEffect(() => {
-    axios
-      .get(baseUrl + "/company/info")
-      .then((response) => setCompanyList(response.data))
-      .catch((error) => console.log(error));
+    selectCompanyArea();
   }, []);
 
+  // 회사명 받아오기
+  const selectCompanyArea = async () => {
+    try {
+      const resCompany = await axios.get(`${baseUrl}/company-employee/select`, {
+        headers: {
+          Authorization: window.sessionStorage.getItem("empInfo"),
+        },
+      });
+      setCompanyList(resCompany.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //이름/id/mail id
   const searchChange = (e) => {
     setEmployeeName(e.target.value);
@@ -29,66 +33,124 @@ export default function SearchAppBar(props) {
 
   //회사
   const companyChange = (e) => {
-    props.setSelectCompany(e.target.value);
+    setSelectCompany(e.target.value);
   };
 
   //재직상태
   const employmentStatus = (e) => {
-    setEmployeementStatus(e.target.value);
+    setEmployeeStatus(e.target.value);
   };
 
+  //검색 결과 보내기
+  const sendSearch = () => {
+    let search = {
+      employeeName: employeeName,
+      selectCompany: selectCompany,
+      employeeStatus: employeeStatus,
+    };
+    props.sendSearchResult(search);
+  };
+
+  useEffect(() => {}, [employeeName]);
+  useEffect(() => {}, [selectCompany]);
+  useEffect(() => {}, [employeeStatus]);
+
   return (
-    <Box
-      component="form"
-      sx={{
-        "& > :not(style)": { m: 1, width: "25ch" },
-      }}
-      noValidate
-      autoComplete="off">
-      <FormControl fullWidth size="small">
-        <InputLabel id="demo-simple-select-label">회사</InputLabel>
+    <div>
+      <Row
+        style={{
+          height: "50px",
+          display: "flex",
+          flexDirection: "row",
+          alignContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Col xs={3} style={{ display: "flex" }}>
+          <Col xs={2} style={{ textAlign: "center" }}>
+            회사
+          </Col>
+          <Col xs={10}>
+            <Form.Select
+              size="sm"
+              onChange={companyChange}
+              style={{ width: "100%" }}
+            >
+              <option
+                key="0"
+                value="0"
+                style={{
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                전체보기
+              </option>
+              {companyList &&
+                companyList.map((companyMap, i) => (
+                  <option key={i} value={companyMap.companySeq}>
+                    {companyMap.companyName}
+                  </option>
+                ))}
+            </Form.Select>
+          </Col>
+        </Col>
 
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="회사"
-          value={props.selectCompany}
-          onChange={companyChange}>
-          <MenuItem value={0}>전체</MenuItem>
-          {companyList.map((comli) => {
-            return (
-              <MenuItem value={comli.companySeq} key={comli.companySeq}>
-                {comli.companyName}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
+        <Col xs={3} style={{ display: "flex" }}>
+          <Col xs={3} style={{ textAlign: "center" }}>
+            재직구분
+          </Col>
+          <Col xs={9}>
+            <Form.Select
+              size="sm"
+              onChange={employmentStatus}
+              style={{ width: "100%" }}
+            >
+              <option
+                key="0"
+                value="0"
+                style={{
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                재직구분
+              </option>
+              <option key="1" value="J01">
+                J01.재직
+              </option>
+              <option key="5" value="J05">
+                J05.퇴직
+              </option>
+            </Form.Select>
+          </Col>
+        </Col>
 
-      <FormControl fullWidth size="small">
-        <InputLabel id="demo-simple-select-label">재직구분</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={employeementStatus}
-          label="재직구분"
-          onChange={employmentStatus}>
-          <MenuItem value={"J00"}>전체</MenuItem>
-          <MenuItem value={"J01"}>J01.재직</MenuItem>
-          <MenuItem value={"J05"}>J05.퇴직</MenuItem>
-        </Select>
-      </FormControl>
+        <Col xs={2}>
+          <input
+            type="text"
+            id="searchAuth"
+            style={{
+              width: "100%",
+              height: "31px",
+              margin: "0",
+              padding: "0",
+              border: "1px solid #ced4da",
+              borderRadius: "0.25rem",
+              textIndent: "0.1rem",
+            }}
+            placeholder="이름/ID/Mail ID."
+            onChange={searchChange}
+          />
+        </Col>
 
-      <TextField
-        label="이름/ID/Mail ID"
-        variant="outlined"
-        size="small"
-        value={employeeName}
-        onChange={searchChange}
-      />
-      <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-        <SearchIcon />
-      </IconButton>
-    </Box>
+        <Col xs={1}>
+          <Search
+            onClick={() => sendSearch()}
+            style={{ cursor: "pointer", width: "20%" }}
+          />
+        </Col>
+      </Row>
+    </div>
   );
 }

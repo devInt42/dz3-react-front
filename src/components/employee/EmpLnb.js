@@ -1,18 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Nav, Col, Row } from "react-bootstrap";
 import "./css/EmpLnb.css";
-import { fontSize } from "@mui/system";
 function EmpLnb(props) {
   const baseUrl = "http://localhost:8080";
   const [employeeList, setEmployeeList] = useState([]);
   const [selectCompanySeq, setSelectCompanySeq] = useState(0);
   const [pointCompanySeq, setPointCompanySeq] = useState(0);
   const [inputEmployeeName, setInputEmployeeName] = useState("");
+  const [searchRes, setSearchRes] = useState("");
+
+  // 사원정보 불러오기
   useEffect(() => {
-    callEmplist();
+    callEmpList();
   }, []);
-  const callEmplist = async () => {
+
+  // 검색결과 props로 받기
+  useEffect(() => {
+    setSearchRes(props.searchRes);
+  }, [props]);
+
+  // 전체리스트
+  const callEmpList = async () => {
     let data = {
       companySeq: selectCompanySeq,
       employeeName: inputEmployeeName,
@@ -28,6 +37,32 @@ function EmpLnb(props) {
       setEmployeeList(empListCall.data);
     } catch (error) {}
   };
+
+  useEffect(() => {
+    callSearchEmpList();
+  }, [searchRes]);
+
+  // 검색결과
+  const callSearchEmpList = useCallback(async () => {
+    let data = {
+      companySeq: searchRes.selectCompany ? searchRes.selectCompany : 0,
+      employeeName: searchRes.employeeName ? searchRes.employeeName : "",
+      employeeClassification: searchRes.employeeStatus
+        ? searchRes.employeeStatus
+        : 0,
+    };
+    try {
+      let empListCall = await axios.get(`${baseUrl}/company-employee/emplist`, {
+        params: data,
+        headers: {
+          Authorization: window.sessionStorage.getItem("empInfo"),
+        },
+      });
+      setEmployeeList(empListCall.data);
+    } catch (error) {}
+  }, [searchRes]);
+
+  useEffect(() => {}, [employeeList]);
   return (
     <>
       <Row

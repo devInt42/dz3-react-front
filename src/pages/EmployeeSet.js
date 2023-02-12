@@ -1,48 +1,37 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Nav, Form, Container, Row, Col, Pagination } from "react-bootstrap";
-
+import { Container, Row, Col } from "react-bootstrap";
 import { GrUserManager } from "react-icons/gr";
-import { BsFilePerson } from "react-icons/bs";
-
 import style from "../components/employee/css/EmployeeSet.module.css";
 import EmpBasic from "../components/employee/EmpBasic";
 import EmpDept from "../components/employee/EmpDept";
 import SearchAppBar from "../components/employee/SearchAppBar";
 import EmpLnb from "../components/employee/EmpLnb";
-
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 function EmployeeSet() {
+  const baseUrl = "http://localhost:8080";
   const [value, setValue] = React.useState(0);
-
+  const [employeeSeq, setEmpSeq] = useState(0);
+  const [selectAct, setSelectAct] = useState(true);
+  const [searchRes, setSearchRes] = useState([]);
+  const clickEmp = () => {
+    setSelectAct(false);
+  };
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const baseUrl = "http://localhost:8080";
-
-  const [employeeSeq, setEmpSeq] = useState(0);
-
-  const [selectAct, setSelectAct] = useState(true);
-  const clickEmp = () => {
-    setSelectAct(false);
+  // 검색 결과 가져오기
+  const sendSearchResult = (e) => {
+    setSearchRes(e);
   };
 
-  const [selectCompany, setSelectCompany] = useState(0);
-  const [companyEmp, setCompanyEmp] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`${baseUrl}/department-employee/companyemp`, {
-        params: { selectCompany: selectCompany },
-      })
-      .then((response) => setCompanyEmp(response.data))
-      .catch((error) => console.log(error));
-  }, [selectCompany]);
+  // 검색결과에 해당하는 사원 불러오기
+  useEffect(() => {}, [searchRes]);
 
   return (
     <div>
@@ -55,14 +44,15 @@ function EmployeeSet() {
       </div>
       <Container fluid>
         <Row>
-          <SearchAppBar
-            selectCompany={selectCompany}
-            setSelectCompany={setSelectCompany}
-          />
+          <SearchAppBar sendSearchResult={sendSearchResult} />
         </Row>
         <Row style={{ border: "1px solid #e3e3e3" }}>
           <Col xs={2} className="menuArea">
-            <EmpLnb clickEmp={clickEmp} setEmpSeq={setEmpSeq} />
+            <EmpLnb
+              clickEmp={clickEmp}
+              setEmpSeq={setEmpSeq}
+              searchRes={searchRes}
+            />
           </Col>
 
           <Col xs={10} style={{ border: "1px solid #e3e3e3", height: "100vh" }}>
