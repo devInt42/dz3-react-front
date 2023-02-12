@@ -171,7 +171,7 @@
   height: 510px;
   width: 38%;
   margin-left: 10px;
-  height: 555px;
+  height: 565px;
 }
 
 .AllCheckbox {
@@ -208,8 +208,8 @@
 }
 
 .AllSelectSpace {
-  width: 650px;
-  height: 250px;
+  width: 800px;
+  height: 230px;
 }
 
 .CommonBtn {
@@ -221,4 +221,9 @@
   border-radius: 5px;
   width: 500px;
   height: 200px;
+}
+
+.DeptModalBtn {
+  padding-top: 10px;
+  /* margin-left: 550px; */
 }

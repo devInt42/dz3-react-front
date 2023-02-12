@@ -49,7 +49,7 @@ const DepartmentParent = (props) => {
     }
   }, [companySeq, workplaceSeq]);
 
-  //선택된 회사에 부서 Group값 받아오기
+  // 선택된 회사에 부서 Group값 받아오기
   const getDepartmentGroup = useCallback(async () => {
     if (count > 0) {
       let departmentGroupData = {
@@ -85,7 +85,7 @@ const DepartmentParent = (props) => {
 
   // 부모에게 부서값 전달
   const sendPointList = (e) => {
-    if (e !== 0) {
+    if (e != 0) {
       props.sendPointList(e);
     }
   };
@@ -101,7 +101,8 @@ const DepartmentParent = (props) => {
         aria-label="file system navigator"
         defaultCollapseIcon={<FolderOpen />}
         defaultExpandIcon={<Folder />}
-        sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}>
+        sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+        multiSelect>
         {departmentGroupList &&
           departmentGroupList.map((item) => (
             <div

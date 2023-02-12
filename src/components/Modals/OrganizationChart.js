@@ -27,6 +27,7 @@ const OrganizationChart = (props) => {
     setCompanyName(i);
   };
   const sendPointList = (e) => {
+    console.log(pointList);
     setPointList(e);
   };
   const onChange = (e) => {
@@ -47,12 +48,14 @@ const OrganizationChart = (props) => {
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
   const changeWorkSeq = useCallback(() => {}, [workplaceSeq]);
   const changeEmplSeq = useCallback(() => {}, [employeeSeq]);
-  const changeComSeq = useCallback(() => {}, [departmentSeq]);
 
   useEffect(() => {
     setWorkplaceSeq(pointList.workplaceSeq);
     setDepartmentSeq(pointList.departmentSeq);
+    console.log("w" + workplaceSeq);
+    console.log("d" + departmentSeq);
   }, [pointList]);
+
   useEffect(() => {
     changeDeptSeq();
   }, [departmentSeq]);
@@ -64,10 +67,6 @@ const OrganizationChart = (props) => {
   useEffect(() => {
     changeEmplSeq();
   }, [employeeSeq]);
-
-  useEffect(() => {
-    changeComSeq();
-  }, [departmentSeq]);
 
   return (
     <div className={open ? "openModal modal" : "modal"}>

@@ -1,4 +1,3 @@
-import { padding } from "@mui/system";
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import { Row, Col } from "react-bootstrap";
@@ -10,7 +9,6 @@ const EmployeeList = (props) => {
   const [departmentSeq, setDepartmentSeq] = useState();
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [deptList, setDeptList] = useState([]);
-  const [employeeSeq, setEmployeeSeq] = useState();
   const [countEmployee, setCountEmployee] = useState(null);
   const [companyName, setCompanyName] = useState();
   const [employeeName, setEmployeeName] = useState();
@@ -73,6 +71,7 @@ const EmployeeList = (props) => {
           }
         );
         setDeptList(getAllDeptResult.data);
+        //부서 값 안들어옴
       } catch (error) {
         console.log(error);
       }
@@ -139,8 +138,7 @@ const EmployeeList = (props) => {
             key={`${dList.companyName}${dList.employeeSeq}`}
             onClick={() => {
               sendPointEmpList(dList);
-            }}
-          >
+            }}>
             <Col
               sm={3}
               className="image"
@@ -148,11 +146,11 @@ const EmployeeList = (props) => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-              }}
-            >
+              }}>
               <img
                 src={process.env.PUBLIC_URL + "/empimg.png"}
                 style={{ width: "60%" }}
+                alt=""
               />
             </Col>
             <Col sm={9}>
@@ -167,8 +165,7 @@ const EmployeeList = (props) => {
                     textAlign: "left",
                     margin: "0",
                     padding: "0",
-                  }}
-                >
+                  }}>
                   &#40;&nbsp; {dList.employeeId}&nbsp;&#41;
                 </span>
               </Row>

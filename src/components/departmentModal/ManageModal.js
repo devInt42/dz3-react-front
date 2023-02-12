@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import DepartmentModal from "./DepartmentModal";
 import Swal from "sweetalert2";
-import CommonModal from "../components/commonModal/CommonModal";
 import withReactContent from "sweetalert2-react-content";
-import { BsPersonCircle } from "react-icons/bs";
-
-const Home2 = () => {
+import { Button } from "react-bootstrap";
+const ManageModal = (props) => {
+  const [companySeq, setCompanySeq] = useState(null);
+  useEffect(() => {
+    setCompanySeq(props.companySeq);
+  }, [props]);
+  useEffect(() => {}, [companySeq]);
+  //modal
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
@@ -36,19 +41,22 @@ const Home2 = () => {
   function getInfo(obj) {
     SaveCompanyAlert();
   }
-
   return (
-    <React.Fragment>
-      <BsPersonCircle size="30" onClick={openModal}></BsPersonCircle>
-
-      <CommonModal
+    <div>
+      <Button
+        variant="outline-secondary"
+        style={{ width: "5%" }}
+        onClick={openModal}>
+        편집
+      </Button>{" "}
+      <DepartmentModal
+        companySeq={companySeq}
         open={modalOpen}
         close={closeModal}
         getInfoCaLLback={getInfo}
-        header="회사부서 사용자 선택"
-      ></CommonModal>
-    </React.Fragment>
+        header="부서 사용자 선택"
+      />
+    </div>
   );
 };
-
-export default Home2;
+export default ManageModal;

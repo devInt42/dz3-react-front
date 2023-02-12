@@ -10,13 +10,13 @@ import AuthGroup from "./pages/AuthGroup";
 import Department from "./components/department/Department";
 import NotSelected from "./pages/NotSelected";
 import EmployeeSet from "./pages/EmployeeSet";
-import Modal from 'react-modal';
+import Modal from "react-modal";
 function App() {
   // 모달을 열었을 때 화면을 바라보고 있는 사용자가
   // 모달창이 아닌 다른 컴포넌트의 content를 바라보지 않도록 하기 위해 숨겨줄 엘리먼트를 정의해 줌.
   // 모달이 열렸을 때 #root 엘리먼트를 숨겨주기 위해
   // 우편번호 검색 시 오류 해결
-  Modal.setAppElement('#root')
+  Modal.setAppElement("#root");
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
