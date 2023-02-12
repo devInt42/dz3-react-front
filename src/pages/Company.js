@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import CompanyList from "./CompanyList";
-import "./css/Company.css";
+import CompanyList from "../components/company/CompanyList";
+import "../components/company/css/Company.css";
 import { GrAddCircle } from "react-icons/gr";
 import { GiCancel } from "react-icons/gi";
-import CompanyNotSelect from "./CompanyNotSelect";
-import CompanyDetail from "./CompanyDetail";
-import CompanySearch from "./CompanySearch";
+import CompanyNotSelect from "../components/company/CompanyNotSelect";
+import CompanyDetail from "../components/company/CompanyDetail";
+import CompanySearch from "../components/company/CompanySearch";
 
 const Company = () => {
   const [detailFlag, setDetailFlag] = useState(false);

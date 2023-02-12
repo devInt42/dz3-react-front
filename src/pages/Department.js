@@ -1,12 +1,12 @@
-import DepartmentDetail from "./DepartmentDetail";
-import DepartmentList from "./DepartmentList";
+import DepartmentDetail from "../components/department/DepartmentDetail";
+import DepartmentList from "../components/department/DepartmentList";
 import Alert from "react-bootstrap/Alert";
-import "./css/Department.css";
+import "../components/department/css/Department.css";
 import { IoInformationCircleOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import DepartmentNotSelect from "./DepartmentNotSelect";
-import DepartmentSearch from "./DepartmentSearch";
-import SearchResult from "./SearchResult";
+import DepartmentNotSelect from "../components/department/DepartmentNotSelect";
+import DepartmentSearch from "../components/department/DepartmentSearch";
+import SearchResult from "../components/department/SearchResult";
 const Department = () => {
   const [departmentSeq, setDepartmentSeq] = useState(0);
   const [workplaceSeq, setWorkplaceSeq] = useState(0);
