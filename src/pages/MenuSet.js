@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Form from "react-bootstrap/Form";
 import { Container, Row, Col } from "react-bootstrap";
 import { VscExpandAll } from "react-icons/vsc";
 import { GrCircleAlert } from "react-icons/gr";
@@ -99,6 +100,40 @@ function MenuSet() {
     setSelectActive(true);
   };
 
+  // 메뉴 아이디 중복체크
+  useEffect(() => {
+    codeCheck();
+  }, [menuCode]);
+
+  const [returnCode, setReturnCode] = useState([]);
+  const codeCheck = async () => {
+    try {
+      let codeRes = await axios.get(`${baseUrl}/menu/menulist/checkcode`, {
+        params: { menuCode: menuCode },
+      });
+      setReturnCode(codeRes.data)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 메뉴 이름 중복체크
+  useEffect(() => {
+    nameCheck();
+  }, [menuName]);
+
+  const [returnName, setReturnName] = useState([]);
+  const nameCheck = async () => {
+    try {
+      let nameRes = await axios.get(`${baseUrl}/menu/menulist/checkname`, {
+        params: { menuName: menuName },
+      });
+      setReturnName(nameRes.data)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <div className={style.wrap}>
@@ -138,14 +173,14 @@ function MenuSet() {
             <div className={style.tableWrap}>
               <h5 style={{ display: "inline" }}>메뉴 상세</h5>
               <span style={{ float: "right" }} onClick={newInsert}>
-                <FcPlus />
-                새로 저장하기
+                <FcPlus />&nbsp;
+                새 메뉴 생성
               </span>
               <table className={style.setTable}>
                 <thead></thead>
                 <tbody>
                   <tr>
-                    <th>메뉴 아이디</th>
+                    <th>* 메뉴 아이디</th>
                     <td>
                       <input
                         type="text"
@@ -153,11 +188,32 @@ function MenuSet() {
                         className={style.menu_btn_input}
                         onChange={insertMenuCode}
                       />
+                      <Form.Group>
+                        <Form.Control
+                          type="text"
+                          className={style.menu_btn_input}
+                          value={menuCode || ""}
+                          onChange={insertMenuCode}
+                          autoComplete="off"
+                          isValid={
+                            menuCode != "" ? (returnCode.length > 0 ? false : true) : false
+                          }
+                          isInvalid={
+                            menuCode != "" ? (returnCode.length > 0 ? true : false) : true
+                          }
+                        />
+                        <Form.Control.Feedback type="valid">
+                          사용 가능한 ID 입니다.
+                        </Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">
+                          중복된 아이디가 존재합니다.
+                        </Form.Control.Feedback>
+                      </Form.Group>
                     </td>
                   </tr>
 
                   <tr>
-                    <th>메뉴 이름</th>
+                    <th>* 메뉴 이름</th>
                     <td>
                       <input
                         type="text"
@@ -165,6 +221,27 @@ function MenuSet() {
                         className={style.menu_btn_input}
                         onChange={insertMenuName}
                       />
+                      <Form.Group>
+                        <Form.Control
+                          type="text"
+                          className={style.menu_btn_input}
+                          value={menuName || ""}
+                          onChange={insertMenuName}
+                          autoComplete="off"
+                          isValid={
+                            menuName != "" ? (returnName.length > 0 ? false : true) : false
+                          }
+                          isInvalid={
+                            menuName != "" ? (returnName.length > 0 ? true : false) : true
+                          }
+                        />
+                        <Form.Control.Feedback type="valid">
+                          사용 가능한 메뉴이름 입니다.
+                        </Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">
+                          중복된 메뉴이름이 존재합니다.
+                        </Form.Control.Feedback>
+                      </Form.Group>
                     </td>
                   </tr>
                   <tr>
@@ -178,15 +255,15 @@ function MenuSet() {
                         {/* {menu.map((menu, i) => ( */}
                         {selectActive == true
                           ? menu.map((menu, i) => (
-                              <option value={menu.menuSeq} key={i}>
-                                {menu.menuName}
-                              </option>
-                            ))
+                            <option value={menu.menuSeq} key={i}>
+                              {menu.menuName}
+                            </option>
+                          ))
                           : exceptMenu.map((menu, i) => (
-                              <option value={menu.menuSeq} key={i}>
-                                {menu.menuName}
-                              </option>
-                            ))}
+                            <option value={menu.menuSeq} key={i}>
+                              {menu.menuName}
+                            </option>
+                          ))}
                       </select>
                     </td>
                   </tr>
@@ -195,7 +272,7 @@ function MenuSet() {
                     <td>
                       <input
                         className={style.menu_btn_input}
-                        style={{ backgroundColor: "rgba(250, 5, 5, 0.137)" }}
+                        style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
                         type="text"
                         value={menuDepth + 1}
                         readOnly
@@ -286,7 +363,7 @@ function MenuSet() {
       data: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
     })
-      .then((res) => {})
+      .then((res) => { })
       .catch((error) => {
         console.log(error);
       });
@@ -298,7 +375,7 @@ function MenuSet() {
       method: "delete",
       url: url,
     })
-      .then((res) => {})
+      .then((res) => { })
       .catch((error) => {
         console.log(error);
       });
@@ -318,7 +395,7 @@ function MenuSet() {
       data: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
     })
-      .then((res) => {})
+      .then((res) => { })
       .catch((error) => {
         console.log(error);
       });
