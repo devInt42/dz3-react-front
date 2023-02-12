@@ -223,9 +223,112 @@ const CompanyDetail = (props) => {
       setNotRequire(<SaveFailCompanyAlert />);
       return false;
     }
-    if (companyName.length === 0) {
-      setNotRequire(<SaveFailCompanyAlert />);
-      return false;
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    //클래스 이름을 바꾸기 위함(css 동적으로 변경)
+    let [callStyle, setCallStyle] = useState(false);
+    let [faxStyle, setFaxStyle] = useState(false);
+    let [registStyle, setRegistStyle] = useState(false);
+    let [corporateStyle, setCorporateStyle] = useState(false);
+
+    let [allCheck, setAllCheck] = useState(false);
+    let [notRequire, setNotRequire] = useState("");
+    let [checked, setChecked] = useState(0);
+    let [checkDelete, setCheckDelete] = useState(false);
+    useEffect(() => {
+      setCompanyAddr(address);
+    }, [address]);
+
+    // useEffect(() => {
+    //     setCompanyAddr(address + " / " + detailAddr)
+    // },[detailAddr])
+    //값이 바뀔때마다 유효성 검사를 하기 위함
+    useEffect(() => {
+      companyCall < 0
+        ? (companyCall = "")
+        : PhoneNumberCheck(companyCall)
+        ? setCallStyle(true)
+        : setCallStyle(false);
+    }, [companyCall]);
+
+    useEffect(() => {
+      companyFax < 0
+        ? (companyFax = "")
+        : FaxNumberCheck(companyFax)
+        ? setFaxStyle(true)
+        : setFaxStyle(false);
+    }, [companyFax]);
+
+    useEffect(() => {
+      companyRegist < 0
+        ? (companyRegist = "")
+        : registNumberCheck(companyRegist)
+        ? setRegistStyle(true)
+        : setRegistStyle(false);
+    }, [companyRegist]);
+
+    useEffect(() => {
+      companyCorporate < 0
+        ? (companyCorporate = "")
+        : corporateNumberCheck(companyCorporate)
+        ? setCorporateStyle(true)
+        : setCorporateStyle(false);
+    }, [companyCorporate]);
+
+    //중복체크
+    useEffect(() => {
+      if (`${companyCode}` === `${firstCode}`) {
+        setCodeDupliCheck(0);
+      } else if (`${companyCode}`.length == 4) {
+        axios
+          .get(`${baseUrl}/company/info/check/${companyCode}`)
+          .then((res) => setCodeDupliCheck(res.data))
+          .catch((error) => console.log(error));
+      }
+    }, [companyCode]);
+
+    //모든 필수 사항이 제대로 입력되었을 때 저장
+    function AllCheck() {
+      setChecked(checked + 1);
+      if (codeDupliCheck === 1 || `${companyCode}`.length !== 4) {
+        setNotRequire(<SaveFailCompanyAlert />);
+        return false;
+      }
+      if (companyName.length === 0) {
+        setNotRequire(<SaveFailCompanyAlert />);
+        return false;
+      }
+      if (companyBusiness.length === 0) {
+        setNotRequire(<SaveFailCompanyAlert />);
+        return false;
+      }
+      if (companyItem.length === 0) {
+        setNotRequire(<SaveFailCompanyAlert />);
+        return false;
+      }
+      if (registNumberCheck(companyRegist) === false) {
+        setNotRequire(<SaveFailCompanyAlert />);
+        return false;
+      }
+      if (corporateNumberCheck(companyCorporate) === false) {
+        setNotRequire(<SaveFailCompanyAlert />);
+        return false;
+      }
+      if (companyPresident.length === 0) {
+        setNotRequire(<SaveFailCompanyAlert />);
+        return false;
+      }
+      if (companyAddr.length === 0) {
+        setNotRequire(<SaveFailCompanyAlert />);
+        return false;
+      }
+      if (!pcBuisness) {
+        setNotRequire(<SaveFailCompanyAlert />);
+        return false;
+      }
+      setAllCheck(true);
+      return true;
     }
     if (companyBusiness.length === 0) {
       setNotRequire(<SaveFailCompanyAlert />);
