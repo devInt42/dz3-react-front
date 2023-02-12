@@ -141,10 +141,19 @@ const EmployeeList = (props) => {
               sendPointEmpList(dList);
             }}
           >
-            <Col sm={3} className="image">
-              <div style={{ padding: "25px" }}>
-                <BsFillFileEarmarkPersonFill size="70" />
-              </div>
+            <Col
+              sm={3}
+              className="image"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src={process.env.PUBLIC_URL + "/empimg.png"}
+                style={{ width: "60%" }}
+              />
             </Col>
             <Col sm={9}>
               <Row className="Searchname">

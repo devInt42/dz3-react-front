@@ -90,7 +90,7 @@ const EmployeeDetail = (props) => {
     <div className="SearchDetail">
       {deptDetail && (
         <Container>
-          <Row style={{ display: "flex" }}>
+          <Row style={{ display: "flex", justifyContent: "center" }}>
             <img
               src={process.env.PUBLIC_URL + "/empimg.png"}
               style={{ paddingTop: "15px", width: "30%" }}

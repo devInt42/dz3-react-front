@@ -25,7 +25,6 @@ function EmpLnb(props) {
           Authorization: window.sessionStorage.getItem("empInfo"),
         },
       });
-      console.log(empListCall.data);
       setEmployeeList(empListCall.data);
     } catch (error) {}
   };
