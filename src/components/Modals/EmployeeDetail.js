@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { Row, Container } from "react-bootstrap";
-import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
 import { FaBirthdayCake } from "react-icons/fa";
 import { RxPerson } from "react-icons/rx";
 
@@ -101,6 +100,7 @@ const EmployeeDetail = (props) => {
             <img
               src={process.env.PUBLIC_URL + "/empimg.png"}
               style={{ paddingTop: "15px", width: "30%" }}
+              alt=""
             />
           </Row>
           <br />

@@ -27,7 +27,6 @@ const OrganizationChart = (props) => {
     setCompanyName(i);
   };
   const sendPointList = (e) => {
-    console.log(pointList);
     setPointList(e);
   };
   const onChange = (e) => {
@@ -52,8 +51,6 @@ const OrganizationChart = (props) => {
   useEffect(() => {
     setWorkplaceSeq(pointList.workplaceSeq);
     setDepartmentSeq(pointList.departmentSeq);
-    console.log("w" + workplaceSeq);
-    console.log("d" + departmentSeq);
   }, [pointList]);
 
   useEffect(() => {
