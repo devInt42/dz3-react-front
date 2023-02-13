@@ -1,33 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
 import style from "./css/EmpDept.module.css";
 import { Form } from "react-bootstrap";
 import EmpPositionModal from "./EmpPositionModal";
-import SaveFailEmployeeAlert from "./alert/SaveFailEmployeeAlert";
-import ManageModal from "../departmentModal/ManageModal";
+import SaveFailAlert from "./alert/SaveFailAlert";
+import UpdateAlert from "./alert/UpdateAlert";
 
 function EmpDept(props) {
   const baseUrl = "http://localhost:8080";
-  // const [department, setDepartment] = useState({});
-  // const [employee, setEmployee] = useState([]);
-  // const [companyName, setCompanyName] = useState("");
-  // const [workplaceName, setWorkplaceName] = useState("");
-  // const [departmentName, setDepartmentName] = useState("");
-  // const [mainCompanyYN, setMainCompanyYN] = useState("Y");
-  // const [mainDepartmentYN, setMainDepartmentYN] = useState("Y");
-  // const [companySeq, setCompanySeq] = useState(0);
-  // const [workplaceSeq, setWorkplaceSeq] = useState(0);
-  // const [departmentSeq, setDepartmentSeq] = useState(0);
-  // const [departmentCall, setDepartmentCall] = useState("");
-  // const [departmentFax, setDepartmentFax] = useState("");
+
   const [groupList, setGroupList] = useState([]);
   const positionModal = "POSITION";
   const dutyModal = "DUTY";
-  const [duty, setDuty] = useState("");
-  const [position, setPosition] = useState("");
-  const [dutyCode, setDutyCode] = useState("");
   const [positionCode, setPositionCode] = useState("");
-  const [departmentSeq, setDepartmentSeq] = useState();
   const [dupliCheck, setDupliCheck] = useState(0);
   const [firstData, setFirstData] = useState([]);
   const [notRequire, setNotRequire] = useState("");
@@ -114,16 +100,20 @@ function EmpDept(props) {
 
   const InsertData = () => {};
 
+  // 필수 값 체크를 위한 변수
+  const [departmentCheck, setDepartmentCheck] = useState(0);
+  const [employeeCodeCheck, setEmployeeCodeCheck] = useState(0);
+  const [joinDateCheck, setJoinDateCheck] = useState(0);
+
+  // 중복, 체크 등 수정 및 추가 가능한 상태를 확인하기 위한 변수
+  const [allCheck, setAllCheck] = useState(false);
+
   const AllCheck = () => {
-    if (firstData === groupList) {
-      setNotRequire(
-        <SaveFailEmployeeAlert text="" title="수정 된 사항이 없습니다." />
-      );
-      return false;
-    }
+    requireCheck();
+
     if (employeeCodeCheck == 1) {
       setNotRequire(
-        <SaveFailEmployeeAlert
+        <SaveFailAlert
           text="사번이 입력되지 않았습니다."
           title="필수 값이 입력되지 않았습니다"
         />
@@ -132,7 +122,7 @@ function EmpDept(props) {
     }
     if (departmentCheck == 1) {
       setNotRequire(
-        <SaveFailEmployeeAlert
+        <SaveFailAlert
           text="부서가 선택되지 않았습니다."
           title="필수 값이 입력되지 않았습니다"
         />
@@ -141,7 +131,7 @@ function EmpDept(props) {
     }
     if (joinDateCheck == 1) {
       setNotRequire(
-        <SaveFailEmployeeAlert
+        <SaveFailAlert
           text="입사 날짜가 선택되지 않았습니다."
           title="필수 값이 입력되지 않았습니다"
         />
@@ -150,18 +140,20 @@ function EmpDept(props) {
     }
     if (dupliCheck == 1) {
       setNotRequire(
-        <SaveFailEmployeeAlert
+        <SaveFailAlert
           text="사번이 중복되었습니다."
           title="중복된 값이 있습니다."
         />
       );
       return false;
     }
+    if (JSON.stringify(firstData) == JSON.stringify(groupList)) {
+      setNotRequire(<SaveFailAlert text="" title="수정 된 사항이 없습니다." />);
+      return false;
+    }
+    setAllCheck(true);
     return true;
   };
-  const [departmentCheck, setDepartmentCheck] = useState(0);
-  const [employeeCodeCheck, setEmployeeCodeCheck] = useState(0);
-  const [joinDateCheck, setJoinDateCheck] = useState(0);
 
   //필수값 입력 체크
   const requireCheck = () => {
@@ -170,32 +162,39 @@ function EmpDept(props) {
     setJoinDateCheck(0);
     for (let i = 0; i < groupList.length; i++) {
       if (
-        groupList[i].departmentName == null ||
-        groupList[i].departmentName == undefined
-      ) {
-        setDepartmentCheck(1);
-        return false;
-      }
-      if (
         groupList[i].employeeCode == null ||
-        groupList[i].employeeCode == undefined
+        groupList[i].employeeCode == undefined ||
+        groupList[i].employeeCode == ""
       ) {
         setEmployeeCodeCheck(1);
         return false;
       }
       if (
+        groupList[i].departmentName == null ||
+        groupList[i].departmentName == undefined ||
+        groupList[i].departmentName == ""
+      ) {
+        setDepartmentCheck(1);
+        return false;
+      }
+      if (
         groupList[i].employeeJoin == null ||
-        groupList[i].employeeJoin == undefined
+        groupList[i].employeeJoin == undefined ||
+        groupList[i].employeeJoin == ""
       ) {
         setJoinDateCheck(1);
         return false;
       }
     }
-    return true;
   };
+  useEffect(() => {
+    console.log(groupList);
+  }, [groupList]);
   return (
     <div>
       {notRequire}
+      {groupList && allCheck == true && <UpdateAlert />}
+      <button onClick={AllCheck}>저장</button>
       {groupList &&
         groupList.map((group, idx) => {
           return (
@@ -205,7 +204,9 @@ function EmpDept(props) {
                 <tbody>
                   <tr>
                     <th>회사</th>
-                    <td>{group.companyName}</td>
+                    <td>
+                      {group.companyName} | {group.workplaceName}
+                    </td>
                     <th>부서</th>
                     <td>
                       <div className="content-have-button">
@@ -227,8 +228,8 @@ function EmpDept(props) {
                               : group.departmentName != null ||
                                 group.departmentName != undefined
                           }
+                          readOnly
                         />
-                        <ManageModal companySeq={group.companySeq} />
                       </div>
                     </td>
                   </tr>
@@ -237,7 +238,9 @@ function EmpDept(props) {
                     <td colSpan={3}>
                       <Form.Control
                         onChange={(e) => {
-                          codeDupliCheck(group.companySeq, e.target.value);
+                          firstCodeCheck(group.companySeq)
+                            ? setDupliCheck(0)
+                            : codeDupliCheck(group.companySeq, e.target.value);
                           updateObject(group.departmentSeq, {
                             employeeCode: e.target.value,
                           });
@@ -258,7 +261,9 @@ function EmpDept(props) {
                         isInvalid={
                           firstCodeCheck(group.companySeq)
                             ? ""
-                            : dupliCheck == 1
+                            : dupliCheck == 1 ||
+                              group.employeeCode == null ||
+                              group.employeeCode == ""
                             ? true
                             : false
                         }
@@ -330,12 +335,6 @@ function EmpDept(props) {
                       <input
                         type="text"
                         value={`${group.positionCode}.${group.position}`}
-                        onChange={() => {
-                          updateObject(group.departmentSeq, {
-                            positionCode: positionCode,
-                            position: position,
-                          });
-                        }}
                       />
                       <EmpPositionModal
                         type={positionModal}
@@ -348,12 +347,6 @@ function EmpDept(props) {
                       <input
                         type="text"
                         value={`${group.dutyCode}.${group.duty}`}
-                        onChange={() => {
-                          updateObject(group.departmentSeq, {
-                            positionCode: positionCode,
-                            position: position,
-                          });
-                        }}
                       />
                       <EmpPositionModal
                         departmentSeq={group.departmentSeq}
@@ -371,15 +364,18 @@ function EmpDept(props) {
                           updateObject(group.departmentSeq, {
                             employeeClassification: e.target.value,
                           })
-                        }>
+                        }
+                      >
                         <option
                           value="J01.재직"
-                          checked={group.employeeClassification === "J01.재직"}>
+                          checked={group.employeeClassification === "J01.재직"}
+                        >
                           J01.재직
                         </option>
                         <option
                           value="J05.퇴직"
-                          checked={group.employeeClassification === "J05.퇴직"}>
+                          checked={group.employeeClassification === "J05.퇴직"}
+                        >
                           J05.퇴직
                         </option>
                       </select>
