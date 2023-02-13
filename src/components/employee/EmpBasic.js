@@ -56,6 +56,7 @@ function EmpBasic(props) {
     const [employeeAddr, setEmployeeAddr] = useState("");
     const [firstAddr, setFirstAddr] = useState("");
     const [addrCode, setAddrCode] = useState("");
+    const [detailedAddr, setDetailedAddr] = useState("");
     const [employeeJoin, setEmployeeJoin] = useState("");
     const [employeeLeave, setEmployeeLeave] = useState(null);
     const [employeeGender, setEmployeeGender] = useState("");
@@ -68,6 +69,7 @@ function EmpBasic(props) {
 
     const [zipcodeIsOpen, setZipcodeIsOpen] = useState();
 
+    // 비밀번호 표시 미표시 사용할 때 사용함수
     const [checked, setChecked] = useState(true);
     const handleChange = (event) => {
         setChecked(event.target.checked);
@@ -77,6 +79,7 @@ function EmpBasic(props) {
         setChecked2(e.target.checked);
     };
 
+    // employee값 불러와서 세팅
     useEffect(() => {
         if (props.employeeSeq > 0) {
             setEmployeeSeq(empSelected.employeeSeq);
@@ -107,10 +110,16 @@ function EmpBasic(props) {
                 setPmailId(emailtmp[0])
                 setPmailDomain(emailtmp[1])
             }
-
+            if(empSelected.employeeAddr != "" &&  empSelected.employeeAddr != undefined){
+                let addrtmp = empSelected.employeeAddr.split("/");
+                setAddrCode(addrtmp[0]);
+                setFirstAddr(addrtmp[1]);
+                setDetailedAddr(addrtmp[2]);
+            }
         }
     }, [empSelected]);
 
+    // 계정 사용 미사용 여부
     const [useEmp, setUseEmp] = useState("");
     useEffect(() => {
         if (useYN) {
@@ -122,6 +131,7 @@ function EmpBasic(props) {
 
     const label = { inputProps: { "aria-label": "Size switch demo" } };
 
+    // 신규 입사자 등록 시 인풋박스 초기화
     const newSave = () => {
         setEmployeeCode("");
         setEmployeeBirth("");
@@ -144,10 +154,12 @@ function EmpBasic(props) {
         setPmailId("");
         setFirstAddr("");
         setAddrCode("");
+        setDetailedAddr("");
         props.clickEmp();
         props.setSelectAct(true);
     };
 
+    // 저장 필수값 검사
     const [insertCheck, setInsertCheck] = useState(false);
     const [insertFail, setInsertFail] = useState();
     function insertValid() {
@@ -164,6 +176,7 @@ function EmpBasic(props) {
         }
     }
 
+    // 수정 필수값 검사
     const [updateCheck, setUpdateCheck] = useState(false);
     const [updateFail, setUpdateFail] = useState();
     function updateValid() {
@@ -186,11 +199,7 @@ function EmpBasic(props) {
 
     const [deleteCheck, setDeleteCheck] = useState(false);
     function deleteValid() {
-        if (employeeName.length == 0) {
-            alert("삭제시 사원 이름은 필수입니다.");
-        } else {
             setDeleteCheck(true);
-        }
     }
 
     // 로그인ID 중복체크
@@ -536,9 +545,9 @@ function EmpBasic(props) {
                             <input
                                 type="text"
                                 className={style.emp_input}
-                                value={employeeAddr || ""}
+                                value={detailedAddr || ""}
                                 onChange={(e) => {
-                                    setEmployeeAddr(e.target.value);
+                                    setDetailedAddr(e.target.value);
                                 }}
                                 placeholder="상세 주소를 입력해 주세요."
                             />
@@ -621,14 +630,14 @@ function EmpBasic(props) {
                     updateEmp={updateEmp}
                     employeeId={employeeId} returnId={returnId} firstId={firstId}
                     employeeCmail={employeeCmail} returnCmail={returnCmail} FirstMail={FirstMail}
-                    employeeName={employeeName}
+                    employeeSeq={employeeSeq}
                 />
             )}
             {updateFail}
             {deleteCheck && (
                 <EmpBasicDeleteAlert
                     setDeleteCheck={setDeleteCheck}
-                    employeeName={employeeName}
+                    employeeSeq={employeeSeq}
                     deleteEmp={deleteEmp}
                 />
             )}
@@ -646,7 +655,7 @@ function EmpBasic(props) {
             employeePh: employeePh,
             employeePmail: pmailId + "@" + pmailDomain,
             employeeCmail: employeeCmail,
-            employeeAddr: employeeAddr,
+            employeeAddr: addrCode + " / " + firstAddr + " / " + detailedAddr,
             employeeJoin: employeeJoin,
             employeeLeave: employeeLeave,
             employeeGender: employeeGender,
@@ -681,7 +690,7 @@ function EmpBasic(props) {
             employeePh: employeePh,
             employeePmail: pmailId + "@" + pmailDomain,
             employeeCmail: employeeCmail,
-            employeeAddr: employeeAddr,
+            employeeAddr: addrCode + " / " + firstAddr + " / " + detailedAddr,
             employeeJoin: employeeJoin,
             employeeLeave: employeeLeave,
             employeeGender: employeeGender,
