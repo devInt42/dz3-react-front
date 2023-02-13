@@ -10,6 +10,7 @@ function SaveMenuAlert(props) {
 
   MySwal.fire({
     title: '저장하시겠습니까?',
+    text: '메뉴 아이디 : ' + menuCode + ', 메뉴 이름 : ' + menuName,
     icon: 'info',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
@@ -20,16 +21,23 @@ function SaveMenuAlert(props) {
 
   }).then(result => {
     if (result.isConfirmed) {
-      axios.get('http://localhost:8080/menu/menulist/checkcode/' + menuCode).then(response => {
-        if (response.data == 0) {
-          axios.get('http://localhost:8080/menu/menulist/checkname/' + menuName).then(response => {
-            if (response.data == 0){
-              props.insertMenu();
-              Swal.fire('저장이 완료되었습니다.', '', 'success', '#3085d6');
-            }else{Swal.fire('저장실패.', '중복되는 메뉴 이름이 존재합니다.', 'error', '#3085d6');}
-          }).catch(error => console.log(error))
-        } else { Swal.fire('저장실패.', '중복되는 메뉴 아이디가 존재합니다.', 'error', '#3085d6'); }
-      }).catch(error => console.log(error))
+      // axios.get('http://localhost:8080/menu/menulist/checkcode/' + menuCode).then(response => {
+      //   if (response.data == 0) {
+      //     axios.get('http://localhost:8080/menu/menulist/checkname/' + menuName).then(response => {
+      //       if (response.data == 0){
+      //         props.insertMenu();
+      //         Swal.fire('저장이 완료되었습니다.', '', 'success', '#3085d6');
+      //       }else{Swal.fire('저장실패.', '중복되는 메뉴 이름이 존재합니다.', 'error', '#3085d6');}
+      //     }).catch(error => console.log(error))
+      //   } else { Swal.fire('저장실패.', '중복되는 메뉴 아이디가 존재합니다.', 'error', '#3085d6'); }
+      // }).catch(error => console.log(error))
+
+      if(props.menuCode != "" ? props.firstCode == props.menuCode ? true : (props.returnCode.length > 0 ? false : true) : false){
+        if(props.menuName != "" ? props.firstName == props.menuName ? true : (props.returnName.length > 0 ? false : true) : false){
+          props.insertMenu();
+          Swal.fire('저장이 완료되었습니다.', '', 'success', '#3085d6');
+        }else Swal.fire('저장실패.', '중복되는 메뉴 이름이 존재합니다.', 'error', '#3085d6');
+      }else Swal.fire('저장실패.', '중복되는 메뉴 아이디가 존재합니다.', 'error', '#3085d6');
       props.setInputCheck(false);
     }
 

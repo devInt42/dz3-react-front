@@ -15,7 +15,7 @@ function ContentsMapping(props) {
       })
       .catch((error) => console.log(error));
   }, [props.lastSeq]);
-
+  
   useEffect(() => {
     if (!window.sessionStorage.getItem("empInfo")) {
       alert("로그인 후에 이용해주세요");

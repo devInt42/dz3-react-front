@@ -11,6 +11,15 @@
     height: 33px;
 }
 
+.lnb_select{
+    opacity: 0.5;
+    cursor: pointer;
+}.lnb_select:hover{
+    opacity: 1;
+    background-color: rgba(69, 72, 75, 0.63);
+	transition:.3s;
+}
+
 .lnb_menuIcon{
     width: 30px;
     height: 30px;
@@ -19,8 +28,8 @@
     white-space: pre-line;
 }.lnb_menuIcon:hover{
     transition:.3s;
-    width: 33px;
-    height: 33px;
+    width: 32px;
+    height: 32px;
 }
 
 .lnb{
@@ -59,8 +68,8 @@ h4{
 } */
 
 .lnb_callMenu{
-    background-color: rgb(44, 43, 43);
-    color: rgb(219, 240, 244);
+    background-color: rgba(32, 30, 30, 0.938);
+    color: aliceblue;
     padding: 5px;
     border: none;
     border-radius: 8%;

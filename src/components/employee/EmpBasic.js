@@ -240,7 +240,7 @@ function EmpBasic(props) {
     return (
         <div>
             <h5 style={{ display: "inline" }}>사원 상세</h5>
-            <span style={{ float: "right" }} onClick={newSave}>
+            <span style={{ float: "right" }} onClick={() => {newSave(); props.setEmpSeq(0)}}>
                 <FcPlus />&nbsp;
                 신규 입사자 등록
             </span>

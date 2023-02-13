@@ -83,6 +83,7 @@ function EmployeeSet() {
                   clickEmp={clickEmp}
                   selectAct={selectAct}
                   setSelectAct={setSelectAct}
+                  setEmpSeq={setEmpSeq}
                 />
               </TabPanel>
               <TabPanel value={value} index={1}>
