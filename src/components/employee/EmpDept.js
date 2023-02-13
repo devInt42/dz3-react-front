@@ -6,7 +6,7 @@ import { Form } from "react-bootstrap";
 import EmpPositionModal from "./EmpPositionModal";
 import SaveFailAlert from "./alert/SaveFailAlert";
 import UpdateAlert from "./alert/UpdateAlert";
-
+import ManageModal from "../departmentModal/ManageModal";
 function EmpDept(props) {
   const baseUrl = "http://localhost:8080";
 
@@ -228,8 +228,8 @@ function EmpDept(props) {
                               : group.departmentName != null ||
                                 group.departmentName != undefined
                           }
-                          readOnly
                         />
+                        <ManageModal companySeq={group.companySeq} />
                       </div>
                     </td>
                   </tr>
