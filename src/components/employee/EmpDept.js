@@ -9,14 +9,34 @@ import UpdateAlert from "./alert/UpdateAlert";
 import ManageModal from "../departmentModal/ManageModal";
 function EmpDept(props) {
   const baseUrl = "http://localhost:8080";
-
   const [groupList, setGroupList] = useState([]);
   const positionModal = "POSITION";
   const dutyModal = "DUTY";
-  const [positionCode, setPositionCode] = useState("");
   const [dupliCheck, setDupliCheck] = useState(0);
   const [firstData, setFirstData] = useState([]);
   const [notRequire, setNotRequire] = useState("");
+  
+  //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
+  const insertData = {
+    companyName: "",
+    companySeq: 0, //companySeq 받아오는 거 
+    departmentCall: "",
+    departmentFax: "",
+    departmentLoc: "",
+    departmentName: "",
+    departmentSeq: "",
+    departmentZipCode: "",
+    duty: "",
+    dutyCode: "",
+    employeeCode: "",
+    mainCompanyYN: "",
+    mainDepartmentYN: "",
+    employeeSeq: props.employeeSeq,
+    position: "",
+    positionCode: "",
+    workplaceName: "",
+  }
+
   //사원의 조직정보
   useEffect(() => {
     axios
@@ -34,6 +54,12 @@ function EmpDept(props) {
   }, [props.employeeSeq]);
 
   //리스트 객체 특정값 변경 함수
+  const updateIndexObject = (idx, obj) => {
+    let copyGroupList = [...groupList];
+    copyGroupList[idx] = { ...copyGroupList[idx], ...obj };
+    
+    setGroupList(copyGroupList);
+  }
   const updateObject = (seq, obj) => {
     let copyGroupList = [...groupList];
     const findIndex = groupList.findIndex(
@@ -98,12 +124,17 @@ function EmpDept(props) {
     );
   };
 
-  const InsertData = () => {};
+  const CreateInsertForm = () => {
+    let copyGroupList = [insertData, ...groupList];
+    setGroupList(copyGroupList);
+    setFirstData(copyGroupList);
+  }
 
   // 필수 값 체크를 위한 변수
   const [departmentCheck, setDepartmentCheck] = useState(0);
   const [employeeCodeCheck, setEmployeeCodeCheck] = useState(0);
   const [joinDateCheck, setJoinDateCheck] = useState(0);
+
 
   // 중복, 체크 등 수정 및 추가 가능한 상태를 확인하기 위한 변수
   const [allCheck, setAllCheck] = useState(false);
@@ -195,6 +226,7 @@ function EmpDept(props) {
       {notRequire}
       {groupList && allCheck == true && <UpdateAlert />}
       <button onClick={AllCheck}>저장</button>
+      <button onClick={CreateInsertForm}>추가</button>
       {groupList &&
         groupList.map((group, idx) => {
           return (
@@ -211,25 +243,22 @@ function EmpDept(props) {
                     <td>
                       <div className="content-have-button">
                         <Form.Control
-                          onChange={(e) => {
-                            updateObject(group.departmentSeq, {
-                              departmentName: e.target.value,
-                            });
-                          }}
-                          defaultValue={group.departmentName}
+                          value={group.departmentName}
                           placeholder="부서를 선택해 주십시오."
                           style={{
                             zIndex: "0",
                             backgroundColor: "rgba(241, 199, 199, 0.328)",
                           }}
                           isValid={
-                            firstDepartmentCheck(group.companySeq)
+                            group.departmentName == undefined ?
+                            false :
+                            firstDepartmentCheck(group.companySeq) 
                               ? ""
                               : group.departmentName != null ||
                                 group.departmentName != undefined
                           }
                         />
-                        <ManageModal companySeq={group.companySeq} />
+                        <ManageModal companySeq={group.companySeq} updateIndexObject = {updateIndexObject} idx = {idx}/>
                       </div>
                     </td>
                   </tr>
