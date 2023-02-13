@@ -100,10 +100,7 @@ function EmpDept(props) {
   
   const AllCheck = () => {
     requireCheck();
-    if(JSON.stringify(firstData) == JSON.stringify(groupList)) {
-      setNotRequire(<SaveFailAlert text = '' title = "수정 된 사항이 없습니다."/>)
-      return false;
-    }
+    
     if(employeeCodeCheck == 1) {
       setNotRequire(<SaveFailAlert text = "사번이 입력되지 않았습니다." title = "필수 값이 입력되지 않았습니다"/>)
       return false;
@@ -118,6 +115,10 @@ function EmpDept(props) {
     }
     if(dupliCheck == 1) {
       setNotRequire(<SaveFailAlert text = "사번이 중복되었습니다." title = "중복된 값이 있습니다."/>)
+      return false;
+    }
+    if(JSON.stringify(firstData) == JSON.stringify(groupList)) {
+      setNotRequire(<SaveFailAlert text = '' title = "수정 된 사항이 없습니다."/>)
       return false;
     }
     setAllCheck(true);
