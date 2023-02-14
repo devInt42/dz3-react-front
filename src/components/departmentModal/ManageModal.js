@@ -18,8 +18,7 @@ const ManageModal = (props) => {
   const closeModal = () => {
     setModalOpen(false);
   };
-
-  function SaveCompanyAlert(props) {
+  function getInfo(obj) {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
       title: "저장하시겠습니까?",
@@ -34,6 +33,12 @@ const ManageModal = (props) => {
       if (result.isConfirmed) {
         Swal.fire("저장이 완료되었습니다.", "", "success", "#3085d6");
         setModalOpen(false);
+        console.log(obj);
+        props.updateIndexObject(props.idx, {
+          workplaceSeq: obj.workplaceSeq,
+          departmentSeq: obj.departmentSeq,
+          departmentName: obj.departmentName,
+        });
       }
     });
   }
@@ -47,7 +52,8 @@ const ManageModal = (props) => {
       <Button
         variant="outline-secondary"
         style={{ width: "5%" }}
-        onClick={openModal}>
+        onClick={openModal}
+      >
         편집
       </Button>{" "}
       <DepartmentModal

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { TfiClose } from "react-icons/tfi";
 import style from "./css/EmpDept.module.css";
 import { Form } from "react-bootstrap";
 import EmpPositionModal from "./EmpPositionModal";
@@ -9,14 +9,38 @@ import UpdateAlert from "./alert/UpdateAlert";
 import ManageModal from "../departmentModal/ManageModal";
 function EmpDept(props) {
   const baseUrl = "http://localhost:8080";
-
   const [groupList, setGroupList] = useState([]);
   const positionModal = "POSITION";
   const dutyModal = "DUTY";
-  const [positionCode, setPositionCode] = useState("");
   const [dupliCheck, setDupliCheck] = useState(0);
   const [firstData, setFirstData] = useState([]);
   const [notRequire, setNotRequire] = useState("");
+  // 필수 값 체크를 위한 변수
+  const [departmentCheck, setDepartmentCheck] = useState(0);
+  const [employeeCodeCheck, setEmployeeCodeCheck] = useState(0);
+  const [joinDateCheck, setJoinDateCheck] = useState(0);
+
+  //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
+  const insertData = {
+    companyName: "",
+    companySeq: 0, //companySeq 받아오는 거 
+    departmentCall: "",
+    departmentFax: "",
+    departmentLoc: "",
+    departmentName: "",
+    departmentSeq: "",
+    departmentZipCode: "",
+    duty: "",
+    dutyCode: "",
+    employeeCode: "",
+    mainCompanyYN: "",
+    mainDepartmentYN: "",
+    employeeSeq: props.employeeSeq,
+    position: "",
+    positionCode: "",
+    workplaceName: "",
+  }
+
   //사원의 조직정보
   useEffect(() => {
     axios
@@ -34,6 +58,12 @@ function EmpDept(props) {
   }, [props.employeeSeq]);
 
   //리스트 객체 특정값 변경 함수
+  const updateIndexObject = (idx, obj) => {
+    let copyGroupList = [...groupList];
+    copyGroupList[idx] = { ...copyGroupList[idx], ...obj };
+
+    setGroupList(copyGroupList);
+  }
   const updateObject = (seq, obj) => {
     let copyGroupList = [...groupList];
     const findIndex = groupList.findIndex(
@@ -47,21 +77,33 @@ function EmpDept(props) {
   //주회사, 주부서 선택 시 다른 회사, 부서 부부서로 변경
   const updateMain = (seq, obj, obj1) => {
     let copyGroupList = [...groupList];
+    let idx = [];
+
     const findIndex = groupList.findIndex(
-      (element) => element.departmentSeq != seq
-    );
-    const findTrueIndex = groupList.findIndex(
       (element) => element.departmentSeq == seq
     );
+    for (let i = 0; i < copyGroupList.length; i++) {
+      if (findIndex != i) {
+        idx.push(i);
+      }
+    }
     if (findIndex != -1) {
-      copyGroupList[findIndex] = { ...copyGroupList[findIndex], ...obj };
-      copyGroupList[findTrueIndex] = {
-        ...copyGroupList[findTrueIndex],
-        ...obj1,
+      for (let i = 0; i < copyGroupList.length; i++) {
+        copyGroupList[i] = { ...copyGroupList[i], ...obj };
       };
+      copyGroupList[findIndex] = {
+        ...copyGroupList[findIndex],
+        ...obj1,
+      }
     }
     setGroupList(copyGroupList);
   };
+  //부서가 선택 되지 않았을 때, 됐지만 조건에 충족하지 않을 때
+  const notSelectDepartment = (seq) => {
+    seq != 0 ?
+    alert("주부서는 존재 해야 됩니다.") :
+    alert("부서가 선택되지 않았습니다.")
+  }
 
   //사원 코드 중복체크
   const codeDupliCheck = (companySeq, value) => {
@@ -98,12 +140,13 @@ function EmpDept(props) {
     );
   };
 
-  const InsertData = () => {};
+  const CreateInsertForm = () => {
+    let copyGroupList = [insertData, ...groupList];
+    setGroupList(copyGroupList);
+    setFirstData(copyGroupList);
+  }
 
-  // 필수 값 체크를 위한 변수
-  const [departmentCheck, setDepartmentCheck] = useState(0);
-  const [employeeCodeCheck, setEmployeeCodeCheck] = useState(0);
-  const [joinDateCheck, setJoinDateCheck] = useState(0);
+  
 
   // 중복, 체크 등 수정 및 추가 가능한 상태를 확인하기 위한 변수
   const [allCheck, setAllCheck] = useState(false);
@@ -195,6 +238,12 @@ function EmpDept(props) {
       {notRequire}
       {groupList && allCheck == true && <UpdateAlert />}
       <button onClick={AllCheck}>저장</button>
+      <button onClick={CreateInsertForm}>추가</button>
+      <TfiClose
+            className="infoclosebutton"
+            onClick={() => {}}
+            style={{ cursor: "pointer" }}
+      />
       {groupList &&
         groupList.map((group, idx) => {
           return (
@@ -205,31 +254,28 @@ function EmpDept(props) {
                   <tr>
                     <th>회사</th>
                     <td>
-                      {group.companyName} | {group.workplaceName}
+                      { group.companyName != "" &&  `${group.companyName} | ${group.workplaceName}`}
                     </td>
                     <th>부서</th>
                     <td>
                       <div className="content-have-button">
                         <Form.Control
-                          onChange={(e) => {
-                            updateObject(group.departmentSeq, {
-                              departmentName: e.target.value,
-                            });
-                          }}
-                          defaultValue={group.departmentName}
+                          value={group.departmentName}
                           placeholder="부서를 선택해 주십시오."
                           style={{
                             zIndex: "0",
                             backgroundColor: "rgba(241, 199, 199, 0.328)",
                           }}
                           isValid={
-                            firstDepartmentCheck(group.companySeq)
-                              ? ""
-                              : group.departmentName != null ||
+                            group.departmentName == undefined ?
+                              false :
+                              firstDepartmentCheck(group.companySeq)
+                                ? ""
+                                : group.departmentName != null ||
                                 group.departmentName != undefined
                           }
                         />
-                        <ManageModal companySeq={group.companySeq} />
+                        <ManageModal companySeq={group.companySeq} updateIndexObject={updateIndexObject} idx={idx} />
                       </div>
                     </td>
                   </tr>
@@ -255,8 +301,8 @@ function EmpDept(props) {
                           firstCodeCheck(group.companySeq)
                             ? ""
                             : dupliCheck == 0
-                            ? true
-                            : false
+                              ? true
+                              : false
                         }
                         isInvalid={
                           firstCodeCheck(group.companySeq)
@@ -264,8 +310,8 @@ function EmpDept(props) {
                             : dupliCheck == 1 ||
                               group.employeeCode == null ||
                               group.employeeCode == ""
-                            ? true
-                            : false
+                              ? true
+                              : false
                         }
                       />
                     </td>
@@ -278,11 +324,13 @@ function EmpDept(props) {
                         name={`main-company-yn${group.departmentSeq}`}
                         value="Y"
                         onChange={() => {
+                          group.departmentSeq != 0 ?
                           updateMain(
                             group.departmentSeq,
                             { mainCompanyYN: "N" },
                             { mainCompanyYN: "Y" }
-                          );
+                          ) :
+                          alert("부서가 선택되지 않았습니다.")
                         }}
                         checked={group.mainCompanyYN === "Y" ? true : false}
                       />
@@ -293,7 +341,7 @@ function EmpDept(props) {
                         name={`main-company-yn${group.departmentSeq}`}
                         value="N"
                         onChange={() => {
-                          alert("주회사는 존재 해야 됩니다.");
+                          notSelectDepartment(group.departmentSeq);
                         }}
                         checked={group.mainCompanyYN === "N" ? true : false}
                       />
@@ -306,11 +354,13 @@ function EmpDept(props) {
                         name={`main-department-yn${group.departmentSeq}`}
                         value="Y"
                         onChange={() => {
+                          group.departmentSeq != 0 ?
                           updateMain(
                             group.departmentSeq,
                             { mainDepartmentYN: "N" },
                             { mainDepartmentYN: "Y" }
-                          );
+                          ):
+                          alert("부서가 선택되지 않았습니다.")
                         }}
                         checked={group.mainDepartmentYN === "Y" ? true : false}
                       />
@@ -321,7 +371,7 @@ function EmpDept(props) {
                         name={`main-department-yn${group.departmentSeq}`}
                         value="N"
                         onChange={() => {
-                          alert("주부서는 존재 해야 됩니다.");
+                          notSelectDepartment(group.departmentSeq);
                         }}
                         checked={group.mainDepartmentYN === "N" ? true : false}
                       />
@@ -419,7 +469,7 @@ function EmpDept(props) {
                   <tr>
                     <th>주소</th>
                     <td colSpan={3}>
-                      {group.departmentZipCode} | {group.departmentLoc}
+                      {group.departmentZipCode != "" && `${group.departmentZipCode} | ${group.departmentLoc}` }
                     </td>
                   </tr>
                 </tbody>
