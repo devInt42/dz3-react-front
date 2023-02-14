@@ -112,7 +112,10 @@ const SubMenuGroup = (props) => {
               name={childItem.menuCode}
               value={childItem.menuSeq}
               id={childItem.menuSeq.toString()}
-              onChange={setTempList}
+              onClick={setTempList}
+              onChange={() => {
+                console.log("변경");
+              }}
               checked={(() => {
                 let tempList = checkedList.filter(
                   (data) => data.menuSeq === childItem.menuSeq

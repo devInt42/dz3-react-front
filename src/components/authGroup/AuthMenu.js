@@ -76,43 +76,6 @@ const AuthMenu = (props) => {
     list.forEach((el) => {
       onCheckedElement(checked, { menuSeq: el.menuSeq, authSeq: authSeq });
     });
-    // onCheckedElement(checked, { menuSeq: list[0].menuSeq, authSeq: authSeq });
-  };
-  //개별 클릭시 발생하는 함수
-  const onCheckedElement = useCallback(
-    async (checked, list) => {
-      try {
-        if (checked) {
-          setCheckedList([...checkedList, list]);
-        } else {
-          setCheckedList(
-            checkedList.filter((el) => el.menuSeq !== list.menuSeq)
-          );
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    [checkedList]
-  );
-  // 해당 메뉴값 찾기
-  const setAuthDummyMenu = (e) => {
-    const temp = [];
-    menuList.forEach((list) => {
-      if (list.menuSeq == e.target.value) {
-        temp.push({ menuSeq: list.menuSeq, authSeq: authSeq });
-      }
-    });
-    onCheckedElement(e.target.checked, temp[0]);
-  };
-
-  // 자식 전체체크
-  const sendChildListSeq = (list) => {
-    const temp = [];
-    list.forEach((elem) => {
-      temp.push({ menuSeq: elem.menuSeq, authSeq: authSeq });
-    });
-    allCheckedElement(temp, true);
   };
 
   //개별 클릭시 발생하는 함수
@@ -150,6 +113,44 @@ const AuthMenu = (props) => {
     props.sendCheckedList(checkedList);
   };
 
+  // 해당 메뉴값 찾기
+  const setAuthMenuValue = (e) => {
+    const temp = [];
+    menuList.forEach((list) => {
+      if (list.menuSeq == e.target.value) {
+        temp.push({ menuSeq: list.menuSeq, authSeq: authSeq });
+      }
+    });
+    onCheckedElement(e.target.checked, temp[0]);
+  };
+
+  // 자식 전체체크
+  const sendChildListSeq = (list) => {
+    const temp = [];
+    list.forEach((elem) => {
+      temp.push({ menuSeq: elem.menuSeq, authSeq: authSeq });
+    });
+    allCheckedElement(temp, true);
+  };
+
+  //개별 클릭시 발생하는 함수
+  const onCheckedElement = useCallback(
+    async (checked, list) => {
+      try {
+        if (checked) {
+          setCheckedList([...checkedList, list]);
+        } else {
+          setCheckedList(
+            checkedList.filter((el) => el.menuSeq !== list.menuSeq)
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [checkedList]
+  );
+
   //check된 값 저장 배열
   useEffect(() => {
     sendCheckedList();
@@ -178,7 +179,8 @@ const AuthMenu = (props) => {
                 name={menuItem.menuCode}
                 value={menuItem.menuSeq}
                 id={menuItem.menuSeq.toString()}
-                onChange={setAuthDummyMenu}
+                onClick={setAuthMenuValue}
+                // onChange={setAuthMenuValue }
                 checked={(() => {
                   let tempList = checkedList.filter(
                     (data) => data.menuSeq === menuItem.menuSeq
