@@ -18,7 +18,10 @@ const SubMenuGroup = (props) => {
     setCheckedList(props.checkedList);
     setPropsCheck(props.checked);
   }, [props]);
-
+  useEffect(() => {}, [propsCheck]);
+  useEffect(() => {}, [depth]);
+  useEffect(() => {}, [parentSeq]);
+  useEffect(() => {}, [checkedList]);
   //더미값 보내기
   const setTempList = async (e) => {
     const temp = [];
@@ -27,6 +30,7 @@ const SubMenuGroup = (props) => {
         temp.push(list);
       }
     });
+
     props.sendDummySeq(temp, e.target.checked);
   };
 
@@ -43,7 +47,8 @@ const SubMenuGroup = (props) => {
 
   // 자식 전체체크
   const sendChildListSeq = (list, checked) => {
-    props.sendChildListSeq(list, true);
+    console.log(list);
+    props.sendChildListSeq(list, checked);
   };
   // 가져올 값이 있는지 확인
   const countChild = useCallback(async () => {

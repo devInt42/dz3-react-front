@@ -48,11 +48,11 @@ const AuthGroup = () => {
       setInsertList(tmpI);
     } else {
       if (checkedRes.length === 0) {
-        // 모든 직원의 권한을 없앨경우
+        // 모든 메뉴 권한을 없앨경우
         originList.forEach((list) => tmpD.push(list));
         setDeleteList(tmpD);
       } else {
-        // 그외 권한 직원 추가 및 삭제
+        // 그외 권한 메뉴 추가 및 삭제
         intersect = checkedRes.filter(
           (cItem) =>
             originList.filter((oList) => cItem.menuSeq === oList.menuSeq)
@@ -114,8 +114,11 @@ const AuthGroup = () => {
   }, [deleteList]);
   useEffect(() => {
     sendInsertRes();
+  }, [insertList]);
+
+  useEffect(() => {
     sendDeleteRes();
-  }, [insertList, deleteList]);
+  }, [deleteList]);
   return (
     <Container fluid="true" className="Auth" id="AuthPage">
       <Row>

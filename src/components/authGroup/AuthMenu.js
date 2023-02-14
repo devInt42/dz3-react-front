@@ -149,6 +149,7 @@ const AuthMenu = (props) => {
   const sendCheckedList = () => {
     props.sendCheckedList(checkedList);
   };
+
   //check된 값 저장 배열
   useEffect(() => {
     sendCheckedList();
