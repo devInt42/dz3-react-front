@@ -21,7 +21,7 @@ const CompanyList = (props) => {
     companySetting();
   }, [companySeq]);
 
-  // 회사값 받아오기
+  // 회사값 보내기
   const getCompany = useCallback(async () => {
     if (companySeq != null) {
       let send = {

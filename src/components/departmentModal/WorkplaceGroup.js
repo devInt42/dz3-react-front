@@ -35,6 +35,8 @@ const WorkplaceGroup = (props) => {
           }
         );
         setWorkplaceNameList(workplaceDataResult.data);
+        console.log("aa");
+        console.log(workplaceDataResult.data);
       } catch (error) {
         console.log(error);
       }
