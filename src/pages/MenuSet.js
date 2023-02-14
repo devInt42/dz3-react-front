@@ -14,6 +14,7 @@ import SaveFailMenuAlert from "../components/alert/SaveFailMenuAlert";
 import DeleteMenuAlert from "../components/alert/DeleteMenuAlert";
 import UpdateMenuAlert from "../components/alert/UpdateMenuAlert";
 import UpdateFailMenuAlert from "../components/alert/UpdateFaliMenuAlert";
+import Icons from "../components/menu/Icons";
 
 function MenuSet() {
   const baseUrl = "http://localhost:8080";
@@ -33,6 +34,21 @@ function MenuSet() {
   const [menuDepth, setMenuDepth] = useState(0);
   const [firstCode, setFirstCode] = useState("");
   const [firstName, setFirstName] = useState("");
+
+  // 아이콘 API CORS 에러때매 보류
+  // const [icons, setIcons] = useState([]);
+  // const apiKey = {
+  //   'Accept' : 'application/json',
+  //   'Authorization' : 'zUEoAw8UfXGYbYU8NP0qBrDo3ovOlsxm0871jZVJ2LcYgDcQ'
+  // };
+  // useEffect(()=> {
+  //   axios({
+  //     method: 'get',
+  //     url: 'https://api.flaticon.com/v3/item/icon/13719',
+  //     headers: apiKey
+  //   }).then((res) => setIcons(res.data)).catch((error)=> console.log(error))
+  // }, [])
+  // console.log(icons)
 
   // 공백검사
   const space = /\s/;
