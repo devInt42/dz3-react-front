@@ -35,9 +35,14 @@ const ManageModal = (props) => {
         setModalOpen(false);
         console.log(obj);
         props.updateIndexObject(props.idx, {
+          companySeq: obj.companySeq,
           workplaceSeq: obj.workplaceSeq,
           departmentSeq: obj.departmentSeq,
           departmentName: obj.departmentName,
+          departmentLoc: obj.departmentLoc,
+          departmentCall: obj.departmentCall,
+          departmentFax: obj.departmentFax,
+          workplaceName: obj.workplaceName
         });
       }
     });
