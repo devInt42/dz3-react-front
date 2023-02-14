@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { TfiClose } from "react-icons/tfi";
 import style from "./css/EmpDept.module.css";
 import { Form } from "react-bootstrap";
 import EmpPositionModal from "./EmpPositionModal";
@@ -239,6 +239,11 @@ function EmpDept(props) {
       {groupList && allCheck == true && <UpdateAlert />}
       <button onClick={AllCheck}>저장</button>
       <button onClick={CreateInsertForm}>추가</button>
+      <TfiClose
+            className="infoclosebutton"
+            onClick={() => {}}
+            style={{ cursor: "pointer" }}
+      />
       {groupList &&
         groupList.map((group, idx) => {
           return (
@@ -249,7 +254,7 @@ function EmpDept(props) {
                   <tr>
                     <th>회사</th>
                     <td>
-                      {group.companyName} | {group.workplaceName}
+                      { group.companyName != "" &&  `${group.companyName} | ${group.workplaceName}`}
                     </td>
                     <th>부서</th>
                     <td>
@@ -464,7 +469,7 @@ function EmpDept(props) {
                   <tr>
                     <th>주소</th>
                     <td colSpan={3}>
-                      {group.departmentZipCode} | {group.departmentLoc}
+                      {group.departmentZipCode != "" && `${group.departmentZipCode} | ${group.departmentLoc}` }
                     </td>
                   </tr>
                 </tbody>

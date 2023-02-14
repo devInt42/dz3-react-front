@@ -33,6 +33,7 @@ const ManageModal = (props) => {
       if (result.isConfirmed) {
         Swal.fire("저장이 완료되었습니다.", "", "success", "#3085d6");
         setModalOpen(false);
+        console.log(obj);
         props.updateIndexObject(props.idx, {
           workplaceSeq: obj.workplaceSeq,
           departmentSeq: obj.departmentSeq,
