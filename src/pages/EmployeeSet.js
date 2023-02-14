@@ -18,6 +18,8 @@ function EmployeeSet() {
   const [employeeSeq, setEmpSeq] = useState(0);
   const [selectAct, setSelectAct] = useState(true);
   const [searchRes, setSearchRes] = useState([]);
+  const [basicData, setBasicData] = useState({});
+  const [groupData, setGroupData] = useState([]);
   const clickEmp = () => {
     setSelectAct(false);
   };
@@ -73,10 +75,12 @@ function EmployeeSet() {
                   clickEmp={clickEmp}
                   selectAct={selectAct}
                   setSelectAct={setSelectAct}
+                  setData={setBasicData}
+                  data = {basicData}
                 />
               </TabPanel>
               <TabPanel value={value} index={1}>
-                <EmpDept employeeSeq={employeeSeq} />
+                <EmpDept employeeSeq={employeeSeq} setData = {setGroupData}/>
               </TabPanel>
             </Box>
           </Col>

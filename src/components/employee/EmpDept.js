@@ -101,8 +101,8 @@ function EmpDept(props) {
   //부서가 선택 되지 않았을 때, 됐지만 조건에 충족하지 않을 때
   const notSelectDepartment = (seq) => {
     seq != 0 ?
-    alert("주부서는 존재 해야 됩니다.") :
-    alert("부서가 선택되지 않았습니다.")
+      alert("주부서는 존재 해야 됩니다.") :
+      alert("부서가 선택되지 않았습니다.")
   }
 
   //사원 코드 중복체크
@@ -146,7 +146,7 @@ function EmpDept(props) {
     setFirstData(copyGroupList);
   }
 
-  
+
 
   // 중복, 체크 등 수정 및 추가 가능한 상태를 확인하기 위한 변수
   const [allCheck, setAllCheck] = useState(false);
@@ -230,6 +230,15 @@ function EmpDept(props) {
       }
     }
   };
+  const RemoveGroup = (idx) => {
+    let copyGroupList = [...groupList];
+    if(copyGroupList.length > 1) {
+    copyGroupList = copyGroupList.filter((_, index) => {
+      return index !== idx;
+    });
+    setGroupList(copyGroupList);
+  }
+  }
   useEffect(() => {
     console.log(groupList);
   }, [groupList]);
@@ -239,22 +248,19 @@ function EmpDept(props) {
       {groupList && allCheck == true && <UpdateAlert />}
       <button onClick={AllCheck}>저장</button>
       <button onClick={CreateInsertForm}>추가</button>
-      <TfiClose
-            className="infoclosebutton"
-            onClick={() => {}}
-            style={{ cursor: "pointer" }}
-      />
+
       {groupList &&
         groupList.map((group, idx) => {
           return (
             <div>
+              <button onClick = {() => RemoveGroup(idx)}>삭제</button>
               <table className={style.dept_tbl} key={idx}>
                 <thead></thead>
                 <tbody>
                   <tr>
                     <th>회사</th>
                     <td>
-                      { group.companyName != "" &&  `${group.companyName} | ${group.workplaceName}`}
+                      {group.companyName != "" && `${group.companyName} | ${group.workplaceName}`}
                     </td>
                     <th>부서</th>
                     <td>
@@ -325,12 +331,12 @@ function EmpDept(props) {
                         value="Y"
                         onChange={() => {
                           group.departmentSeq != 0 ?
-                          updateMain(
-                            group.departmentSeq,
-                            { mainCompanyYN: "N" },
-                            { mainCompanyYN: "Y" }
-                          ) :
-                          alert("부서가 선택되지 않았습니다.")
+                            updateMain(
+                              group.departmentSeq,
+                              { mainCompanyYN: "N" },
+                              { mainCompanyYN: "Y" }
+                            ) :
+                            alert("부서가 선택되지 않았습니다.")
                         }}
                         checked={group.mainCompanyYN === "Y" ? true : false}
                       />
@@ -355,12 +361,12 @@ function EmpDept(props) {
                         value="Y"
                         onChange={() => {
                           group.departmentSeq != 0 ?
-                          updateMain(
-                            group.departmentSeq,
-                            { mainDepartmentYN: "N" },
-                            { mainDepartmentYN: "Y" }
-                          ):
-                          alert("부서가 선택되지 않았습니다.")
+                            updateMain(
+                              group.departmentSeq,
+                              { mainDepartmentYN: "N" },
+                              { mainDepartmentYN: "Y" }
+                            ) :
+                            alert("부서가 선택되지 않았습니다.")
                         }}
                         checked={group.mainDepartmentYN === "Y" ? true : false}
                       />
@@ -469,7 +475,7 @@ function EmpDept(props) {
                   <tr>
                     <th>주소</th>
                     <td colSpan={3}>
-                      {group.departmentZipCode != "" && `${group.departmentZipCode} | ${group.departmentLoc}` }
+                      {group.departmentZipCode != "" && `${group.departmentZipCode} | ${group.departmentLoc}`}
                     </td>
                   </tr>
                 </tbody>
