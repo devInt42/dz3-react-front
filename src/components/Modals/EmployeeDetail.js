@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { Row, Container } from "react-bootstrap";
+import { Row, Container, Col } from "react-bootstrap";
 import { FaBirthdayCake } from "react-icons/fa";
 import { RxPerson } from "react-icons/rx";
 
@@ -105,17 +105,26 @@ const EmployeeDetail = (props) => {
           </Row>
           <br />
 
-          <Row>
-            <span className="Searchcenter">{deptDetail.employeeName}</span>
+          <Row style={{ display: "flex" }}>
+            <Col
+              style={{
+                display: "flex",
+                alignContent: "center",
+                justifyContent: "center",
+              }}
+            >
+              <span className="Searchcenter">
+                {deptDetail.employeeName}&nbsp;
+                {deptDetail.position}
+              </span>
+            </Col>
           </Row>
           <Row>
-            {" "}
             <span className="Searchcenter">
               <RxPerson size="16" /> {deptDetail.employeeId}
             </span>
           </Row>
           <Row>
-            {" "}
             <span className="Searchcenter">
               <FaBirthdayCake size="13" /> {deptDetail.employeeBirth}{" "}
             </span>
