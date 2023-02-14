@@ -14,6 +14,7 @@ import SaveFailMenuAlert from "../components/alert/SaveFailMenuAlert";
 import DeleteMenuAlert from "../components/alert/DeleteMenuAlert";
 import UpdateMenuAlert from "../components/alert/UpdateMenuAlert";
 import UpdateFailMenuAlert from "../components/alert/UpdateFaliMenuAlert";
+import Icons from "../components/menu/Icons";
 
 function MenuSet() {
   const baseUrl = "http://localhost:8080";
@@ -31,12 +32,38 @@ function MenuSet() {
   const [menuName, setMenuName] = useState("");
   const [menuParent, setMenuParent] = useState(0);
   const [menuDepth, setMenuDepth] = useState(0);
+  const [firstCode, setFirstCode] = useState("");
+  const [firstName, setFirstName] = useState("");
+
+  // 아이콘 API CORS 에러때매 보류
+  // const [icons, setIcons] = useState([]);
+  // const apiKey = {
+  //   'Accept' : 'application/json',
+  //   'Authorization' : 'zUEoAw8UfXGYbYU8NP0qBrDo3ovOlsxm0871jZVJ2LcYgDcQ'
+  // };
+  // useEffect(()=> {
+  //   axios({
+  //     method: 'get',
+  //     url: 'https://api.flaticon.com/v3/item/icon/13719',
+  //     headers: apiKey
+  //   }).then((res) => setIcons(res.data)).catch((error)=> console.log(error))
+  // }, [])
+  // console.log(icons)
+
+  // 공백검사
+  const space = /\s/;
 
   const insertMenuCode = (e) => {
     setMenuCode(e.target.value);
+    if(menuCode.match(space)){
+      setMenuCode(menuCode.replace(" ", ""))
+    }
   };
   const insertMenuName = (e) => {
     setMenuName(e.target.value);
+    if(menuName.match(space)){
+      setMenuName(menuName.replace(" ", ""))
+    }
   };
   const insertMenuParent = (e) => {
     setMenuParent(e.target.value);
@@ -55,6 +82,7 @@ function MenuSet() {
       .catch((error) => console.log(error));
   }, [menuParent]);
 
+  // insert 필수값 체크
   const [inputCheck, setInputCheck] = useState(false);
   const [saveFail, setSaveFail] = useState();
   function validCheck() {
@@ -73,15 +101,17 @@ function MenuSet() {
     setMenuName(resultMenu.menuName);
     setMenuParent(resultMenu.menuParent);
     setSelectActive(false);
+
+    setFirstCode(resultMenu.menuCode);
+    setFirstName(resultMenu.menuName);
   };
 
   const [deleteCheck, setDeleteCheck] = useState(false);
   function deleteValid() {
-    if (menuCode.length == 0 || menuName.length == 0) {
-      alert("삭제할 메뉴를 선택해 주세요.");
-    } else setDeleteCheck(true);
+    setDeleteCheck(true);
   }
 
+  // update 필수값 체크
   const [updateCheck, setUpdateCheck] = useState(false);
   const [updateFail, setUpdateFail] = useState();
   function updateValid() {
@@ -92,12 +122,15 @@ function MenuSet() {
 
   const exceptMenu = menu.filter((item) => item.menuSeq != menuSeq);
 
+  //메뉴 새로 저장
   const [selectActive, setSelectActive] = useState(false);
   const newInsert = () => {
     setMenuCode("");
     setMenuName("");
     setMenuParent(0);
     setSelectActive(true);
+    setFirstCode("");
+    setFirstName("");
   };
 
   // 메뉴 아이디 중복체크
@@ -182,12 +215,6 @@ function MenuSet() {
                   <tr>
                     <th>* 메뉴 아이디</th>
                     <td>
-                      <input
-                        type="text"
-                        value={menuCode || ""}
-                        className={style.menu_btn_input}
-                        onChange={insertMenuCode}
-                      />
                       <Form.Group>
                         <Form.Control
                           type="text"
@@ -196,18 +223,20 @@ function MenuSet() {
                           onChange={insertMenuCode}
                           autoComplete="off"
                           isValid={
-                            menuCode != "" ? (returnCode.length > 0 ? false : true) : false
+                            menuCode != "" ? firstCode == menuCode ? true : (returnCode.length > 0 ? false : true) : false
                           }
                           isInvalid={
-                            menuCode != "" ? (returnCode.length > 0 ? true : false) : true
+                            menuCode != "" ? firstCode == menuCode ? false : (returnCode.length > 0 ? true : false) : true
                           }
                         />
+                        {menuCode == "" ? <Form.Control.Feedback type="invalid">필수값을 입력해 주세요.</Form.Control.Feedback> : 
+                        firstCode == menuCode ? <Form.Control.Feedback type="valid">현재 메뉴 아이디 입니다.</Form.Control.Feedback> : <>
                         <Form.Control.Feedback type="valid">
-                          사용 가능한 ID 입니다.
+                          사용 가능한 아이디 입니다.
                         </Form.Control.Feedback>
                         <Form.Control.Feedback type="invalid">
                           중복된 아이디가 존재합니다.
-                        </Form.Control.Feedback>
+                        </Form.Control.Feedback></>}
                       </Form.Group>
                     </td>
                   </tr>
@@ -215,12 +244,6 @@ function MenuSet() {
                   <tr>
                     <th>* 메뉴 이름</th>
                     <td>
-                      <input
-                        type="text"
-                        value={menuName || ""}
-                        className={style.menu_btn_input}
-                        onChange={insertMenuName}
-                      />
                       <Form.Group>
                         <Form.Control
                           type="text"
@@ -229,18 +252,20 @@ function MenuSet() {
                           onChange={insertMenuName}
                           autoComplete="off"
                           isValid={
-                            menuName != "" ? (returnName.length > 0 ? false : true) : false
+                            menuName != "" ? firstName == menuName ? true : (returnName.length > 0 ? false : true) : false
                           }
                           isInvalid={
-                            menuName != "" ? (returnName.length > 0 ? true : false) : true
+                            menuName != "" ? firstName == menuName ? false : (returnName.length > 0 ? true : false) : true
                           }
                         />
+                        {menuName == "" ? <Form.Control.Feedback type="invalid">필수값을 입력해 주세요.</Form.Control.Feedback> :
+                        firstName == menuName ? <Form.Control.Feedback type="valid">현재 메뉴 이름 입니다.</Form.Control.Feedback> : <>
                         <Form.Control.Feedback type="valid">
                           사용 가능한 메뉴이름 입니다.
                         </Form.Control.Feedback>
                         <Form.Control.Feedback type="invalid">
                           중복된 메뉴이름이 존재합니다.
-                        </Form.Control.Feedback>
+                        </Form.Control.Feedback></>}
                       </Form.Group>
                     </td>
                   </tr>
@@ -297,18 +322,18 @@ function MenuSet() {
                 ) : (
                   <>
                     <button
-                      className={style.menu_delete}
-                      onClick={() => deleteValid()}
-                    >
-                      삭제
-                    </button>
-                    <button
                       className={style.menu_update}
                       onClick={() => {
                         updateValid();
                       }}
                     >
-                      수정
+                      저장
+                    </button>
+                    <button
+                      className={style.menu_delete}
+                      onClick={() => deleteValid()}
+                    >
+                      삭제
                     </button>
                   </>
                 )}
@@ -316,8 +341,9 @@ function MenuSet() {
                   <SaveMenuAlert
                     setInputCheck={setInputCheck}
                     insertMenu={insertMenu}
-                    menuCode={menuCode}
-                    menuName={menuName}
+                    menuCode={menuCode} menuName={menuName}
+                    firstCode={firstCode} returnCode={returnCode}
+                    firstName={firstName} returnName={returnName}
                   />
                 )}
                 {saveFail}
@@ -338,6 +364,8 @@ function MenuSet() {
                     menuCode={menuCode}
                     menuName={menuName}
                     setUpdateCheck={setUpdateCheck}
+                    firstCode={firstCode} returnCode={returnCode}
+                    firstName={firstName} returnName={returnName}
                   />
                 )}
                 {updateFail}

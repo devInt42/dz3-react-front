@@ -63,7 +63,7 @@ function LNB(props) {
         Lmenu.map((menu) => {
           return (
             menu.menuDepth == 0 && (
-              <div id={menu.menuSeq} key={menu.menuSeq}>
+              <div id={menu.menuSeq} key={menu.menuSeq} className={style.lnb_select}>
                 {menu.menuSeq == 1 ? (
                   <FiSettings
                     onClick={() => {
@@ -108,7 +108,7 @@ function LNB(props) {
                   />
                 )}
                 {menuVisible && (
-                  <button
+                  <span
                     className={
                       menuVisible
                         ? style.lnb_callMenu
@@ -117,9 +117,9 @@ function LNB(props) {
                     onClick={() => {
                       sendParent(menu.menuName, menu.menuSeq);
                     }}
-                  >
+                  > 
                     {menu.menuName}
-                  </button>
+                  </span>
                 )}
               </div>
             )

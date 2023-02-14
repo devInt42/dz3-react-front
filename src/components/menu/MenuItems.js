@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import style from "./css/MenuItems.module.css"
 
 import { RiPagesLine, RiPagesFill } from "react-icons/ri";
 import { BsFolder, BsFolder2Open, BsFileEarmarkCheck } from "react-icons/bs";
@@ -30,7 +31,7 @@ function MenuItems(props) {
     <div>
       {subMenu.map((menu) => {
         return (
-          <div key={menu.menuSeq}>
+          <div key={menu.menuSeq} className={style.menu_item}>
             <div
               style={{
                 paddingLeft: (menu.menuDepth - 1) * 22,
