@@ -96,14 +96,6 @@ const AuthGroup = () => {
         // 그외 권한 메뉴 추가 및 삭제
         tmpI = checkedRes.filter((x) => !originList.includes(x));
         tmpD = originList.filter((y) => !checkedRes.includes(y));
-
-        console.log("교집합");
-        console.log(originList.filter((y) => checkedRes.includes(y)));
-        console.log("추가");
-        console.log(tmpI);
-        console.log("삭제");
-        console.log(tmpD);
-
         setInsertList(tmpI);
         setDeleteList(tmpD);
       }

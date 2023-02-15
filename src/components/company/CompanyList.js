@@ -4,12 +4,19 @@ import { Row, Col } from "react-bootstrap";
 function CompanyList(props) {
   const baseUrl = "http://localhost:8080";
   const [company, setCompany] = useState();
+  const [insertFlag, setInsertFlag] = useState(false);
+  useEffect(() => {
+    setInsertFlag(props.insertFlag);
+  }, [props]);
+  useEffect(() => {
+    setInsertFlag(false);
+  }, [insertFlag]);
   useEffect(() => {
     axios
       .get(`${baseUrl}/company/info`)
       .then((res) => setCompany(res.data))
       .catch((error) => console.log(error));
-  }, [props.refresh]);
+  }, [props.refresh, insertFlag]);
 
   useEffect(() => {
     setCompany(props.searchData);

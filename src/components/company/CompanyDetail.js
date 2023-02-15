@@ -14,7 +14,10 @@ import { Button } from "react-bootstrap";
 const CompanyDetail = (props) => {
   const [isOndata, setIsOndata] = useState("N");
   const [companyDetailData, setCompanyDetailData] = useState([]);
-
+  const [insertFlag, setInsertFlag] = useState(false);
+  useEffect(() => {
+    props.sendInsertFlag(insertFlag);
+  }, [insertFlag]);
   useEffect(() => {
     setIsOndata("N");
     setNotRequire("");
@@ -142,14 +145,21 @@ const CompanyDetail = (props) => {
   }
 
   async function insertCompany() {
-    //회사 추가
-    await axios
-      .post(`${baseUrl}/company/insert`, JSON.stringify(data), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .catch((error) => console.log(error));
+    try {
+      //회사 추가
+      let insertCom = await axios.post(
+        `${baseUrl}/company/insert`,
+        JSON.stringify(data),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (insertCom.status === 200) {
+        setInsertFlag(true);
+      }
+    } catch {}
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////
