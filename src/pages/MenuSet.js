@@ -123,7 +123,7 @@ function MenuSet() {
   const exceptMenu = menu.filter((item) => item.menuSeq != menuSeq);
 
   //메뉴 새로 저장
-  const [selectActive, setSelectActive] = useState(false);
+  const [selectActive, setSelectActive] = useState(true);
   const newInsert = () => {
     setMenuCode("");
     setMenuName("");

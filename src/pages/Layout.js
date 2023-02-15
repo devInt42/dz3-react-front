@@ -74,8 +74,8 @@ function Layout() {
             {menuName == "" ? (
               <></>
             ) : (
-              <Col md="auto" className={style.layout_callmenu}>
-                <CallMenu menuSeq={menuSeq} />
+              <Col md="auto" className={style.layout_callmenu} >
+                <CallMenu menuSeq={menuSeq}/>
               </Col>
             )}
             <Col>

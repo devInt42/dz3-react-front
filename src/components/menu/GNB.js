@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { json, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CgMenuBoxed } from "react-icons/cg";
+import { AiOutlineMenuUnfold } from "react-icons/ai";
+import { MdOutlineMenu } from "react-icons/md";
+
 import style from "./css/GNB.module.css";
 
 import { ImTree } from "react-icons/im";
@@ -50,12 +53,12 @@ function GNB(props) {
   return (
     <div>
       <Row className={style.gnb_header}>
-        <Col className={style.gnb_title} onClick={goMain}>
+        <Col md="auto" className={style.gnb_title} onClick={goMain}>
           LastDanth
           <span
             style={{
               color: "rgba(64, 192, 228, 0.929)",
-              fontWeight: "bolder",
+              fontWeight: "bolder"
             }}
           >
             10
@@ -64,7 +67,7 @@ function GNB(props) {
         <Col className={style.userInfoStyle}>
           <LoginInfo />
         </Col>
-        <Col xs={2} className={style.gnb_Imtree}>
+        <Col md="auto" xs={2} className={style.gnb_Imtree}>
           <div
             className={style.gnb_Imtree_btn}
             style={{
@@ -88,8 +91,8 @@ function GNB(props) {
         <Main />
       ) : (
         <div className={style.gnb_bar}>
-          <CgMenuBoxed
-            style={{ width: "50px", height: "50px", margin: "10px" }}
+          <MdOutlineMenu
+            style={{ width: "50px", height: "52px", marginRight: "10px", backgroundColor: "rgba(34, 96, 221, 0.81)", padding: "10px"}}
           />
           {props.menuName == ""
             ? JSON.parse(window.sessionStorage.getItem("menuName"))

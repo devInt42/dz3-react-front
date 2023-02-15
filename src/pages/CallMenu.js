@@ -4,7 +4,7 @@ import axios from "axios";
 import ContentsMapping from "./ContentsMapping";
 import NotSelectedMenu from "./NotSelectedMenu";
 
-import { MdExpandMore, MdExpandLess } from "react-icons/md";
+import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import style from "../components/menu/css/SystemSet.module.css";
 
 function CallMenu(props) {
@@ -17,6 +17,7 @@ function CallMenu(props) {
 
   const [childMenu, setChildMenu] = useState([]);
   const [flag, setFlag] = useState(false);
+  const [focus, setFocus] = useState("");
 
   // 메뉴리스트 받아오기
   const getSubMenuList = useCallback(async () => {
@@ -57,11 +58,11 @@ function CallMenu(props) {
           {subMenu.map((menu) => {
             return (
               <div className={style.check} key={menu.menuSeq}>
-                <div
+                <div 
                   className={style.item}
                   style={{
                     paddingLeft: (menu.menuDepth - 1) * 10,
-                    paddingRight: "20px",
+                    // paddingRight: "20px",
                   }}
                 >
                   <div
@@ -71,22 +72,21 @@ function CallMenu(props) {
                         ? setChildMenu(
                             childMenu.filter((data) => data != menu.menuSeq)
                           )
-                        : setChildMenu([...childMenu, menu.menuSeq]);
+                        : setChildMenu([...childMenu, menu.menuSeq]); setFocus(menu.menuSeq);
                     }}
                   >
                     {menu.menuDepth == 1 ? (
-                      <div
-                        style={{ backgroundColor: "rgba(195, 201, 206, 0.63)" }}
-                      >
-                        {childMenu.includes(menu.menuSeq) ? (
-                          <MdExpandLess />
-                        ) : (
-                          <MdExpandMore />
-                        )}
+                      <div className={style.level1_item}>&nbsp;&nbsp;&nbsp;&nbsp;
                         {menu.menuName}
+                        {childMenu.includes(menu.menuSeq) ? (
+                          <SlArrowUp style={{float: "right", marginRight: "15px", marginTop:"3px"}}/>
+                        ) : (
+                          <SlArrowDown style={{float: "right", marginRight: "15px", marginTop:"3px"}}/>
+                        )}
                       </div>
                     ) : (
                       <div className={style.menu_sub}>{menu.menuName}</div>
+                      // <div className={`${focus == menu.menuSeq? style.menu_click : style.menu_sub}`}>{menu.menuName}</div>
                     )}
                   </div>
                 </div>
