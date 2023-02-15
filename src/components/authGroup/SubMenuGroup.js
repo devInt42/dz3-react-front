@@ -122,7 +122,8 @@ const SubMenuGroup = (props) => {
               name={childItem.menuCode}
               value={childItem.menuSeq}
               id={childItem.menuSeq.toString()}
-              onClick={setTempList}
+              // onClick={setTempList}
+              onChange={setTempList}
               checked={(() => {
                 let tempList = checkedList.filter(
                   (data) => data.menuSeq === childItem.menuSeq
