@@ -16,6 +16,8 @@ const OrganizationChart = (props) => {
   const [pointList, setPointList] = useState([]);
   const [selectEmp, setSelectEmp] = useState(null);
 
+  // console.log(workplaceSeq);
+
   // emplist에서 선택한 사원의 모든 정보 받아오기
   const sendPointEmpList = (i) => {
     setSelectEmp(i);

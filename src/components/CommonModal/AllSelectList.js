@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 const AllSelectList = (props) => {
   const [checkItem, setCheckItem] = useState([]);
+  const [checkSeq, setCheckSeq] = useState();
 
   //modal에서 값 받아오기
   useEffect(() => {
@@ -12,22 +13,34 @@ const AllSelectList = (props) => {
     getEmplName();
   }, [props]);
 
-  //set 집합으로 중복값 제거
-  const uniqueObjArr = [...new Set(checkItem.map(JSON.stringify))].map(
-    JSON.parse
-  );
-
   const checklength = useCallback(async () => {
-    props.sendCheckLength(uniqueObjArr.length);
+    props.sendCheckLength(checkItem.length);
   }, [checkItem]);
 
   useEffect(() => {
     checklength();
   }, [checkItem]);
 
+  const test = (e) => {
+    setCheckSeq(e);
+  };
+
+  useEffect(() => {
+    props.sendDeleteELement(checkSeq);
+  }, [checkSeq]);
+
   return (
     <div className="AllSelectSpace">
-      {uniqueObjArr && uniqueObjArr.map((list) => list.employeeName + "ㅤ")}
+      {checkItem &&
+        checkItem.map((list) => (
+          <button
+            onClick={() => {
+              test(list.employeeSeq);
+            }}
+            style={{ backgroundColor: "white" }}>
+            {list.employeeName}
+          </button>
+        ))}
     </div>
   );
 };

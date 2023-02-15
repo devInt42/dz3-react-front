@@ -10,11 +10,18 @@ const AllEmployeeList = (props) => {
   const [employeeName, setEmployeeName] = useState();
   const [authSeq, setAuthSeq] = useState("");
   const [pointCompanySeq, setPointCompanySeq] = useState("");
+  const [checkSeq, setCheckSeq] = useState(null);
 
   //값 받아서 departmentSeq 설정
   useEffect(() => {
     getProps();
   }, [props]);
+
+  useEffect(() => {
+    setCheckSeq(props.checkSeq);
+  }, [props]);
+
+  // console.log(checkSeq);
 
   const getProps = useCallback(async () => {
     setDepartmentSeq(props.departmentSeq);
@@ -33,7 +40,7 @@ const AllEmployeeList = (props) => {
 
   //권한 값 받아오기
   const initLoad = async () => {
-    if (authSeq != "" && pointCompanySeq != "") {
+    if (authSeq !== "" && pointCompanySeq !== "") {
       let data = {
         authSeq: authSeq,
         companySeq: pointCompanySeq,
@@ -99,6 +106,12 @@ const AllEmployeeList = (props) => {
       try {
         if (checked) {
           setCheckedLists([...checkedList, list]);
+
+          if (checkSeq !== null) {
+            console.log(checkSeq);
+          }
+          //   setCheckedLists(checkedList.filter((c) => c !== checkSeq));
+          // }
         } else {
           setCheckedLists(
             checkedList.filter((el) => el.employeeSeq !== list.employeeSeq)
