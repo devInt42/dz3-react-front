@@ -117,9 +117,9 @@ function MenuSet() {
     setMenuName(resultMenu.menuName);
     setMenuParent(resultMenu.menuParent);
 
-    if(resultMenu.useYN == "y"){
+    if (resultMenu.useYN == "y") {
       setUseYN(true);
-    }else{
+    } else {
       setUseYN(false);
     }
     setSelectActive(false);
@@ -175,13 +175,13 @@ function MenuSet() {
 
   const label = { inputProps: { "aria-label": "Size switch demo" } };
   const [useMenu, setUseMenu] = useState("");
-  useEffect(()=> {
-    if(useYN){
+  useEffect(() => {
+    if (useYN) {
       setUseMenu("y");
-    }else {
+    } else {
       setUseMenu("n");
     }
-  }, [useYN])
+  }, [useYN]);
 
   // 메뉴 이름 중복체크
   useEffect(() => {
@@ -265,8 +265,8 @@ function MenuSet() {
                               ? firstCode == menuCode
                                 ? true
                                 : returnCode.length > 0
-                                  ? false
-                                  : true
+                                ? false
+                                : true
                               : false
                           }
                           isInvalid={
@@ -274,8 +274,8 @@ function MenuSet() {
                               ? firstCode == menuCode
                                 ? false
                                 : returnCode.length > 0
-                                  ? true
-                                  : false
+                                ? true
+                                : false
                               : true
                           }
                         />
@@ -316,8 +316,8 @@ function MenuSet() {
                               ? firstName == menuName
                                 ? true
                                 : returnName.length > 0
-                                  ? false
-                                  : true
+                                ? false
+                                : true
                               : false
                           }
                           isInvalid={
@@ -325,8 +325,8 @@ function MenuSet() {
                               ? firstName == menuName
                                 ? false
                                 : returnName.length > 0
-                                  ? true
-                                  : false
+                                ? true
+                                : false
                               : true
                           }
                         />
@@ -358,19 +358,20 @@ function MenuSet() {
                         className={style.menu_select}
                         onChange={insertMenuParent}
                         value={menuParent}
-                      ><option value={0}>Root메뉴</option>
+                      >
+                        <option value={0}>Root메뉴</option>
                         {/* {menu.map((menu, i) => ( */}
                         {selectActive == true
                           ? menu.map((menu, i) => (
-                            <option value={menu.menuSeq} key={i}>
-                              {menu.menuName}
-                            </option>
-                          ))
+                              <option value={menu.menuSeq} key={i}>
+                                {menu.menuName}
+                              </option>
+                            ))
                           : exceptMenu.map((menu, i) => (
-                            <option value={menu.menuSeq} key={i}>
-                              {menu.menuName}
-                            </option>
-                          ))}
+                              <option value={menu.menuSeq} key={i}>
+                                {menu.menuName}
+                              </option>
+                            ))}
                       </select>
                     </td>
                   </tr>
@@ -406,7 +407,7 @@ function MenuSet() {
                           사용
                         </span>
                       ) : (
-                        <span style={{ fontSize: "14px"}}>미사용</span>
+                        <span style={{ fontSize: "14px" }}>미사용</span>
                       )}
                     </td>
                   </tr>
@@ -504,7 +505,8 @@ function MenuSet() {
       headers: { "Content-Type": "application/json" },
     })
       .then((res) => {
-        setInsertFlag(true); newInsert();
+        setInsertFlag(true);
+        newInsert();
       })
       .catch((error) => {
         console.log(error);
@@ -519,7 +521,8 @@ function MenuSet() {
       url: url,
     })
       .then((res) => {
-        setDeleteFlag(true); newInsert();
+        setDeleteFlag(true);
+        newInsert();
       })
       .catch((error) => {
         console.log(error);
@@ -542,7 +545,7 @@ function MenuSet() {
       headers: { "Content-Type": "application/json" },
     })
       .then((res) => {
-        setUpdateFlag(true); 
+        setUpdateFlag(true);
       })
       .catch((error) => {
         console.log(error);

@@ -46,48 +46,46 @@ function MenuSearch(props) {
       .includes(search.toLocaleLowerCase());
   });
 
-  useEffect(() =>{
+  useEffect(() => {
     getAllList();
     selectMenuList();
   }, []);
 
-
-//선택한 메뉴 호출
-const selectMenuList = async()=>{
-  try{
-    let selectMenu = await axios
-    .get(baseUrl + "/menu/menulist/" + selected)
-    setMenu(selectMenu.data)
-  }catch{}
-}
+  //선택한 메뉴 호출
+  const selectMenuList = async () => {
+    try {
+      let selectMenu = await axios.get(baseUrl + "/menu/menulist/" + selected);
+      setMenu(selectMenu.data);
+    } catch {}
+  };
 
   // 전체 리스트 호출
-  const getAllList = async()=>{
-    try{
-   let allList = await axios
-    .get(baseUrl + "/menu/menulist")
-      setSearchMenu(allList.data)
-  }
-  catch{} 
-  
-}
-  
+  const getAllList = async () => {
+    try {
+      let allList = await axios.get(baseUrl + "/menu/menulist");
+      setSearchMenu(allList.data);
+    } catch {}
+  };
+
   useEffect(() => {
-    srMenu()
-  }, [selected,deleteFlag,insertFlag,updateFlag]);
+    srMenu();
+  }, [selected, deleteFlag, insertFlag, updateFlag]);
 
   // 검색 메뉴
-  const srMenu = useCallback( async ()=>{
-    try{
-    let searchRes = await   axios
-    .get(baseUrl + "/menu/menulist/" + selected)
-    setSubmenu(searchRes.data)}catch{}
-  },[selected])
+  const srMenu = async () => {
+    try {
+      let searchRes = await axios.get(baseUrl + "/menu/menulist/" + selected);
+      setSubmenu(searchRes.data);
+    } catch {}
+  };
 
   const searchInfo = (resultMenu) => {
     props.getSearchInfo(resultMenu);
   };
-
+  useEffect(() => {
+    selectMenuList();
+    getAllList();
+  }, [subMenu]);
   return (
     <div>
       <Row>
