@@ -99,6 +99,7 @@ const CommonModal = (props) => {
                 </Col>
                 <Col sm={1}>
                   <button
+                    style={{ width: "75px" }}
                     type="button"
                     className="btn btn-secondary"
                     onClick={sendInputText}>
