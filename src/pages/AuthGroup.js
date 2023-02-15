@@ -15,33 +15,74 @@ const AuthGroup = () => {
   const [insertList, setInsertList] = useState(null);
   const [deleteList, setDeleteList] = useState(null);
   const [refresh, setRefresh] = useState(false);
+  const [selectFlag, setSelectFlag] = useState(false);
+  const [cancelFlag, setCancelFlag] = useState(false);
+  const [insertFlag, setInsertFlag] = useState(false);
+  const [deleteFlag, setDeleteFlag] = useState(false);
+
   useEffect(() => {}, [selectCompanySeq]);
   useEffect(() => {}, [pointCompanySeq]);
   useEffect(() => {}, [authSeq]);
   useEffect(() => {}, [checkedRes]);
   useEffect(() => {}, [originList]);
   useEffect(() => {}, [refresh]);
+  // insert 성공시 렌더링
+  useEffect(() => {
+    setInsertFlag(false);
+  }, [insertFlag]);
+
+  // delete 성공시 렌더링
+  useEffect(() => {
+    setDeleteFlag(false);
+  }, [deleteFlag]);
+
+  //전체선택시 렌더링
+  useEffect(() => {
+    setSelectFlag(false);
+  }, [selectFlag]);
+
+  const selectAll = () => {
+    setSelectFlag(true);
+  };
+
+  //전체선택 해제시 렌더링
+  useEffect(() => {
+    setCancelFlag(false);
+  }, [cancelFlag]);
+
+  const cancelAll = () => {
+    setCancelFlag(true);
+  };
+
+  // 자식에게 권한seq전송
   const sendAuthSeq = (authSeq) => {
     setAuthSeq(authSeq);
   };
+
+  // select list에서 선택된 회사seq
   const sendSelectCompanySeq = (selectCompanySeq) => {
     setSelectCompanySeq(selectCompanySeq);
   };
+
+  // 전체보기시 선택한 권한의 회사 seq
   const sendPointCompanySeq = (pointCompanySeq) => {
     setPointCompanySeq(pointCompanySeq);
   };
+
+  // 체크리스트 받아오기
   const sendCheckedList = (checkedRes) => {
     setCheckedRes(checkedRes);
   };
+
+  // 원본 리스트 받아오기
   const sendOriginList = (originList) => {
     setOriginList(originList);
   };
 
+  // 비교를 통해 insert, delete 구분
   const compareList = useCallback(async () => {
     let tmpI = [];
-    let intersect = [];
     let tmpD = [];
-
     // 권한-메뉴가 0개인 경우
     if (originList.length === 0) {
       checkedRes.forEach((list) => tmpI.push(list));
@@ -53,13 +94,16 @@ const AuthGroup = () => {
         setDeleteList(tmpD);
       } else {
         // 그외 권한 메뉴 추가 및 삭제
-        intersect = checkedRes.filter(
-          (cItem) =>
-            originList.filter((oList) => cItem.menuSeq === oList.menuSeq)
-              .length > 0
-        );
-        tmpI = checkedRes.filter((x) => !intersect.includes(x));
-        tmpD = originList.filter((y) => !intersect.includes(y));
+        tmpI = checkedRes.filter((x) => !originList.includes(x));
+        tmpD = originList.filter((y) => !checkedRes.includes(y));
+
+        console.log("교집합");
+        console.log(originList.filter((y) => checkedRes.includes(y)));
+        console.log("추가");
+        console.log(tmpI);
+        console.log("삭제");
+        console.log(tmpD);
+
         setInsertList(tmpI);
         setDeleteList(tmpD);
       }
@@ -83,8 +127,8 @@ const AuthGroup = () => {
         );
 
         if (sendRes.status === 200) {
-          alert("추가되었습니다.");
-          setRefresh(true);
+          alert("변경되었습니다.");
+          setInsertFlag(true);
         }
       } catch (error) {
         console.log(error);
@@ -107,11 +151,16 @@ const AuthGroup = () => {
             headers,
           }
         );
+        if (sendRes.status === 200) {
+          alert("변경되었습니다.");
+          setDeleteFlag(true);
+        }
       } catch (error) {
         console.log(error);
       }
     }
   }, [deleteList]);
+
   useEffect(() => {
     sendInsertRes();
   }, [insertList]);
@@ -134,14 +183,30 @@ const AuthGroup = () => {
             style={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "flex-end",
+              justifyContent: "space-between",
               marginBottom: "10px",
             }}
           >
+            <div style={{ width: "30%" }}>
+              <Button
+                variant="outline-primary"
+                style={{ width: "30%" }}
+                onClick={() => selectAll()}
+              >
+                전체 선택
+              </Button>
+              <Button
+                variant="outline-danger"
+                style={{ width: "30%", marginLeft: "20px" }}
+                onClick={() => cancelAll()}
+              >
+                선택 해제
+              </Button>
+            </div>
             <Button
               variant="outline-secondary"
               style={{ width: "5%" }}
-              onClick={compareList}
+              onClick={() => compareList()}
             >
               저장
             </Button>
@@ -149,11 +214,15 @@ const AuthGroup = () => {
           <Col xs={3}>
             <div className="menuArea">
               <AuthMenu
+                selectFlag={selectFlag}
+                cancelFlag={cancelFlag}
                 authSeq={authSeq}
                 selectCompanySeq={selectCompanySeq}
                 pointCompanySeq={pointCompanySeq}
                 sendCheckedList={sendCheckedList}
                 sendOriginList={sendOriginList}
+                insertFlag={insertFlag}
+                deleteFlag={deleteFlag}
               />
             </div>
           </Col>

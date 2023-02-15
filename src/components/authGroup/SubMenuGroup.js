@@ -22,6 +22,7 @@ const SubMenuGroup = (props) => {
   useEffect(() => {}, [depth]);
   useEffect(() => {}, [parentSeq]);
   useEffect(() => {}, [checkedList]);
+
   //더미값 보내기
   const setTempList = async (e) => {
     const temp = [];
@@ -36,18 +37,27 @@ const SubMenuGroup = (props) => {
 
   // 부모 선택됐을경우
   useEffect(() => {
+    parentCheck();
+  }, [propsCheck]);
+
+  // 부모 선택됐을경우
+  const parentCheck = useCallback(() => {
     const temp = [];
     if (propsCheck === true) {
       childList.forEach((list) => {
         temp.push(list);
         props.sendChildListSeq(temp, true);
       });
+    } else if (propsCheck == false) {
+      childList.forEach((list) => {
+        temp.push(list);
+        props.sendChildListSeq(temp, false);
+      });
     }
   }, [propsCheck]);
 
   // 자식 전체체크
   const sendChildListSeq = (list, checked) => {
-    console.log(list);
     props.sendChildListSeq(list, checked);
   };
   // 가져올 값이 있는지 확인
@@ -113,9 +123,6 @@ const SubMenuGroup = (props) => {
               value={childItem.menuSeq}
               id={childItem.menuSeq.toString()}
               onClick={setTempList}
-              onChange={() => {
-                console.log("변경");
-              }}
               checked={(() => {
                 let tempList = checkedList.filter(
                   (data) => data.menuSeq === childItem.menuSeq
