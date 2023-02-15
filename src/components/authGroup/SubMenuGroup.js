@@ -13,6 +13,8 @@ const SubMenuGroup = (props) => {
   const [checkedList, setCheckedList] = useState([]);
   const [propsCheck, setPropsCheck] = useState(false);
   const [sonMenu, setSonMenu] = useState([]);
+  const [myMenu, setMyMenu] = useState([]);
+  const [mySeq, setMySeq] = useState(null);
   useEffect(() => {
     setDepth(props.depth + 1);
     setParentSeq(props.parentSeq);
@@ -26,9 +28,12 @@ const SubMenuGroup = (props) => {
   }, [parentSeq]);
   useEffect(() => {}, [checkedList]);
   useEffect(() => {}, [sonMenu]);
+  useEffect(() => {}, [myMenu]);
+
   //더미값 보내기
   const setTempList = async (e) => {
     const temp = [];
+
     sonMenu.forEach((list) => {
       if (list.menuSeq == e.target.value) {
         temp.push(list);
@@ -37,11 +42,32 @@ const SubMenuGroup = (props) => {
     props.sendDummySeq(temp, e.target.checked);
   };
 
+  // 부모에게 자손 사실 알리기
+  const sendMyMenu = () => {
+    if (sonMenu !== []) {
+      props.sendMyMenu(sonMenu);
+    }
+  };
+
+  // //더미값 보내기
+  // const setTempList = async (e) => {
+  //   const temp = [];
+
+  //   sonMenu.forEach((list) => {
+  //     if (list.menuSeq == e.target.value) {
+  //       temp.push(list);
+  //     }
+  //   });
+  //   props.sendDummySeq(temp, e.target.checked);
+  // };
+
   // 부모 seq를 기준으로 하위 메뉴 가져오기
   const getSonMenu = useCallback(async () => {
     if (parentSeq != 0) {
-      let sonRes = await axios.get(`${baseUrl}/menu/tree/${parentSeq}`);
-      setSonMenu(sonRes.data);
+      try {
+        let sonRes = await axios.get(`${baseUrl}/menu/tree/${parentSeq}`);
+        setSonMenu(sonRes.data);
+      } catch {}
     }
   }, [parentSeq]);
   // 부모 선택됐을경우
@@ -55,11 +81,15 @@ const SubMenuGroup = (props) => {
     if (propsCheck === true) {
       sonMenu.forEach((list) => {
         temp.push(list);
+        console.log("추가");
+        console.log(list);
         props.sendChildListSeq(temp, true);
       });
     } else if (propsCheck == false) {
       sonMenu.forEach((list) => {
         temp.push(list);
+        console.log("빼기");
+        console.log(list);
         props.sendChildListSeq(temp, false);
       });
     }
@@ -150,6 +180,7 @@ const SubMenuGroup = (props) => {
             >
               <SubMenuGroup
                 parentSeq={childItem.menuSeq}
+                sendMyMenu={sendMyMenu}
                 depth={childItem.menuDepth}
                 id={childItem.id}
                 sendDummySeq={sendDummySeq}
