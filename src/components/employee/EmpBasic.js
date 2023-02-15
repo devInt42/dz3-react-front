@@ -78,70 +78,67 @@ function EmpBasic(props) {
   const handleChange2 = (e) => {
     setChecked2(e.target.checked);
   };
-  
+
   // employee값 불러와서 세팅
   useEffect(() => {
-    if (props.employeeSeq > 0) {
-      
-      setEmployeeSeq(empSelected.employeeSeq);
-      setEmployeeCode(empSelected.employeeCode);
-      setEmployeeId(empSelected.employeeId);
-      setEmployeeName(empSelected.employeeName);
-      setEmployeeBirth(empSelected.employeeBirth);
-      setEmployeePwd(empSelected.employeePwd);
-      setEmployeePh(empSelected.employeePh);
-      setEmployeePmail(empSelected.employeePmail);
-      setEmployeeCmail(empSelected.employeeCmail);
-      setEmployeeAddr(empSelected.employeeAddr);
-      setEmployeeJoin(empSelected.employeeJoin);
-      setEmployeeLeave(empSelected.employeeLeave);
-      setEmployeeGender(empSelected.employeeGender);
-      setEmployeeLanguage(empSelected.employeeLanguage);
-      setEmployeeHcall(empSelected.employeeHcall);
-      setApprovalPwd(empSelected.approvalPwd);
-      setFirstId(empSelected.employeeId);
-      setFirstMail(empSelected.employeeCmail);
-      if (empSelected.useYN == "Y") {
+    if (props.data ) {
+      setFirstId(props.data.employeeId);
+      setFirstMail(props.data.employeeCmail);
+      if (props.data.useYN == "Y") {
         setUseYN(true);
       } else {
         setUseYN(false);
       }
       if (
-        empSelected.employeePmail != "" &&
-        empSelected.employeePmail != undefined
+        props.data.employeePmail != "" &&
+        props.data.employeePmail != undefined
       ) {
-        let emailtmp = empSelected.employeePmail.split("@");
+        let emailtmp = props.data.employeePmail.split("@");
         setPmailId(emailtmp[0]);
         setPmailDomain(emailtmp[1]);
       }
       if (
-        empSelected.employeeAddr != "" &&
-        empSelected.employeeAddr != undefined
+        props.data.employeeAddr != "" &&
+        props.data.employeeAddr != undefined
       ) {
-        let addrtmp = empSelected.employeeAddr.split("/");
+        let addrtmp = props.data.employeeAddr.split("/");
         setAddrCode(addrtmp[0]);
         setFirstAddr(addrtmp[1]);
         setDetailedAddr(addrtmp[2]);
+        if(addrtmp[1] == undefined) {
+          setFirstAddr("");
+        }
+        if(addrtmp[2] == undefined) {
+          setDetailedAddr("");
+        }
+        console.log(addrtmp[0]);
+        console.log(addrtmp[1]);
+        console.log(addrtmp[2]);
       }
     }
   }, [empSelected]);
 
   useEffect(() => {
-   
-  }, [empSelected])
+    updateObject({employeeAddr: `${addrCode}/${firstAddr}/${detailedAddr}`});
+  }, [addrCode, firstAddr, detailedAddr])
+  useEffect(() => {
+    updateObject({employeePmail: `${pmailId}@${pmailDomain}`});
+  }, [pmailId, pmailDomain])
   // 객체 업데이트
   const updateObject = (obj) => {
-    let copyData = [...props.data];
-    copyData = [...copyData, ...obj];
-    props.setData(copyData);
+    props.setData({
+      ...props.data,
+      ...obj
+    });
+    console.log(props.data);
   }
   // 계정 사용 미사용 여부
   const [useEmp, setUseEmp] = useState("");
   useEffect(() => {
     if (useYN) {
-      setUseEmp("Y");
+      updateObject({useYN: "Y"});
     } else {
-      setUseEmp("N");
+      updateObject({useYN: "N"});
     }
   }, [useYN]);
 
@@ -180,11 +177,11 @@ function EmpBasic(props) {
   const [insertFail, setInsertFail] = useState();
   function insertValid() {
     if (
-      employeeBirth.length == 0 ||
-      employeeName.length == 0 ||
-      employeePwd.length == 0 ||
-      approvalPwd.length == 0 ||
-      employeeJoin.length == 0
+      props.data.employeeBirth.length == 0 ||
+      props.data.employeeName.length == 0 ||
+      props.data.employeePwd.length == 0 ||
+      props.data.approvalPwd.length == 0 ||
+      props.data.employeeJoin.length == 0
     ) {
       setInsertFail(<EmpBasicSaveFailAlert setInsertCheck={setInsertCheck} />);
     } else {
@@ -197,11 +194,11 @@ function EmpBasic(props) {
   const [updateFail, setUpdateFail] = useState();
   function updateValid() {
     if (
-      employeeBirth.length == 0 ||
-      employeeName.length == 0 ||
-      employeePwd.length == 0 ||
-      approvalPwd.length == 0 ||
-      employeeJoin.length == 0
+      props.data.employeeBirth.length == 0 ||
+      props.data.employeeName.length == 0 ||
+      props.data.employeePwd.length == 0 ||
+      props.data.approvalPwd.length == 0 ||
+      props.data.employeeJoin.length == 0
     ) {
       setUpdateFail(
         <EmpBasicUpdateFailAlert setUpdateCheck={setUpdateCheck} />
@@ -253,7 +250,7 @@ function EmpBasic(props) {
   };
 
   return (
-    <div>
+    props.data ? <div>
       <h5 style={{ display: "inline" }}>사원 상세</h5>
       <span
         style={{ float: "right" }}
@@ -285,7 +282,8 @@ function EmpBasic(props) {
                 style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
                 value={props.data.employeeName || ""}
                 onChange={(e) => {
-                  setEmployeeName(e.target.value);
+                  // setEmployeeName(e.target.value);
+                  updateObject({ employeeName: e.target.value })
                 }}
               />
             </td>
@@ -295,9 +293,9 @@ function EmpBasic(props) {
             <td>
               <input
                 type="date"
-                value={employeeBirth || ""}
+                value={props.data.employeeBirth || ""}
                 onChange={(e) => {
-                  setEmployeeBirth(e.target.value);
+                  updateObject({ employeeBirth: e.target.value })
                 }}
                 style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
               />
@@ -310,10 +308,10 @@ function EmpBasic(props) {
                 <Form.Control
                   type="text"
                   className={style.emp_input}
-                  value={employeeId || ""}
+                  value={props.data.employeeId || ""}
                   style={{ backgroundColor: "rgba(175, 174, 174, 0.328)" }}
                   onChange={(e) => {
-                    setEmployeeId(e.target.value);
+                    updateObject({ employeeId: e.target.value })
                   }}
                   autoComplete="off"
                   isValid={
@@ -321,8 +319,8 @@ function EmpBasic(props) {
                       ? firstId == employeeId
                         ? true
                         : returnId.length > 0
-                        ? false
-                        : true
+                          ? false
+                          : true
                       : false
                   }
                   isInvalid={
@@ -330,8 +328,8 @@ function EmpBasic(props) {
                       ? firstId == employeeId
                         ? false
                         : returnId.length > 0
-                        ? true
-                        : false
+                          ? true
+                          : false
                       : true
                   }
                 />
@@ -360,10 +358,10 @@ function EmpBasic(props) {
                 <Form.Control
                   type="text"
                   className={style.emp_input}
-                  value={employeeCmail || ""}
+                  value={props.data.employeeCmail || ""}
                   style={{ backgroundColor: "rgba(175, 174, 174, 0.328)" }}
                   onChange={(e) => {
-                    setEmployeeCmail(e.target.value);
+                    updateObject({employeeCmail: e.target.value})
                   }}
                   autoComplete="off"
                   isValid={
@@ -371,8 +369,8 @@ function EmpBasic(props) {
                       ? FirstMail == employeeCmail
                         ? true
                         : returnCmail.length > 0
-                        ? false
-                        : true
+                          ? false
+                          : true
                       : false
                   }
                   isInvalid={
@@ -380,8 +378,8 @@ function EmpBasic(props) {
                       ? FirstMail == employeeCmail
                         ? false
                         : returnCmail.length > 0
-                        ? true
-                        : false
+                          ? true
+                          : false
                       : true
                   }
                 />
@@ -411,66 +409,26 @@ function EmpBasic(props) {
               <input
                 type="password"
                 className={style.emp_pwd}
-                value={employeePwd || ""}
+                value={props.data.employeePwd || ""}
                 style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
                 onChange={(e) => {
-                  setEmployeePwd(e.target.value);
+                  updateObject({employeePwd: e.target.value})
                 }}
                 autoComplete="off"
               />
-              {/* {checked ? (
-                            ) : (
-                                <input
-                                    type="text"
-                                    className={style.emp_pwd}
-                                    value={employeePwd || ""}
-                                    style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
-                                    onChange={(e) => {
-                                        setEmployeePwd(e.target.value);
-                                    }}
-                                    autoComplete="current-password"
-                                />
-                            )}
-                            <Checkbox
-                                checked={checked}
-                                onChange={handleChange}
-                                inputProps={{ "aria-label": "controlled" }}
-                                sx={{ "& .MuiSvgIcon-root": { fontSize: 20 } }}
-                            />
-                            비밀번호 표시 */}
             </td>
             <th>* 결재 비밀번호</th>
             <td>
               <input
                 type="password"
                 className={style.emp_pwd}
-                value={approvalPwd || ""}
+                value={props.data.approvalPwd || ""}
                 style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
                 onChange={(e) => {
-                  setApprovalPwd(e.target.value);
+                  updateObject({approvalPwd: e.target.value})
                 }}
                 autoComplete="off"
               />
-              {/* {checked2 ? (
-                            ) : (
-                                <input
-                                    type="text"
-                                    className={style.emp_pwd}
-                                    value={approvalPwd || ""}
-                                    style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
-                                    onChange={(e) => {
-                                        setApprovalPwd(e.target.value);
-                                    }}
-                                    autoComplete="current-password"
-                                />
-                            )}
-                            <Checkbox
-                                checked={checked2}
-                                onChange={handleChange2}
-                                inputProps={{ "aria-label": "controlled" }}
-                                sx={{ "& .MuiSvgIcon-root": { fontSize: 20 } }}
-                            />
-                            비밀번호 표시 */}
             </td>
           </tr>
           <tr>
@@ -482,9 +440,9 @@ function EmpBasic(props) {
                   name="gender"
                   value="남"
                   onChange={(e) => {
-                    setEmployeeGender(e.target.value);
+                    updateObject({employeeGender: e.target.value});
                   }}
-                  checked={employeeGender == "남" || ""}
+                  checked={props.data.employeeGender == "남" || ""}
                 />
                 <label>남</label>
                 <input
@@ -492,32 +450,20 @@ function EmpBasic(props) {
                   name="gender"
                   value="여"
                   onChange={(e) => {
-                    setEmployeeGender(e.target.value);
+                    updateObject({employeeGender: e.target.value});
                   }}
-                  checked={employeeGender == "여" || ""}
+                  checked={props.data.employeeGender == "여" || ""}
                 />
                 <label>여</label>
               </div>
-              {/* <FormControl>
-                                <RadioGroup
-                                    row
-                                    aria-labelledby="demo-row-radio-buttons-group-label"
-                                    name="row-radio-buttons-group"
-                                >
-                                    <FormControlLabel value='남' control={<Radio sx={{'& .MuiSvgIcon-root': {fontSize: 16,},}}/>}
-                                        onChange={(e) => { setEmployeeGender(e.target.value) }} checked={employeeGender == '남'} label="남" />
-                                    <FormControlLabel value='여' control={<Radio sx={{'& .MuiSvgIcon-root': {fontSize: 16,},}}/>}
-                                        onChange={(e) => { setEmployeeGender(e.target.value) }} checked={employeeGender == '여'} label="여" />
-                                </RadioGroup>
-                            </FormControl> */}
             </td>
             <th>사용언어</th>
             <td>
               <select
                 onChange={(e) => {
-                  setEmployeeLanguage(e.target.value);
+                  updateObject({employeeLanguage: e.target.value});
                 }}
-                value={employeeLanguage || ""}
+                value={props.data.employeeLanguage || ""}
               >
                 {lang &&
                   lang.map((lang, i) => (
@@ -569,9 +515,9 @@ function EmpBasic(props) {
               <input
                 type="text"
                 className={style.emp_input}
-                value={employeePh || ""}
+                value={props.data.employeePh || ""}
                 onChange={(e) => {
-                  setEmployeePh(PhoneNumber(e.target.value));
+                  updateObject({employeePh:PhoneNumber(e.target.value)});
                 }}
                 maxLength={13}
               />
@@ -581,9 +527,9 @@ function EmpBasic(props) {
               <input
                 type="text"
                 className={style.emp_input}
-                value={employeeHcall || ""}
+                value={props.data.employeeHcall || ""}
                 onChange={(e) => {
-                  setEmployeeHcall(PhoneNumber(e.target.value));
+                  updateObject({employeeHcall: PhoneNumber(e.target.value)});
                 }}
                 maxLength={13}
               />
@@ -645,9 +591,9 @@ function EmpBasic(props) {
             <td>
               <input
                 type="date"
-                value={employeeJoin || ""}
+                value={props.data.employeeJoin || ""}
                 onChange={(e) => {
-                  setEmployeeJoin(e.target.value);
+                  updateObject({employeeJoin: e.target.value})
                 }}
                 style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
               />
@@ -659,9 +605,9 @@ function EmpBasic(props) {
               ) : (
                 <input
                   type="date"
-                  value={employeeLeave || ""}
+                  value={props.data.employeeLeave || ""}
                   onChange={(e) => {
-                    setEmployeeLeave(e.target.value);
+                    updateObject({employeeLeave: e.target.value})
                   }}
                 />
               )}
@@ -740,6 +686,8 @@ function EmpBasic(props) {
         />
       )}
     </div>
+      :
+      <div>사원을 선택해 주십시오.</div>
   );
 
   async function insertEmp() {

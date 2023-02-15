@@ -18,76 +18,102 @@ function EmployeeSet() {
   const [employeeSeq, setEmpSeq] = useState(0);
   const [selectAct, setSelectAct] = useState(true);
   const [searchRes, setSearchRes] = useState([]);
-  const [basicData, setBasicData] = useState([]);
   const [groupData, setGroupData] = useState([]);
-  const clickEmp = () => {
-    setSelectAct(false);
-  };
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const [basicData, setBasicData] = useState({
+    employeeSeq: employeeSeq,
+    employeeId: "", 
+    employeeName: "", 
+    employeeBirth: "", 
+    employeeJoin: "", 
+    employeeLeave: "", 
+    employeeCall: "",
+    employeePwd: "",
+    employeePh: "", 
+    employeePmail: "", 
+    employeeCmail: "", 
+    employeeAddr: "", 
+    employeePicture: null, 
+    useYN: "Y", 
+    employeeGender: "", 
+    employeeLanguage: "", 
+    employeeHcall: "", 
+    approvalPwd: ""
+  });
 
-  // 검색 결과 가져오기
-  const sendSearchResult = (e) => {
-    setSearchRes(e);
-  };
+useEffect(() => {
+  axios
+    .get(baseUrl + "/employee/emplist/" + employeeSeq)
+    .then((response) => setBasicData(response.data[0]))
+    .catch((error) => console.log(error));
+}, [employeeSeq]);
+const clickEmp = () => {
+  setSelectAct(false);
+};
+const handleChange = (event, newValue) => {
+  setValue(newValue);
+};
 
-  // 검색결과에 해당하는 사원 불러오기
-  useEffect(() => {}, [searchRes]);
+// 검색 결과 가져오기
+const sendSearchResult = (e) => {
+  setSearchRes(e);
+};
 
-  return (
-    <div>
-      <div className={style.wrap}>
-        <span style={{ fontSize: "25px" }}>
-          <GrUserManager />
-          &nbsp;상용직관리
-        </span>
-        <hr />
-      </div>
-      <Container fluid>
-        <Row>
-          <SearchAppBar sendSearchResult={sendSearchResult} />
-        </Row>
-        <Row style={{ border: "1px solid #e3e3e3" }}>
-          <Col xs={2} className="menuArea">
-            <EmpLnb
-              clickEmp={clickEmp}
-              setEmpSeq={setEmpSeq}
-              searchRes={searchRes}
-            />
-          </Col>
+// 검색결과에 해당하는 사원 불러오기
+useEffect(() => { }, [searchRes]);
 
-          <Col xs={10} style={{ border: "1px solid #e3e3e3", height: "100vh" }}>
-            <Box sx={{ width: "100%" }}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  aria-label="basic tabs example"
-                >
-                  <Tab label="기본정보" {...a11yProps(0)} />
-                  <Tab label="조직정보" {...a11yProps(1)} />
-                </Tabs>
-              </Box>\
-              <TabPanel value={value} index={0}>
-                <EmpBasic
-                  employeeSeq={employeeSeq}
-                  clickEmp={clickEmp}
-                  selectAct={selectAct}
-                  setSelectAct={setSelectAct}
-                  setData={setBasicData}
-                  data = {basicData}
-                />
-              </TabPanel>
-              <TabPanel value={value} index={1}>
-                <EmpDept employeeSeq={employeeSeq} setData = {setGroupData}/>
-              </TabPanel>
-            </Box>
-          </Col>
-        </Row>
-      </Container>
+return (
+  <div>
+    <div className={style.wrap}>
+      <span style={{ fontSize: "25px" }}>
+        <GrUserManager />
+        &nbsp;상용직관리
+      </span>
+      <hr />
     </div>
-  );
+    <Container fluid>
+      <Row>
+        <SearchAppBar sendSearchResult={sendSearchResult} />
+      </Row>
+      <Row style={{ border: "1px solid #e3e3e3" }}>
+        <Col xs={2} className="menuArea">
+          <EmpLnb
+            clickEmp={clickEmp}
+            setEmpSeq={setEmpSeq}
+            searchRes={searchRes}
+          />
+        </Col>
+
+        <Col xs={10} style={{ border: "1px solid #e3e3e3", height: "100vh" }}>
+          <Box sx={{ width: "100%" }}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+              >
+                <Tab label="기본정보" {...a11yProps(0)} />
+                <Tab label="조직정보" {...a11yProps(1)} />
+              </Tabs>
+            </Box>
+            <TabPanel value={value} index={0}>
+              <EmpBasic
+                employeeSeq={employeeSeq}
+                clickEmp={clickEmp}
+                selectAct={selectAct}
+                setSelectAct={setSelectAct}
+                setData={setBasicData}
+                data={basicData}
+              />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <EmpDept employeeSeq={employeeSeq} setData={setGroupData} />
+            </TabPanel>
+          </Box>
+        </Col>
+      </Row>
+    </Container>
+  </div>
+);
 }
 
 export default EmployeeSet;
