@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import style from "./css/MenuItems.module.css"
+import style from "./css/MenuItems.module.css";
 
 import { RiPagesLine, RiPagesFill } from "react-icons/ri";
 import { BsFolder, BsFolder2Open, BsFileEarmarkCheck } from "react-icons/bs";
@@ -13,7 +13,24 @@ function MenuItems(props) {
   const [subMenu, setSubMenu] = useState([]);
 
   const [childMenu, setChildMenu] = useState([]);
-
+  const [insertFlag, setInsertFlag] = useState(false);
+  const [deleteFlag, setDeleteFlag] = useState(false);
+  const [updateFlag, setUpdateFlag] = useState(false);
+  useEffect(() => {
+    setInsertFlag(props.insertFlag);
+    setDeleteFlag(props.deleteFlag);
+    setUpdateFlag(props.updateFlag);
+  }, [props]);
+  useEffect(() => {
+    setInsertFlag(false);
+  }, [insertFlag]);
+  useEffect(() => {
+    setDeleteFlag(false);
+  }, [deleteFlag]);
+  // 업데이트후 초기화
+  useEffect(() => {
+    setUpdateFlag(false);
+  }, [updateFlag]);
   useEffect(() => {
     axios
       .get(baseUrl + "/menu/menulist/" + menuSequence)
@@ -21,7 +38,7 @@ function MenuItems(props) {
         setSubMenu(response.data);
       })
       .catch((error) => console.log(error));
-  }, [menuSequence]);
+  }, [menuSequence, insertFlag, deleteFlag, updateFlag]);
 
   const send = (resultMenu) => {
     props.searchInfo(resultMenu);

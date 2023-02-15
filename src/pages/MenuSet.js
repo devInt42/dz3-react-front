@@ -34,7 +34,21 @@ function MenuSet() {
   const [menuDepth, setMenuDepth] = useState(0);
   const [firstCode, setFirstCode] = useState("");
   const [firstName, setFirstName] = useState("");
-
+  const [insertFlag, setInsertFlag] = useState(false);
+  const [deleteFlag, setDeleteFlag] = useState(false);
+  const [updateFlag, setUpdateFlag] = useState(false);
+  // 인서트 후 초기화
+  useEffect(() => {
+    setInsertFlag(false);
+  }, [insertFlag]);
+  // 삭제후 초기화
+  useEffect(() => {
+    setDeleteFlag(false);
+  }, [deleteFlag]);
+  // 업데이트후 초기화
+  useEffect(() => {
+    setUpdateFlag(false);
+  }, [updateFlag]);
   // 아이콘 API CORS 에러때매 보류
   // const [icons, setIcons] = useState([]);
   // const apiKey = {
@@ -55,14 +69,14 @@ function MenuSet() {
 
   const insertMenuCode = (e) => {
     setMenuCode(e.target.value);
-    if(menuCode.match(space)){
-      setMenuCode(menuCode.replace(" ", ""))
+    if (menuCode.match(space)) {
+      setMenuCode(menuCode.replace(" ", ""));
     }
   };
   const insertMenuName = (e) => {
     setMenuName(e.target.value);
-    if(menuName.match(space)){
-      setMenuName(menuName.replace(" ", ""))
+    if (menuName.match(space)) {
+      setMenuName(menuName.replace(" ", ""));
     }
   };
   const insertMenuParent = (e) => {
@@ -144,7 +158,7 @@ function MenuSet() {
       let codeRes = await axios.get(`${baseUrl}/menu/menulist/checkcode`, {
         params: { menuCode: menuCode },
       });
-      setReturnCode(codeRes.data)
+      setReturnCode(codeRes.data);
     } catch (error) {
       console.log(error);
     }
@@ -161,7 +175,7 @@ function MenuSet() {
       let nameRes = await axios.get(`${baseUrl}/menu/menulist/checkname`, {
         params: { menuName: menuName },
       });
-      setReturnName(nameRes.data)
+      setReturnName(nameRes.data);
     } catch (error) {
       console.log(error);
     }
@@ -191,7 +205,12 @@ function MenuSet() {
               overflow: "scroll",
             }}
           >
-            <MenuSearch getSearchInfo={getSearchInfo} />
+            <MenuSearch
+              getSearchInfo={getSearchInfo}
+              insertFlag={insertFlag}
+              deleteFlag={deleteFlag}
+              updateFlag={updateFlag}
+            />
           </Col>
           <Col
             md="auto"
@@ -206,8 +225,8 @@ function MenuSet() {
             <div className={style.tableWrap}>
               <h5 style={{ display: "inline" }}>메뉴 상세</h5>
               <span style={{ float: "right" }} onClick={newInsert}>
-                <FcPlus />&nbsp;
-                새 메뉴 생성
+                <FcPlus />
+                &nbsp; 새 메뉴 생성
               </span>
               <table className={style.setTable}>
                 <thead></thead>
@@ -223,20 +242,42 @@ function MenuSet() {
                           onChange={insertMenuCode}
                           autoComplete="off"
                           isValid={
-                            menuCode != "" ? firstCode == menuCode ? true : (returnCode.length > 0 ? false : true) : false
+                            menuCode != ""
+                              ? firstCode == menuCode
+                                ? true
+                                : returnCode.length > 0
+                                ? false
+                                : true
+                              : false
                           }
                           isInvalid={
-                            menuCode != "" ? firstCode == menuCode ? false : (returnCode.length > 0 ? true : false) : true
+                            menuCode != ""
+                              ? firstCode == menuCode
+                                ? false
+                                : returnCode.length > 0
+                                ? true
+                                : false
+                              : true
                           }
                         />
-                        {menuCode == "" ? <Form.Control.Feedback type="invalid">필수값을 입력해 주세요.</Form.Control.Feedback> : 
-                        firstCode == menuCode ? <Form.Control.Feedback type="valid">현재 메뉴 아이디 입니다.</Form.Control.Feedback> : <>
-                        <Form.Control.Feedback type="valid">
-                          사용 가능한 아이디 입니다.
-                        </Form.Control.Feedback>
-                        <Form.Control.Feedback type="invalid">
-                          중복된 아이디가 존재합니다.
-                        </Form.Control.Feedback></>}
+                        {menuCode == "" ? (
+                          <Form.Control.Feedback type="invalid">
+                            필수값을 입력해 주세요.
+                          </Form.Control.Feedback>
+                        ) : firstCode == menuCode ? (
+                          <Form.Control.Feedback type="valid">
+                            현재 메뉴 아이디 입니다.
+                          </Form.Control.Feedback>
+                        ) : (
+                          <>
+                            <Form.Control.Feedback type="valid">
+                              사용 가능한 아이디 입니다.
+                            </Form.Control.Feedback>
+                            <Form.Control.Feedback type="invalid">
+                              중복된 아이디가 존재합니다.
+                            </Form.Control.Feedback>
+                          </>
+                        )}
                       </Form.Group>
                     </td>
                   </tr>
@@ -252,20 +293,42 @@ function MenuSet() {
                           onChange={insertMenuName}
                           autoComplete="off"
                           isValid={
-                            menuName != "" ? firstName == menuName ? true : (returnName.length > 0 ? false : true) : false
+                            menuName != ""
+                              ? firstName == menuName
+                                ? true
+                                : returnName.length > 0
+                                ? false
+                                : true
+                              : false
                           }
                           isInvalid={
-                            menuName != "" ? firstName == menuName ? false : (returnName.length > 0 ? true : false) : true
+                            menuName != ""
+                              ? firstName == menuName
+                                ? false
+                                : returnName.length > 0
+                                ? true
+                                : false
+                              : true
                           }
                         />
-                        {menuName == "" ? <Form.Control.Feedback type="invalid">필수값을 입력해 주세요.</Form.Control.Feedback> :
-                        firstName == menuName ? <Form.Control.Feedback type="valid">현재 메뉴 이름 입니다.</Form.Control.Feedback> : <>
-                        <Form.Control.Feedback type="valid">
-                          사용 가능한 메뉴이름 입니다.
-                        </Form.Control.Feedback>
-                        <Form.Control.Feedback type="invalid">
-                          중복된 메뉴이름이 존재합니다.
-                        </Form.Control.Feedback></>}
+                        {menuName == "" ? (
+                          <Form.Control.Feedback type="invalid">
+                            필수값을 입력해 주세요.
+                          </Form.Control.Feedback>
+                        ) : firstName == menuName ? (
+                          <Form.Control.Feedback type="valid">
+                            현재 메뉴 이름 입니다.
+                          </Form.Control.Feedback>
+                        ) : (
+                          <>
+                            <Form.Control.Feedback type="valid">
+                              사용 가능한 메뉴이름 입니다.
+                            </Form.Control.Feedback>
+                            <Form.Control.Feedback type="invalid">
+                              중복된 메뉴이름이 존재합니다.
+                            </Form.Control.Feedback>
+                          </>
+                        )}
                       </Form.Group>
                     </td>
                   </tr>
@@ -280,15 +343,15 @@ function MenuSet() {
                         {/* {menu.map((menu, i) => ( */}
                         {selectActive == true
                           ? menu.map((menu, i) => (
-                            <option value={menu.menuSeq} key={i}>
-                              {menu.menuName}
-                            </option>
-                          ))
+                              <option value={menu.menuSeq} key={i}>
+                                {menu.menuName}
+                              </option>
+                            ))
                           : exceptMenu.map((menu, i) => (
-                            <option value={menu.menuSeq} key={i}>
-                              {menu.menuName}
-                            </option>
-                          ))}
+                              <option value={menu.menuSeq} key={i}>
+                                {menu.menuName}
+                              </option>
+                            ))}
                       </select>
                     </td>
                   </tr>
@@ -297,7 +360,9 @@ function MenuSet() {
                     <td>
                       <input
                         className={style.menu_btn_input}
-                        style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
+                        style={{
+                          backgroundColor: "rgba(241, 199, 199, 0.328)",
+                        }}
                         type="text"
                         value={menuDepth + 1}
                         readOnly
@@ -341,9 +406,12 @@ function MenuSet() {
                   <SaveMenuAlert
                     setInputCheck={setInputCheck}
                     insertMenu={insertMenu}
-                    menuCode={menuCode} menuName={menuName}
-                    firstCode={firstCode} returnCode={returnCode}
-                    firstName={firstName} returnName={returnName}
+                    menuCode={menuCode}
+                    menuName={menuName}
+                    firstCode={firstCode}
+                    returnCode={returnCode}
+                    firstName={firstName}
+                    returnName={returnName}
                   />
                 )}
                 {saveFail}
@@ -364,8 +432,10 @@ function MenuSet() {
                     menuCode={menuCode}
                     menuName={menuName}
                     setUpdateCheck={setUpdateCheck}
-                    firstCode={firstCode} returnCode={returnCode}
-                    firstName={firstName} returnName={returnName}
+                    firstCode={firstCode}
+                    returnCode={returnCode}
+                    firstName={firstName}
+                    returnName={returnName}
                   />
                 )}
                 {updateFail}
@@ -391,19 +461,24 @@ function MenuSet() {
       data: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
     })
-      .then((res) => { })
+      .then((res) => {
+        setInsertFlag(true);
+      })
       .catch((error) => {
         console.log(error);
       });
   }
 
+  // 삭제
   async function deleteMenu(menuSeq) {
     const url = baseUrl + "/menu/menulist/delete/" + menuSeq;
     axios({
       method: "delete",
       url: url,
     })
-      .then((res) => { })
+      .then((res) => {
+        setDeleteFlag(true);
+      })
       .catch((error) => {
         console.log(error);
       });
@@ -423,7 +498,7 @@ function MenuSet() {
       data: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
     })
-      .then((res) => { })
+      .then((res) => {})
       .catch((error) => {
         console.log(error);
       });
