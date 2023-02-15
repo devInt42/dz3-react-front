@@ -13,10 +13,6 @@ const ManageModal = (props) => {
   useEffect(() => {}, [companySeq]);
   //modal
   const [modalOpen, setModalOpen] = useState(false);
-  const departmentData = async (seq) => {
-    const result = axios.get(`${baseUrl}/department/list/${seq}`)
-    console.log(result);
-  }
   const openModal = () => {
     setModalOpen(true);
   };
@@ -39,7 +35,7 @@ const ManageModal = (props) => {
         Swal.fire("저장이 완료되었습니다.", "", "success", "#3085d6");
         setModalOpen(false);
         console.log(obj);
-        departmentData(obj.departmentSeq);
+        
         props.updateIndexObject(props.idx, {
           companySeq: obj.companySeq,
           workplaceSeq: obj.workplaceSeq,
@@ -48,7 +44,8 @@ const ManageModal = (props) => {
           departmentLoc: obj.departmentLoc,
           departmentCall: obj.departmentCall,
           departmentFax: obj.departmentFax,
-          workplaceName: obj.workplaceName
+          workplaceName: obj.workplaceName,
+          companyName: obj.companyName,
         });
       }
     });
