@@ -40,7 +40,9 @@ function EmpDept(props) {
     positionCode: "",
     workplaceName: "",
   }
+  useEffect(() => {
 
+  },[])
   //사원의 조직정보
   useEffect(() => {
     axios
@@ -232,12 +234,12 @@ function EmpDept(props) {
   };
   const RemoveGroup = (idx) => {
     let copyGroupList = [...groupList];
-    if(copyGroupList.length > 1) {
-    copyGroupList = copyGroupList.filter((_, index) => {
-      return index !== idx;
-    });
-    setGroupList(copyGroupList);
-  }
+    if (copyGroupList.length > 1) {
+      copyGroupList = copyGroupList.filter((_, index) => {
+        return index !== idx;
+      });
+      setGroupList(copyGroupList);
+    }
   }
   useEffect(() => {
     console.log(groupList);
@@ -253,14 +255,16 @@ function EmpDept(props) {
         groupList.map((group, idx) => {
           return (
             <div>
-              <button onClick = {() => RemoveGroup(idx)}>삭제</button>
+              <button onClick={() => group.mainCompanyYN !== "Y" ? RemoveGroup(idx) : alert("주회사는 삭제할 수 없습니다.")}>삭제</button>
               <table className={style.dept_tbl} key={idx}>
                 <thead></thead>
                 <tbody>
                   <tr>
                     <th>회사</th>
                     <td>
-                      {group.companyName != "" && `${group.companyName} | ${group.workplaceName}`}
+                      <select>
+                        
+                      </select>
                     </td>
                     <th>부서</th>
                     <td>

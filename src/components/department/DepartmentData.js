@@ -21,6 +21,7 @@ const DepartmentData = (props) => {
             })
             .then(res => setDepartment(res.data))
     }, [props.refresh])
+    
     useEffect(() => {
         setToggleIcon(departmentIsOpen);
     }, [departmentIsOpen])

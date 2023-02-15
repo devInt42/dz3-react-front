@@ -66,9 +66,9 @@ function EmpBasic(props) {
   const [approvalPwd, setApprovalPwd] = useState("");
   const [firstId, setFirstId] = useState("");
   const [FirstMail, setFirstMail] = useState("");
-
   const [zipcodeIsOpen, setZipcodeIsOpen] = useState();
 
+  const [data, setData] = useState([]);
   // 비밀번호 표시 미표시 사용할 때 사용함수
   const [checked, setChecked] = useState(true);
   const handleChange = (event) => {
@@ -78,10 +78,11 @@ function EmpBasic(props) {
   const handleChange2 = (e) => {
     setChecked2(e.target.checked);
   };
-
+  
   // employee값 불러와서 세팅
   useEffect(() => {
     if (props.employeeSeq > 0) {
+      
       setEmployeeSeq(empSelected.employeeSeq);
       setEmployeeCode(empSelected.employeeCode);
       setEmployeeId(empSelected.employeeId);
@@ -125,6 +126,15 @@ function EmpBasic(props) {
     }
   }, [empSelected]);
 
+  useEffect(() => {
+   
+  }, [empSelected])
+  // 객체 업데이트
+  const updateObject = (obj) => {
+    let copyData = [...props.data];
+    copyData = [...copyData, ...obj];
+    props.setData(copyData);
+  }
   // 계정 사용 미사용 여부
   const [useEmp, setUseEmp] = useState("");
   useEffect(() => {
@@ -273,7 +283,7 @@ function EmpBasic(props) {
                 type="text"
                 className={style.emp_input}
                 style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
-                value={employeeName || ""}
+                value={props.data.employeeName || ""}
                 onChange={(e) => {
                   setEmployeeName(e.target.value);
                 }}

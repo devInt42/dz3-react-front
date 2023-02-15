@@ -18,7 +18,7 @@ function EmployeeSet() {
   const [employeeSeq, setEmpSeq] = useState(0);
   const [selectAct, setSelectAct] = useState(true);
   const [searchRes, setSearchRes] = useState([]);
-  const [basicData, setBasicData] = useState({});
+  const [basicData, setBasicData] = useState([]);
   const [groupData, setGroupData] = useState([]);
   const clickEmp = () => {
     setSelectAct(false);
@@ -68,7 +68,7 @@ function EmployeeSet() {
                   <Tab label="기본정보" {...a11yProps(0)} />
                   <Tab label="조직정보" {...a11yProps(1)} />
                 </Tabs>
-              </Box>
+              </Box>\
               <TabPanel value={value} index={0}>
                 <EmpBasic
                   employeeSeq={employeeSeq}
