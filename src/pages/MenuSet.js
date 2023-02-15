@@ -7,6 +7,7 @@ import { GrCircleAlert } from "react-icons/gr";
 import { FcPlus } from "react-icons/fc";
 
 import style from "../components/menu/css/MenuSet.module.css";
+import Switch from "@mui/material/Switch";
 
 import MenuSearch from "../components/menu/MenuSearch";
 import SaveMenuAlert from "../components/alert/SaveMenuAlert";
@@ -33,9 +34,11 @@ function MenuSet() {
   const [menuDepth, setMenuDepth] = useState(0);
   const [firstCode, setFirstCode] = useState("");
   const [firstName, setFirstName] = useState("");
+  const [useYN, setUseYN] = useState(true);
   const [insertFlag, setInsertFlag] = useState(false);
   const [deleteFlag, setDeleteFlag] = useState(false);
   const [updateFlag, setUpdateFlag] = useState(false);
+
   // 인서트 후 초기화
   useEffect(() => {
     setInsertFlag(false);
@@ -113,6 +116,12 @@ function MenuSet() {
     setMenuCode(resultMenu.menuCode);
     setMenuName(resultMenu.menuName);
     setMenuParent(resultMenu.menuParent);
+
+    if(resultMenu.useYN == "y"){
+      setUseYN(true);
+    }else{
+      setUseYN(false);
+    }
     setSelectActive(false);
 
     setFirstCode(resultMenu.menuCode);
@@ -141,6 +150,7 @@ function MenuSet() {
     setMenuCode("");
     setMenuName("");
     setMenuParent(0);
+    setUseYN(true);
     setSelectActive(true);
     setFirstCode("");
     setFirstName("");
@@ -162,6 +172,16 @@ function MenuSet() {
       console.log(error);
     }
   };
+
+  const label = { inputProps: { "aria-label": "Size switch demo" } };
+  const [useMenu, setUseMenu] = useState("");
+  useEffect(()=> {
+    if(useYN){
+      setUseMenu("y");
+    }else {
+      setUseMenu("n");
+    }
+  }, [useYN])
 
   // 메뉴 이름 중복체크
   useEffect(() => {
@@ -245,8 +265,8 @@ function MenuSet() {
                               ? firstCode == menuCode
                                 ? true
                                 : returnCode.length > 0
-                                ? false
-                                : true
+                                  ? false
+                                  : true
                               : false
                           }
                           isInvalid={
@@ -254,8 +274,8 @@ function MenuSet() {
                               ? firstCode == menuCode
                                 ? false
                                 : returnCode.length > 0
-                                ? true
-                                : false
+                                  ? true
+                                  : false
                               : true
                           }
                         />
@@ -296,8 +316,8 @@ function MenuSet() {
                               ? firstName == menuName
                                 ? true
                                 : returnName.length > 0
-                                ? false
-                                : true
+                                  ? false
+                                  : true
                               : false
                           }
                           isInvalid={
@@ -305,8 +325,8 @@ function MenuSet() {
                               ? firstName == menuName
                                 ? false
                                 : returnName.length > 0
-                                ? true
-                                : false
+                                  ? true
+                                  : false
                               : true
                           }
                         />
@@ -338,19 +358,19 @@ function MenuSet() {
                         className={style.menu_select}
                         onChange={insertMenuParent}
                         value={menuParent}
-                      >
+                      ><option value={0}>Root메뉴</option>
                         {/* {menu.map((menu, i) => ( */}
                         {selectActive == true
                           ? menu.map((menu, i) => (
-                              <option value={menu.menuSeq} key={i}>
-                                {menu.menuName}
-                              </option>
-                            ))
+                            <option value={menu.menuSeq} key={i}>
+                              {menu.menuName}
+                            </option>
+                          ))
                           : exceptMenu.map((menu, i) => (
-                              <option value={menu.menuSeq} key={i}>
-                                {menu.menuName}
-                              </option>
-                            ))}
+                            <option value={menu.menuSeq} key={i}>
+                              {menu.menuName}
+                            </option>
+                          ))}
                       </select>
                     </td>
                   </tr>
@@ -366,6 +386,28 @@ function MenuSet() {
                         value={menuDepth + 1}
                         readOnly
                       />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>메뉴사용</th>
+                    <td>
+                      <Switch
+                        {...label}
+                        size="small"
+                        checked={useYN || false}
+                        onChange={() => {
+                          setUseYN(!useYN);
+                        }}
+                        inputProps={{ "aria-label": "controlled" }}
+                      />
+                      &nbsp;
+                      {useYN ? (
+                        <span style={{ fontSize: "14px", fontWeight: "bold" }}>
+                          사용
+                        </span>
+                      ) : (
+                        <span style={{ fontSize: "14px"}}>미사용</span>
+                      )}
                     </td>
                   </tr>
                 </tbody>
@@ -453,6 +495,7 @@ function MenuSet() {
       menuName: menuName,
       menuParent: menuParent,
       menuDepth: menuDepth + 1,
+      useYN: useMenu,
     };
     axios({
       method: "post",
@@ -461,7 +504,7 @@ function MenuSet() {
       headers: { "Content-Type": "application/json" },
     })
       .then((res) => {
-        setInsertFlag(true);
+        setInsertFlag(true); newInsert();
       })
       .catch((error) => {
         console.log(error);
@@ -476,7 +519,7 @@ function MenuSet() {
       url: url,
     })
       .then((res) => {
-        setDeleteFlag(true);
+        setDeleteFlag(true); newInsert();
       })
       .catch((error) => {
         console.log(error);
@@ -490,6 +533,7 @@ function MenuSet() {
       menuName: menuName,
       menuParent: menuParent,
       menuDepth: menuDepth + 1,
+      useYN: useMenu,
     };
     axios({
       method: "patch",
@@ -497,7 +541,9 @@ function MenuSet() {
       data: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
     })
-      .then((res) => {})
+      .then((res) => {
+        setUpdateFlag(true); 
+      })
       .catch((error) => {
         console.log(error);
       });

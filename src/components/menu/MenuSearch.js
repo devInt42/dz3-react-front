@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -46,26 +46,43 @@ function MenuSearch(props) {
       .includes(search.toLocaleLowerCase());
   });
 
-  useEffect(() => {
-    axios
-      .get(baseUrl + "/menu/menulist")
-      .then((response) => setSearchMenu(response.data))
-      .catch((error) => console.log(error));
+  useEffect(() =>{
+    getAllList();
+    selectMenuList();
   }, []);
 
-  useEffect(() => {
-    axios
-      .get(baseUrl + "/menu/menulist/" + selected)
-      .then((response) => setMenu(response.data))
-      .catch((error) => console.log(error));
-  }, []);
 
+//선택한 메뉴 호출
+const selectMenuList = async()=>{
+  try{
+    let selectMenu = await axios
+    .get(baseUrl + "/menu/menulist/" + selected)
+    setMenu(selectMenu.data)
+  }catch{}
+}
+
+  // 전체 리스트 호출
+  const getAllList = async()=>{
+    try{
+   let allList = await axios
+    .get(baseUrl + "/menu/menulist")
+      setSearchMenu(allList.data)
+  }
+  catch{} 
+  
+}
+  
   useEffect(() => {
-    axios
-      .get(baseUrl + "/menu/menulist/" + selected)
-      .then((response) => setSubmenu(response.data))
-      .catch((error) => console.log(error));
-  }, [selected]);
+    srMenu()
+  }, [selected,deleteFlag,insertFlag,updateFlag]);
+
+  // 검색 메뉴
+  const srMenu = useCallback( async ()=>{
+    try{
+    let searchRes = await   axios
+    .get(baseUrl + "/menu/menulist/" + selected)
+    setSubmenu(searchRes.data)}catch{}
+  },[selected])
 
   const searchInfo = (resultMenu) => {
     props.getSearchInfo(resultMenu);
@@ -128,6 +145,7 @@ function MenuSearch(props) {
                       <MenuItems
                         insertFlag={insertFlag}
                         deleteFlag={deleteFlag}
+                        updateFlag={updateFlag}
                         menuSeq={menu.menuSeq}
                         searchInfo={searchInfo}
                       />

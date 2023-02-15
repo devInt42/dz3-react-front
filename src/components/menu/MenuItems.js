@@ -51,8 +51,8 @@ function MenuItems(props) {
           <div key={menu.menuSeq} className={style.menu_item}>
             <div
               style={{
-                paddingLeft: (menu.menuDepth - 1) * 22,
-                paddingRight: "20px",
+                paddingLeft: (menu.menuDepth - 1) * 18,
+                // paddingRight: "20px",
               }}
             >
               <div
