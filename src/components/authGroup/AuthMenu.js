@@ -261,7 +261,6 @@ const AuthMenu = (props) => {
                   name={menuItem.menuCode}
                   value={menuItem.menuSeq}
                   id={menuItem.menuSeq.toString()}
-                  // onClick={setAuthMenuValue}
                   onChange={setAuthMenuValue}
                   checked={(() => {
                     let tempList = checkedList.filter(
