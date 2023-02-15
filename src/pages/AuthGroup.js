@@ -14,7 +14,6 @@ const AuthGroup = () => {
   const [originList, setOriginList] = useState([]);
   const [insertList, setInsertList] = useState(null);
   const [deleteList, setDeleteList] = useState(null);
-  const [refresh, setRefresh] = useState(false);
   const [selectFlag, setSelectFlag] = useState(false);
   const [cancelFlag, setCancelFlag] = useState(false);
   const [insertFlag, setInsertFlag] = useState(false);
@@ -23,9 +22,10 @@ const AuthGroup = () => {
   useEffect(() => {}, [selectCompanySeq]);
   useEffect(() => {}, [pointCompanySeq]);
   useEffect(() => {}, [authSeq]);
-  useEffect(() => {}, [checkedRes]);
+  useEffect(() => {
+    // console.log(checkedRes);
+  }, [checkedRes]);
   useEffect(() => {}, [originList]);
-  useEffect(() => {}, [refresh]);
   // insert 성공시 렌더링
   useEffect(() => {
     setInsertFlag(false);

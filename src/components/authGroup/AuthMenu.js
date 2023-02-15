@@ -19,6 +19,18 @@ const AuthMenu = (props) => {
   const [cancelFlag, setCancelFlag] = useState(false);
   const [insertFlag, setInsertFlag] = useState(false);
   const [deleteFlag, setDeleteFlag] = useState(false);
+  // 부모값 지정
+  useEffect(() => {
+    setAuthSeq(props.authSeq);
+    setPointCompanySeq(props.pointCompanySeq);
+    setSelectCompanySeq(props.selectCompanySeq);
+    setCancelFlag(props.cancelFlag);
+    setSelectFlag(props.selectFlag);
+    setInsertFlag(props.insertFlag);
+    setDeleteFlag(props.deleteFlag);
+  }, [props]);
+  useEffect(() => {}, [allMenuSeq]);
+
   // insert 성공시 렌더링
   useEffect(() => {
     setInsertFlag(false);
@@ -29,6 +41,7 @@ const AuthMenu = (props) => {
     setDeleteFlag(false);
   }, [deleteFlag]);
 
+  // 전체 메뉴 호출 함수
   const callMenuSeq = useCallback(async () => {
     let seq = await axios.get(`${baseUrl}/menu/menulist`);
     if (seq.data.length > 0) {
@@ -39,21 +52,26 @@ const AuthMenu = (props) => {
       setAllmenuSeq(temp);
     }
   }, []);
+  useEffect(() => {}, [allMenuSeq]);
+
+  // 전체메뉴 호출
   useEffect(() => {
     callMenuSeq();
   }, []);
 
+  // 전체선택
   useEffect(() => {
     addListSelectAll();
     setSelectFlag(false);
   }, [selectFlag]);
 
+  // 전체 해제
   useEffect(() => {
     cancelListSelectAll();
     setCancelFlag(false);
   }, [cancelFlag]);
 
-  // 전체 선택
+  // 전체 선택 함수
   const addListSelectAll = useCallback(() => {
     if (selectFlag === true) {
       let temp = [];
@@ -64,24 +82,12 @@ const AuthMenu = (props) => {
     }
   }, [selectFlag]);
 
-  // 전체 해제
+  // 전체 해제 함수
   const cancelListSelectAll = () => {
     if (cancelFlag === true) {
       setCheckedList([]);
     }
   };
-
-  useEffect(() => {}, [allMenuSeq]);
-
-  useEffect(() => {
-    setAuthSeq(props.authSeq);
-    setPointCompanySeq(props.pointCompanySeq);
-    setSelectCompanySeq(props.selectCompanySeq);
-    setCancelFlag(props.cancelFlag);
-    setSelectFlag(props.selectFlag);
-    setInsertFlag(props.insertFlag);
-    setDeleteFlag(props.deleteFlag);
-  }, [props]);
 
   // 기존 db의 권한-메뉴 값 불러오기
   const originLoad = useCallback(async () => {
@@ -110,7 +116,7 @@ const AuthMenu = (props) => {
     originLoad();
   }, [authSeq, insertFlag, deleteFlag]);
 
-  // 전체 메뉴리스트 호출
+  // 전체 메뉴리스트 호출 함수
   const getAllMenuList = async () => {
     let sendData = {
       menuParent: "0",
@@ -143,29 +149,41 @@ const AuthMenu = (props) => {
   //전체 클릭시 발생하는 함수
   const allCheckedElement = useCallback(
     async (list, checked) => {
-      const temp = [];
-
-      list.map((item) => {
-        let flag = true;
-        checkedList.map((li) => {
-          if (item.menuSeq === li.menuSeq) {
-            flag = false;
+      let temp = [];
+      // 선택됐을경우
+      if (checked) {
+        list.map((item) => {
+          let flag = true;
+          checkedList.map((li) => {
+            if (item.menuSeq === li.menuSeq) {
+              flag = false;
+            }
+          });
+          if (flag) {
+            temp.push(item);
           }
         });
-        if (flag === true) {
-          temp.push(item);
-        }
-      });
-      try {
-        if (checked) {
-          setCheckedList([...checkedList, ...temp]);
-        } else {
-          setCheckedList(
-            checkedList.filter((el) => el.menuSeq !== list.menuSeq)
-          );
-        }
-      } catch (error) {
-        console.log(error);
+        setCheckedList([...checkedList, ...temp]);
+      }
+      //해제일경우
+      else {
+        list.map((item) => {
+          let flag = true;
+          checkedList.map((li) => {
+            if (item.menuSeq === li.menuSeq) {
+              flag = false;
+            }
+          });
+          if (!flag) {
+            temp.push(item);
+          }
+        });
+
+        setCheckedList(
+          checkedList.filter(
+            (x) => !temp.map((tmp) => tmp.menuSeq).includes(x.menuSeq)
+          )
+        );
       }
     },
     [checkedList]

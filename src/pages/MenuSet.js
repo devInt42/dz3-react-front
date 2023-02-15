@@ -14,7 +14,6 @@ import SaveFailMenuAlert from "../components/alert/SaveFailMenuAlert";
 import DeleteMenuAlert from "../components/alert/DeleteMenuAlert";
 import UpdateMenuAlert from "../components/alert/UpdateMenuAlert";
 import UpdateFailMenuAlert from "../components/alert/UpdateFaliMenuAlert";
-import Icons from "../components/menu/Icons";
 
 function MenuSet() {
   const baseUrl = "http://localhost:8080";
