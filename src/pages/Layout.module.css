@@ -4,13 +4,14 @@
     padding: 0px;
 
     /* 메뉴 접었다 폈다 */
-    width: 50px;
-    transition: .3s;
+    /* width: 50px;
+    transition: .3s; */
     /* height: 100vh; */
-}.layout_lnb:hover{
+}
+/* .layout_lnb:hover{
     width: 150px;
     transition: .3s;
-}
+} */
 
 .layout_gnb{
     border: 1px solid black;

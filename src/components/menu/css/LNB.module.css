@@ -17,7 +17,6 @@
 }.lnb_select:hover{
     opacity: 1;
     background-color: rgba(69, 72, 75, 0.63);
-	transition:.3s;
 }
 
 .lnb_menuIcon{
@@ -43,7 +42,7 @@
     overflow: scroll; */
     
     position: relative;
-    width: 100%;
+    /* width: 100%; */
     height: 100%;
     background-color: rgba(32, 30, 30, 0.938);
     font-family: 'Noto Sans KR', sans-serif;

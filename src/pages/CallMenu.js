@@ -72,7 +72,7 @@ function CallMenu(props) {
                         ? setChildMenu(
                             childMenu.filter((data) => data != menu.menuSeq)
                           )
-                        : setChildMenu([...childMenu, menu.menuSeq]);
+                        : setChildMenu([...childMenu, menu.menuSeq]); setFocus(menu.menuSeq);
                     }}
                   >
                     {menu.menuDepth == 1 ? (
@@ -86,6 +86,7 @@ function CallMenu(props) {
                       </div>
                     ) : (
                       <div className={style.menu_sub}>{menu.menuName}</div>
+                      // <div className={`${focus == menu.menuSeq? style.menu_click : style.menu_sub}`}>{menu.menuName}</div>
                     )}
                   </div>
                 </div>
