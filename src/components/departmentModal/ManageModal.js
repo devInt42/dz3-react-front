@@ -47,9 +47,8 @@ const ManageModal = (props) => {
     <div>
       <Button
         variant="outline-secondary"
-        style={{ width: "5%" }}
-        onClick={openModal}
-      >
+        style={{ width: "70px", marginLeft: "10px" }}
+        onClick={openModal}>
         편집
       </Button>{" "}
       <DepartmentModal
