@@ -15,9 +15,12 @@ function MenuSearch(props) {
 
   const [selected, setSelected] = useState(0);
   const [search, setSearch] = useState("");
+
+  // crud후 렌더링을 위한 변수
   const [insertFlag, setInsertFlag] = useState(false);
   const [deleteFlag, setDeleteFlag] = useState(false);
   const [updateFlag, setUpdateFlag] = useState(false);
+
   useEffect(() => {
     setInsertFlag(props.insertFlag);
     setDeleteFlag(props.deleteFlag);
@@ -33,12 +36,15 @@ function MenuSearch(props) {
   useEffect(() => {
     setUpdateFlag(false);
   }, [updateFlag]);
+
   const selectedMenu = (e) => {
     setSelected(e.target.value);
   };
   const getSearch = (e) => {
     setSearch(e.target.value);
   };
+
+  // 검색 필터
   const searched = searchMenu.filter((item) => {
     return item.menuName
       .replace(" ", "")
@@ -51,21 +57,22 @@ function MenuSearch(props) {
     selectMenuList();
   }, []);
 
-  //선택한 메뉴 호출
-  const selectMenuList = async () => {
-    try {
-      let selectMenu = await axios.get(baseUrl + "/menu/menulist/" + selected);
-      setMenu(selectMenu.data);
-    } catch {}
-  };
-
   // 전체 리스트 호출
   const getAllList = async () => {
     try {
       let allList = await axios.get(baseUrl + "/menu/menulist");
       setSearchMenu(allList.data);
-    } catch {}
+    } catch(error) {console.log(error)}
   };
+
+  //선택한 메뉴 호출
+  const selectMenuList = async () => {
+    try {
+      let selectMenu = await axios.get(baseUrl + "/menu/menulist/" + selected);
+      setMenu(selectMenu.data);
+    } catch(error) {console.log(error)}
+  };
+
 
   useEffect(() => {
     srMenu();
@@ -76,16 +83,18 @@ function MenuSearch(props) {
     try {
       let searchRes = await axios.get(baseUrl + "/menu/menulist/" + selected);
       setSubmenu(searchRes.data);
-    } catch {}
+    } catch(error) {console.log(error)}
   };
 
   const searchInfo = (resultMenu) => {
     props.getSearchInfo(resultMenu);
   };
+
   useEffect(() => {
     selectMenuList();
     getAllList();
   }, [subMenu]);
+
   return (
     <div>
       <Row>
