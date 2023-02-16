@@ -65,18 +65,13 @@ function MenuSearch(props) {
     } catch(error) {console.log(error)}
   };
 
-  //선택한 메뉴 호출
+  // 선택한 메뉴 호출
   const selectMenuList = async () => {
     try {
       let selectMenu = await axios.get(baseUrl + "/menu/menulist/" + selected);
       setMenu(selectMenu.data);
     } catch(error) {console.log(error)}
   };
-
-
-  useEffect(() => {
-    srMenu();
-  }, [selected, deleteFlag, insertFlag, updateFlag]);
 
   // 검색 메뉴
   const srMenu = async () => {
@@ -86,13 +81,40 @@ function MenuSearch(props) {
     } catch(error) {console.log(error)}
   };
 
+  useEffect(() => {
+    srMenu();
+  }, [selected, deleteFlag, insertFlag, updateFlag]);
+
+  // 렌더링 수정 전
+  // useEffect(() => {
+  //   axios
+  //     .get(baseUrl + "/menu/menulist")
+  //     .then((response) => setSearchMenu(response.data))
+  //     .catch((error) => console.log(error));
+  // }, []);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(baseUrl + "/menu/menulist/" + selected)
+  //     .then((response) => setMenu(response.data))
+  //     .catch((error) => console.log(error));
+  // }, []);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(baseUrl + "/menu/menulist/" + selected)
+  //     .then((response) => setSubmenu(response.data))
+  //     .catch((error) => console.log(error));
+  // }, [selected]);
+
   const searchInfo = (resultMenu) => {
     props.getSearchInfo(resultMenu);
   };
 
+  
   useEffect(() => {
-    selectMenuList();
-    getAllList();
+    // selectMenuList();
+     getAllList();
   }, [subMenu]);
 
   return (
@@ -134,33 +156,33 @@ function MenuSearch(props) {
       <Row>
         {search != ""
           ? searched.map((menu) => {
-              return (
-                <div key={menu.menuSeq} onClick={() => searchInfo(menu)}>
+            return (
+              <div key={menu.menuSeq} onClick={() => searchInfo(menu)}>
+                {menu.menuName}
+              </div>
+            );
+          })
+          : subMenu.map((menu, i) => {
+            return (
+              <div key={i}>
+                <div onClick={() => searchInfo(menu)}>
+                  <AiFillFolderOpen />
                   {menu.menuName}
                 </div>
-              );
-            })
-          : subMenu.map((menu, i) => {
-              return (
-                <div key={i}>
-                  <div onClick={() => searchInfo(menu)}>
-                    <AiFillFolderOpen />
-                    {menu.menuName}
-                  </div>
-                  <div style={{ paddingLeft: "15px" }}>
-                    {
-                      <MenuItems
-                        insertFlag={insertFlag}
-                        deleteFlag={deleteFlag}
-                        updateFlag={updateFlag}
-                        menuSeq={menu.menuSeq}
-                        searchInfo={searchInfo}
-                      />
-                    }
-                  </div>
+                <div style={{ paddingLeft: "15px" }}>
+                  {
+                    <MenuItems
+                      insertFlag={insertFlag}
+                      deleteFlag={deleteFlag}
+                      updateFlag={updateFlag}
+                      menuSeq={menu.menuSeq}
+                      searchInfo={searchInfo}
+                    />
+                  }
                 </div>
-              );
-            })}
+              </div>
+            );
+          })}
       </Row>
     </div>
   );
