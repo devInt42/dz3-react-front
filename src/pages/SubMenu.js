@@ -74,31 +74,6 @@ function SubMenu(props) {
         </div>
       )}
     </div>
-
-    // <TreeView
-    //   aria-label="file system navigator"
-    //   defaultCollapseIcon={<ExpandMoreIcon />}
-    //   defaultExpandIcon={<ChevronRightIcon />}
-    //   sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
-    // >
-    //      {menuSequence == 0 ? (<></>) : (
-    //     <div>
-    //       {subMenu.map((menu) => {
-    //         return (
-    //         <div>
-    //             <div onClick={() => { setIsActive(true); setChildMenu(menu.menuSeq);}}>
-    //                <TreeItem key={menu.menuSeq} nodeId={menu.menuSeq} label={menu.menuName}/>
-    //               </div>
-    //             {childMenu == menu.menuSeq && isActive && (
-    //               <SubMenu menuSeq={menu.menuSeq} />
-    //             )}
-    //           </div>
-    //         );
-    //       })}
-    //       {lastSeq == 0 ? <></> : <ContentsMapping lastSeq={lastSeq} />}
-    //     </div>
-    //   )}
-    // </TreeView>
   );
 }
 

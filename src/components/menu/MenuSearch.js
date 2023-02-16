@@ -20,7 +20,7 @@ function MenuSearch(props) {
   const [insertFlag, setInsertFlag] = useState(false);
   const [deleteFlag, setDeleteFlag] = useState(false);
   const [updateFlag, setUpdateFlag] = useState(false);
-
+  const [selectList, setSelectList] = useState([]);
   useEffect(() => {
     setInsertFlag(props.insertFlag);
     setDeleteFlag(props.deleteFlag);
@@ -62,29 +62,35 @@ function MenuSearch(props) {
     try {
       let allList = await axios.get(baseUrl + "/menu/menulist");
       setSearchMenu(allList.data);
-    } catch(error) {console.log(error)}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //선택한 메뉴 호출
   const selectMenuList = async () => {
     try {
       let selectMenu = await axios.get(baseUrl + "/menu/menulist/" + selected);
-      setMenu(selectMenu.data);
-    } catch(error) {console.log(error)}
-  };
 
+      setMenu(selectMenu.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     srMenu();
   }, [selected, deleteFlag, insertFlag, updateFlag]);
 
   // 검색 메뉴
-  const srMenu = async () => {
+  const srMenu = useCallback(async () => {
     try {
       let searchRes = await axios.get(baseUrl + "/menu/menulist/" + selected);
       setSubmenu(searchRes.data);
-    } catch(error) {console.log(error)}
-  };
+    } catch (error) {
+      console.log(error);
+    }
+  }, [selected, deleteFlag, insertFlag, updateFlag]);
 
   const searchInfo = (resultMenu) => {
     props.getSearchInfo(resultMenu);
@@ -93,25 +99,41 @@ function MenuSearch(props) {
   useEffect(() => {
     selectMenuList();
     getAllList();
+    callSelectMenu();
   }, [subMenu]);
 
+  const callSelectMenu = useCallback(async () => {
+    try {
+      let listRes = await axios.get(`${baseUrl}/menu/tree`, {
+        params: { menuParent: "0", menuDepth: "0" },
+      });
+
+      console.log(selected);
+      console.log(listRes.data);
+      setSelectList(listRes.data);
+    } catch (error) {}
+  }, [selected]);
+
+  useEffect(() => {}, [selectList]);
   return (
     <div>
       <Row>
-        <select
-          onChange={selectedMenu}
-          onClick={() => {
-            setSearch("");
-          }}
-        >
-          <option value={0}>전체</option>
-          {menu.map((menu, i) => (
-            <option value={menu.menuSeq} key={i}>
-              {menu.menuName}
-            </option>
-          ))}
-        </select>
-
+        {selectList && (
+          <select
+            onChange={selectedMenu}
+            onClick={() => {
+              setSearch("");
+            }}
+            defaultValue={selected}
+          >
+            <option value={0}>전체</option>
+            {selectList.map((menu, i) => (
+              <option value={menu.menuSeq} key={menu.menuSeq.toString()}>
+                {menu.menuName}
+              </option>
+            ))}
+          </select>
+        )}
         <div style={{ position: "relative" }}>
           <input
             type="text"
@@ -135,14 +157,18 @@ function MenuSearch(props) {
         {search != ""
           ? searched.map((menu) => {
               return (
-                <div key={menu.menuSeq} onClick={() => searchInfo(menu)}>
+                <div
+                  key={menu.menuSeq}
+                  onClick={() => searchInfo(menu)}
+                  style={{ cursor: "pointer" }}
+                >
                   {menu.menuName}
                 </div>
               );
             })
           : subMenu.map((menu, i) => {
               return (
-                <div key={i}>
+                <div key={i} style={{ cursor: "pointer" }}>
                   <div onClick={() => searchInfo(menu)}>
                     <AiFillFolderOpen />
                     {menu.menuName}

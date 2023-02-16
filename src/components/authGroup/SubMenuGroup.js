@@ -80,15 +80,11 @@ const SubMenuGroup = (props) => {
     if (propsCheck === true) {
       sonMenu.forEach((list) => {
         temp.push(list);
-        console.log("추가");
-        console.log(list);
         props.sendChildListSeq(temp, true);
       });
     } else if (propsCheck == false) {
       sonMenu.forEach((list) => {
         temp.push(list);
-        console.log("빼기");
-        console.log(list);
         props.sendChildListSeq(temp, false);
       });
     }
