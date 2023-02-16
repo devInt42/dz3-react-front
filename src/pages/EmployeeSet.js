@@ -21,14 +21,17 @@ function EmployeeSet() {
   const [groupData, setGroupData] = useState([]);
   const [groupFirstData, setGroupFirstData] = useState([]);
   const [basicData, setBasicData] = useState({});
+  const [basicFirstData, setBasicFirstData] = useState({});
   const [notRequire,setNotRequire] = useState('');
   const [departmentCheck, setDepartmentCheck] = useState(true);
   const [employeeCodeCheck, setEmployeeCodeCheck] = useState(true);
   const [joinDateCheck, setJoinDateCheck] = useState(true);
+  const [returnId, setReturnId] = useState(0);
+  const [returnCmail, setReturnCmail] = useState(0);
   useEffect(() => {
     axios
       .get(baseUrl + "/employee/emplist/" + employeeSeq)
-      .then((response) => setBasicData(response.data[0]))
+      .then((response) => {setBasicData(response.data[0]); setBasicFirstData(response.data[0])})
       .catch((error) => console.log(error));
 
     axios
@@ -44,6 +47,7 @@ function EmployeeSet() {
       .catch((error) => console.log(error));
       setNotRequire('');
   }, [employeeSeq]);
+
   const clickEmp = () => {
     setSelectAct(false);
   };
@@ -81,6 +85,26 @@ function EmployeeSet() {
       employeeHcall: "",
       approvalPwd: ""
     });
+    setBasicFirstData({
+      employeeSeq: employeeSeq,
+      employeeId: "",
+      employeeName: "",
+      employeeBirth: "",
+      employeeJoin: "",
+      employeeLeave: "",
+      employeeCall: "",
+      employeePwd: "",
+      employeePh: "",
+      employeePmail: "",
+      employeeCmail: "",
+      employeeAddr: "",
+      employeePicture: null,
+      useYN: "Y",
+      employeeGender: "",
+      employeeLanguage: "",
+      employeeHcall: "",
+      approvalPwd: ""
+    })
     setGroupData([{
       employeeSeq: 0,
       workplaceSeq: 0,
@@ -229,15 +253,15 @@ function EmployeeSet() {
       successButton = "확인"/>)
       
       // 조직정보
-      employeeCodeCheck == false &&
+      !employeeCodeCheck &&
       setNotRequire(<SaveAlert title = {groupError} text = "사번을 입력해 주십시오." icon = "error"
       successButton = "확인"/>)
       
-      departmentCheck == false &&
+      !departmentCheck &&
       setNotRequire(<SaveAlert title = {groupError} text = "부서를 선택해 주십시오." icon = "error"
       successButton = "확인"/>)
 
-      joinDateCheck == false &&
+      !joinDateCheck &&
       setNotRequire(<SaveAlert title = {groupError} text = "입사일을 입력해 주십시오." icon = "error"
       successButton = "확인"/>)
   }
@@ -287,6 +311,11 @@ function EmployeeSet() {
                   setSelectAct={setSelectAct}
                   setData={setBasicData}
                   data={basicData}
+                  firstData = {basicFirstData}
+                  returnId = {returnId}
+                  setReturnId = {setReturnId}
+                  returnCmail = {returnCmail}
+                  setReturnCmail = {setReturnCmail}
                 />
               </TabPanel>
               <TabPanel value={value} index={1}>

@@ -104,7 +104,7 @@ function EmpBasic(props) {
   // 객체 업데이트
   const updateObject = (obj) => {
     props.setData({
-      ...props.data,
+      ...props.data ,
       ...obj
     });
     console.log(props.data);
@@ -181,7 +181,7 @@ function EmpBasic(props) {
         <EmpBasicUpdateFailAlert setUpdateCheck={setUpdateCheck} />
       );
     } else {
-      if (employeeId == "") setReturnId([]);
+      if (employeeId == "") props.setReturnId([]);
       if (employeeCmail == "") setReturnCmail([]);
       setUpdateCheck(true);
     }
@@ -192,35 +192,24 @@ function EmpBasic(props) {
     setDeleteCheck(true);
   }
 
-  // 로그인ID 중복체크
-  useEffect(() => {
-    if (employeeId != "" && employeeId != undefined) idCheck();
-  }, [employeeId]);
-
-  const [returnId, setReturnId] = useState([]);
-  const idCheck = async () => {
+  const idCheck = async (id) => {
     try {
       let idRes = await axios.get(`${baseUrl}/employee/emplist/checkid`, {
-        params: { employeeId: employeeId },
+        params: { employeeId: id },
       });
-      setReturnId(idRes.data);
+      props.setReturnId(idRes.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // 메일ID 중복체크
-  useEffect(() => {
-    if (employeeCmail != "" && employeeCmail != undefined) cmailCheck();
-  }, [employeeCmail]);
-
   const [returnCmail, setReturnCmail] = useState([]);
-  const cmailCheck = async () => {
+  const cmailCheck = async (mail) => {
     try {
       let cmailRes = await axios.get(`${baseUrl}/employee/emplist/checkcmail`, {
-        params: { employeeCmail: employeeCmail },
+        params: { employeeCmail: mail },
       });
-      setReturnCmail(cmailRes.data);
+      props.setReturnCmail(cmailRes.data);
     } catch (error) {
       console.log(error);
     }
@@ -289,34 +278,35 @@ function EmpBasic(props) {
                   style={{ backgroundColor: "rgba(175, 174, 174, 0.328)" }}
                   onChange={(e) => {
                     updateObject({ employeeId: e.target.value })
+                    idCheck(e.target.value);
                   }}
                   autoComplete="off"
                   isValid={
-                    employeeId != ""
-                      ? firstId == employeeId
+                    props.data.employeeId != ""
+                      ? props.firstData.employeeId == props.data.employeeId
                         ? true
-                        : returnId.length > 0
+                        : props.returnId.length > 0
                           ? false
                           : true
                       : false
                   }
                   isInvalid={
-                    employeeId != ""
-                      ? firstId == employeeId
+                    props.data.employeeId != ""
+                      ? props.firstData.employeeId == props.data.employeeId
                         ? false
-                        : returnId.length > 0
+                        : props.returnId.length > 0
                           ? true
                           : false
                       : true
                   }
                 />
-                {firstId == employeeId ? (
+                {props.firstData.employeeId == props.data.employeeId ? (
                   <Form.Control.Feedback type="valid">
                     현재 로그인 ID 입니다.
                   </Form.Control.Feedback>
                 ) : (
-                  employeeId != "" &&
-                  employeeId != undefined && (
+                  !props.data.employeeId ||
+                  (
                     <>
                       <Form.Control.Feedback type="valid">
                         사용 가능한 ID 입니다.
@@ -339,34 +329,35 @@ function EmpBasic(props) {
                   style={{ backgroundColor: "rgba(175, 174, 174, 0.328)" }}
                   onChange={(e) => {
                     updateObject({employeeCmail: e.target.value})
+                    cmailCheck(e.target.value);
                   }}
                   autoComplete="off"
                   isValid={
-                    employeeCmail != ""
-                      ? FirstMail == employeeCmail
+                    props.data.employeeCmail != ""
+                      ? props.firstData.employeeCmail == props.data.employeeCmail
                         ? true
-                        : returnCmail.length > 0
+                        : props.returnCmail.length > 0
                           ? false
                           : true
                       : false
                   }
                   isInvalid={
-                    employeeCmail != ""
-                      ? FirstMail == employeeCmail
+                    props.data.employeeCmail != ""
+                      ? props.firstData.employeeCmail == props.data.employeeCmail
                         ? false
-                        : returnCmail.length > 0
+                        : props.returnCmail.length > 0
                           ? true
                           : false
                       : true
                   }
                 />
-                {FirstMail == employeeCmail ? (
+                {props.firstData.employeeCmail == props.data.employeeCmail ? (
                   <Form.Control.Feedback type="valid">
                     현재 메일 ID 입니다.
                   </Form.Control.Feedback>
                 ) : (
-                  employeeCmail != "" &&
-                  employeeCmail != undefined && (
+                  !props.data.employeeCmail ||
+                  (
                     <>
                       <Form.Control.Feedback type="valid">
                         사용 가능한 메일입니다.
@@ -632,7 +623,7 @@ function EmpBasic(props) {
           setInsertCheck={setInsertCheck}
           insertEmp={insertEmp}
           employeeId={employeeId}
-          returnId={returnId}
+          returnId={props.returnId}
           firstId={firstId}
           employeeCmail={employeeCmail}
           returnCmail={returnCmail}
@@ -646,7 +637,7 @@ function EmpBasic(props) {
           setUpdateCheck={setUpdateCheck}
           updateEmp={updateEmp}
           employeeId={employeeId}
-          returnId={returnId}
+          returnId={props.returnId}
           firstId={firstId}
           employeeCmail={employeeCmail}
           returnCmail={returnCmail}
