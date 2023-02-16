@@ -20,115 +20,205 @@ function EmployeeSet() {
   const [searchRes, setSearchRes] = useState([]);
   const [groupData, setGroupData] = useState([]);
   const [groupFirstData, setGroupFirstData] = useState([]);
-  const [basicData, setBasicData] = useState({
-    employeeSeq: employeeSeq,
-    employeeId: "", 
-    employeeName: "", 
-    employeeBirth: "", 
-    employeeJoin: "", 
-    employeeLeave: "", 
-    employeeCall: "",
-    employeePwd: "",
-    employeePh: "", 
-    employeePmail: "", 
-    employeeCmail: "", 
-    employeeAddr: "", 
-    employeePicture: null, 
-    useYN: "Y", 
-    employeeGender: "", 
-    employeeLanguage: "", 
-    employeeHcall: "", 
-    approvalPwd: ""
-  });
+  const [basicData, setBasicData] = useState({});
 
 
-useEffect(() => {
-  axios
-    .get(baseUrl + "/employee/emplist/" + employeeSeq)
-    .then((response) => setBasicData(response.data[0]))
-    .catch((error) => console.log(error));
+  useEffect(() => {
+    axios
+      .get(baseUrl + "/employee/emplist/" + employeeSeq)
+      .then((response) => setBasicData(response.data[0]))
+      .catch((error) => console.log(error));
 
     axios
-    .get(`${baseUrl}/department-employee/belong`, {
-      params: {
-        employeeSeq: employeeSeq,
-      },
-    })
-    .then((res) => {
-      setGroupData(res.data);
-      setGroupFirstData(res.data);
-    })
-    .catch((error) => console.log(error));
-}, [employeeSeq]);
-const clickEmp = () => {
-  setSelectAct(false);
-};
-const handleChange = (event, newValue) => {
-  setValue(newValue);
-};
+      .get(`${baseUrl}/department-employee/belong`, {
+        params: {
+          employeeSeq: employeeSeq,
+        },
+      })
+      .then((res) => {
+        setGroupData(res.data);
+        setGroupFirstData(res.data);
+      })
+      .catch((error) => console.log(error));
+  }, [employeeSeq]);
+  const clickEmp = () => {
+    setSelectAct(false);
+  };
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
-// 검색 결과 가져오기
-const sendSearchResult = (e) => {
-  setSearchRes(e);
-};
+  // 검색 결과 가져오기
+  const sendSearchResult = (e) => {
+    setSearchRes(e);
+  };
 
-// 검색결과에 해당하는 사원 불러오기
-useEffect(() => { }, [searchRes]);
+  // 검색결과에 해당하는 사원 불러오기
+  useEffect(() => { }, [searchRes]);
 
-return (
-  <div>
-    <div className={style.wrap}>
-      <span style={{ fontSize: "25px" }}>
-        <GrUserManager />
-        &nbsp;상용직관리
-      </span>
-      <hr />
-    </div>
-    <Container fluid>
-      <Row>
-        <SearchAppBar sendSearchResult={sendSearchResult} />
-      </Row>
-      <Row style={{ border: "1px solid #e3e3e3" }}>
-        <Col xs={2} className="menuArea">
-          <EmpLnb
-            clickEmp={clickEmp}
-            setEmpSeq={setEmpSeq}
-            searchRes={searchRes}
-          />
-        </Col>
+  // 입사처리
+  const InsertEmp = () => {
+    setBasicData({
+      employeeSeq: employeeSeq,
+      employeeId: "",
+      employeeName: "",
+      employeeBirth: "",
+      employeeJoin: "",
+      employeeLeave: "",
+      employeeCall: "",
+      employeePwd: "",
+      employeePh: "",
+      employeePmail: "",
+      employeeCmail: "",
+      employeeAddr: "",
+      employeePicture: null,
+      useYN: "Y",
+      employeeGender: "",
+      employeeLanguage: "",
+      employeeHcall: "",
+      approvalPwd: ""
+    });
+    setGroupData([{
+      employeeSeq: 0,
+      workplaceSeq: 0,
+      departmentSeq: 0,
+      companySeq: 0,
+      companyCode: null,
+      employeeName: null,
+      employeeId: null,
+      employeePh: null,
+      employeePicture: null,
+      employeeCall: null,
+      employeePmail: null,
+      employeeCmail: null,
+      companyName: "",
+      workplaceName: "",
+      departmentName: "",
+      employeeBirth: null,
+      authSeq: 0,
+      duty: "",
+      position: "",
+      mainCompany: null,
+      mainDepartment: null,
+      startPgNum: 0,
+      endPgNum: 0,
+      mainCompanyYN: "Y",
+      mainDepartmentYN: "Y",
+      departmentLoc: "",
+      departmentCall: "",
+      departmentFax: "",
+      departmentDepth: 0,
+      departmentParent: 0,
+      departmentZipCode: "",
+      dutyCode: "",
+      positionCode: "",
+      employeeCode: "",
+      employeeJoin: null,
+      employeeLeave: null,
+      employeeClassification: null,
+      companyHomepage: null,
+      page: 0
+    }])
+    setGroupFirstData([{
+      employeeSeq: 0,
+      workplaceSeq: 0,
+      departmentSeq: 0,
+      companySeq: 0,
+      companyCode: null,
+      employeeName: null,
+      employeeId: null,
+      employeePh: null,
+      employeePicture: null,
+      employeeCall: null,
+      employeePmail: null,
+      employeeCmail: null,
+      companyName: "",
+      workplaceName: "",
+      departmentName: "",
+      employeeBirth: null,
+      authSeq: 0,
+      duty: "",
+      position: "",
+      mainCompany: null,
+      mainDepartment: null,
+      startPgNum: 0,
+      endPgNum: 0,
+      mainCompanyYN: "Y",
+      mainDepartmentYN: "Y",
+      departmentLoc: "",
+      departmentCall: "",
+      departmentFax: "",
+      departmentDepth: 0,
+      departmentParent: 0,
+      departmentZipCode: "",
+      dutyCode: "",
+      positionCode: "",
+      employeeCode: "",
+      employeeJoin: null,
+      employeeLeave: null,
+      employeeClassification: null,
+      companyHomepage: null,
+      page: 0
+    }])
+  }
 
-        <Col xs={10} style={{ border: "1px solid #e3e3e3", height: "100vh" }}>
-          <Box sx={{ width: "100%" }}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label="basic tabs example"
-              >
-                <Tab label="기본정보" {...a11yProps(0)} />
-                <Tab label="조직정보" {...a11yProps(1)} />
-              </Tabs>
+  return (
+    <div>
+      <div className={style.wrap}>
+        <span style={{ fontSize: "25px" }}>
+          <GrUserManager />
+          &nbsp;상용직관리
+        </span>
+        <hr />
+      </div>
+      <Container fluid>
+        <Row>
+          <SearchAppBar sendSearchResult={sendSearchResult} />
+        </Row>
+        <Row style={{ border: "1px solid #e3e3e3" }}>
+          <Col xs={2} className="menuArea">
+            <EmpLnb
+              clickEmp={clickEmp}
+              setEmpSeq={setEmpSeq}
+              searchRes={searchRes}
+            />
+          </Col>
+
+          <Col xs={10} style={{ border: "1px solid #e3e3e3", height: "100vh" }}>
+            <Box sx={{ width: "100%" }}>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="basic tabs example"
+                >
+                  <Tab label="기본정보" {...a11yProps(0)} />
+                  <Tab label="조직정보" {...a11yProps(1)} />
+                  <button onClick={() => InsertEmp()}>입사처리</button>
+                  <button>저장</button>
+                  <button>삭제</button>
+                </Tabs>
+              </Box>
+              <TabPanel value={value} index={0}>
+                <EmpBasic
+                  employeeSeq={employeeSeq}
+                  clickEmp={clickEmp}
+                  selectAct={selectAct}
+                  setSelectAct={setSelectAct}
+                  setData={setBasicData}
+                  data={basicData}
+                />
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <EmpDept employeeSeq={employeeSeq} setData={setGroupData} setFirstData={setGroupFirstData}
+                  data={groupData} firstData={groupFirstData} />
+              </TabPanel>
             </Box>
-            <TabPanel value={value} index={0}>
-              <EmpBasic
-                employeeSeq={employeeSeq}
-                clickEmp={clickEmp}
-                selectAct={selectAct}
-                setSelectAct={setSelectAct}
-                setData={setBasicData}
-                data={basicData}
-              />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <EmpDept employeeSeq={employeeSeq} setData={setGroupData} setFirstData = {setGroupFirstData} 
-                       data = {groupData} firstData = {groupFirstData}/>
-            </TabPanel>
-          </Box>
-        </Col>
-      </Row>
-    </Container>
-  </div>
-);
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
 }
 
 export default EmployeeSet;

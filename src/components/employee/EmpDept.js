@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { TfiClose } from "react-icons/tfi";
 import style from "./css/EmpDept.module.css";
 import { Form } from "react-bootstrap";
 import EmpPositionModal from "./EmpPositionModal";
