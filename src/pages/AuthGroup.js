@@ -161,66 +161,70 @@ const AuthGroup = () => {
     sendDeleteRes();
   }, [deleteList]);
   return (
-    <Container fluid="true" className="Auth" id="AuthPage">
-      <Row>
-        <Col xs={2} style={{ padding: 0 }}>
-          <AuthGroupLnb
-            sendAuthSeq={sendAuthSeq}
-            sendSelectCompanySeq={sendSelectCompanySeq}
-            sendPointCompanySeq={sendPointCompanySeq}
-          />
-        </Col>
-        <Col xs={10}>
-          <Row
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: "10px",
-            }}
-          >
-            <div style={{ width: "30%" }}>
-              <Button
-                variant="outline-primary"
-                style={{ width: "30%" }}
-                onClick={() => selectAll()}
-              >
-                전체 선택
-              </Button>
-              <Button
-                variant="outline-danger"
-                style={{ width: "30%", marginLeft: "20px" }}
-                onClick={() => cancelAll()}
-              >
-                선택 해제
-              </Button>
-            </div>
-            <Button
-              variant="outline-secondary"
-              style={{ width: "5%" }}
-              onClick={() => compareList()}
-            >
-              저장
-            </Button>
-          </Row>
-          <Col xs={3}>
-            <div className="menuArea">
-              <AuthMenu
-                selectFlag={selectFlag}
-                cancelFlag={cancelFlag}
-                authSeq={authSeq}
-                selectCompanySeq={selectCompanySeq}
-                pointCompanySeq={pointCompanySeq}
-                sendCheckedList={sendCheckedList}
-                sendOriginList={sendOriginList}
-                insertFlag={insertFlag}
-                deleteFlag={deleteFlag}
-              />
-            </div>
+    <>
+      {" "}
+      <h2>권한 그룹 설정</h2>
+      <Container fluid="true" className="Auth" id="AuthPage">
+        <Row>
+          <Col xs={2} style={{ padding: 0 }}>
+            <AuthGroupLnb
+              sendAuthSeq={sendAuthSeq}
+              sendSelectCompanySeq={sendSelectCompanySeq}
+              sendPointCompanySeq={sendPointCompanySeq}
+            />
           </Col>
-        </Col>
-      </Row>
-    </Container>
+          <Col xs={10}>
+            <Row
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "10px",
+              }}
+            >
+              <div style={{ width: "30%" }}>
+                <Button
+                  variant="outline-primary"
+                  style={{ width: "30%" }}
+                  onClick={() => selectAll()}
+                >
+                  전체 선택
+                </Button>
+                <Button
+                  variant="outline-danger"
+                  style={{ width: "30%", marginLeft: "20px" }}
+                  onClick={() => cancelAll()}
+                >
+                  선택 해제
+                </Button>
+              </div>
+              <Button
+                variant="outline-secondary"
+                style={{ width: "5%" }}
+                onClick={() => compareList()}
+              >
+                저장
+              </Button>
+            </Row>
+            <Col xs={3}>
+              <div className="menuArea">
+                <AuthMenu
+                  selectFlag={selectFlag}
+                  cancelFlag={cancelFlag}
+                  authSeq={authSeq}
+                  selectCompanySeq={selectCompanySeq}
+                  pointCompanySeq={pointCompanySeq}
+                  sendCheckedList={sendCheckedList}
+                  sendOriginList={sendOriginList}
+                  insertFlag={insertFlag}
+                  deleteFlag={deleteFlag}
+                />
+              </div>
+            </Col>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

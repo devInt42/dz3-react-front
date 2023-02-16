@@ -33,7 +33,6 @@ const SubMenuGroup = (props) => {
   //더미값 보내기
   const setTempList = async (e) => {
     const temp = [];
-
     sonMenu.forEach((list) => {
       if (list.menuSeq == e.target.value) {
         temp.push(list);

@@ -210,51 +210,54 @@ const Auth = () => {
     setDeleteComplete(false);
   }, [deleteComplete]);
   return (
-    <Container fluid="true" className="Auth" id="AuthPage">
-      <Row>
-        <Col xs={2} style={{ padding: 0 }}>
-          <AuthLnb
-            sendAuthSeq={sendAuthSeq}
-            sendSelectCompanySeq={sendSelectCompanySeq}
-            sendPointCompanySeq={sendPointCompanySeq}
-          />
-        </Col>
-        <Col xs={10}>
-          <Row
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              marginBottom: "10px",
-            }}
-          >
-            <Button
-              variant="outline-secondary"
-              style={{ width: "5%" }}
-              onClick={openModal}
+    <>
+      <h2>사용자 권한 관리</h2>
+      <Container fluid="true" className="Auth" id="AuthPage">
+        <Row>
+          <Col xs={2} style={{ padding: 0 }}>
+            <AuthLnb
+              sendAuthSeq={sendAuthSeq}
+              sendSelectCompanySeq={sendSelectCompanySeq}
+              sendPointCompanySeq={sendPointCompanySeq}
+            />
+          </Col>
+          <Col xs={10}>
+            <Row
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                marginBottom: "10px",
+              }}
             >
-              편집
-            </Button>
+              <Button
+                variant="outline-secondary"
+                style={{ width: "5%" }}
+                onClick={openModal}
+              >
+                편집
+              </Button>
 
-            <CommonModal
-              open={modalOpen}
-              close={closeModal}
-              getInfoCaLLback={getInfo}
-              header="사용자 권한 설정"
+              <CommonModal
+                open={modalOpen}
+                close={closeModal}
+                getInfoCaLLback={getInfo}
+                header="사용자 권한 설정"
+                authSeq={authSeq}
+                pointCompanySeq={pointCompanySeq}
+                selectCompanySeq={selectCompanySeq}
+              ></CommonModal>
+            </Row>
+            <AuthEmployeeList
               authSeq={authSeq}
               pointCompanySeq={pointCompanySeq}
-              selectCompanySeq={selectCompanySeq}
-            ></CommonModal>
-          </Row>
-          <AuthEmployeeList
-            authSeq={authSeq}
-            pointCompanySeq={pointCompanySeq}
-            insertComplete={insertComplete}
-            deleteComplete={deleteComplete}
-          />
-        </Col>
-      </Row>
-    </Container>
+              insertComplete={insertComplete}
+              deleteComplete={deleteComplete}
+            />
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 
