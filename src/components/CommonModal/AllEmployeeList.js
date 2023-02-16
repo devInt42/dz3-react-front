@@ -22,12 +22,11 @@ const AllEmployeeList = (props) => {
   }, [props]);
 
   useEffect(() => {
-    test();
+    checkEmplSeq();
   }, [checkSeq]);
 
-  const test = useCallback(() => {
+  const checkEmplSeq = useCallback(() => {
     if (checkSeq == null) {
-      console.log("NULL");
     } else {
       setCheckedLists(checkedList.filter((c) => c.employeeSeq !== checkSeq));
     }

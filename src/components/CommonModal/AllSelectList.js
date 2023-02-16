@@ -21,7 +21,7 @@ const AllSelectList = (props) => {
     checklength();
   }, [checkItem]);
 
-  const test = (e) => {
+  const checkEmplSeq = (e) => {
     setCheckSeq(e);
   };
 
@@ -35,7 +35,7 @@ const AllSelectList = (props) => {
         checkItem.map((list) => (
           <button
             onClick={() => {
-              test(list.employeeSeq);
+              checkEmplSeq(list.employeeSeq);
             }}
             style={{ backgroundColor: "white" }}>
             {list.employeeName}
