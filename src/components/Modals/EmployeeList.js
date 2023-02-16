@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import { Row, Col } from "react-bootstrap";
-import { BsTelephonePlus, BsFillFileEarmarkPersonFill } from "react-icons/bs";
+import { BsTelephonePlus } from "react-icons/bs";
 import DepartmentTree from "../auth/DepartmentTree";
 const EmployeeList = (props) => {
   const baseUrl = "http://localhost:8080";
@@ -71,7 +71,6 @@ const EmployeeList = (props) => {
           }
         );
         setDeptList(getAllDeptResult.data);
-        //부서 값 안들어옴
       } catch (error) {
         console.log(error);
       }

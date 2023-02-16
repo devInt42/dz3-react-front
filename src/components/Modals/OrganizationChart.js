@@ -16,6 +16,8 @@ const OrganizationChart = (props) => {
   const [pointList, setPointList] = useState([]);
   const [selectEmp, setSelectEmp] = useState(null);
 
+  // console.log(workplaceSeq);
+
   // emplist에서 선택한 사원의 모든 정보 받아오기
   const sendPointEmpList = (i) => {
     setSelectEmp(i);
@@ -77,8 +79,7 @@ const OrganizationChart = (props) => {
               onClick={() => {
                 close();
                 reset();
-              }}
-            >
+              }}>
               X
             </button>
           </header>
@@ -89,8 +90,7 @@ const OrganizationChart = (props) => {
                   <Col sm={3}>
                     <select
                       className="form-select"
-                      aria-label="Default select example"
-                    >
+                      aria-label="Default select example">
                       <option>사원명</option>
                     </select>
                   </Col>
@@ -100,14 +100,13 @@ const OrganizationChart = (props) => {
                       className="form-control"
                       placeholder="검색어를 입력하세요."
                       onChange={onChange}
-                      value={text || ""}
-                    ></input>
+                      value={text || ""}></input>
                   </Col>
                   <Col sm={1}>
                     <button
+                      style={{ width: "90px" }}
                       className="btn btn-secondary"
-                      onClick={sendInputText}
-                    >
+                      onClick={sendInputText}>
                       검색
                     </button>
                   </Col>

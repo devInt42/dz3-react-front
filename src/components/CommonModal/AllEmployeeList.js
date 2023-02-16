@@ -10,11 +10,27 @@ const AllEmployeeList = (props) => {
   const [employeeName, setEmployeeName] = useState();
   const [authSeq, setAuthSeq] = useState("");
   const [pointCompanySeq, setPointCompanySeq] = useState("");
+  const [checkSeq, setCheckSeq] = useState(null);
 
   //값 받아서 departmentSeq 설정
   useEffect(() => {
     getProps();
   }, [props]);
+
+  useEffect(() => {
+    setCheckSeq(props.checkSeq);
+  }, [props]);
+
+  useEffect(() => {
+    checkEmplSeq();
+  }, [checkSeq]);
+
+  const checkEmplSeq = useCallback(() => {
+    if (checkSeq == null) {
+    } else {
+      setCheckedLists(checkedList.filter((c) => c.employeeSeq !== checkSeq));
+    }
+  }, [checkSeq]);
 
   const getProps = useCallback(async () => {
     setDepartmentSeq(props.departmentSeq);
@@ -33,7 +49,7 @@ const AllEmployeeList = (props) => {
 
   //권한 값 받아오기
   const initLoad = async () => {
-    if (authSeq != "" && pointCompanySeq != "") {
+    if (authSeq !== "" && pointCompanySeq !== "") {
       let data = {
         authSeq: authSeq,
         companySeq: pointCompanySeq,
@@ -93,7 +109,7 @@ const AllEmployeeList = (props) => {
     onCheckedElement();
   }, [departmentSeq]);
 
-  //개별 클릭시 발생하는 함수
+  //클릭시 발생하는 함수
   const onCheckedElement = useCallback(
     async (checked, list) => {
       try {

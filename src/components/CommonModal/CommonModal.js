@@ -17,6 +17,7 @@ const CommonModal = (props) => {
   const [pointCompanySeq, setPointCompanySeq] = useState();
   const [selectCompanySeq, setSelectCompanySeq] = useState();
   const [checkCount, setCheckCount] = useState([]);
+  const [checkSeq, setCheckSeq] = useState();
 
   //값 받아오기
   useEffect(() => {
@@ -39,6 +40,10 @@ const CommonModal = (props) => {
     setCheckCount(i);
   };
 
+  const sendDeleteELement = (i) => {
+    setCheckSeq(i);
+  };
+
   //버튼 누르면 값 이동
   const sendInputText = () => {
     setEmployeeName(text);
@@ -51,6 +56,7 @@ const CommonModal = (props) => {
   //처음에 실행하고 바뀔때만 렌더링
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
   const changeCheckedList = useCallback(() => {}, [checkItem]);
+  const changeDeleteElement = useCallback(() => {}, [setCheckSeq]);
 
   //부서Seq가 바뀔때마다 실행
   useEffect(() => {
@@ -58,11 +64,16 @@ const CommonModal = (props) => {
     changeCheckedList();
   }, [departmentSeq]);
 
+  useEffect(() => {
+    changeDeleteElement();
+  }, [checkSeq]);
+
   //초기화
   const reset = () => {
     setText("");
   };
 
+  // console.log(checkSeq);
   return (
     <div className={open ? "openModal modal" : "modal"}>
       {open ? (
@@ -99,6 +110,7 @@ const CommonModal = (props) => {
                 </Col>
                 <Col sm={1}>
                   <button
+                    style={{ width: "60px" }}
                     type="button"
                     className="btn btn-secondary"
                     onClick={sendInputText}>
@@ -122,6 +134,7 @@ const CommonModal = (props) => {
                       employeeName={employeeName}
                       authSeq={authSeq}
                       pointCompanySeq={pointCompanySeq}
+                      checkSeq={checkSeq}
                     />
                   </Row>
                   <Row>
@@ -144,6 +157,7 @@ const CommonModal = (props) => {
                     <AllSelectList
                       checkItem={checkItem}
                       sendCheckLength={sendCheckLength}
+                      sendDeleteELement={sendDeleteELement}
                     />
                   </Row>
                 </Col>
