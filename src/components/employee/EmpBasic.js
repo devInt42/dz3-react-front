@@ -8,21 +8,11 @@ import EmpBasicUpdateFailAlert from "../alert/EmpBasicUpdateFailAlert";
 import EmpBasicDeleteAlert from "../alert/EmpBasicDeleteAlert";
 import ZippopupPostCode from "./zipcode/ZippopupZipCode";
 import ZippopupDom from "./zipcode/ZippopupDom";
-
 import style from "./css/EmpBasic.module.css";
-
-import { BsFilePerson } from "react-icons/bs";
 import { FcPlus } from "react-icons/fc";
 import { MdAlternateEmail } from "react-icons/md";
 import "./css/EmpLnb.css";
-
 import Switch from "@mui/material/Switch";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import Checkbox from "@mui/material/Checkbox";
 
 function EmpBasic(props) {
   const baseUrl = "http://localhost:8080";
@@ -41,8 +31,6 @@ function EmpBasic(props) {
       .then((response) => setLang(response.data))
       .catch((error) => console.log(error));
   }, []);
-
-  const [employeeSeq, setEmployeeSeq] = useState(0);
   const [employeeCode, setEmployeeCode] = useState("");
   const [employeeId, setEmployeeId] = useState("");
   const [employeeName, setEmployeeName] = useState("");
@@ -67,17 +55,6 @@ function EmpBasic(props) {
   const [firstId, setFirstId] = useState("");
   const [FirstMail, setFirstMail] = useState("");
   const [zipcodeIsOpen, setZipcodeIsOpen] = useState();
-
-  const [data, setData] = useState([]);
-  // 비밀번호 표시 미표시 사용할 때 사용함수
-  const [checked, setChecked] = useState(true);
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
-  const [checked2, setChecked2] = useState(true);
-  const handleChange2 = (e) => {
-    setChecked2(e.target.checked);
-  };
 
   // employee값 불러와서 세팅
   useEffect(() => {
@@ -674,14 +651,14 @@ function EmpBasic(props) {
           employeeCmail={employeeCmail}
           returnCmail={returnCmail}
           FirstMail={FirstMail}
-          employeeSeq={employeeSeq}
+          employeeSeq={props.employeeSeq}
         />
       )}
       {updateFail}
       {deleteCheck && (
         <EmpBasicDeleteAlert
           setDeleteCheck={setDeleteCheck}
-          employeeSeq={employeeSeq}
+          employeeSeq={props.employeeSeq}
           deleteEmp={deleteEmp}
         />
       )}
@@ -726,7 +703,7 @@ function EmpBasic(props) {
   }
 
   async function updateEmp() {
-    const url = baseUrl + "/employee/emplist/update/" + employeeSeq;
+    const url = baseUrl + "/employee/emplist/update/" + props.employeeSeq;
     const data = {
       employeeCode: employeeCode,
       employeeId: employeeId,
@@ -761,7 +738,7 @@ function EmpBasic(props) {
   }
 
   async function deleteEmp() {
-    const url = baseUrl + "/employee/emplist/delete/" + employeeSeq;
+    const url = baseUrl + "/employee/emplist/delete/" + props.employeeSeq;
     axios({
       method: "delete",
       url: url,

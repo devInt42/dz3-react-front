@@ -19,6 +19,7 @@ function EmployeeSet() {
   const [selectAct, setSelectAct] = useState(true);
   const [searchRes, setSearchRes] = useState([]);
   const [groupData, setGroupData] = useState([]);
+  const [groupFirstData, setGroupFirstData] = useState([]);
   const [basicData, setBasicData] = useState({
     employeeSeq: employeeSeq,
     employeeId: "", 
@@ -40,10 +41,23 @@ function EmployeeSet() {
     approvalPwd: ""
   });
 
+
 useEffect(() => {
   axios
     .get(baseUrl + "/employee/emplist/" + employeeSeq)
     .then((response) => setBasicData(response.data[0]))
+    .catch((error) => console.log(error));
+
+    axios
+    .get(`${baseUrl}/department-employee/belong`, {
+      params: {
+        employeeSeq: employeeSeq,
+      },
+    })
+    .then((res) => {
+      setGroupData(res.data);
+      setGroupFirstData(res.data);
+    })
     .catch((error) => console.log(error));
 }, [employeeSeq]);
 const clickEmp = () => {
@@ -106,7 +120,8 @@ return (
               />
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <EmpDept employeeSeq={employeeSeq} setData={setGroupData} />
+              <EmpDept employeeSeq={employeeSeq} setData={setGroupData} setFirstData = {setGroupFirstData} 
+                       data = {groupData} firstData = {groupFirstData}/>
             </TabPanel>
           </Box>
         </Col>

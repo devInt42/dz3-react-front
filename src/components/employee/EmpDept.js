@@ -9,11 +9,9 @@ import UpdateAlert from "./alert/UpdateAlert";
 import ManageModal from "../departmentModal/ManageModal";
 function EmpDept(props) {
   const baseUrl = "http://localhost:8080";
-  const [groupList, setGroupList] = useState([]);
   const positionModal = "POSITION";
   const dutyModal = "DUTY";
   const [dupliCheck, setDupliCheck] = useState(0);
-  const [firstData, setFirstData] = useState([]);
   const [notRequire, setNotRequire] = useState("");
   // 필수 값 체크를 위한 변수
   const [departmentCheck, setDepartmentCheck] = useState(0);
@@ -45,43 +43,32 @@ function EmpDept(props) {
   },[])
   //사원의 조직정보
   useEffect(() => {
-    axios
-      .get(`${baseUrl}/department-employee/belong`, {
-        params: {
-          employeeSeq: props.employeeSeq,
-        },
-      })
-      .then((res) => {
-        setGroupList(res.data);
-        setFirstData(res.data);
-      })
-      .catch((error) => console.log(error));
     setNotRequire("");
   }, [props.employeeSeq]);
 
   //리스트 객체 특정값 변경 함수
   const updateIndexObject = (idx, obj) => {
-    let copyGroupList = [...groupList];
+    let copyGroupList = [...props.data];
     copyGroupList[idx] = { ...copyGroupList[idx], ...obj };
 
-    setGroupList(copyGroupList);
+    props.setData(copyGroupList);
   }
   const updateObject = (seq, obj) => {
-    let copyGroupList = [...groupList];
-    const findIndex = groupList.findIndex(
+    let copyGroupList = [...props.data];
+    const findIndex = props.data.findIndex(
       (element) => element.departmentSeq == seq
     );
     if (findIndex != -1) {
       copyGroupList[findIndex] = { ...copyGroupList[findIndex], ...obj };
     }
-    setGroupList(copyGroupList);
+    props.setData(copyGroupList);
   };
   //주회사, 주부서 선택 시 다른 회사, 부서 부부서로 변경
   const updateMain = (seq, obj, obj1) => {
-    let copyGroupList = [...groupList];
+    let copyGroupList = [...props.data];
     let idx = [];
 
-    const findIndex = groupList.findIndex(
+    const findIndex = props.data.findIndex(
       (element) => element.departmentSeq == seq
     );
     for (let i = 0; i < copyGroupList.length; i++) {
@@ -98,7 +85,7 @@ function EmpDept(props) {
         ...obj1,
       }
     }
-    setGroupList(copyGroupList);
+    props.setData(copyGroupList);
   };
   //부서가 선택 되지 않았을 때, 됐지만 조건에 충족하지 않을 때
   const notSelectDepartment = (seq) => {
@@ -126,26 +113,26 @@ function EmpDept(props) {
 
   //첫 데이터와 비교 (중복체크 전)
   const firstCodeCheck = (seq) => {
-    const findIndex = groupList.findIndex(
+    const findIndex = props.data.findIndex(
       (element) => element.companySeq == seq
     );
     return (
-      firstData[findIndex].employeeCode == groupList[findIndex].employeeCode
+      props.firstData[findIndex].employeeCode == props.data[findIndex].employeeCode
     );
   };
   const firstDepartmentCheck = (seq) => {
-    const findIndex = groupList.findIndex(
+    const findIndex = props.data.findIndex(
       (element) => element.companySeq == seq
     );
     return (
-      firstData[findIndex].departmentName == groupList[findIndex].departmentName
+      props.firstData[findIndex].departmentName == props.data[findIndex].departmentName
     );
   };
 
   const CreateInsertForm = () => {
-    let copyGroupList = [insertData, ...groupList];
-    setGroupList(copyGroupList);
-    setFirstData(copyGroupList);
+    let copyGroupList = [insertData, ...props.data];
+    props.setData(copyGroupList);
+    props.setFirstData(copyGroupList);
   }
 
 
@@ -192,7 +179,7 @@ function EmpDept(props) {
       );
       return false;
     }
-    if (JSON.stringify(firstData) == JSON.stringify(groupList)) {
+    if (JSON.stringify(props.firstData) == JSON.stringify(props.data)) {
       setNotRequire(<SaveFailAlert text="" title="수정 된 사항이 없습니다." />);
       return false;
     }
@@ -205,27 +192,27 @@ function EmpDept(props) {
     setDepartmentCheck(0);
     setEmployeeCodeCheck(0);
     setJoinDateCheck(0);
-    for (let i = 0; i < groupList.length; i++) {
+    for (let i = 0; i < props.data.length; i++) {
       if (
-        groupList[i].employeeCode == null ||
-        groupList[i].employeeCode == undefined ||
-        groupList[i].employeeCode == ""
+        props.data[i].employeeCode == null ||
+        props.data[i].employeeCode == undefined ||
+        props.data[i].employeeCode == ""
       ) {
         setEmployeeCodeCheck(1);
         return false;
       }
       if (
-        groupList[i].departmentName == null ||
-        groupList[i].departmentName == undefined ||
-        groupList[i].departmentName == ""
+        props.data[i].departmentName == null ||
+        props.data[i].departmentName == undefined ||
+        props.data[i].departmentName == ""
       ) {
         setDepartmentCheck(1);
         return false;
       }
       if (
-        groupList[i].employeeJoin == null ||
-        groupList[i].employeeJoin == undefined ||
-        groupList[i].employeeJoin == ""
+        props.data[i].employeeJoin == null ||
+        props.data[i].employeeJoin == undefined ||
+        props.data[i].employeeJoin == ""
       ) {
         setJoinDateCheck(1);
         return false;
@@ -233,26 +220,26 @@ function EmpDept(props) {
     }
   };
   const RemoveGroup = (idx) => {
-    let copyGroupList = [...groupList];
+    let copyGroupList = [...props.data];
     if (copyGroupList.length > 1) {
       copyGroupList = copyGroupList.filter((_, index) => {
         return index !== idx;
       });
-      setGroupList(copyGroupList);
+      props.setData(copyGroupList);
     }
   }
   useEffect(() => {
-    console.log(groupList);
-  }, [groupList]);
+    console.log(props.data);
+  }, [props.data]);
   return (
     <div>
       {notRequire}
-      {groupList && allCheck == true && <UpdateAlert />}
+      {props.data && allCheck == true && <UpdateAlert />}
       <button onClick={AllCheck}>저장</button>
       <button onClick={CreateInsertForm}>추가</button>
 
-      {groupList &&
-        groupList.map((group, idx) => {
+      {props.data &&
+        props.data.map((group, idx) => {
           return (
             <div>
               <button onClick={() => group.mainCompanyYN !== "Y" ? RemoveGroup(idx) : alert("주회사는 삭제할 수 없습니다.")}>삭제</button>
