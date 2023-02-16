@@ -117,7 +117,7 @@ function MenuSet() {
     setMenuName(resultMenu.menuName);
     setMenuParent(resultMenu.menuParent);
 
-    if (resultMenu.useYN == "y") {
+    if (resultMenu.useYN == "Y") {
       setUseYN(true);
     } else {
       setUseYN(false);
@@ -177,9 +177,9 @@ function MenuSet() {
   const [useMenu, setUseMenu] = useState("");
   useEffect(() => {
     if (useYN) {
-      setUseMenu("y");
+      setUseMenu("Y");
     } else {
-      setUseMenu("n");
+      setUseMenu("N");
     }
   }, [useYN]);
 
