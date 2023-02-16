@@ -21,7 +21,17 @@ const AllEmployeeList = (props) => {
     setCheckSeq(props.checkSeq);
   }, [props]);
 
-  // console.log(checkSeq);
+  useEffect(() => {
+    test();
+  }, [checkSeq]);
+
+  const test = useCallback(() => {
+    if (checkSeq == null) {
+      console.log("NULL");
+    } else {
+      setCheckedLists(checkedList.filter((c) => c.employeeSeq !== checkSeq));
+    }
+  }, [checkSeq]);
 
   const getProps = useCallback(async () => {
     setDepartmentSeq(props.departmentSeq);
@@ -100,18 +110,12 @@ const AllEmployeeList = (props) => {
     onCheckedElement();
   }, [departmentSeq]);
 
-  //개별 클릭시 발생하는 함수
+  //클릭시 발생하는 함수
   const onCheckedElement = useCallback(
     async (checked, list) => {
       try {
         if (checked) {
           setCheckedLists([...checkedList, list]);
-
-          if (checkSeq !== null) {
-            console.log(checkSeq);
-          }
-          //   setCheckedLists(checkedList.filter((c) => c !== checkSeq));
-          // }
         } else {
           setCheckedLists(
             checkedList.filter((el) => el.employeeSeq !== list.employeeSeq)
