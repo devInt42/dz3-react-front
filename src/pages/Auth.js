@@ -211,7 +211,7 @@ const Auth = () => {
   }, [deleteComplete]);
   return (
     <>
-      <h2>사용자 권한 관리</h2>
+      <h2>사용자 권한설정</h2>
       <Container fluid="true" className="Auth" id="AuthPage">
         <Row>
           <Col xs={2} style={{ padding: 0 }}>
