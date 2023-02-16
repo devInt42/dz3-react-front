@@ -3,7 +3,6 @@ import axios from "axios";
 import style from "./css/EmpDept.module.css";
 import { Form } from "react-bootstrap";
 import EmpPositionModal from "./EmpPositionModal";
-import SaveFailAlert from "./alert/SaveFailAlert";
 import ManageModal from "../departmentModal/ManageModal";
 function EmpDept(props) {
   const baseUrl = "http://localhost:8080";
@@ -11,10 +10,6 @@ function EmpDept(props) {
   const dutyModal = "DUTY";
   const [dupliCheck, setDupliCheck] = useState(0);
   const [notRequire, setNotRequire] = useState("");
-  // 필수 값 체크를 위한 변수
-  const [departmentCheck, setDepartmentCheck] = useState(0);
-  const [employeeCodeCheck, setEmployeeCodeCheck] = useState(0);
-  const [joinDateCheck, setJoinDateCheck] = useState(0);
 
   //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
   const insertData = {
@@ -143,8 +138,36 @@ function EmpDept(props) {
     }
   }
   useEffect(() => {
-    console.log(props.data);
+    requireCheck();
   }, [props.data]);
+
+  //필수값 입력 체크
+  const requireCheck = () => {
+    props.setDepartmentCheck(true);
+    props.setEmployeeCodeCheck(true);
+    props.setJoinDateCheck(true);
+    
+    for (let i = 0; i < props.data.length; i++) {
+      if (
+        !props.data[i].employeeCode 
+      ) {
+        props.setEmployeeCodeCheck(false);
+        return false;
+      }
+      if (
+        !props.data[i].departmentName
+      ) {
+        props.setDepartmentCheck(false);
+        return false;
+      }
+      if (
+        !props.data[i].employeeJoin 
+      ) {
+        props.setJoinDateCheck(false);
+        return false;
+      }
+    }
+  }
   return (
     <div>
       {notRequire}
@@ -346,7 +369,7 @@ function EmpDept(props) {
                     <td>
                       <input
                         type="date"
-                        value={group.employeeJoin}
+                        value={group.employeeJoin || ""}
                         onChange={(e) => {
                           updateObject(group.departmentSeq, {
                             employeeJoin: e.target.value,

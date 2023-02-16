@@ -8,7 +8,7 @@ const SaveAlert = (props) => {
         title: props.title,
         icon: props.icon,
         text: props.text,
-        showCancelButton: props.cancelButton,
+        showCancelButton: props.cancleButton,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: props.successButton,
