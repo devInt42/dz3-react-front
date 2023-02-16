@@ -12,6 +12,9 @@ const AllEmployeeList = (props) => {
   const [pointCompanySeq, setPointCompanySeq] = useState("");
   const [checkSeq, setCheckSeq] = useState(null);
 
+  useEffect(() => {
+    setDepartmentSeq(0);
+  }, []);
   //값 받아서 departmentSeq 설정
   useEffect(() => {
     getProps();
@@ -61,7 +64,11 @@ const AllEmployeeList = (props) => {
             params: data,
           }
         );
-        setCheckedLists(dataResult.data);
+        if (dataResult.length === 0) {
+          setCheckedLists([]);
+        } else {
+          setCheckedLists(dataResult.data);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -82,6 +89,7 @@ const AllEmployeeList = (props) => {
 
   //List, Count 가져오기
   const getDeptList = useCallback(async () => {
+    console.log(pointCompanySeq);
     if (departmentSeq != null) {
       let data = {
         departmentSeq,
@@ -93,17 +101,25 @@ const AllEmployeeList = (props) => {
             params: data,
           }
         );
-        setDeptList(dataResult.data);
+        if (dataResult.data.length > 0) {
+          if (pointCompanySeq != dataResult.data[0].companySeq) {
+            setDeptList([]);
+          } else {
+            setDeptList(dataResult.data);
+          }
+        } else {
+          setDeptList([]);
+        }
       } catch (error) {
         console.log(error);
       }
     }
-  }, [departmentSeq]);
+  }, [departmentSeq, pointCompanySeq]);
 
   useEffect(() => {
     getDeptList();
     setPage(1);
-  }, [departmentSeq]);
+  }, [departmentSeq, pointCompanySeq]);
 
   useEffect(() => {
     onCheckedElement();
@@ -212,7 +228,8 @@ const AllEmployeeList = (props) => {
                         }
                       }}
                       className="custom-control-input"
-                      id="customCheck2"></input>
+                      id="customCheck2"
+                    ></input>
                   </th>
                   <th scope="col">회사</th>
                   <th scope="col">사업장</th>
@@ -243,10 +260,12 @@ const AllEmployeeList = (props) => {
                               return false;
                             }
                           })()}
-                          id="customCheck2"></input>
+                          id="customCheck2"
+                        ></input>
                         <label
                           className="custom-control-label"
-                          htmlFor="customCheck1"></label>
+                          htmlFor="customCheck1"
+                        ></label>
                       </div>
                     </td>
                     <td>{dept.companyName}</td>
