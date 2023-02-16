@@ -4,7 +4,6 @@ import style from "./css/EmpDept.module.css";
 import { Form } from "react-bootstrap";
 import EmpPositionModal from "./EmpPositionModal";
 import SaveFailAlert from "./alert/SaveFailAlert";
-import UpdateAlert from "./alert/UpdateAlert";
 import ManageModal from "../departmentModal/ManageModal";
 function EmpDept(props) {
   const baseUrl = "http://localhost:8080";
@@ -134,90 +133,6 @@ function EmpDept(props) {
     props.setFirstData(copyGroupList);
   }
 
-
-
-  // 중복, 체크 등 수정 및 추가 가능한 상태를 확인하기 위한 변수
-  const [allCheck, setAllCheck] = useState(false);
-
-  const AllCheck = () => {
-    requireCheck();
-
-    if (employeeCodeCheck == 1) {
-      setNotRequire(
-        <SaveFailAlert
-          text="사번이 입력되지 않았습니다."
-          title="필수 값이 입력되지 않았습니다"
-        />
-      );
-      return false;
-    }
-    if (departmentCheck == 1) {
-      setNotRequire(
-        <SaveFailAlert
-          text="부서가 선택되지 않았습니다."
-          title="필수 값이 입력되지 않았습니다"
-        />
-      );
-      return false;
-    }
-    if (joinDateCheck == 1) {
-      setNotRequire(
-        <SaveFailAlert
-          text="입사 날짜가 선택되지 않았습니다."
-          title="필수 값이 입력되지 않았습니다"
-        />
-      );
-      return false;
-    }
-    if (dupliCheck == 1) {
-      setNotRequire(
-        <SaveFailAlert
-          text="사번이 중복되었습니다."
-          title="중복된 값이 있습니다."
-        />
-      );
-      return false;
-    }
-    if (JSON.stringify(props.firstData) == JSON.stringify(props.data)) {
-      setNotRequire(<SaveFailAlert text="" title="수정 된 사항이 없습니다." />);
-      return false;
-    }
-    setAllCheck(true);
-    return true;
-  };
-
-  //필수값 입력 체크
-  const requireCheck = () => {
-    setDepartmentCheck(0);
-    setEmployeeCodeCheck(0);
-    setJoinDateCheck(0);
-    for (let i = 0; i < props.data.length; i++) {
-      if (
-        props.data[i].employeeCode == null ||
-        props.data[i].employeeCode == undefined ||
-        props.data[i].employeeCode == ""
-      ) {
-        setEmployeeCodeCheck(1);
-        return false;
-      }
-      if (
-        props.data[i].departmentName == null ||
-        props.data[i].departmentName == undefined ||
-        props.data[i].departmentName == ""
-      ) {
-        setDepartmentCheck(1);
-        return false;
-      }
-      if (
-        props.data[i].employeeJoin == null ||
-        props.data[i].employeeJoin == undefined ||
-        props.data[i].employeeJoin == ""
-      ) {
-        setJoinDateCheck(1);
-        return false;
-      }
-    }
-  };
   const RemoveGroup = (idx) => {
     let copyGroupList = [...props.data];
     if (copyGroupList.length > 1) {
@@ -233,8 +148,7 @@ function EmpDept(props) {
   return (
     <div>
       {notRequire}
-      {props.data && allCheck == true && <UpdateAlert />}
-      <button onClick={AllCheck}>저장</button>
+      {/* <button onClick={AllCheck}>저장</button> */}
       <button onClick={CreateInsertForm}>추가</button>
 
       {props.data &&

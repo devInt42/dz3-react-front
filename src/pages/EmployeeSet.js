@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-
+import SaveAlert from "../components/alert/SaveAlert";
 function EmployeeSet() {
   const baseUrl = "http://localhost:8080";
   const [value, setValue] = React.useState(0);
@@ -21,8 +21,10 @@ function EmployeeSet() {
   const [groupData, setGroupData] = useState([]);
   const [groupFirstData, setGroupFirstData] = useState([]);
   const [basicData, setBasicData] = useState({});
-
-
+  const [notRequire,setNotRequire] = useState('');
+  const [departmentCheck, setDepartmentCheck] = useState(true);
+  const [employeeCodeCheck, setEmployeeCodeCheck] = useState(true);
+  const [joinDateCheck, setJoinDateCheck] = useState(true);
   useEffect(() => {
     axios
       .get(baseUrl + "/employee/emplist/" + employeeSeq)
@@ -40,6 +42,7 @@ function EmployeeSet() {
         setGroupFirstData(res.data);
       })
       .catch((error) => console.log(error));
+      setNotRequire('');
   }, [employeeSeq]);
   const clickEmp = () => {
     setSelectAct(false);
@@ -57,7 +60,7 @@ function EmployeeSet() {
   useEffect(() => { }, [searchRes]);
 
   // 입사처리
-  const InsertEmp = () => {
+  const EmpInsertForm = () => {
     setBasicData({
       employeeSeq: employeeSeq,
       employeeId: "",
@@ -162,6 +165,82 @@ function EmployeeSet() {
     }])
   }
 
+  //[조직정보] 필수값 입력 체크
+  const requireCheck = () => {
+    setDepartmentCheck(true);
+    setEmployeeCodeCheck(true);
+    setJoinDateCheck(true);
+    for (let i = 0; i < groupData.length; i++) {
+      if (
+        groupData[i].employeeCode == null ||
+        groupData[i].employeeCode == undefined ||
+        groupData[i].employeeCode == ""
+      ) {
+        setEmployeeCodeCheck(false);
+        return false;
+      }
+      if (
+        groupData[i].departmentName == null ||
+        groupData[i].departmentName == undefined ||
+        groupData[i].departmentName == ""
+      ) {
+        setDepartmentCheck(false);
+        return false;
+      }
+      if (
+        groupData[i].employeeJoin == null ||
+        groupData[i].employeeJoin == undefined ||
+        groupData[i].employeeJoin == ""
+      ) {
+        setJoinDateCheck(false);
+        return false;
+      }
+    }
+  }
+  const UpdateEmp = () => {
+      const notInput = "필수 값이 입력되지 않았습니다."
+      const basicError = `[기본 정보] ${notInput}`
+      const groupError = `[조직 정보] ${notInput}`
+
+      requireCheck();
+      //기본정보 필수값 확인
+      basicData.employeeName || 
+      setNotRequire(<SaveAlert title = {basicError} text = "이름을 입력해 주십시오." icon = "error" 
+      successButton = "확인"/>) 
+      
+      basicData.employeeBirth ||
+      setNotRequire(<SaveAlert title = {basicError} text = "생년월일을 입력해 주십시오." icon = "error"
+      successButton = "확인"/>)
+
+      basicData.employeePwd ||
+      setNotRequire(<SaveAlert title = {basicError} text = "비밀번호를 입력해 주십시오." icon = "error"
+      successButton = "확인"/>)
+
+      basicData.approvalPwd ||
+      setNotRequire(<SaveAlert title = {basicError} text = "결재 비밀번호를 입력해 주십시오." icon = "error"
+      successButton = "확인"/>)
+
+      basicData.employeeId ||
+      setNotRequire(<SaveAlert title = {basicError} text = "아이디를 입력해 주십시오." icon = "error"
+      successButton = "확인"/>)
+
+      basicData.employeeCmail ||
+      setNotRequire(<SaveAlert title = {basicError} text = "메일 ID를 입력해 주십시오." icon = "error"
+      successButton = "확인"/>)
+      
+      // 조직정보
+      employeeCodeCheck == false &&
+      setNotRequire(<SaveAlert title = {groupError} text = "사번을 입력해 주십시오." icon = "error"
+      successButton = "확인"/>)
+      
+      departmentCheck == false &&
+      setNotRequire(<SaveAlert title = {groupError} text = "부서를 선택해 주십시오." icon = "error"
+      successButton = "확인"/>)
+
+      joinDateCheck == false &&
+      setNotRequire(<SaveAlert title = {groupError} text = "입사일을 입력해 주십시오." icon = "error"
+      successButton = "확인"/>)
+  }
   return (
     <div>
       <div className={style.wrap}>
@@ -171,6 +250,7 @@ function EmployeeSet() {
         </span>
         <hr />
       </div>
+      {notRequire}
       <Container fluid>
         <Row>
           <SearchAppBar sendSearchResult={sendSearchResult} />
@@ -194,8 +274,8 @@ function EmployeeSet() {
                 >
                   <Tab label="기본정보" {...a11yProps(0)} />
                   <Tab label="조직정보" {...a11yProps(1)} />
-                  <button onClick={() => InsertEmp()}>입사처리</button>
-                  <button>저장</button>
+                  <button onClick={() => EmpInsertForm()}>입사처리</button>
+                  <button onClick = {() => UpdateEmp()}>저장</button>
                   <button>삭제</button>
                 </Tabs>
               </Box>

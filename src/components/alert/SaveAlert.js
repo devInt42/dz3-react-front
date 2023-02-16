@@ -1,21 +1,22 @@
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-const UpdateAlert = (props) => {
+const SaveAlert = (props) => {
     const MySwal = withReactContent(Swal);
 
     MySwal.fire({
-        title: '수정 하시겠습니까?',
-        icon: 'warning',
-
-        showCancelButton: true,
+        title: props.title,
+        icon: props.icon,
+        text: props.text,
+        showCancelButton: props.cancelButton,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: '수정',
+        confirmButtonText: props.successButton,
         cancelButtonText: '취소',
         width: '600px'
     }).then(result => {
-        if(result.isConfirmed) {
+        console.log("gdgd");
+        if(result.isConfirmed && props.functionText == "수정") {
             Swal.fire('수정이 완료되었습니다.', '', 'success','#3085d6');
             props.Update();
             props.setAllCheck(false);
@@ -28,4 +29,4 @@ const UpdateAlert = (props) => {
     })
 }
 
-export default UpdateAlert;
+export default SaveAlert;
