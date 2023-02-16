@@ -30,9 +30,9 @@ function MenuSet() {
     try {
       let list = await axios.get(baseUrl + "/menu/menulist");
       setMenu(list.data)
-    } catch(error) {console.log(error)}
+    } catch (error) { console.log(error) }
   };
-  useEffect(()=>{listMenu();}, [])
+  useEffect(() => { listMenu(); }, [])
 
   const [menuSeq, setMenuSeq] = useState(0);
   const [menuCode, setMenuCode] = useState("");
@@ -272,8 +272,8 @@ function MenuSet() {
                               ? firstCode == menuCode
                                 ? true
                                 : returnCode.length > 0
-                                ? false
-                                : true
+                                  ? false
+                                  : true
                               : false
                           }
                           isInvalid={
@@ -281,8 +281,8 @@ function MenuSet() {
                               ? firstCode == menuCode
                                 ? false
                                 : returnCode.length > 0
-                                ? true
-                                : false
+                                  ? true
+                                  : false
                               : true
                           }
                         />
@@ -323,8 +323,8 @@ function MenuSet() {
                               ? firstName == menuName
                                 ? true
                                 : returnName.length > 0
-                                ? false
-                                : true
+                                  ? false
+                                  : true
                               : false
                           }
                           isInvalid={
@@ -332,8 +332,8 @@ function MenuSet() {
                               ? firstName == menuName
                                 ? false
                                 : returnName.length > 0
-                                ? true
-                                : false
+                                  ? true
+                                  : false
                               : true
                           }
                         />
@@ -370,15 +370,15 @@ function MenuSet() {
                         {/* {menu.map((menu, i) => ( */}
                         {selectActive == true
                           ? menu.map((menu, i) => (
-                              <option value={menu.menuSeq} key={i}>
-                                {menu.menuName}
-                              </option>
-                            ))
+                            <option value={menu.menuSeq} key={i}>
+                              {menu.menuName}
+                            </option>
+                          ))
                           : exceptMenu.map((menu, i) => (
-                              <option value={menu.menuSeq} key={i}>
-                                {menu.menuName}
-                              </option>
-                            ))}
+                            <option value={menu.menuSeq} key={i}>
+                              {menu.menuName}
+                            </option>
+                          ))}
                       </select>
                     </td>
                   </tr>
@@ -416,6 +416,15 @@ function MenuSet() {
                       ) : (
                         <span style={{ fontSize: "14px" }}>미사용</span>
                       )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>메뉴 아이콘 선택</th>
+                    <td>
+                      <Form.Group controlId="formFileSm" className="mb-3">
+                        <Form.Label>Small file input example</Form.Label>
+                        <Form.Control type="file" size="sm" />
+                      </Form.Group>
                     </td>
                   </tr>
                 </tbody>
@@ -514,7 +523,7 @@ function MenuSet() {
     })
       .then((res) => {
         setInsertFlag(true);
-        newInsert();listMenu();
+        newInsert(); listMenu();
       })
       .catch((error) => {
         console.log(error);
@@ -530,7 +539,7 @@ function MenuSet() {
     })
       .then((res) => {
         setDeleteFlag(true);
-        newInsert();listMenu();
+        newInsert(); listMenu();
       })
       .catch((error) => {
         console.log(error);
@@ -553,7 +562,7 @@ function MenuSet() {
       headers: { "Content-Type": "application/json" },
     })
       .then((res) => {
-        setUpdateFlag(true);listMenu();
+        setUpdateFlag(true); listMenu();
       })
       .catch((error) => {
         console.log(error);
