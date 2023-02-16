@@ -62,7 +62,7 @@ function LNB(props) {
       {Lmenu &&
         Lmenu.map((menu) => {
           return (
-            menu.menuDepth == 0 && (
+            menu.menuDepth == 0 &&(
               <div id={menu.menuSeq} key={menu.menuSeq} className={style.lnb_select}>
                 {menu.menuSeq == 1 ? (
                   <FiSettings

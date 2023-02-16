@@ -47,6 +47,10 @@ function UpdateMenuAlert(props) {
 
             if(props.menuCode != "" ? props.firstCode == props.menuCode ? true : (props.returnCode.length > 0 ? false : true) : false){
                 if(props.menuName != "" ? props.firstName == props.menuName ? true : (props.returnName.length > 0 ? false : true) : false){
+                  // axios.get("http://localhost:8080/menu/menulist/"+ props.menuSeq)
+                  // .then((response) => {console.log(response.data); if(response.data != 0){Swal.fire('수정실패.', '부모메뉴가 자식메뉴로 들어갈 수 없습니다.', 'error', '#3085d6');}})
+                  // .catch((error) => console.log(error))
+                  
                     props.updateMenu(menuSeq);
                   Swal.fire('메뉴 수정이 완료되었습니다.', '', 'success', '#3085d6');
                 }else Swal.fire('수정실패.', '중복되는 메뉴 이름이 존재합니다.', 'error', '#3085d6');

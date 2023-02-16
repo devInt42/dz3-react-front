@@ -20,12 +20,19 @@ function MenuSet() {
   const baseUrl = "http://localhost:8080";
   const [menu, setMenu] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get(baseUrl + "/menu/menulist")
-      .then((response) => setMenu(response.data))
-      .catch((error) => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(baseUrl + "/menu/menulist")
+  //     .then((response) => setMenu(response.data))
+  //     .catch((error) => console.log(error));
+  // }, []);
+  const listMenu = async () => {
+    try {
+      let list = await axios.get(baseUrl + "/menu/menulist");
+      setMenu(list.data)
+    } catch(error) {console.log(error)}
+  };
+  useEffect(()=>{listMenu();}, [])
 
   const [menuSeq, setMenuSeq] = useState(0);
   const [menuCode, setMenuCode] = useState("");
@@ -473,6 +480,7 @@ function MenuSet() {
                     menuSeq={menuSeq}
                     menuCode={menuCode}
                     menuName={menuName}
+                    menuParent={menuParent}
                     setUpdateCheck={setUpdateCheck}
                     firstCode={firstCode}
                     returnCode={returnCode}
@@ -506,7 +514,7 @@ function MenuSet() {
     })
       .then((res) => {
         setInsertFlag(true);
-        newInsert();
+        newInsert();listMenu();
       })
       .catch((error) => {
         console.log(error);
@@ -522,7 +530,7 @@ function MenuSet() {
     })
       .then((res) => {
         setDeleteFlag(true);
-        newInsert();
+        newInsert();listMenu();
       })
       .catch((error) => {
         console.log(error);
@@ -545,7 +553,7 @@ function MenuSet() {
       headers: { "Content-Type": "application/json" },
     })
       .then((res) => {
-        setUpdateFlag(true);
+        setUpdateFlag(true);listMenu();
       })
       .catch((error) => {
         console.log(error);

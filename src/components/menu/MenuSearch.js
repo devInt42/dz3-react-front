@@ -67,7 +67,7 @@ function MenuSearch(props) {
     }
   };
 
-  //선택한 메뉴 호출
+  // 선택한 메뉴 호출
   const selectMenuList = async () => {
     try {
       let selectMenu = await axios.get(baseUrl + "/menu/menulist/" + selected);
@@ -91,6 +91,32 @@ function MenuSearch(props) {
       console.log(error);
     }
   }, [selected, deleteFlag, insertFlag, updateFlag]);
+
+  useEffect(() => {
+    srMenu();
+  }, [selected, deleteFlag, insertFlag, updateFlag]);
+
+  // 렌더링 수정 전
+  // useEffect(() => {
+  //   axios
+  //     .get(baseUrl + "/menu/menulist")
+  //     .then((response) => setSearchMenu(response.data))
+  //     .catch((error) => console.log(error));
+  // }, []);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(baseUrl + "/menu/menulist/" + selected)
+  //     .then((response) => setMenu(response.data))
+  //     .catch((error) => console.log(error));
+  // }, []);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(baseUrl + "/menu/menulist/" + selected)
+  //     .then((response) => setSubmenu(response.data))
+  //     .catch((error) => console.log(error));
+  // }, [selected]);
 
   const searchInfo = (resultMenu) => {
     props.getSearchInfo(resultMenu);
