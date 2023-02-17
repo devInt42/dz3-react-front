@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import { Container, Row, Col } from "react-bootstrap";
@@ -8,6 +8,8 @@ import { FcPlus } from "react-icons/fc";
 
 import style from "../components/menu/css/MenuSet.module.css";
 import Switch from "@mui/material/Switch";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 import MenuSearch from "../components/menu/MenuSearch";
 import SaveMenuAlert from "../components/alert/SaveMenuAlert";
@@ -149,7 +151,17 @@ function MenuSet() {
     } else setUpdateCheck(true);
   }
 
+  const [allChildMenu, setAllChildMenu] = useState([]);
+  useEffect(() => {
+    axios.get("http://localhost:8080/menu/tree/" + menuSeq)
+      .then((response) => { setAllChildMenu(response.data); })
+      .catch((error) => console.log(error))
+  }, [menuSeq]);
+
+  // 상위 메뉴 선택 시 본인 제외
   const exceptMenu = menu.filter((item) => item.menuSeq != menuSeq);
+  // 부모가 자신의 자손으로 들어갈 수 없으므로 상위메뉴 선택에서 본인의 자손 메뉴들 제외
+  const exceptChildMenu = exceptMenu.filter((item) => { return !allChildMenu.some(other => other.menuParent === item.menuParent) })
 
   //메뉴 새로 저장
   const [selectActive, setSelectActive] = useState(true);
@@ -206,6 +218,20 @@ function MenuSet() {
       console.log(error);
     }
   };
+
+  // 메뉴 아이콘 이미지 관리
+  const [imgFile, setImgFile] = useState("");
+  const imgRef = useRef();
+
+  const saveImg = () => {
+    const file = imgRef.current.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImgFile(reader.result);
+    }
+  };
+  console.log(imgFile)
 
   return (
     <div>
@@ -361,25 +387,38 @@ function MenuSet() {
                   <tr>
                     <th>상위 메뉴</th>
                     <td>
-                      <select
-                        className={style.menu_select}
-                        onChange={insertMenuParent}
-                        value={menuParent}
-                      >
-                        <option value={0}>Root메뉴</option>
-                        {/* {menu.map((menu, i) => ( */}
-                        {selectActive == true
-                          ? menu.map((menu, i) => (
-                            <option value={menu.menuSeq} key={i}>
-                              {menu.menuName}
-                            </option>
-                          ))
-                          : exceptMenu.map((menu, i) => (
-                            <option value={menu.menuSeq} key={i}>
-                              {menu.menuName}
-                            </option>
-                          ))}
-                      </select>
+                      {['left'].map((placement) => (
+                        <OverlayTrigger
+                          key={placement}
+                          placement={placement}
+                          overlay={
+                            <Tooltip id={`tooltip-${placement}`}>
+                              상위 메뉴에는 <strong>본인</strong>을 포함한 <strong>자손 메뉴</strong>들이 포함되지 않습니다.
+                              {/* <strong>{placement}</strong>. */}
+                            </Tooltip>
+                          }
+                        >
+                          <select
+                            className={style.menu_select}
+                            onChange={insertMenuParent}
+                            value={menuParent}
+                          >
+                            <option value={0}>Root메뉴</option>
+                            {/* {menu.map((menu, i) => ( */}
+                            {selectActive == true
+                              ? menu.map((menu, i) => (
+                                <option value={menu.menuSeq} key={i}>
+                                  {menu.menuName}
+                                </option>
+                              ))
+                              : exceptChildMenu.map((menu, i) => (
+                                <option value={menu.menuSeq} key={i}>
+                                  {menu.menuName}
+                                </option>
+                              ))}
+                          </select>
+                        </OverlayTrigger>
+                      ))}
                     </td>
                   </tr>
                   <tr>
@@ -421,10 +460,13 @@ function MenuSet() {
                   <tr>
                     <th>메뉴 아이콘 선택</th>
                     <td>
-                      <Form.Group controlId="formFileSm" className="mb-3">
+                      <label htmlFor="menuIconImg">메뉴 아이콘 찾기</label>
+                      <input id="menuIconImg" type="file" accept="image/*" onChange={saveImg} ref={imgRef} style={{display: "none"}}/>
+                      {/* <Form.Group controlId="formFileSm" className="mb-3">
                         <Form.Label>Small file input example</Form.Label>
-                        <Form.Control type="file" size="sm" />
-                      </Form.Group>
+                        <Form.Control type="file" size="sm" accept="image/*" onChange={saveImg} ref={imgRef}/>
+                      </Form.Group> */}
+                      <img src={imgFile ? imgFile : ""} style={{width: "30px", height: "30px"}}/>
                     </td>
                   </tr>
                 </tbody>
