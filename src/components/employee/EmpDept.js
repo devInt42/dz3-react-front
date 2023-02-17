@@ -8,7 +8,6 @@ function EmpDept(props) {
   const baseUrl = "http://localhost:8080";
   const positionModal = "POSITION";
   const dutyModal = "DUTY";
-
   //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
   const insertData = {
     companyName: "",
@@ -30,10 +29,6 @@ function EmpDept(props) {
     workplaceName: "",
     insertData: "Y",
   }
-  useEffect(() => {
-
-  },[])
-
   //리스트 객체 특정값 변경 함수
   const updateIndexObject = (idx, obj) => {
     let copyGroupList = [...props.data];
@@ -170,6 +165,9 @@ function EmpDept(props) {
       }
     }
   }
+  useEffect(() => {
+    console.log(props.data);
+  }, [props.data])
   return (
     <div id = {style.empdept}>
       {/* <button onClick={AllCheck}>저장</button> */}
@@ -186,8 +184,18 @@ function EmpDept(props) {
                   <tr>
                     <th>회사</th>
                     <td>
-                      <select>
-                        
+                      <select value = {group.companySeq} name = "companylist" onChange = {
+                        (e) => updateObject(group.departmentSeq, {companySeq: e.target.value, workplaceSeq: 0, departmentSeq: 0, workplaceName: "", departmentName: ""})
+                      }>
+                        <option value = {0}>회사 선택</option>
+                        {props.companyList.map(company => {
+                          return (
+                            <>
+                              <option value = {company.companySeq}>
+                                {company.companyName}</option>
+                            </>
+                          )
+                        })}
                       </select>
                     </td>
                     <th>부서</th>
@@ -201,12 +209,16 @@ function EmpDept(props) {
                             backgroundColor: "rgba(241, 199, 199, 0.328)",
                           }}
                           isValid={
-                            group.departmentName == undefined ?
+                            group.departmentName == undefined || group.departmentName == "" ?
                               false :
                               firstDepartmentCheck(group.companySeq)
                                 ? ""
-                                : group.departmentName != null ||
+                                : (group.departmentName != null ||
                                 group.departmentName != undefined
+                                )
+                          }
+                          isInvalid = {
+                            group.departmentName==""
                           }
                         />
                         <ManageModal companySeq={group.companySeq} updateIndexObject={updateIndexObject} idx={idx} />

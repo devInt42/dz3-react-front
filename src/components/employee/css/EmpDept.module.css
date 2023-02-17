@@ -29,7 +29,7 @@
     width: 5px;
 }
 #empdept::-webkit-scrollbar-thumb {
-    height:95%;
+    height:30%;
     background:#00aaff;
     border-radius: 10px;
 }

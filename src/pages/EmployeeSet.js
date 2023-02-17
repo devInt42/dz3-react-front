@@ -29,6 +29,12 @@ function EmployeeSet() {
   const [returnId, setReturnId] = useState(0);
   const [returnCmail, setReturnCmail] = useState(0);
   const [dupliCheck, setDupliCheck] = useState(0);
+  const [companyList, setCompanyList] = useState([]);
+  useEffect(()=> {
+    axios.get(`${baseUrl}/company/info`)
+    .then(res => setCompanyList(res.data))
+    .catch(error => console.log(error))
+  }, [])
   useEffect(() => {
     axios
       .get(baseUrl + "/employee/emplist/" + employeeSeq)
@@ -342,7 +348,7 @@ function EmployeeSet() {
                 <EmpDept employeeSeq={employeeSeq} setData={setGroupData} setFirstData={setGroupFirstData}
                   data={groupData} firstData={groupFirstData} setDepartmentCheck = {setDepartmentCheck} 
                   setEmployeeCodeCheck = {setEmployeeCodeCheck} setJoinDateCheck = {setJoinDateCheck}
-                  dupliCheck = {dupliCheck} setDupliCheck = {setDupliCheck}/>
+                  dupliCheck = {dupliCheck} setDupliCheck = {setDupliCheck} companyList = {companyList}/>
               </TabPanel>
             </Box>
           </Col>
