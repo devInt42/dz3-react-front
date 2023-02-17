@@ -28,6 +28,7 @@ function EmployeeSet() {
   const [joinDateCheck, setJoinDateCheck] = useState(true);
   const [returnId, setReturnId] = useState(0);
   const [returnCmail, setReturnCmail] = useState(0);
+  const [dupliCheck, setDupliCheck] = useState(0);
   useEffect(() => {
     axios
       .get(baseUrl + "/employee/emplist/" + employeeSeq)
@@ -46,6 +47,7 @@ function EmployeeSet() {
       })
       .catch((error) => console.log(error));
     setNotRequire('');
+    setDupliCheck(0);
   }, [employeeSeq]);
 
   const clickEmp = () => {
@@ -62,6 +64,7 @@ function EmployeeSet() {
 
   // 검색결과에 해당하는 사원 불러오기
   useEffect(() => { }, [searchRes]);
+
   // 입사처리
   const EmpInsertForm = () => {
     setBasicData({
@@ -82,7 +85,8 @@ function EmployeeSet() {
       employeeGender: "",
       employeeLanguage: "",
       employeeHcall: "",
-      approvalPwd: ""
+      approvalPwd: "",
+      insertData: "Y",
     });
     setBasicFirstData({
       employeeSeq: employeeSeq,
@@ -102,7 +106,8 @@ function EmployeeSet() {
       employeeGender: "",
       employeeLanguage: "",
       employeeHcall: "",
-      approvalPwd: ""
+      approvalPwd: "",
+      insertData: "Y",
     })
     setGroupData([{
       employeeSeq: 0,
@@ -143,7 +148,8 @@ function EmployeeSet() {
       employeeLeave: null,
       employeeClassification: null,
       companyHomepage: null,
-      page: 0
+      page: 0,
+      insertData: "Y",
     }])
     setGroupFirstData([{
       employeeSeq: 0,
@@ -184,7 +190,8 @@ function EmployeeSet() {
       employeeLeave: null,
       employeeClassification: null,
       companyHomepage: null,
-      page: 0
+      page: 0,
+      insertData: "Y",
     }])
   }
 
@@ -192,9 +199,10 @@ function EmployeeSet() {
     const notInput = "필수 값이 입력되지 않았습니다.";
     const checkError = "중복된 값이 있습니다.";
     const basicCheckError = `[기본 정보] ${checkError}`;
+    const groupCheckError = `[조직 정보] ${checkError}`;
     const basicError = `[기본 정보] ${notInput}`;
     const groupError = `[조직 정보] ${notInput}`;
-    
+
     //기본정보 필수값 확인
     if (!basicData.employeeName) {
       setNotRequire(<SaveAlert title={basicError} text="이름을 입력해 주십시오." icon="error"
@@ -257,17 +265,28 @@ function EmployeeSet() {
         successButton="확인" />)
       return false;
     }
-
     if (JSON.stringify(groupFirstData) == JSON.stringify(groupData) &&
       JSON.stringify(basicFirstData) == JSON.stringify(basicData)) {
       setNotRequire(<SaveAlert title="수정된 사항이 없습니다." icon="error" successButton="확인"/>);
       return false;
     }
-
+    if (dupliCheck > 0) {
+      console.log(dupliCheck);
+      setNotRequire(<SaveAlert title = {groupCheckError} text = "사번이 중복되었습니다." icon="error"
+        successButton="확인"/>)
+        return false;
+    }
     setNotRequire(<SaveAlert title="수정하시겠습니까?" icon="warning" successButton="수정" functionText="수정" cancleButton="true" />);
+  }
+  const Update = () => {
+    const data = {...basicData, groupData}
+    axios.post(`${baseUrl}/department-employee/addupdateemp`, data)
+    console.log(data);
+    console.log(groupFirstData);
   }
   return (
     <div>
+      {notRequire}
       <div className={style.wrap}>
         <span style={{ fontSize: "25px" }}>
           <GrUserManager />
@@ -300,10 +319,10 @@ function EmployeeSet() {
                   <Tab label="조직정보" {...a11yProps(1)} />
                   <button onClick={() => EmpInsertForm()}>입사처리</button>
                   <button onClick={() => AllCheck()}>저장</button>
-                  <button>삭제</button>
+                  <button onClick = {Update}>삭제</button>
                 </Tabs>
               </Box>
-              {notRequire}
+              
               <TabPanel value={value} index={0}>
                 <EmpBasic
                   employeeSeq={employeeSeq}
@@ -322,7 +341,8 @@ function EmployeeSet() {
               <TabPanel value={value} index={1}>
                 <EmpDept employeeSeq={employeeSeq} setData={setGroupData} setFirstData={setGroupFirstData}
                   data={groupData} firstData={groupFirstData} setDepartmentCheck = {setDepartmentCheck} 
-                  setEmployeeCodeCheck = {setEmployeeCodeCheck} setJoinDateCheck = {setJoinDateCheck}/>
+                  setEmployeeCodeCheck = {setEmployeeCodeCheck} setJoinDateCheck = {setJoinDateCheck}
+                  dupliCheck = {dupliCheck} setDupliCheck = {setDupliCheck}/>
               </TabPanel>
             </Box>
           </Col>

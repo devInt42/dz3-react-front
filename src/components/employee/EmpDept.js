@@ -8,8 +8,6 @@ function EmpDept(props) {
   const baseUrl = "http://localhost:8080";
   const positionModal = "POSITION";
   const dutyModal = "DUTY";
-  const [dupliCheck, setDupliCheck] = useState(0);
-  const [notRequire, setNotRequire] = useState("");
 
   //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
   const insertData = {
@@ -24,26 +22,22 @@ function EmpDept(props) {
     duty: "",
     dutyCode: "",
     employeeCode: "",
-    mainCompanyYN: "",
-    mainDepartmentYN: "",
+    mainCompanyYN: "N",
+    mainDepartmentYN: "N",
     employeeSeq: props.employeeSeq,
     position: "",
     positionCode: "",
     workplaceName: "",
+    insertData: "Y",
   }
   useEffect(() => {
 
   },[])
-  //사원의 조직정보
-  useEffect(() => {
-    setNotRequire("");
-  }, [props.employeeSeq]);
 
   //리스트 객체 특정값 변경 함수
   const updateIndexObject = (idx, obj) => {
     let copyGroupList = [...props.data];
     copyGroupList[idx] = { ...copyGroupList[idx], ...obj };
-
     props.setData(copyGroupList);
   }
   const updateObject = (seq, obj) => {
@@ -90,21 +84,20 @@ function EmpDept(props) {
   //사원 코드 중복체크
   const codeDupliCheck = (companySeq, value) => {
     if (firstCodeCheck(companySeq)) {
-      setDupliCheck(0);
-      return dupliCheck;
+      props.setDupliCheck(0); 
+      return props.dupliCheck;
     }
-    axios
+    if(!firstCodeCheck(companySeq)) {axios
       .get(`${baseUrl}/company-employee/duplicheck`, {
         params: {
           companySeq: companySeq,
           employeeCode: value,
         },
       })
-      .then((res) => setDupliCheck(res.data));
-    return dupliCheck;
+      .then((res) => props.setDupliCheck(res.data));
+      return props.dupliCheck;
+    }
   };
-
-  //첫 데이터와 비교 (중복체크 전)
   const firstCodeCheck = (seq) => {
     const findIndex = props.data.findIndex(
       (element) => element.companySeq == seq
@@ -113,6 +106,8 @@ function EmpDept(props) {
       props.firstData[findIndex].employeeCode == props.data[findIndex].employeeCode
     );
   };
+
+  //첫 데이터와 비교 (중복체크 전)
   const firstDepartmentCheck = (seq) => {
     const findIndex = props.data.findIndex(
       (element) => element.companySeq == seq
@@ -122,18 +117,25 @@ function EmpDept(props) {
     );
   };
 
+
   const CreateInsertForm = () => {
     let copyGroupList = [insertData, ...props.data];
     props.setData(copyGroupList);
     props.setFirstData(copyGroupList);
+    console.log(copyGroupList);
   }
 
   const RemoveGroup = (idx) => {
     let copyGroupList = [...props.data];
+    let copyFirstGroupList = [...props.firstData];
     if (copyGroupList.length > 1) {
       copyGroupList = copyGroupList.filter((_, index) => {
         return index !== idx;
       });
+      copyFirstGroupList = copyFirstGroupList.filter((_, index) => {
+        return index !== idx;
+      })
+      props.setFirstData(copyFirstGroupList);
       props.setData(copyGroupList);
     }
   }
@@ -169,11 +171,10 @@ function EmpDept(props) {
     }
   }
   return (
-    <div>
-      {notRequire}
+    <div id = {style.empdept}>
       {/* <button onClick={AllCheck}>저장</button> */}
       <button onClick={CreateInsertForm}>추가</button>
-
+      <div id = {style.box}>
       {props.data &&
         props.data.map((group, idx) => {
           return (
@@ -217,8 +218,8 @@ function EmpDept(props) {
                     <td colSpan={3}>
                       <Form.Control
                         onChange={(e) => {
-                          firstCodeCheck(group.companySeq)
-                            ? setDupliCheck(0)
+                         !group.employeeCode || firstCodeCheck(group.companySeq)
+                            ? props.setDupliCheck(0)
                             : codeDupliCheck(group.companySeq, e.target.value);
                           updateObject(group.departmentSeq, {
                             employeeCode: e.target.value,
@@ -233,20 +234,26 @@ function EmpDept(props) {
                         isValid={
                           firstCodeCheck(group.companySeq)
                             ? ""
-                            : dupliCheck == 0
+                            : props.dupliCheck == 0
                               ? true
                               : false
                         }
                         isInvalid={
                           firstCodeCheck(group.companySeq)
                             ? ""
-                            : dupliCheck == 1 ||
+                            : props.dupliCheck == 1 ||
                               group.employeeCode == null ||
                               group.employeeCode == ""
                               ? true
                               : false
                         }
                       />
+                      <Form.Control.Feedback type="valid">
+                        사용 가능한 사번 입니다.
+                      </Form.Control.Feedback>
+                      <Form.Control.Feedback type="invalid">
+                        중복되었습니다.
+                      </Form.Control.Feedback>
                     </td>
                   </tr>
                   <tr>
@@ -402,7 +409,7 @@ function EmpDept(props) {
                   <tr>
                     <th>주소</th>
                     <td colSpan={3}>
-                      {group.departmentZipCode != "" && `${group.departmentZipCode} | ${group.departmentLoc}`}
+                      {group.departmentZipCode || `${group.departmentZipCode} | ${group.departmentLoc}`}
                     </td>
                   </tr>
                 </tbody>
@@ -412,6 +419,7 @@ function EmpDept(props) {
             </div>
           );
         })}
+        </div>
     </div>
   );
 }

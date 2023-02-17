@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
-import EmpBasicSaveAlert from "../alert/EmpBasicSaveAlert";
-import EmpBasicSaveFailAlert from "../alert/EmpBasicSaveFailAlert";
-import EmpBasicUpdateAlert from "../alert/EmpBasicUpdateAlert";
-import EmpBasicUpdateFailAlert from "../alert/EmpBasicUpdateFailAlert";
-import EmpBasicDeleteAlert from "../alert/EmpBasicDeleteAlert";
 import ZippopupPostCode from "./zipcode/ZippopupZipCode";
 import ZippopupDom from "./zipcode/ZippopupDom";
 import style from "./css/EmpBasic.module.css";
@@ -88,9 +83,6 @@ function EmpBasic(props) {
         if(addrtmp[2] == undefined) {
           setDetailedAddr("");
         }
-        console.log(addrtmp[0]);
-        console.log(addrtmp[1]);
-        console.log(addrtmp[2]);
       }
     }
   }, [empSelected]);
@@ -120,72 +112,6 @@ function EmpBasic(props) {
   }, [useYN]);
 
   const label = { inputProps: { "aria-label": "Size switch demo" } };
-
-  // 신규 입사자 등록 시 인풋박스 초기화
-  const newSave = () => {
-    setEmployeeCode("");
-    setEmployeeBirth("");
-    setEmployeeName("");
-    setEmployeePwd("");
-    setEmployeePh("");
-    setEmployeeId("");
-    setEmployeePmail("");
-    setEmployeeCmail("");
-    setEmployeeAddr("");
-    setEmployeeHcall("");
-    setApprovalPwd("");
-    setEmployeeGender("");
-    setEmployeeLanguage("");
-    setEmployeeJoin("");
-    setEmployeeLeave("");
-    setFirstId("");
-    setFirstMail("");
-    setPmailDomain("");
-    setPmailId("");
-    setFirstAddr("");
-    setAddrCode("");
-    setDetailedAddr("");
-    props.clickEmp();
-    props.setSelectAct(true);
-  };
-
-  // 저장 필수값 검사
-  const [insertCheck, setInsertCheck] = useState(false);
-  const [insertFail, setInsertFail] = useState();
-  function insertValid() {
-    if (
-      props.data.employeeBirth.length == 0 ||
-      props.data.employeeName.length == 0 ||
-      props.data.employeePwd.length == 0 ||
-      props.data.approvalPwd.length == 0 ||
-      props.data.employeeJoin.length == 0
-    ) {
-      setInsertFail(<EmpBasicSaveFailAlert setInsertCheck={setInsertCheck} />);
-    } else {
-      setInsertCheck(true);
-    }
-  }
-
-  // 수정 필수값 검사
-  const [updateCheck, setUpdateCheck] = useState(false);
-  const [updateFail, setUpdateFail] = useState();
-  function updateValid() {
-    if (
-      props.data.employeeBirth.length == 0 ||
-      props.data.employeeName.length == 0 ||
-      props.data.employeePwd.length == 0 ||
-      props.data.approvalPwd.length == 0 ||
-      props.data.employeeJoin.length == 0
-    ) {
-      setUpdateFail(
-        <EmpBasicUpdateFailAlert setUpdateCheck={setUpdateCheck} />
-      );
-    } else {
-      if (employeeId == "") props.setReturnId([]);
-      if (employeeCmail == "") setReturnCmail([]);
-      setUpdateCheck(true);
-    }
-  }
 
   const [deleteCheck, setDeleteCheck] = useState(false);
   function deleteValid() {
@@ -221,7 +147,6 @@ function EmpBasic(props) {
       <span
         style={{ float: "right" }}
         onClick={() => {
-          newSave();
           props.setEmpSeq(0);
         }}
       >
@@ -275,7 +200,8 @@ function EmpBasic(props) {
                   type="text"
                   className={style.emp_input}
                   value={props.data.employeeId || ""}
-                  style={{ backgroundColor: "rgba(175, 174, 174, 0.328)" }}
+                  style={props.data.insertData == "Y" ? { backgroundColor: "rgba(241, 199, 199, 0.328)" }
+                        : {backgroundColor:  "rgba(175, 174, 174, 0.328)"}}
                   onChange={(e) => {
                     updateObject({ employeeId: e.target.value })
                     idCheck(e.target.value);
@@ -298,6 +224,9 @@ function EmpBasic(props) {
                           ? true
                           : false
                       : true
+                  }
+                  disabled = {
+                    props.data.insertData != "Y"
                   }
                 />
                 {props.firstData.employeeId == props.data.employeeId ? (
@@ -326,7 +255,8 @@ function EmpBasic(props) {
                   type="text"
                   className={style.emp_input}
                   value={props.data.employeeCmail || ""}
-                  style={{ backgroundColor: "rgba(175, 174, 174, 0.328)" }}
+                  style={props.data.insertData == "Y" ? { backgroundColor: "rgba(241, 199, 199, 0.328)" }
+                        : {backgroundColor:  "rgba(175, 174, 174, 0.328)"}}
                   onChange={(e) => {
                     updateObject({employeeCmail: e.target.value})
                     cmailCheck(e.target.value);
@@ -349,6 +279,9 @@ function EmpBasic(props) {
                           ? true
                           : false
                       : true
+                  }
+                  disabled = {
+                    props.data.insertData != "Y"
                   }
                 />
                 {props.firstData.employeeCmail == props.data.employeeCmail ? (
@@ -605,54 +538,6 @@ function EmpBasic(props) {
           </tr>
         </tbody>
       </table>
-      <div className={style.menu_btn}>
-        {props.selectAct == true ? (
-          <>
-            <button onClick={insertValid}>저장</button>
-            <div>수정/삭제는 왼쪽 사원을 선택해주세요.</div>
-          </>
-        ) : (
-          <>
-            <button onClick={updateValid}>저장</button>
-            <button onClick={deleteValid}>삭제</button>
-          </>
-        )}
-      </div>
-      {insertCheck && (
-        <EmpBasicSaveAlert
-          setInsertCheck={setInsertCheck}
-          insertEmp={insertEmp}
-          employeeId={employeeId}
-          returnId={props.returnId}
-          firstId={firstId}
-          employeeCmail={employeeCmail}
-          returnCmail={returnCmail}
-          FirstMail={FirstMail}
-          employeeName={employeeName}
-        />
-      )}
-      {insertFail}
-      {updateCheck && (
-        <EmpBasicUpdateAlert
-          setUpdateCheck={setUpdateCheck}
-          updateEmp={updateEmp}
-          employeeId={employeeId}
-          returnId={props.returnId}
-          firstId={firstId}
-          employeeCmail={employeeCmail}
-          returnCmail={returnCmail}
-          FirstMail={FirstMail}
-          employeeSeq={props.employeeSeq}
-        />
-      )}
-      {updateFail}
-      {deleteCheck && (
-        <EmpBasicDeleteAlert
-          setDeleteCheck={setDeleteCheck}
-          employeeSeq={props.employeeSeq}
-          deleteEmp={deleteEmp}
-        />
-      )}
     </div>
       :
       <div>사원을 선택해 주십시오.</div>
