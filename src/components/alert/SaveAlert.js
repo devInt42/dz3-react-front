@@ -19,12 +19,10 @@ const SaveAlert = (props) => {
         if(result.isConfirmed && props.functionText == "수정") {
             Swal.fire('수정이 완료되었습니다.', '', 'success','#3085d6');
             props.Update();
-            props.setAllCheck(false);
-            props.setRefresh(props.refresh + 1);
-            props.setInsertForm(false);
         }
-        if(!result.isConfirmed) {
-            props.setAllCheck(false);
+        if(result.isConfirmed && props.functionText == "저장") {
+            Swal.fire('입사처리가 완료되었습니다.', '', 'success','#3085d6');
+            props.Update();
         }
     })
 }

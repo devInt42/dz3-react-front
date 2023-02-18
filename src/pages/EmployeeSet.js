@@ -32,12 +32,15 @@ function EmployeeSet() {
   const [dupliCheck, setDupliCheck] = useState(0);
   const [companyList, setCompanyList] = useState([]);
   const [insertFlag, setInsertFlag] = useState(false);
+  const [insertSeqFlag, setInsertSeqFlag] = useState(false);
+  
   useEffect(() => {
     axios.get(`${baseUrl}/company/info`)
       .then(res => setCompanyList(res.data))
       .catch(error => console.log(error))
   }, [])
   useEffect(() => {
+    console.log(employeeSeq);
     axios
       .get(baseUrl + "/employee/emplist/" + employeeSeq)
       .then((response) => { setBasicData(response.data[0]); setBasicFirstData(response.data[0]) })
@@ -56,6 +59,16 @@ function EmployeeSet() {
       .catch((error) => console.log(error));
     setNotRequire('');
     setDupliCheck(0);
+    
+    if(insertFlag) {
+    let copyGroupData = [...groupData];
+      //seq 를 바꾸기 위해
+      for(let i = 0; i < groupData.length; i ++) {
+        copyGroupData[i] = {...copyGroupData[i], ...{employeeSeq: employeeSeq}}
+        setGroupData(copyGroupData);
+        setInsertSeqFlag(true);
+    }
+  }
     setInsertFlag(false);
   }, [employeeSeq]);
 
@@ -77,6 +90,7 @@ function EmployeeSet() {
   // 입사처리
   const EmpInsertForm = () => {
     setInsertFlag(true);
+    setInsertSeqFlag(false);
     setBasicData({
       employeeSeq: 0,
       employeeId: "",
@@ -286,14 +300,35 @@ function EmployeeSet() {
         successButton="확인" />)
       return false;
     }
-    if (insertFlag) {
+    if (!insertFlag) {
       setNotRequire(<SaveAlert title="수정하시겠습니까?" icon="warning" successButton="수정" functionText="수정" cancleButton="true" Update={Update} />);
     }
-    if (!insertFlag) {
+    if (insertFlag) {
       setNotRequire(<SaveAlert title = "저장하시겠습니까?" icon= "info" successButton="저장" functionText="수정" 
-      cancleButton = "true" Update = {Update}/>)
+      cancleButton = "true" Update = {Insert}/>)
     }
   }
+  const Insert = async() => {
+    const data = {...basicData, groupData}
+    let res = await axios.post(`${baseUrl}/department-employee/joinemp`, data)
+    if(res.status == 200) {
+      let getSeq = await axios.get(`${baseUrl}/department-employee/findempseq`, 
+      {
+        params: {
+          employeeId: data.employeeId,
+          employeeName: data.employeeName
+        }
+      })
+      setEmpSeq(getSeq.data);
+    }
+  }
+  useEffect (() => {
+    if(insertSeqFlag) {
+      if(employeeSeq != 0) {
+        Update();
+      }
+    }
+  }, [insertSeqFlag])
   const Update = () => {
     const data = { ...basicData, groupData }
     const empData = { ...data, groupFirstData }
