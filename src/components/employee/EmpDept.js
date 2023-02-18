@@ -79,16 +79,17 @@ function EmpDept(props) {
   //사원 코드 중복체크
   const codeDupliCheck = (companySeq, value) => {
     if (firstCodeCheck(companySeq)) {
-      props.setDupliCheck(0); 
+      props.setDupliCheck(0);
       return props.dupliCheck;
     }
-    if(!firstCodeCheck(companySeq)) {axios
-      .get(`${baseUrl}/company-employee/duplicheck`, {
-        params: {
-          companySeq: companySeq,
-          employeeCode: value,
-        },
-      })
+    if (!firstCodeCheck(companySeq)) {
+      axios
+        .get(`${baseUrl}/company-employee/duplicheck`, {
+          params: {
+            companySeq: companySeq,
+            employeeCode: value,
+          },
+        })
       .then((res) => props.setDupliCheck(res.data));
       return props.dupliCheck;
     }
@@ -143,10 +144,10 @@ function EmpDept(props) {
     props.setDepartmentCheck(true);
     props.setEmployeeCodeCheck(true);
     props.setJoinDateCheck(true);
-    
+
     for (let i = 0; i < props.data.length; i++) {
       if (
-        !props.data[i].employeeCode 
+        !props.data[i].employeeCode
       ) {
         props.setEmployeeCodeCheck(false);
         return false;
@@ -158,7 +159,7 @@ function EmpDept(props) {
         return false;
       }
       if (
-        !props.data[i].employeeJoin 
+        !props.data[i].employeeJoin
       ) {
         props.setJoinDateCheck(false);
         return false;
@@ -169,269 +170,275 @@ function EmpDept(props) {
     console.log(props.data);
   }, [props.data])
   return (
-    <div id = {style.empdept}>
+    <div id={style.empdept}>
       {/* <button onClick={AllCheck}>저장</button> */}
       <button onClick={CreateInsertForm}>추가</button>
-      <div id = {style.box}>
-      {props.data &&
-        props.data.map((group, idx) => {
-          return (
-            <div>
-              <button onClick={() => group.mainCompanyYN !== "Y" ? RemoveGroup(idx) : alert("주회사는 삭제할 수 없습니다.")}>삭제</button>
-              <table className={style.dept_tbl} key={idx}>
-                <thead></thead>
-                <tbody>
-                  <tr>
-                    <th>회사</th>
-                    <td>
-                      <select value = {group.companySeq} name = "companylist" onChange = {
-                        (e) => updateObject(group.departmentSeq, {companySeq: e.target.value, workplaceSeq: 0, departmentSeq: 0, workplaceName: "", departmentName: ""})
-                      }>
-                        <option value = {0}>회사 선택</option>
-                        {props.companyList.map(company => {
-                          return (
-                            <>
-                              <option value = {company.companySeq}>
-                                {company.companyName}</option>
-                            </>
-                          )
-                        })}
-                      </select>
-                    </td>
-                    <th>부서</th>
-                    <td>
-                      <div className="content-have-button">
+      <div id={style.box}>
+        {props.data &&
+          props.data.map((group, idx) => {
+            return (
+              <div>
+                <button onClick={() => group.mainCompanyYN !== "Y" ? RemoveGroup(idx) : alert("주회사는 삭제할 수 없습니다.")}>삭제</button>
+                <table className={style.dept_tbl} key={idx}>
+                  <thead></thead>
+                  <tbody>
+                    <tr>
+                      <th>회사</th>
+                      <td>
+                        <select value={group.companySeq} name="companylist" onChange={
+                          (e) => updateObject(group.departmentSeq, { companySeq: e.target.value, workplaceSeq: 0, departmentSeq: 0, workplaceName: "", departmentName: "" })
+                        }>
+                          <option value={0}>회사 선택</option>
+                          {props.companyList.map(company => {
+                            return (
+                              <>
+                                <option value={company.companySeq}>
+                                  {company.companyName}</option>
+                              </>
+                            )
+                          })}
+                        </select>
+                      </td>
+                      <th>부서</th>
+                      <td>
+                      <Form.Group>
+                        <div className="content-have-button">
+                          <Form.Control
+                            className={style.emp_input}
+                            value={group.departmentName}
+                            placeholder="부서를 선택해 주십시오."
+                            style={{
+                              zIndex: "0",
+                              backgroundColor: "rgba(241, 199, 199, 0.328)",
+                            }}
+                            isValid={
+                              group.departmentName == undefined || group.departmentName == "" ?
+                                false :
+                                firstDepartmentCheck(group.companySeq)
+                                  ? ""
+                                  : (group.departmentName != null ||
+                                    group.departmentName != undefined
+                                  )
+                            }
+                            isInvalid={
+                              group.departmentName == ""
+                            }
+                          />
+                          <ManageModal companySeq={group.companySeq} updateIndexObject={updateIndexObject} idx={idx} />
+                        </div>
+                        </Form.Group>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>사번</th>
+                      <td colSpan={3}>
+                        <Form.Group>
                         <Form.Control
-                          value={group.departmentName}
-                          placeholder="부서를 선택해 주십시오."
+                          className={style.emp_input}
+                          onChange={(e) => {
+                            !group.employeeCode || firstCodeCheck(group.companySeq)
+                              ? props.setDupliCheck(0)
+                              : codeDupliCheck(group.companySeq, e.target.value);
+                            updateObject(group.departmentSeq, {
+                              employeeCode: e.target.value,
+                            });
+                          }}
+                          value={group.employeeCode}
+                          placeholder="사번을 입력해 주십시오."
                           style={{
                             zIndex: "0",
                             backgroundColor: "rgba(241, 199, 199, 0.328)",
                           }}
                           isValid={
-                            group.departmentName == undefined || group.departmentName == "" ?
-                              false :
-                              firstDepartmentCheck(group.companySeq)
-                                ? ""
-                                : (group.departmentName != null ||
-                                group.departmentName != undefined
-                                )
+                            firstCodeCheck(group.companySeq)
+                              ? ""
+                              : props.dupliCheck == 0
+                                ? true
+                                : false
                           }
-                          isInvalid = {
-                            group.departmentName==""
+                          isInvalid={
+                            firstCodeCheck(group.companySeq)
+                              ? ""
+                              : props.dupliCheck == 1 ||
+                                group.employeeCode == null ||
+                                group.employeeCode == ""
+                                ? true
+                                : false
                           }
                         />
-                        <ManageModal companySeq={group.companySeq} updateIndexObject={updateIndexObject} idx={idx} />
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>사번</th>
-                    <td colSpan={3}>
-                      <Form.Control
-                        onChange={(e) => {
-                         !group.employeeCode || firstCodeCheck(group.companySeq)
-                            ? props.setDupliCheck(0)
-                            : codeDupliCheck(group.companySeq, e.target.value);
-                          updateObject(group.departmentSeq, {
-                            employeeCode: e.target.value,
-                          });
-                        }}
-                        value={group.employeeCode}
-                        placeholder="사번을 입력해 주십시오."
-                        style={{
-                          zIndex: "0",
-                          backgroundColor: "rgba(241, 199, 199, 0.328)",
-                        }}
-                        isValid={
-                          firstCodeCheck(group.companySeq)
-                            ? ""
-                            : props.dupliCheck == 0
-                              ? true
-                              : false
-                        }
-                        isInvalid={
-                          firstCodeCheck(group.companySeq)
-                            ? ""
-                            : props.dupliCheck == 1 ||
-                              group.employeeCode == null ||
-                              group.employeeCode == ""
-                              ? true
-                              : false
-                        }
-                      />
-                      <Form.Control.Feedback type="valid">
-                        사용 가능한 사번 입니다.
-                      </Form.Control.Feedback>
-                      <Form.Control.Feedback type="invalid">
-                        중복되었습니다.
-                      </Form.Control.Feedback>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>회사구분</th>
-                    <td>
-                      <input
-                        type="radio"
-                        name={`main-company-yn${group.departmentSeq}`}
-                        value="Y"
-                        onChange={() => {
-                          group.departmentSeq != 0 ?
-                            updateMain(
-                              group.departmentSeq,
-                              { mainCompanyYN: "N" },
-                              { mainCompanyYN: "Y" }
-                            ) :
-                            alert("부서가 선택되지 않았습니다.")
-                        }}
-                        checked={group.mainCompanyYN === "Y" ? true : false}
-                      />
-                      <label>주회사</label>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <input
-                        type="radio"
-                        name={`main-company-yn${group.departmentSeq}`}
-                        value="N"
-                        onChange={() => {
-                          notSelectDepartment(group.departmentSeq);
-                        }}
-                        checked={group.mainCompanyYN === "N" ? true : false}
-                      />
-                      <label>부회사</label>
-                    </td>
-                    <th>부서구분</th>
-                    <td>
-                      <input
-                        type="radio"
-                        name={`main-department-yn${group.departmentSeq}`}
-                        value="Y"
-                        onChange={() => {
-                          group.departmentSeq != 0 ?
-                            updateMain(
-                              group.departmentSeq,
-                              { mainDepartmentYN: "N" },
-                              { mainDepartmentYN: "Y" }
-                            ) :
-                            alert("부서가 선택되지 않았습니다.")
-                        }}
-                        checked={group.mainDepartmentYN === "Y" ? true : false}
-                      />
-                      <label>주부서</label>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <input
-                        type="radio"
-                        name={`main-department-yn${group.departmentSeq}`}
-                        value="N"
-                        onChange={() => {
-                          notSelectDepartment(group.departmentSeq);
-                        }}
-                        checked={group.mainDepartmentYN === "N" ? true : false}
-                      />
-                      <label>부부서</label>
-                    </td>
-                  </tr>
+                        <Form.Control.Feedback type="valid">
+                          사용 가능한 사번 입니다.
+                        </Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">
+                          중복되었습니다.
+                        </Form.Control.Feedback>
+                        </Form.Group>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>회사구분</th>
+                      <td>
+                        <input
+                          type="radio"
+                          name={`main-company-yn${group.departmentSeq}`}
+                          value="Y"
+                          onChange={() => {
+                            group.departmentSeq != 0 ?
+                              updateMain(
+                                group.departmentSeq,
+                                { mainCompanyYN: "N" },
+                                { mainCompanyYN: "Y" }
+                              ) :
+                              alert("부서가 선택되지 않았습니다.")
+                          }}
+                          checked={group.mainCompanyYN === "Y" ? true : false}
+                        />
+                        <label>주회사</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input
+                          type="radio"
+                          name={`main-company-yn${group.departmentSeq}`}
+                          value="N"
+                          onChange={() => {
+                            notSelectDepartment(group.departmentSeq);
+                          }}
+                          checked={group.mainCompanyYN === "N" ? true : false}
+                        />
+                        <label>부회사</label>
+                      </td>
+                      <th>부서구분</th>
+                      <td>
+                        <input
+                          type="radio"
+                          name={`main-department-yn${group.departmentSeq}`}
+                          value="Y"
+                          onChange={() => {
+                            group.departmentSeq != 0 ?
+                              updateMain(
+                                group.departmentSeq,
+                                { mainDepartmentYN: "N" },
+                                { mainDepartmentYN: "Y" }
+                              ) :
+                              alert("부서가 선택되지 않았습니다.")
+                          }}
+                          checked={group.mainDepartmentYN === "Y" ? true : false}
+                        />
+                        <label>주부서</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input
+                          type="radio"
+                          name={`main-department-yn${group.departmentSeq}`}
+                          value="N"
+                          onChange={() => {
+                            notSelectDepartment(group.departmentSeq);
+                          }}
+                          checked={group.mainDepartmentYN === "N" ? true : false}
+                        />
+                        <label>부부서</label>
+                      </td>
+                    </tr>
 
-                  <tr>
-                    <th>직급</th>
-                    <td>
-                      <input
-                        type="text"
-                        value={`${group.positionCode}.${group.position}`}
-                      />
-                      <EmpPositionModal
-                        type={positionModal}
-                        updateObject={updateObject}
-                        departmentSeq={group.departmentSeq}
-                      />
-                    </td>
-                    <th>직책</th>
-                    <td>
-                      <input
-                        type="text"
-                        value={`${group.dutyCode}.${group.duty}`}
-                      />
-                      <EmpPositionModal
-                        departmentSeq={group.departmentSeq}
-                        type={dutyModal}
-                        updateObject={updateObject}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>재직구분</th>
-                    <td colSpan={3}>
-                      <select
-                        name="emp-classfication"
-                        onChange={(e) =>
-                          updateObject(group.departmentSeq, {
-                            employeeClassification: e.target.value,
-                          })
-                        }
-                      >
-                        <option
-                          value="J01.재직"
-                          checked={group.employeeClassification === "J01.재직"}
+                    <tr>
+                      <th>직급</th>
+                      <td>
+                        <input
+                          type="text"
+                          value={`${group.positionCode}.${group.position}`}
+                        />
+                        <EmpPositionModal
+                          type={positionModal}
+                          updateObject={updateObject}
+                          departmentSeq={group.departmentSeq}
+                        />
+                      </td>
+                      <th>직책</th>
+                      <td>
+                        <input
+                          type="text"
+                          value={`${group.dutyCode}.${group.duty}`}
+                        />
+                        <EmpPositionModal
+                          departmentSeq={group.departmentSeq}
+                          type={dutyModal}
+                          updateObject={updateObject}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>재직구분</th>
+                      <td colSpan={3}>
+                        <select
+                          name="emp-classfication"
+                          onChange={(e) =>
+                            updateObject(group.departmentSeq, {
+                              employeeClassification: e.target.value,
+                            })
+                          }
                         >
-                          J01.재직
-                        </option>
-                        <option
-                          value="J05.퇴직"
-                          checked={group.employeeClassification === "J05.퇴직"}
-                        >
-                          J05.퇴직
-                        </option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>입사일</th>
-                    <td>
-                      <input
-                        type="date"
-                        value={group.employeeJoin || ""}
-                        onChange={(e) => {
-                          updateObject(group.departmentSeq, {
-                            employeeJoin: e.target.value,
-                          });
-                        }}
-                        style={{
-                          backgroundColor: "rgba(241, 199, 199, 0.328)",
-                        }}
-                      />
-                    </td>
-                    <th>퇴사일</th>
-                    <td>
-                      <input
-                        type="date"
-                        value={group.employeeLeave}
-                        onChange={(e) => {
-                          updateObject(group.departmentSeq, {
-                            employeeLeave: e.target.value,
-                          });
-                        }}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>전화번호</th>
-                    <td>{group.departmentCall || "-"}</td>
-                    <th>팩스번호</th>
-                    <td>{group.departmentFax || "-"}</td>
-                  </tr>
-                  <tr>
-                    <th>주소</th>
-                    <td colSpan={3}>
-                      {group.departmentZipCode || `${group.departmentZipCode} | ${group.departmentLoc}`}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <br />
-              <br />
-            </div>
-          );
-        })}
-        </div>
+                          <option
+                            value="J01.재직"
+                            checked={group.employeeClassification === "J01.재직"}
+                          >
+                            J01.재직
+                          </option>
+                          <option
+                            value="J05.퇴직"
+                            checked={group.employeeClassification === "J05.퇴직"}
+                          >
+                            J05.퇴직
+                          </option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>입사일</th>
+                      <td>
+                        <input
+                          type="date"
+                          value={group.employeeJoin || ""}
+                          onChange={(e) => {
+                            updateObject(group.departmentSeq, {
+                              employeeJoin: e.target.value,
+                            });
+                          }}
+                          style={{
+                            backgroundColor: "rgba(241, 199, 199, 0.328)",
+                          }}
+                        />
+                      </td>
+                      <th>퇴사일</th>
+                      <td>
+                        <input
+                          type="date"
+                          value={group.employeeLeave}
+                          onChange={(e) => {
+                            updateObject(group.departmentSeq, {
+                              employeeLeave: e.target.value,
+                            });
+                          }}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>전화번호</th>
+                      <td>{group.departmentCall || "-"}</td>
+                      <th>팩스번호</th>
+                      <td>{group.departmentFax || "-"}</td>
+                    </tr>
+                    <tr>
+                      <th>주소</th>
+                      <td colSpan={3}>
+                        {group.departmentZipCode || `${group.departmentZipCode} | ${group.departmentLoc}`}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <br />
+                <br />
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 }

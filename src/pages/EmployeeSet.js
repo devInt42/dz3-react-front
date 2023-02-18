@@ -14,6 +14,7 @@ import Box from "@mui/material/Box";
 import SaveAlert from "../components/alert/SaveAlert";
 function EmployeeSet() {
   const baseUrl = "http://localhost:8080";
+
   const [value, setValue] = React.useState(0);
   const [employeeSeq, setEmpSeq] = useState(0);
   const [selectAct, setSelectAct] = useState(true);
@@ -30,10 +31,11 @@ function EmployeeSet() {
   const [returnCmail, setReturnCmail] = useState(0);
   const [dupliCheck, setDupliCheck] = useState(0);
   const [companyList, setCompanyList] = useState([]);
-  useEffect(()=> {
+  const [insertFlag, setInsertFlag] = useState(false);
+  useEffect(() => {
     axios.get(`${baseUrl}/company/info`)
-    .then(res => setCompanyList(res.data))
-    .catch(error => console.log(error))
+      .then(res => setCompanyList(res.data))
+      .catch(error => console.log(error))
   }, [])
   useEffect(() => {
     axios
@@ -54,6 +56,7 @@ function EmployeeSet() {
       .catch((error) => console.log(error));
     setNotRequire('');
     setDupliCheck(0);
+    setInsertFlag(false);
   }, [employeeSeq]);
 
   const clickEmp = () => {
@@ -73,8 +76,9 @@ function EmployeeSet() {
 
   // 입사처리
   const EmpInsertForm = () => {
+    setInsertFlag(true);
     setBasicData({
-      employeeSeq: employeeSeq,
+      employeeSeq: 0,
       employeeId: "",
       employeeName: "",
       employeeBirth: "",
@@ -95,7 +99,7 @@ function EmployeeSet() {
       insertData: "Y",
     });
     setBasicFirstData({
-      employeeSeq: employeeSeq,
+      employeeSeq: 0,
       employeeId: "",
       employeeName: "",
       employeeBirth: "",
@@ -273,22 +277,27 @@ function EmployeeSet() {
     }
     if (JSON.stringify(groupFirstData) == JSON.stringify(groupData) &&
       JSON.stringify(basicFirstData) == JSON.stringify(basicData)) {
-      setNotRequire(<SaveAlert title="수정된 사항이 없습니다." icon="error" successButton="확인"/>);
+      setNotRequire(<SaveAlert title="수정된 사항이 없습니다." icon="error" successButton="확인" />);
       return false;
     }
     if (dupliCheck > 0) {
       console.log(dupliCheck);
-      setNotRequire(<SaveAlert title = {groupCheckError} text = "사번이 중복되었습니다." icon="error"
-        successButton="확인"/>)
-        return false;
+      setNotRequire(<SaveAlert title={groupCheckError} text="사번이 중복되었습니다." icon="error"
+        successButton="확인" />)
+      return false;
     }
-    setNotRequire(<SaveAlert title="수정하시겠습니까?" icon="warning" successButton="수정" functionText="수정" cancleButton="true" />);
+    if (insertFlag) {
+      setNotRequire(<SaveAlert title="수정하시겠습니까?" icon="warning" successButton="수정" functionText="수정" cancleButton="true" Update={Update} />);
+    }
+    if (!insertFlag) {
+      setNotRequire(<SaveAlert title = "저장하시겠습니까?" icon= "info" successButton="저장" functionText="수정" 
+      cancleButton = "true" Update = {Update}/>)
+    }
   }
   const Update = () => {
-    const data = {...basicData, groupData}
-    axios.post(`${baseUrl}/department-employee/addupdateemp`, data)
-    console.log(data);
-    console.log(groupFirstData);
+    const data = { ...basicData, groupData }
+    const empData = { ...data, groupFirstData }
+    axios.post(`${baseUrl}/department-employee/addupdateemp`, empData)
   }
   return (
     <div>
@@ -325,10 +334,10 @@ function EmployeeSet() {
                   <Tab label="조직정보" {...a11yProps(1)} />
                   <button onClick={() => EmpInsertForm()}>입사처리</button>
                   <button onClick={() => AllCheck()}>저장</button>
-                  <button onClick = {Update}>삭제</button>
+                  <button onClick={Update}>삭제</button>
                 </Tabs>
               </Box>
-              
+
               <TabPanel value={value} index={0}>
                 <EmpBasic
                   employeeSeq={employeeSeq}
@@ -346,9 +355,9 @@ function EmployeeSet() {
               </TabPanel>
               <TabPanel value={value} index={1}>
                 <EmpDept employeeSeq={employeeSeq} setData={setGroupData} setFirstData={setGroupFirstData}
-                  data={groupData} firstData={groupFirstData} setDepartmentCheck = {setDepartmentCheck} 
-                  setEmployeeCodeCheck = {setEmployeeCodeCheck} setJoinDateCheck = {setJoinDateCheck}
-                  dupliCheck = {dupliCheck} setDupliCheck = {setDupliCheck} companyList = {companyList}/>
+                  data={groupData} firstData={groupFirstData} setDepartmentCheck={setDepartmentCheck}
+                  setEmployeeCodeCheck={setEmployeeCodeCheck} setJoinDateCheck={setJoinDateCheck}
+                  dupliCheck={dupliCheck} setDupliCheck={setDupliCheck} companyList={companyList} />
               </TabPanel>
             </Box>
           </Col>
