@@ -53,6 +53,7 @@ function EmployeeSet() {
         },
       })
       .then((res) => {
+        console.log(res.data);
         setGroupData(res.data);
         setGroupFirstData(res.data);
       })
@@ -151,8 +152,8 @@ function EmployeeSet() {
       departmentName: "",
       employeeBirth: null,
       authSeq: 0,
-      duty: "",
-      position: "",
+      duty: "팀원",
+      position: "사원",
       mainCompany: null,
       mainDepartment: null,
       startPgNum: 0,
@@ -165,8 +166,8 @@ function EmployeeSet() {
       departmentDepth: 0,
       departmentParent: 0,
       departmentZipCode: "",
-      dutyCode: "",
-      positionCode: "",
+      dutyCode: "1",
+      positionCode: "1",
       employeeCode: "",
       employeeJoin: null,
       employeeLeave: null,
@@ -193,8 +194,8 @@ function EmployeeSet() {
       departmentName: "",
       employeeBirth: null,
       authSeq: 0,
-      duty: "",
-      position: "",
+      duty: "팀원",
+      position: "사원",
       mainCompany: null,
       mainDepartment: null,
       startPgNum: 0,
@@ -207,8 +208,8 @@ function EmployeeSet() {
       departmentDepth: 0,
       departmentParent: 0,
       departmentZipCode: "",
-      dutyCode: "",
-      positionCode: "",
+      dutyCode: "1",
+      positionCode: "1",
       employeeCode: "",
       employeeJoin: null,
       employeeLeave: null,
