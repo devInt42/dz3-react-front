@@ -8,6 +8,7 @@ function EmpDept(props) {
   const baseUrl = "http://localhost:8080";
   const positionModal = "POSITION";
   const dutyModal = "DUTY";
+  const [mainCompanySeq, setMainCompanySeq] = useState(0);
   //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
   const insertData = {
       employeeSeq: 0,
