@@ -7,7 +7,6 @@ const UpdateDepartmentAlert = (props) => {
     MySwal.fire({
         title: '수정 하시겠습니까?',
         icon: 'warning',
-
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
