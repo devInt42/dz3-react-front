@@ -4,10 +4,12 @@ import style from "./css/EmpDept.module.css";
 import { Form } from "react-bootstrap";
 import EmpPositionModal from "./EmpPositionModal";
 import ManageModal from "../departmentModal/ManageModal";
+import EmpAlert from "../alert/EmpAlert";
 function EmpDept(props) {
   const baseUrl = "http://localhost:8080";
   const positionModal = "POSITION";
   const dutyModal = "DUTY";
+  //main 회사 구분
   const [mainCompanySeq, setMainCompanySeq] = useState(0);
   //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
   const insertData = {
@@ -189,6 +191,9 @@ function EmpDept(props) {
       }
     }
   }
+  useEffect(() => {
+    console.log(props.data);
+  }, [props.data])
   return (
     <div id={style.empdept}>
       {/* <button onClick={AllCheck}>저장</button> */}
@@ -198,7 +203,13 @@ function EmpDept(props) {
           props.data.map((group, idx) => {
             return (
               <div>
-                <button onClick={() => group.mainCompanyYN !== "Y" ? RemoveGroup(idx) : alert("주회사는 삭제할 수 없습니다.")}>삭제</button>
+                <button onClick={() => {
+                  group.insertData == "Y" ?
+                  props.setNotRequire(<EmpAlert title = "취소하시겠습니까?" icon= "question" successButton="확인" functionText="취소" cancleButton = "true" Cancle = {RemoveGroup} idx = {idx} />)
+                  : props.setNotRequire(<EmpAlert title = "삭제하시겠습니까?" icon= "warning" successButton="확인" functionText="삭제" cancleButton = "true" Delete = {props.selectDelete} idx = {idx} 
+                  data = {props.firstData[idx]} 
+                  setDeleteFlag = {props.setDeleteFlag}/>)
+                  }}>삭제</button>
                 <table className={style.dept_tbl} key={idx}>
                   <thead></thead>
                   <tbody>

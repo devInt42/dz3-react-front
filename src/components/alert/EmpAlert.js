@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-const SaveAlert = (props) => {
+const EmpAlert = (props) => {
     const MySwal = withReactContent(Swal);
 
     MySwal.fire({
@@ -24,7 +24,20 @@ const SaveAlert = (props) => {
             Swal.fire('입사처리가 완료되었습니다.', '', 'success','#3085d6');
             props.Insert();
         }
+        if(result.isConfirmed && props.functionText == "취소") {
+            props.Cancle(props.idx);
+        }
+        if(result.isConfirmed && props.functionText == "삭제") {
+            Swal.fire('삭제가 완료되었습니다.', '', 'success', '#3085d6');
+            props.Delete(props.data);
+            props.setDeleteFlag(true);
+        }
+        if(result.isConfirmed && props.functionText == "회원삭제") {
+            Swal.fire('삭제가 완료되었습니다.', '', 'success', '#3085d6');
+            props.Delete();
+            props.setDeleteFlag(true);
+        }
     })
 }
 
-export default SaveAlert;
+export default EmpAlert;
