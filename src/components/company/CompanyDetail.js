@@ -361,7 +361,7 @@ const CompanyDetail = (props) => {
                     ? true
                     : false
                 }
-                defaultValue={companyCode}
+                value={companyCode || ""}
                 style={{ zIndex: 0, backgroundColor: "#ffe9e9" }}
               />
             </td>
@@ -466,8 +466,8 @@ const CompanyDetail = (props) => {
                   onChange={(e) => {
                     setCompanyCall(PhoneNumber(areaCode + e.target.value));
                   }}
-                  defaultValue={
-                    `${companyCall}`.substring(areaCode.length) || ""
+                  value={
+                    `${companyCall}`.substring(areaCode.length)
                   }
                   isValid={callStyle}
                   isInvalid={
@@ -484,7 +484,7 @@ const CompanyDetail = (props) => {
                 onChange={(e) => {
                   setCompanyFax(FaxNumber(e.target.value));
                 }}
-                defaultValue={companyFax}
+                value={companyFax || ""}
                 isValid={faxStyle}
                 isInvalid={
                   `${companyFax}`.length < 1 ? "" : faxStyle ? false : true
@@ -499,7 +499,7 @@ const CompanyDetail = (props) => {
               <Form.Control
                 placeholder="사업자 등록번호를 입력해 주십시오."
                 onChange={(e) => setCompanyRegist(registNumber(e.target.value))}
-                defaultValue={companyRegist}
+                value={companyRegist || ""}
                 isValid={registStyle}
                 isInvalid={
                   `${companyRegist}`.length < 1
@@ -530,7 +530,7 @@ const CompanyDetail = (props) => {
                   onChange={(e) =>
                     setCompanyCorporate(corporateNumber(e.target.value))
                   }
-                  defaultValue={companyCorporate}
+                  value={companyCorporate || ""}
                   isValid={corporateStyle}
                   isInvalid={
                     `${companyCorporate}`.length < 1

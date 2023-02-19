@@ -50,7 +50,16 @@ function EmpBasic(props) {
   const [firstId, setFirstId] = useState("");
   const [FirstMail, setFirstMail] = useState("");
   const [zipcodeIsOpen, setZipcodeIsOpen] = useState();
-
+  const [isOndata, setIsOndata] = useState("N");
+  useEffect(() => {
+    setIsOndata("N");
+    const ondataTimer = setInterval(() => {
+        setIsOndata("Y");
+    }, 500);
+    return () => {
+        clearInterval(ondataTimer);
+    }
+}, [props.employeeSeq])
   // employee값 불러와서 세팅
   useEffect(() => {
     if (props.data ) {
@@ -142,6 +151,10 @@ function EmpBasic(props) {
   };
 
   return (
+    isOndata === "N" ?
+            (<div className="spinner-border text-info" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </div>):
     props.data ? <div>
       <h5 style={{ display: "inline" }}>사원 상세</h5>
       <span
@@ -173,7 +186,6 @@ function EmpBasic(props) {
                 style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
                 value={props.data.employeeName || ""}
                 onChange={(e) => {
-                  // setEmployeeName(e.target.value);
                   updateObject({ employeeName: e.target.value })
                 }}
               />

@@ -34,6 +34,7 @@ function EmployeeSet() {
   const [insertFlag, setInsertFlag] = useState(false);
   const [insertSeqFlag, setInsertSeqFlag] = useState(false);
   const [deleteFlag, setDeleteFlag] = useState(false);
+  
   useEffect(() => {
     axios.get(`${baseUrl}/company/info`)
       .then(res => setCompanyList(res.data))
