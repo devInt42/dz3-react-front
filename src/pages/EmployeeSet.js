@@ -61,15 +61,11 @@ function EmployeeSet() {
     setNotRequire('');
     setDupliCheck(0);
     
-    if(insertFlag) {
-    let copyGroupData = [...groupData];
-      //seq 를 바꾸기 위해
-      for(let i = 0; i < groupData.length; i ++) {
-        copyGroupData[i] = {...copyGroupData[i], ...{employeeSeq: employeeSeq}}
-        setGroupData(copyGroupData);
-        setInsertSeqFlag(true);
-    }
-  }
+     if(insertFlag) {
+     let copyBasicData = {...basicData, ...{employeeSeq: employeeSeq}};
+      setBasicData(copyBasicData);
+      setInsertSeqFlag(true);
+   }
     setInsertFlag(false);
   }, [employeeSeq]);
 
@@ -333,6 +329,7 @@ function EmployeeSet() {
   const Update = () => {
     const data = { ...basicData, groupData }
     const empData = { ...data, groupFirstData }
+    console.log(empData);
     axios.post(`${baseUrl}/department-employee/addupdateemp`, empData)
   }
   return (
