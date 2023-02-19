@@ -151,7 +151,7 @@ function EmpBasic(props) {
   };
 
   return (
-    isOndata === "N" ?
+    (isOndata === "N")?
             (<div className="spinner-border text-info" role="status">
                 <span className="visually-hidden">Loading...</span>
             </div>):
