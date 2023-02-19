@@ -47,7 +47,7 @@ function EmpDept(props) {
       employeeCode: "",
       employeeJoin: null,
       employeeLeave: null,
-      employeeClassification: "J01.재직",
+      employeeClassification: "J01",
       companyHomepage: null,
       page: 0,
       insertData: "Y",
@@ -311,7 +311,7 @@ function EmpDept(props) {
                               ) :
                               alert("부서가 선택되지 않았습니다.")
                           }}
-                          checked={group.mainCompanyYN === "Y" ? true : false}
+                          checked={group.mainCompanyYN == "Y" ? true : false}
                         />
                         <label>주회사</label>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -322,7 +322,7 @@ function EmpDept(props) {
                           onChange={() => {
                             notSelectDepartment(group.departmentSeq);
                           }}
-                          checked={group.mainCompanyYN === "N" ? true : false}
+                          checked={group.mainCompanyYN == "N" ? true : false}
                         />
                         <label>부회사</label>
                       </td>
@@ -390,7 +390,7 @@ function EmpDept(props) {
                         <select
                           name="emp-classfication"
                           onChange={(e) =>
-                            e.target.value == "J05.퇴직" ?
+                            e.target.value == "J05" ?
                             updateObject(group.departmentSeq, {
                               employeeClassification: e.target.value,
                             })
@@ -402,14 +402,14 @@ function EmpDept(props) {
                           }
                         >
                           <option
-                            value="J01.재직"
-                            checked={group.employeeClassification === "J01.재직"}
+                            value="J01"
+                            checked={group.employeeClassification == "J01"}
                           >
                             J01.재직
                           </option>
                           <option
-                            value="J05.퇴직"
-                            checked={group.employeeClassification === "J05.퇴직"}
+                            value="J05"
+                            checked={group.employeeClassification == "J05"}
                           >
                             J05.퇴직
                           </option>
