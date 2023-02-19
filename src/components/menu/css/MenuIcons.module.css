@@ -1,0 +1,11 @@
+
+.icons{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: .2s;
+}.icons:hover{
+    width: 32px;
+    height: 32px;
+    transition: .2s;
+}

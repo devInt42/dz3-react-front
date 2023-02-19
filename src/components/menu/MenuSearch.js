@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import style from "./css/MenuSearch.module.css"
 import { Container, Row, Col } from "react-bootstrap";
 
 import { AiFillFolderOpen } from "react-icons/ai";
@@ -133,16 +134,13 @@ function MenuSearch(props) {
       let listRes = await axios.get(`${baseUrl}/menu/tree`, {
         params: { menuParent: "0", menuDepth: "0" },
       });
-
-      console.log(selected);
-      console.log(listRes.data);
       setSelectList(listRes.data);
     } catch (error) {}
   }, [selected]);
 
   useEffect(() => {}, [selectList]);
   return (
-    <div>
+    <div className={style.searchWrap}>
       <Row>
         {selectList && (
           <select
@@ -165,18 +163,9 @@ function MenuSearch(props) {
             type="text"
             onChange={getSearch}
             placeholder="메뉴 검색"
-            style={{ width: "100%", padding: "5px 7px", fontSize: "14px" }}
+            className={style.searchBox}
           />
-          <HiOutlineSearchCircle
-            style={{
-              position: "absolute",
-              width: "30px",
-              height: "30px",
-              top: "4px",
-              right: "12px",
-              margin: "0",
-            }}
-          />
+          <HiOutlineSearchCircle className={style.searchIcon}/>
         </div>
       </Row>
       <Row>
@@ -186,7 +175,7 @@ function MenuSearch(props) {
                 <div
                   key={menu.menuSeq}
                   onClick={() => searchInfo(menu)}
-                  style={{ cursor: "pointer" }}
+                  className={style.menu_list}
                 >
                   {menu.menuName}
                 </div>
@@ -194,8 +183,8 @@ function MenuSearch(props) {
             })
           : subMenu.map((menu, i) => {
               return (
-                <div key={i} style={{ cursor: "pointer" }}>
-                  <div onClick={() => searchInfo(menu)}>
+                <div key={i} className={style.menu_list}>
+                  <div onClick={() => searchInfo(menu)} className={style.top_menu}>
                     <AiFillFolderOpen />
                     {menu.menuName}
                   </div>

@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
+
+.searchWrap{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.searchBox{
+    width: 100%;
+    padding: 5px 7px;
+    font-size: 14px
+}
+
+.searchIcon{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 4px;
+    right: 12px;
+    margin: 0;
+}
+
+.menu_list{
+    cursor: pointer;
+}
+
+.top_menu:hover{
+    background-color: rgba(191, 208, 242, 0.336);
+}
