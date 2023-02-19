@@ -10,24 +10,46 @@ function EmpDept(props) {
   const dutyModal = "DUTY";
   //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
   const insertData = {
-    companyName: "",
-    companySeq: 0, //companySeq 받아오는 거 
-    departmentCall: "",
-    departmentFax: "",
-    departmentLoc: "",
-    departmentName: "",
-    departmentSeq: "",
-    departmentZipCode: "",
-    duty: "",
-    dutyCode: "",
-    employeeCode: "",
-    mainCompanyYN: "N",
-    mainDepartmentYN: "N",
-    employeeSeq: props.employeeSeq,
-    position: "",
-    positionCode: "",
-    workplaceName: "",
-    insertData: "Y",
+      employeeSeq: 0,
+      workplaceSeq: 0,
+      departmentSeq: 0,
+      companySeq: 0,
+      companyCode: null,
+      employeeName: null,
+      employeeId: null,
+      employeePh: null,
+      employeePicture: null,
+      employeeCall: null,
+      employeePmail: null,
+      employeeCmail: null,
+      companyName: "",
+      workplaceName: "",
+      departmentName: "",
+      employeeBirth: null,
+      authSeq: 0,
+      duty: "팀원",
+      position: "사원",
+      mainCompany: null,
+      mainDepartment: null,
+      startPgNum: 0,
+      endPgNum: 0,
+      mainCompanyYN: "N",
+      mainDepartmentYN: "N",
+      departmentLoc: "",
+      departmentCall: "",
+      departmentFax: "",
+      departmentDepth: 0,
+      departmentParent: 0,
+      departmentZipCode: "",
+      dutyCode: "1",
+      positionCode: "1",
+      employeeCode: "",
+      employeeJoin: null,
+      employeeLeave: null,
+      employeeClassification: "J01.재직",
+      companyHomepage: null,
+      page: 0,
+      insertData: "Y",
   }
   //리스트 객체 특정값 변경 함수
   const updateIndexObject = (idx, obj) => {
@@ -166,9 +188,6 @@ function EmpDept(props) {
       }
     }
   }
-  useEffect(() => {
-    console.log(props.data);
-  }, [props.data])
   return (
     <div id={style.empdept}>
       {/* <button onClick={AllCheck}>저장</button> */}
@@ -370,8 +389,14 @@ function EmpDept(props) {
                         <select
                           name="emp-classfication"
                           onChange={(e) =>
+                            e.target.value == "J05.퇴직" ?
                             updateObject(group.departmentSeq, {
                               employeeClassification: e.target.value,
+                            })
+                            :
+                            updateObject(group.departmentSeq, {
+                              employeeClassification: e.target.value,
+                              employeeLeave: "",
                             })
                           }
                         >

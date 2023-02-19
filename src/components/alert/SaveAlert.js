@@ -22,7 +22,7 @@ const SaveAlert = (props) => {
         }
         if(result.isConfirmed && props.functionText == "저장") {
             Swal.fire('입사처리가 완료되었습니다.', '', 'success','#3085d6');
-            props.Update();
+            props.Insert();
         }
     })
 }

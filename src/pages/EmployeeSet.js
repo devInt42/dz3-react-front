@@ -167,7 +167,7 @@ function EmployeeSet() {
       employeeCode: "",
       employeeJoin: null,
       employeeLeave: null,
-      employeeClassification: null,
+      employeeClassification: "J01.재직",
       companyHomepage: null,
       page: 0,
       insertData: "Y",
@@ -209,7 +209,7 @@ function EmployeeSet() {
       employeeCode: "",
       employeeJoin: null,
       employeeLeave: null,
-      employeeClassification: null,
+      employeeClassification: "J01.재직",
       companyHomepage: null,
       page: 0,
       insertData: "Y",
@@ -301,8 +301,8 @@ function EmployeeSet() {
       setNotRequire(<SaveAlert title="수정하시겠습니까?" icon="warning" successButton="수정" functionText="수정" cancleButton="true" Update={Update} />);
     }
     if (insertFlag) {
-      setNotRequire(<SaveAlert title = "저장하시겠습니까?" icon= "info" successButton="저장" functionText="수정" 
-      cancleButton = "true" Update = {Insert}/>)
+      setNotRequire(<SaveAlert title = "저장하시겠습니까?" icon= "info" successButton="저장" functionText="저장" 
+      cancleButton = "true" Insert = {Insert}/>)
     }
   }
   const Insert = async() => {
