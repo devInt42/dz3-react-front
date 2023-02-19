@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { Nav } from "react-bootstrap";
 import { FiSettings } from "react-icons/fi";
 import { BsFillPersonLinesFill, BsFillGrid3X3GapFill } from "react-icons/bs";
 import { AiFillAccountBook } from "react-icons/ai";
@@ -48,7 +49,7 @@ function LNB(props) {
   useEffect(() => {
     getMenuList();
   }, []);
-
+console.log(Lmenu)
   return (
     <div className={style.lnb}>
       <BsFillGrid3X3GapFill
@@ -117,7 +118,7 @@ function LNB(props) {
                     onClick={() => {
                       sendParent(menu.menuName, menu.menuSeq);
                     }}
-                  > 
+                  > {menu.menuIcons}
                     {menu.menuName}
                   </span>
                 )}

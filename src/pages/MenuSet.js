@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col} from "react-bootstrap";
 import { VscExpandAll } from "react-icons/vsc";
 import { GrCircleAlert } from "react-icons/gr";
 import { FcPlus } from "react-icons/fc";
+import Icons from "../components/menu/Icons"
 
 import style from "../components/menu/css/MenuSet.module.css";
 import Switch from "@mui/material/Switch";
@@ -135,6 +136,7 @@ function MenuSet() {
 
     setFirstCode(resultMenu.menuCode);
     setFirstName(resultMenu.menuName);
+    setImgFile(resultMenu.menuIcons);
   };
 
   const [deleteCheck, setDeleteCheck] = useState(false);
@@ -173,6 +175,7 @@ function MenuSet() {
     setSelectActive(true);
     setFirstCode("");
     setFirstName("");
+    setImgFile("");
   };
 
   // 메뉴 아이디 중복체크
@@ -223,15 +226,14 @@ function MenuSet() {
   const [imgFile, setImgFile] = useState("");
   const imgRef = useRef();
 
-  const saveImg = () => {
-    const file = imgRef.current.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImgFile(reader.result);
-    }
-  };
-  console.log(imgFile)
+  const saveImg = (e) => {
+    setImgFile(URL.createObjectURL(e.target.files[0]));
+  }
+
+  const deleteImg = () => {
+    URL.revokeObjectURL(imgFile);
+    setImgFile("");
+  }
 
   return (
     <div>
@@ -457,18 +459,17 @@ function MenuSet() {
                       )}
                     </td>
                   </tr>
-                  <tr>
+                  {/* <tr>
                     <th>메뉴 아이콘 선택</th>
                     <td>
-                      <label htmlFor="menuIconImg">메뉴 아이콘 찾기</label>
-                      <input id="menuIconImg" type="file" accept="image/*" onChange={saveImg} ref={imgRef} style={{display: "none"}}/>
-                      {/* <Form.Group controlId="formFileSm" className="mb-3">
-                        <Form.Label>Small file input example</Form.Label>
-                        <Form.Control type="file" size="sm" accept="image/*" onChange={saveImg} ref={imgRef}/>
-                      </Form.Group> */}
                       <img src={imgFile ? imgFile : ""} style={{width: "30px", height: "30px"}}/>
+                      <button onClick={()=> deleteImg()}>delete</button>
+                      {imgFile == "" ? <></> : 
+                      <img src={process.env.PUBLIC_URL + imgFile} style={{width:"30px", height:"30px"}}/>
+                    }
+                      <Icons setImgFile={setImgFile}/>
                     </td>
-                  </tr>
+                  </tr> */}
                 </tbody>
               </table>
               <div className={style.menu_btn}>
@@ -556,6 +557,7 @@ function MenuSet() {
       menuParent: menuParent,
       menuDepth: menuDepth + 1,
       useYN: useMenu,
+      menuIcons: imgFile,
     };
     axios({
       method: "post",
@@ -596,6 +598,7 @@ function MenuSet() {
       menuParent: menuParent,
       menuDepth: menuDepth + 1,
       useYN: useMenu,
+      menuIcons: imgFile,
     };
     axios({
       method: "patch",
