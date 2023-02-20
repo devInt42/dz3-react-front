@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import SaveAlert from "../components/alert/SaveAlert";
+import EmpAlert from "../components/alert/EmpAlert";
 function EmployeeSet() {
   const baseUrl = "http://localhost:8080";
 
@@ -33,6 +33,7 @@ function EmployeeSet() {
   const [companyList, setCompanyList] = useState([]);
   const [insertFlag, setInsertFlag] = useState(false);
   const [insertSeqFlag, setInsertSeqFlag] = useState(false);
+  const [deleteFlag, setDeleteFlag] = useState(false);
 
   useEffect(() => {
     axios
@@ -71,7 +72,8 @@ function EmployeeSet() {
       setInsertSeqFlag(true);
     }
     setInsertFlag(false);
-  }, [employeeSeq]);
+    setDeleteFlag(false);
+  }, [employeeSeq, deleteFlag]);
 
   const clickEmp = () => {
     setSelectAct(false);
@@ -172,7 +174,7 @@ function EmployeeSet() {
         employeeCode: "",
         employeeJoin: null,
         employeeLeave: null,
-        employeeClassification: "J01.재직",
+        employeeClassification: "J01",
         companyHomepage: null,
         page: 0,
         insertData: "Y",
@@ -216,7 +218,7 @@ function EmployeeSet() {
         employeeCode: "",
         employeeJoin: null,
         employeeLeave: null,
-        employeeClassification: "J01.재직",
+        employeeClassification: "J01",
         companyHomepage: null,
         page: 0,
         insertData: "Y",
@@ -235,7 +237,7 @@ function EmployeeSet() {
     //기본정보 필수값 확인
     if (!basicData.employeeName) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title={basicError}
           text="이름을 입력해 주십시오."
           icon="error"
@@ -247,7 +249,7 @@ function EmployeeSet() {
 
     if (!basicData.employeeBirth) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title={basicError}
           text="생년월일을 입력해 주십시오."
           icon="error"
@@ -259,7 +261,7 @@ function EmployeeSet() {
 
     if (!basicData.employeePwd) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title={basicError}
           text="비밀번호를 입력해 주십시오."
           icon="error"
@@ -271,7 +273,7 @@ function EmployeeSet() {
 
     if (!basicData.approvalPwd) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title={basicError}
           text="결재 비밀번호를 입력해 주십시오."
           icon="error"
@@ -283,7 +285,7 @@ function EmployeeSet() {
 
     if (!basicData.employeeId) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title={basicError}
           text="아이디를 입력해 주십시오."
           icon="error"
@@ -295,7 +297,7 @@ function EmployeeSet() {
 
     if (!basicData.employeeCmail) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title={basicError}
           text="메일 ID를 입력해 주십시오."
           icon="error"
@@ -306,7 +308,7 @@ function EmployeeSet() {
     }
     if (!departmentCheck) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title={groupError}
           text="부서를 선택해 주십시오."
           icon="error"
@@ -317,7 +319,7 @@ function EmployeeSet() {
     }
     if (!employeeCodeCheck) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title={groupError}
           text="사번을 입력해 주십시오."
           icon="error"
@@ -328,7 +330,7 @@ function EmployeeSet() {
     }
     if (!joinDateCheck) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title={groupError}
           text="입사일을 입력해 주십시오."
           icon="error"
@@ -339,7 +341,7 @@ function EmployeeSet() {
     }
     if (returnId.length > 0) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title={basicCheckError}
           text="로그인 ID가 중복되었습니다."
           icon="error"
@@ -350,7 +352,7 @@ function EmployeeSet() {
     }
     if (returnCmail.length > 0) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title={basicCheckError}
           text="메일 ID가 중복되었습니다."
           icon="error"
@@ -364,7 +366,7 @@ function EmployeeSet() {
       JSON.stringify(basicFirstData) == JSON.stringify(basicData)
     ) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title="수정된 사항이 없습니다."
           icon="error"
           successButton="확인"
@@ -375,7 +377,7 @@ function EmployeeSet() {
     if (dupliCheck > 0) {
       console.log(dupliCheck);
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title={groupCheckError}
           text="사번이 중복되었습니다."
           icon="error"
@@ -386,7 +388,7 @@ function EmployeeSet() {
     }
     if (!insertFlag) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title="수정하시겠습니까?"
           icon="warning"
           successButton="수정"
@@ -398,7 +400,7 @@ function EmployeeSet() {
     }
     if (insertFlag) {
       setNotRequire(
-        <SaveAlert
+        <EmpAlert
           title="저장하시겠습니까?"
           icon="info"
           successButton="저장"
@@ -435,8 +437,39 @@ function EmployeeSet() {
   const Update = () => {
     const data = { ...basicData, groupData };
     const empData = { ...data, groupFirstData };
-    console.log(empData);
     axios.post(`${baseUrl}/department-employee/addupdateemp`, empData);
+  };
+  const selectDelete = (obj) => {
+    console.log(obj);
+    axios.get(`${baseUrl}/department-employee/selectdelete`, {
+      params: {
+        employeeSeq: obj.employeeSeq,
+        departmentSeq: obj.departmentSeq,
+        isEmpDelete: false,
+      },
+    });
+  };
+  const deleteEmp = () => {
+    axios.get(`${baseUrl}/department-employee/selectdelete`, {
+      params: {
+        employeeSeq: basicData.employeeSeq,
+        departmentSeq: 0,
+        isEmpDelete: true,
+      },
+    });
+  };
+  const delEmp = () => {
+    setNotRequire(
+      <EmpAlert
+        title="삭제하시겠습니까?"
+        icon="warning"
+        successButton="확인"
+        functionText="회원삭제"
+        cancleButton="true"
+        Delete={deleteEmp}
+        setDeleteFlag={setDeleteFlag}
+      />
+    );
   };
   return (
     <div>
@@ -473,7 +506,7 @@ function EmployeeSet() {
                   <Tab label="조직정보" {...a11yProps(1)} />
                   <button onClick={() => EmpInsertForm()}>입사처리</button>
                   <button onClick={() => AllCheck()}>저장</button>
-                  <button onClick={Update}>삭제</button>
+                  <button onClick={() => delEmp()}>삭제</button>
                 </Tabs>
               </Box>
 
@@ -505,6 +538,9 @@ function EmployeeSet() {
                   dupliCheck={dupliCheck}
                   setDupliCheck={setDupliCheck}
                   companyList={companyList}
+                  setNotRequire={setNotRequire}
+                  selectDelete={selectDelete}
+                  setDeleteFlag={setDeleteFlag}
                 />
               </TabPanel>
             </Box>

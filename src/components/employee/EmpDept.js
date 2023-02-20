@@ -4,11 +4,23 @@ import style from "./css/EmpDept.module.css";
 import { Form } from "react-bootstrap";
 import EmpPositionModal from "./EmpPositionModal";
 import ManageModal from "../departmentModal/ManageModal";
+import EmpAlert from "../alert/EmpAlert";
 function EmpDept(props) {
   const baseUrl = "http://localhost:8080";
   const positionModal = "POSITION";
   const dutyModal = "DUTY";
+  //main 회사 구분
   const [mainCompanySeq, setMainCompanySeq] = useState(0);
+  const [isOndata, setIsOndata] = useState("N");
+  useEffect(() => {
+    setIsOndata("N");
+    const ondataTimer = setInterval(() => {
+        setIsOndata("Y");
+    }, 500);
+    return () => {
+        clearInterval(ondataTimer);
+    }
+}, [props.employeeSeq])
   //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
   const insertData = {
       employeeSeq: 0,
@@ -47,7 +59,7 @@ function EmpDept(props) {
       employeeCode: "",
       employeeJoin: null,
       employeeLeave: null,
-      employeeClassification: "J01.재직",
+      employeeClassification: "J01",
       companyHomepage: null,
       page: 0,
       insertData: "Y",
@@ -189,7 +201,14 @@ function EmpDept(props) {
       }
     }
   }
+  useEffect(() => {
+    console.log(props.data);
+  }, [props.data])
   return (
+    (isOndata === "N")?
+    (<div className="spinner-border text-info" role="status">
+        <span className="visually-hidden">Loading...</span>
+    </div>):
     <div id={style.empdept}>
       {/* <button onClick={AllCheck}>저장</button> */}
       <button onClick={CreateInsertForm}>추가</button>
@@ -198,7 +217,13 @@ function EmpDept(props) {
           props.data.map((group, idx) => {
             return (
               <div>
-                <button onClick={() => group.mainCompanyYN !== "Y" ? RemoveGroup(idx) : alert("주회사는 삭제할 수 없습니다.")}>삭제</button>
+                <button onClick={() => {
+                  group.insertData == "Y" ?
+                  props.setNotRequire(<EmpAlert title = "취소하시겠습니까?" icon= "question" successButton="확인" functionText="취소" cancleButton = "true" Cancle = {RemoveGroup} idx = {idx} />)
+                  : props.setNotRequire(<EmpAlert title = "삭제하시겠습니까?" icon= "warning" successButton="확인" functionText="삭제" cancleButton = "true" Delete = {props.selectDelete} idx = {idx} 
+                  data = {props.firstData[idx]} 
+                  setDeleteFlag = {props.setDeleteFlag}/>)
+                  }}>삭제</button>
                 <table className={style.dept_tbl} key={idx}>
                   <thead></thead>
                   <tbody>
@@ -311,7 +336,7 @@ function EmpDept(props) {
                               ) :
                               alert("부서가 선택되지 않았습니다.")
                           }}
-                          checked={group.mainCompanyYN === "Y" ? true : false}
+                          checked={group.mainCompanyYN == "Y" ? true : false}
                         />
                         <label>주회사</label>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -322,7 +347,7 @@ function EmpDept(props) {
                           onChange={() => {
                             notSelectDepartment(group.departmentSeq);
                           }}
-                          checked={group.mainCompanyYN === "N" ? true : false}
+                          checked={group.mainCompanyYN == "N" ? true : false}
                         />
                         <label>부회사</label>
                       </td>
@@ -390,7 +415,7 @@ function EmpDept(props) {
                         <select
                           name="emp-classfication"
                           onChange={(e) =>
-                            e.target.value == "J05.퇴직" ?
+                            e.target.value == "J05" ?
                             updateObject(group.departmentSeq, {
                               employeeClassification: e.target.value,
                             })
@@ -402,14 +427,14 @@ function EmpDept(props) {
                           }
                         >
                           <option
-                            value="J01.재직"
-                            checked={group.employeeClassification === "J01.재직"}
+                            value="J01"
+                            checked={group.employeeClassification == "J01"}
                           >
                             J01.재직
                           </option>
                           <option
-                            value="J05.퇴직"
-                            checked={group.employeeClassification === "J05.퇴직"}
+                            value="J05"
+                            checked={group.employeeClassification == "J05"}
                           >
                             J05.퇴직
                           </option>
