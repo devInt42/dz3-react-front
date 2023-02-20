@@ -142,10 +142,7 @@ function EmpBasic(props) {
         onClick={() => {
           props.setEmpSeq(0);
         }}
-      >
-        <FcPlus />
-        &nbsp; 신규 입사자 등록
-      </span>
+      ></span>
       <table className={style.basic_tbl}>
         <thead></thead>
         <tbody>

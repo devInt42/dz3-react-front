@@ -9,16 +9,17 @@ function EmpLnb(props) {
   const [pointCompanySeq, setPointCompanySeq] = useState(0);
   const [inputEmployeeName, setInputEmployeeName] = useState("");
   const [searchRes, setSearchRes] = useState("");
-
+  const [status, setStatus] = useState(false);
   // 사원정보 불러오기
   useEffect(() => {
-    props.setStatus(false);
+    setStatus(false);
     callEmpList();
-  }, [props.status]);
+  }, [status]);
 
   // 검색결과 props로 받기
   useEffect(() => {
     setSearchRes(props.searchRes);
+    setStatus(props.status);
   }, [props]);
 
   // 전체리스트
