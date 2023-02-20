@@ -33,8 +33,8 @@ function EmployeeSet() {
   const [companyList, setCompanyList] = useState([]);
   const [insertFlag, setInsertFlag] = useState(false);
   const [insertSeqFlag, setInsertSeqFlag] = useState(false);
+  const [status, setStatus] =  useState(false);
   const [deleteFlag, setDeleteFlag] = useState(false);
-  
   useEffect(() => {
     axios.get(`${baseUrl}/company/info`)
       .then(res => setCompanyList(res.data))
@@ -300,16 +300,17 @@ function EmployeeSet() {
       return false;
     }
     if (!insertFlag) {
-      setNotRequire(<EmpAlert title="수정하시겠습니까?" icon="warning" successButton="수정" functionText="수정" cancleButton="true" Update={Update} />);
+      setNotRequire(<EmpAlert title="수정하시겠습니까?" icon="warning" successButton="수정" functionText="수정" cancleButton="true" Update={Update}  setStatus = {setStatus}/>);
     }
     if (insertFlag) {
       setNotRequire(<EmpAlert title = "저장하시겠습니까?" icon= "info" successButton="저장" functionText="저장" 
-      cancleButton = "true" Insert = {Insert}/>)
+      cancleButton = "true" Insert = {Insert} setStatus = {setStatus}/>)
     }
   }
+  
   const Insert = async() => {
     const data = {...basicData, groupData}
-    let res = await axios.post(`${baseUrl}/department-employee/joinemp`, data)
+    const res = await axios.post(`${baseUrl}/department-employee/joinemp`, data)
     if(res.status == 200) {
       let getSeq = await axios.get(`${baseUrl}/department-employee/findempseq`, 
       {
@@ -328,14 +329,14 @@ function EmployeeSet() {
       }
     }
   }, [insertSeqFlag])
-  const Update = () => {
+  const Update = async () => {
     const data = { ...basicData, groupData }
     const empData = { ...data, groupFirstData }
-    axios.post(`${baseUrl}/department-employee/addupdateemp`, empData)
+    const res = await axios.post(`${baseUrl}/department-employee/addupdateemp`, empData)
   }
-  const selectDelete = (obj) => {
-    console.log(obj);
-    axios.get(`${baseUrl}/department-employee/selectdelete`, 
+  const selectDelete = async (obj) => {
+    
+    const res = await axios.get(`${baseUrl}/department-employee/selectdelete`, 
     {
       params : {
         employeeSeq: obj.employeeSeq,
@@ -344,8 +345,8 @@ function EmployeeSet() {
       }
     })
   }
-  const deleteEmp = () => {
-    axios.get(`${baseUrl}/department-employee/selectdelete`,
+  const deleteEmp = async () => {
+    const res = await axios.get(`${baseUrl}/department-employee/selectdelete`,
     {
       params : {
         employeeSeq: basicData.employeeSeq,
@@ -356,7 +357,7 @@ function EmployeeSet() {
   }
   const delEmp = () => {
     setNotRequire(<EmpAlert title = "삭제하시겠습니까?" icon= "warning" successButton="확인" functionText="회원삭제" 
-    cancleButton = "true" Delete = {deleteEmp} setDeleteFlag = {setDeleteFlag}/>)
+    cancleButton = "true" Delete = {deleteEmp} setDeleteFlag = {setDeleteFlag} />)
   }
   return (
     <div>
@@ -378,6 +379,8 @@ function EmployeeSet() {
               clickEmp={clickEmp}
               setEmpSeq={setEmpSeq}
               searchRes={searchRes}
+              status = {status}
+              setStatus = {setStatus}
             />
           </Col>
 
@@ -417,7 +420,8 @@ function EmployeeSet() {
                   data={groupData} firstData={groupFirstData} setDepartmentCheck={setDepartmentCheck}
                   setEmployeeCodeCheck={setEmployeeCodeCheck} setJoinDateCheck={setJoinDateCheck}
                   dupliCheck={dupliCheck} setDupliCheck={setDupliCheck} companyList={companyList} 
-                  setNotRequire = {setNotRequire} selectDelete = {selectDelete} setDeleteFlag = {setDeleteFlag}/>
+                  setNotRequire = {setNotRequire} selectDelete = {selectDelete} setDeleteFlag = {setDeleteFlag}
+                  />
               </TabPanel>
             </Box>
           </Col>

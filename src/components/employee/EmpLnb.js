@@ -12,8 +12,9 @@ function EmpLnb(props) {
 
   // 사원정보 불러오기
   useEffect(() => {
+    props.setStatus(false);
     callEmpList();
-  }, []);
+  }, [props.status]);
 
   // 검색결과 props로 받기
   useEffect(() => {

@@ -207,8 +207,7 @@ function EmpDept(props) {
                   group.insertData == "Y" ?
                   props.setNotRequire(<EmpAlert title = "취소하시겠습니까?" icon= "question" successButton="확인" functionText="취소" cancleButton = "true" Cancle = {RemoveGroup} idx = {idx} />)
                   : props.setNotRequire(<EmpAlert title = "삭제하시겠습니까?" icon= "warning" successButton="확인" functionText="삭제" cancleButton = "true" Delete = {props.selectDelete} idx = {idx} 
-                  data = {props.firstData[idx]} 
-                  setDeleteFlag = {props.setDeleteFlag}/>)
+                  data = {props.firstData[idx]} setDeleteFlag = {props.setDeleteFlag}/>)
                   }}>삭제</button>
                 <table className={style.dept_tbl} key={idx}>
                   <thead></thead>
