@@ -33,8 +33,8 @@ function EmployeeSet() {
   const [companyList, setCompanyList] = useState([]);
   const [insertFlag, setInsertFlag] = useState(false);
   const [insertSeqFlag, setInsertSeqFlag] = useState(false);
+  const [status, setStatus] = useState(false);
   const [deleteFlag, setDeleteFlag] = useState(false);
-
   useEffect(() => {
     axios
       .get(`${baseUrl}/company/info`)
@@ -395,6 +395,7 @@ function EmployeeSet() {
           functionText="수정"
           cancleButton="true"
           Update={Update}
+          setStatus={setStatus}
         />
       );
     }
@@ -407,13 +408,18 @@ function EmployeeSet() {
           functionText="저장"
           cancleButton="true"
           Insert={Insert}
+          setStatus={setStatus}
         />
       );
     }
   };
+
   const Insert = async () => {
     const data = { ...basicData, groupData };
-    let res = await axios.post(`${baseUrl}/department-employee/joinemp`, data);
+    const res = await axios.post(
+      `${baseUrl}/department-employee/joinemp`,
+      data
+    );
     if (res.status == 200) {
       let getSeq = await axios.get(
         `${baseUrl}/department-employee/findempseq`,
@@ -434,14 +440,16 @@ function EmployeeSet() {
       }
     }
   }, [insertSeqFlag]);
-  const Update = () => {
+  const Update = async () => {
     const data = { ...basicData, groupData };
     const empData = { ...data, groupFirstData };
-    axios.post(`${baseUrl}/department-employee/addupdateemp`, empData);
+    const res = await axios.post(
+      `${baseUrl}/department-employee/addupdateemp`,
+      empData
+    );
   };
-  const selectDelete = (obj) => {
-    console.log(obj);
-    axios.get(`${baseUrl}/department-employee/selectdelete`, {
+  const selectDelete = async (obj) => {
+    const res = await axios.get(`${baseUrl}/department-employee/selectdelete`, {
       params: {
         employeeSeq: obj.employeeSeq,
         departmentSeq: obj.departmentSeq,
@@ -449,8 +457,8 @@ function EmployeeSet() {
       },
     });
   };
-  const deleteEmp = () => {
-    axios.get(`${baseUrl}/department-employee/selectdelete`, {
+  const deleteEmp = async () => {
+    const res = await axios.get(`${baseUrl}/department-employee/selectdelete`, {
       params: {
         employeeSeq: basicData.employeeSeq,
         departmentSeq: 0,
@@ -491,6 +499,8 @@ function EmployeeSet() {
               clickEmp={clickEmp}
               setEmpSeq={setEmpSeq}
               searchRes={searchRes}
+              status={status}
+              setStatus={setStatus}
             />
           </Col>
 

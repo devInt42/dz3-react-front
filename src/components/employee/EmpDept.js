@@ -11,16 +11,6 @@ function EmpDept(props) {
   const dutyModal = "DUTY";
   //main 회사 구분
   const [mainCompanySeq, setMainCompanySeq] = useState(0);
-  const [isOndata, setIsOndata] = useState("N");
-  useEffect(() => {
-    setIsOndata("N");
-    const ondataTimer = setInterval(() => {
-        setIsOndata("Y");
-    }, 500);
-    return () => {
-        clearInterval(ondataTimer);
-    }
-}, [props.employeeSeq])
   //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
   const insertData = {
       employeeSeq: 0,
@@ -205,10 +195,6 @@ function EmpDept(props) {
     console.log(props.data);
   }, [props.data])
   return (
-    (isOndata === "N")?
-    (<div className="spinner-border text-info" role="status">
-        <span className="visually-hidden">Loading...</span>
-    </div>):
     <div id={style.empdept}>
       {/* <button onClick={AllCheck}>저장</button> */}
       <button onClick={CreateInsertForm}>추가</button>
@@ -221,8 +207,7 @@ function EmpDept(props) {
                   group.insertData == "Y" ?
                   props.setNotRequire(<EmpAlert title = "취소하시겠습니까?" icon= "question" successButton="확인" functionText="취소" cancleButton = "true" Cancle = {RemoveGroup} idx = {idx} />)
                   : props.setNotRequire(<EmpAlert title = "삭제하시겠습니까?" icon= "warning" successButton="확인" functionText="삭제" cancleButton = "true" Delete = {props.selectDelete} idx = {idx} 
-                  data = {props.firstData[idx]} 
-                  setDeleteFlag = {props.setDeleteFlag}/>)
+                  data = {props.firstData[idx]} setDeleteFlag = {props.setDeleteFlag}/>)
                   }}>삭제</button>
                 <table className={style.dept_tbl} key={idx}>
                   <thead></thead>
