@@ -4,10 +4,7 @@ import withReactContent from 'sweetalert2-react-content'
 
 const EmpAlert = (props) => {
     const MySwal = withReactContent(Swal);
-    const [status, setStatus] = useState(false);
-    useEffect(() => {
-        setStatus(false);
-    },[status])
+
     MySwal.fire({
         title: props.title,
         icon: props.icon,
@@ -19,7 +16,6 @@ const EmpAlert = (props) => {
         cancelButtonText: '취소',
         width: '600px'
     }).then(result => {
-        console.log("gdgd");
         if (result.isConfirmed && props.functionText == "수정") {
             props.Update();
             Swal.fire('수정이 완료되었습니다.', '', 'success', '#3085d6');
@@ -37,11 +33,13 @@ const EmpAlert = (props) => {
             props.Delete(props.data);
             Swal.fire('삭제가 완료되었습니다.', '', 'success', '#3085d6');
             props.setDeleteFlag(true);
+            props.setStatus(true);
         }
         if (result.isConfirmed && props.functionText == "회원삭제") {
             props.Delete();
             Swal.fire('삭제가 완료되었습니다.', '', 'success', '#3085d6');
             props.setDeleteFlag(true);
+            props.setStatus(true);
         }
     })
 }

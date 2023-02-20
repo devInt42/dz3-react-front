@@ -98,7 +98,6 @@ function EmpBasic(props) {
       ...props.data,
       ...obj,
     });
-    console.log(props.data);
   };
   // 계정 사용 미사용 여부
   const [useEmp, setUseEmp] = useState("");
@@ -554,19 +553,14 @@ function EmpBasic(props) {
       employeeHcall: employeeHcall,
       approvalPwd: approvalPwd,
     };
-    console.log(data);
     axios({
       method: "post",
       url: url,
       data: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => {
-        console.log("저장성공!!");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   async function updateEmp() {
@@ -589,19 +583,14 @@ function EmpBasic(props) {
       employeeHcall: employeeHcall,
       approvalPwd: approvalPwd,
     };
-    console.log("update data : " + data);
     axios({
       method: "patch",
       url: url,
       data: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => {
-        console.log("수정성공!!");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   async function deleteEmp() {
@@ -609,13 +598,9 @@ function EmpBasic(props) {
     axios({
       method: "delete",
       url: url,
-    })
-      .then((res) => {
-        console.log("삭제성공!!");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    }).catch((error) => {
+      console.log(error);
+    });
   }
   //자동으로 하이픈 삽입
   function PhoneNumber(value) {

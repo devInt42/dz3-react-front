@@ -42,7 +42,6 @@ function EmployeeSet() {
       .catch((error) => console.log(error));
   }, []);
   useEffect(() => {
-    console.log(employeeSeq);
     axios
       .get(baseUrl + "/employee/emplist/" + employeeSeq)
       .then((response) => {
@@ -58,7 +57,6 @@ function EmployeeSet() {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setGroupData(res.data);
         setGroupFirstData(res.data);
       })
@@ -375,7 +373,6 @@ function EmployeeSet() {
       return false;
     }
     if (dupliCheck > 0) {
-      console.log(dupliCheck);
       setNotRequire(
         <EmpAlert
           title={groupCheckError}
@@ -434,6 +431,7 @@ function EmployeeSet() {
     }
   };
   useEffect(() => {
+    setStatus(true);
     if (insertSeqFlag) {
       if (employeeSeq != 0) {
         Update();
@@ -443,13 +441,10 @@ function EmployeeSet() {
   const Update = async () => {
     const data = { ...basicData, groupData };
     const empData = { ...data, groupFirstData };
-    const res = await axios.post(
-      `${baseUrl}/department-employee/addupdateemp`,
-      empData
-    );
+    await axios.post(`${baseUrl}/department-employee/addupdateemp`, empData);
   };
   const selectDelete = async (obj) => {
-    const res = await axios.get(`${baseUrl}/department-employee/selectdelete`, {
+    await axios.get(`${baseUrl}/department-employee/selectdelete`, {
       params: {
         employeeSeq: obj.employeeSeq,
         departmentSeq: obj.departmentSeq,
@@ -458,7 +453,7 @@ function EmployeeSet() {
     });
   };
   const deleteEmp = async () => {
-    const res = await axios.get(`${baseUrl}/department-employee/selectdelete`, {
+    await axios.get(`${baseUrl}/department-employee/selectdelete`, {
       params: {
         employeeSeq: basicData.employeeSeq,
         departmentSeq: 0,
@@ -476,9 +471,14 @@ function EmployeeSet() {
         cancleButton="true"
         Delete={deleteEmp}
         setDeleteFlag={setDeleteFlag}
+        setStatus={setStatus}
       />
     );
   };
+  useEffect(() => {
+    setStatus(false);
+    console.log("setStatus");
+  }, [status]);
   return (
     <div>
       {notRequire}
@@ -501,6 +501,7 @@ function EmployeeSet() {
               searchRes={searchRes}
               status={status}
               setStatus={setStatus}
+              deleteFlag={deleteFlag}
             />
           </Col>
 

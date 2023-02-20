@@ -13,9 +13,12 @@ function EmpLnb(props) {
   // 사원정보 불러오기
   useEffect(() => {
     setStatus(false);
+    console.log("사원정보 들고오기");
     callEmpList();
   }, [status]);
-
+  useEffect(() => {
+    setStatus(props.status);
+  }, [props.status]);
   // 검색결과 props로 받기
   useEffect(() => {
     setSearchRes(props.searchRes);
