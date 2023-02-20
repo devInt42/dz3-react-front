@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { GrUserManager } from "react-icons/gr";
 import style from "../components/employee/css/EmployeeSet.module.css";
 import EmpBasic from "../components/employee/EmpBasic";
@@ -496,17 +496,33 @@ function EmployeeSet() {
 
           <Col xs={10} style={{ border: "1px solid #e3e3e3", height: "100vh" }}>
             <Box sx={{ width: "100%" }}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Box
+                sx={{
+                  borderBottom: 1,
+                  borderColor: "divider",
+                }}
+              >
                 <Tabs
                   value={value}
                   onChange={handleChange}
                   aria-label="basic tabs example"
+                  style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <Tab label="기본정보" {...a11yProps(0)} />
                   <Tab label="조직정보" {...a11yProps(1)} />
-                  <button onClick={() => EmpInsertForm()}>입사처리</button>
-                  <button onClick={() => AllCheck()}>저장</button>
-                  <button onClick={() => delEmp()}>삭제</button>
+                  <Button
+                    variant="outline-success"
+                    onClick={() => EmpInsertForm()}
+                    style={{}}
+                  >
+                    사원 추가
+                  </Button>
+                  <Button variant="outline-primary" onClick={() => AllCheck()}>
+                    저장
+                  </Button>
+                  <Button variant="outline-danger " onClick={() => delEmp()}>
+                    삭제
+                  </Button>
                 </Tabs>
               </Box>
 
