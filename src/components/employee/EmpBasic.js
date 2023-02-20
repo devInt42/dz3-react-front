@@ -50,16 +50,6 @@ function EmpBasic(props) {
   const [firstId, setFirstId] = useState("");
   const [FirstMail, setFirstMail] = useState("");
   const [zipcodeIsOpen, setZipcodeIsOpen] = useState();
-  const [isOndata, setIsOndata] = useState("N");
-  useEffect(() => {
-    setIsOndata("N");
-    const ondataTimer = setInterval(() => {
-        setIsOndata("Y");
-    }, 500);
-    return () => {
-        clearInterval(ondataTimer);
-    }
-}, [props.employeeSeq])
   // employee값 불러와서 세팅
   useEffect(() => {
     if (props.data ) {
@@ -122,11 +112,6 @@ function EmpBasic(props) {
 
   const label = { inputProps: { "aria-label": "Size switch demo" } };
 
-  const [deleteCheck, setDeleteCheck] = useState(false);
-  function deleteValid() {
-    setDeleteCheck(true);
-  }
-
   const idCheck = async (id) => {
     try {
       let idRes = await axios.get(`${baseUrl}/employee/emplist/checkid`, {
@@ -138,7 +123,6 @@ function EmpBasic(props) {
     }
   };
 
-  const [returnCmail, setReturnCmail] = useState([]);
   const cmailCheck = async (mail) => {
     try {
       let cmailRes = await axios.get(`${baseUrl}/employee/emplist/checkcmail`, {
@@ -151,10 +135,6 @@ function EmpBasic(props) {
   };
 
   return (
-    (isOndata === "N")?
-            (<div className="spinner-border text-info" role="status">
-                <span className="visually-hidden">Loading...</span>
-            </div>):
     props.data ? <div>
       <h5 style={{ display: "inline" }}>사원 상세</h5>
       <span

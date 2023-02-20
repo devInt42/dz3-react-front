@@ -11,16 +11,6 @@ function EmpDept(props) {
   const dutyModal = "DUTY";
   //main 회사 구분
   const [mainCompanySeq, setMainCompanySeq] = useState(0);
-  const [isOndata, setIsOndata] = useState("N");
-  useEffect(() => {
-    setIsOndata("N");
-    const ondataTimer = setInterval(() => {
-        setIsOndata("Y");
-    }, 500);
-    return () => {
-        clearInterval(ondataTimer);
-    }
-}, [props.employeeSeq])
   //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
   const insertData = {
       employeeSeq: 0,
@@ -205,10 +195,6 @@ function EmpDept(props) {
     console.log(props.data);
   }, [props.data])
   return (
-    (isOndata === "N")?
-    (<div className="spinner-border text-info" role="status">
-        <span className="visually-hidden">Loading...</span>
-    </div>):
     <div id={style.empdept}>
       {/* <button onClick={AllCheck}>저장</button> */}
       <button onClick={CreateInsertForm}>추가</button>
