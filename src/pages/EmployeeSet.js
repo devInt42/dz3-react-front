@@ -41,7 +41,6 @@ function EmployeeSet() {
       .catch(error => console.log(error))
   }, [])
   useEffect(() => {
-    console.log(employeeSeq);
     axios
       .get(baseUrl + "/employee/emplist/" + employeeSeq)
       .then((response) => { setBasicData(response.data[0]); setBasicFirstData(response.data[0]) })
@@ -54,7 +53,6 @@ function EmployeeSet() {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setGroupData(res.data);
         setGroupFirstData(res.data);
       })
@@ -294,7 +292,6 @@ function EmployeeSet() {
       return false;
     }
     if (dupliCheck > 0) {
-      console.log(dupliCheck);
       setNotRequire(<EmpAlert title={groupCheckError} text="사번이 중복되었습니다." icon="error"
         successButton="확인" />)
       return false;
@@ -323,6 +320,7 @@ function EmployeeSet() {
     }
   }
   useEffect (() => {
+    setStatus(true);
     if(insertSeqFlag) {
       if(employeeSeq != 0) {
         Update();
@@ -332,11 +330,10 @@ function EmployeeSet() {
   const Update = async () => {
     const data = { ...basicData, groupData }
     const empData = { ...data, groupFirstData }
-    const res = await axios.post(`${baseUrl}/department-employee/addupdateemp`, empData)
+    await axios.post(`${baseUrl}/department-employee/addupdateemp`, empData)
   }
   const selectDelete = async (obj) => {
-    
-    const res = await axios.get(`${baseUrl}/department-employee/selectdelete`, 
+    await axios.get(`${baseUrl}/department-employee/selectdelete`, 
     {
       params : {
         employeeSeq: obj.employeeSeq,
@@ -346,7 +343,7 @@ function EmployeeSet() {
     })
   }
   const deleteEmp = async () => {
-    const res = await axios.get(`${baseUrl}/department-employee/selectdelete`,
+    await axios.get(`${baseUrl}/department-employee/selectdelete`,
     {
       params : {
         employeeSeq: basicData.employeeSeq,
@@ -357,8 +354,12 @@ function EmployeeSet() {
   }
   const delEmp = () => {
     setNotRequire(<EmpAlert title = "삭제하시겠습니까?" icon= "warning" successButton="확인" functionText="회원삭제" 
-    cancleButton = "true" Delete = {deleteEmp} setDeleteFlag = {setDeleteFlag} />)
+    cancleButton = "true" Delete = {deleteEmp} setDeleteFlag = {setDeleteFlag} setStatus = {setStatus}/>)
   }
+  useEffect(() => {
+    setStatus(false);
+    console.log("setStatus");
+  }, [status])
   return (
     <div>
       {notRequire}
@@ -381,6 +382,7 @@ function EmployeeSet() {
               searchRes={searchRes}
               status = {status}
               setStatus = {setStatus}
+              deleteFlag = {deleteFlag}
             />
           </Col>
 

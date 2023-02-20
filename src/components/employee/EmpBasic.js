@@ -98,7 +98,6 @@ function EmpBasic(props) {
       ...props.data ,
       ...obj
     });
-    console.log(props.data);
   }
   // 계정 사용 미사용 여부
   const [useEmp, setUseEmp] = useState("");
@@ -555,16 +554,12 @@ function EmpBasic(props) {
       employeeHcall: employeeHcall,
       approvalPwd: approvalPwd,
     };
-    console.log(data);
     axios({
       method: "post",
       url: url,
       data: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
     })
-      .then((res) => {
-        console.log("저장성공!!");
-      })
       .catch((error) => {
         console.log(error);
       });
@@ -590,16 +585,12 @@ function EmpBasic(props) {
       employeeHcall: employeeHcall,
       approvalPwd: approvalPwd,
     };
-    console.log("update data : " + data);
     axios({
       method: "patch",
       url: url,
       data: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
     })
-      .then((res) => {
-        console.log("수정성공!!");
-      })
       .catch((error) => {
         console.log(error);
       });
@@ -611,9 +602,6 @@ function EmpBasic(props) {
       method: "delete",
       url: url,
     })
-      .then((res) => {
-        console.log("삭제성공!!");
-      })
       .catch((error) => {
         console.log(error);
       });
