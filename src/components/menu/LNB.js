@@ -49,7 +49,6 @@ function LNB(props) {
   useEffect(() => {
     getMenuList();
   }, []);
-console.log(Lmenu)
   return (
     <div className={style.lnb}>
       <BsFillGrid3X3GapFill
@@ -63,8 +62,12 @@ console.log(Lmenu)
       {Lmenu &&
         Lmenu.map((menu) => {
           return (
-            menu.menuDepth == 0 &&(
-              <div id={menu.menuSeq} key={menu.menuSeq} className={style.lnb_select}>
+            menu.menuDepth == 0 && (
+              <div
+                id={menu.menuSeq}
+                key={menu.menuSeq}
+                className={style.lnb_select}
+              >
                 {menu.menuSeq == 1 ? (
                   <FiSettings
                     onClick={() => {
@@ -118,7 +121,9 @@ console.log(Lmenu)
                     onClick={() => {
                       sendParent(menu.menuName, menu.menuSeq);
                     }}
-                  > {menu.menuIcons}
+                  >
+                    {" "}
+                    {menu.menuIcons}
                     {menu.menuName}
                   </span>
                 )}

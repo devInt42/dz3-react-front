@@ -13,14 +13,6 @@ const Company = () => {
   const [refresh, setRefresh] = useState(0);
   const [searchData, setSearchData] = useState([]);
   const [searchRefresh, setSearchRefresh] = useState(0);
-  const [insertFlag, setInsertFlag] = useState(false);
-
-  useEffect(() => {
-    setInsertFlag(false);
-  }, [insertFlag]);
-  const sendInsertFlag = (e) => {
-    setInsertFlag(e);
-  };
 
   return (
     <div>
@@ -39,7 +31,6 @@ const Company = () => {
             refresh={refresh}
             searchRefresh={searchRefresh}
             searchData={searchData}
-            insertFlag={insertFlag}
           />
           <div id="idaddbox">
             <button
@@ -69,7 +60,6 @@ const Company = () => {
               companySeq={companySeq}
               setRefresh={setRefresh}
               refresh={refresh}
-              sendInsertFlag={sendInsertFlag}
             />
           </div>
         )}

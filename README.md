@@ -1,4 +1,4 @@
-# dz3-spring-backend
+# 그룹웨어 공통 - React Front-end
 
 KOSA 더존비즈온3기 파이널 백엔드 프로젝트
 

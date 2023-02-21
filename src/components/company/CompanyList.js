@@ -4,25 +4,24 @@ import { Row, Col } from "react-bootstrap";
 function CompanyList(props) {
   const baseUrl = "http://localhost:8080";
   const [company, setCompany] = useState();
-  const [insertFlag, setInsertFlag] = useState(false);
+  const [status, setStatus] = useState(0);
+
   useEffect(() => {
-    setInsertFlag(props.insertFlag);
+    setStatus(props.refresh);
   }, [props]);
-  useEffect(() => {
-    setInsertFlag(false);
-  }, [insertFlag]);
+  useEffect(() => {}, [status]);
   useEffect(() => {
     axios
       .get(`${baseUrl}/company/info`)
       .then((res) => setCompany(res.data))
       .catch((error) => console.log(error));
-  }, [props.refresh, insertFlag]);
+  }, [props.refresh, status]);
 
   useEffect(() => {
     setCompany(props.searchData);
   }, [props.searchData]);
 
-  useEffect(() => {}, [company, props.refresh]);
+  useEffect(() => {}, [company]);
 
   return (
     company && (
@@ -49,11 +48,15 @@ function CompanyList(props) {
 
 function Listcompany(props) {
   const [companyIndex, setCompanyIndex] = useState();
-
+  const [compList, setCompList] = useState([]);
+  useEffect(() => {
+    setCompList(props.company);
+  }, [props]);
+  useEffect(() => {}, [compList]);
   return (
-    props.company && (
+    compList && (
       <>
-        {props.company.map((company, idx) => {
+        {compList.map((company, idx) => {
           return (
             <div
               className={
