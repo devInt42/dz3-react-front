@@ -477,7 +477,6 @@ function EmployeeSet() {
   };
   useEffect(() => {
     setStatus(false);
-    console.log("setStatus");
   }, [status]);
   return (
     <div>

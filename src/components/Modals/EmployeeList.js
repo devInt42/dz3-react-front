@@ -137,7 +137,8 @@ const EmployeeList = (props) => {
             key={`${dList.companyName}${dList.employeeSeq}`}
             onClick={() => {
               sendPointEmpList(dList);
-            }}>
+            }}
+          >
             <Col
               sm={3}
               className="image"
@@ -145,7 +146,8 @@ const EmployeeList = (props) => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-              }}>
+              }}
+            >
               <img
                 src={process.env.PUBLIC_URL + "/empimg.png"}
                 style={{ width: "60%" }}
@@ -164,7 +166,8 @@ const EmployeeList = (props) => {
                     textAlign: "left",
                     margin: "0",
                     padding: "0",
-                  }}>
+                  }}
+                >
                   &#40;&nbsp; {dList.employeeId}&nbsp;&#41;
                 </span>
               </Row>
@@ -183,7 +186,8 @@ const EmployeeList = (props) => {
                   <BsTelephonePlus />
                 </div>
                 {dList.employeePh}
-              </Row>
+              </Row>{" "}
+              <br />
             </Col>
             <hr className="Searchhr" />
           </Row>
