@@ -55,16 +55,6 @@ function EmpDept(props) {
     page: 0,
     insertData: "Y",
   }
-
-  useEffect(() => {
-    console.log(mainSeqs);
-    console.log(mainCompanySeq);
-  },[mainSeqs,mainCompanySeq])
-  useEffect(() => {
-    setMainSeqs([]);
-    setMainCompanySeq(0);
-  }, [props.mainSeqsFlag])
-  //주회사 주부서 구분 
   useEffect(() => {
     props.data.map(data => {
       data.mainCompanyYN == "Y" &&
@@ -74,6 +64,17 @@ function EmpDept(props) {
       data.departmentYN == "Y" &&
         setMainSeqs(mainSeqs, {companySeq: data.companySeq, department: data.departmentSeq})
     })
+  }, [])
+
+  useEffect(() => {
+
+  },[mainSeqs])
+  useEffect(() => {
+    setMainSeqs([]);
+    setMainCompanySeq(0);
+  }, [props.mainSeqsFlag])
+  //주회사 주부서 구분 
+  useEffect(() => {
     let temp =[];
     props.data.map((data) => {
       data.mainCompanyYN == "Y" &&
@@ -118,14 +119,15 @@ function EmpDept(props) {
   };
   const updateDepartment = (companySeq, departmentSeq) => {
     let copyGroupList = [...props.data];
-    mainSeqs.map((seq, key) => {
-      seq.companySeq == companySeq &&
-      seq.departmentSeq == departmentSeq ?
-      console.log(seq.companySeq + " || " + companySeq)
-      //  copyGroupList[key] =  { ...copyGroupList[key], ...{ mainDepartmentYN: "Y"} }
+    console.log(copyGroupList);
+    props.data.map((seq, key) => {
+      (seq.departmentSeq == departmentSeq) ?
+      copyGroupList[key] =  { ...copyGroupList[key], ...{ mainDepartmentYN: "Y"} }
       :
-      // copyGroupList[key] = { ...copyGroupList[key], ... { mainDepartmentYN: "N"} }
-      console.log(seq.departmentSeq + " department|| " + departmentSeq)
+      seq.companySeq == companySeq && seq.departmentSeq != departmentSeq ?
+      copyGroupList[key] = { ...copyGroupList[key], ...{mainDepartmentYN: "N"}}
+      :
+      console.log(seq.companySeq);
     })
     props.setData(copyGroupList);
   }
@@ -254,7 +256,7 @@ function EmpDept(props) {
                         <select value={group.companySeq} name="companylist" onChange={
                           (e) => {
                             mainCompanySeq == 0?
-                            updateObject(group.departmentSeq, { companySeq: e.target.value, workplaceSeq: 0, departmentSeq: 0, workplaceName: "", departmentName: "", mainCompanyYN: "Y", mainDepartmentYN: "Y", employeeCode: ""})
+                            updateObject(group.departmentSeq, { companySeq: e.target.value, workplaceSeq: 0, departmentSeq: 0, workplaceName: "", departmentName: "", mainCompanyYN: "Y", mainDepartmentYN: "", employeeCode: ""})
                             :
                             e.target.value == mainCompanySeq ?
                               updateObject(group.departmentSeq, { companySeq: e.target.value, workplaceSeq: 0, departmentSeq: 0, workplaceName: "", departmentName: "", mainCompanyYN: "Y", mainDepartmentYN: "", employeeCode: ""})
