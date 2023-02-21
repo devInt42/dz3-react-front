@@ -224,16 +224,15 @@ function MenuSet() {
 
   // 메뉴 아이콘 이미지 관리
   const [imgFile, setImgFile] = useState("");
-  const imgRef = useRef();
 
-  const saveImg = (e) => {
-    setImgFile(URL.createObjectURL(e.target.files[0]));
-  }
-
-  const deleteImg = () => {
-    URL.revokeObjectURL(imgFile);
-    setImgFile("");
-  }
+  // const imgRef = useRef();
+  // const saveImg = (e) => {
+  //   setImgFile(URL.createObjectURL(e.target.files[0]));
+  // }
+  // const deleteImg = () => {
+  //   URL.revokeObjectURL(imgFile);
+  //   setImgFile("");
+  // }
 
   return (
     <div>
@@ -250,15 +249,8 @@ function MenuSet() {
         <Row>
           <Col
             md="auto"
-            style={{
-              border: "1px solid black",
-              width: "22%",
-              height: "100vh",
-              marginTop: "10px",
-              marginLeft: "10px",
-              overflow: "scroll",
-            }}
-          >
+            className={style.searchVar}
+            >
             <MenuSearch
               getSearchInfo={getSearchInfo}
               insertFlag={insertFlag}
@@ -459,17 +451,17 @@ function MenuSet() {
                       )}
                     </td>
                   </tr>
-                  {/* <tr>
+                  <tr>
                     <th>메뉴 아이콘 선택</th>
                     <td>
-                      <img src={imgFile ? imgFile : ""} style={{width: "30px", height: "30px"}}/>
-                      <button onClick={()=> deleteImg()}>delete</button>
-                      {imgFile == "" ? <></> : 
+                      {/* <img src={imgFile ? imgFile : ""} style={{width: "30px", height: "30px"}}/>
+                      <button onClick={()=> deleteImg()}>delete</button> */}
+                      {imgFile&&
                       <img src={process.env.PUBLIC_URL + imgFile} style={{width:"30px", height:"30px"}}/>
                     }
                       <Icons setImgFile={setImgFile}/>
                     </td>
-                  </tr> */}
+                  </tr>
                 </tbody>
               </table>
               <div className={style.menu_btn}>

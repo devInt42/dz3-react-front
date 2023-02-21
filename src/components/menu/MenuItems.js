@@ -48,7 +48,7 @@ function MenuItems(props) {
     <div>
       {subMenu.map((menu) => {
         return (
-          <div key={menu.menuSeq} className={style.menu_item}>
+          <div key={menu.menuSeq} className={menu.useYN == "Y" ? style.menu_item : style.menu_item_nouse}>
             <div
               style={{
                 paddingLeft: (menu.menuDepth - 1) * 18,
@@ -65,7 +65,7 @@ function MenuItems(props) {
                   send(menu);
                 }}
               >
-                <CgFileDocument />
+                <CgFileDocument style={menu.useYN == "Y" ? {color: "#00AAFF"} : {color: "rgba(237, 133, 36, 0.95)"}}/>
                 {menu.menuName}
               </div>
             </div>

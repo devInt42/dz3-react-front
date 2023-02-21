@@ -6,23 +6,35 @@
 
 .searchBox{
     width: 100%;
+    margin-top: 8px;
     padding: 5px 7px;
     font-size: 14px
+}
+
+.searchTop{
+    margin-bottom: 10px;
+    background-color: rgba(211, 214, 221, 0.394);
+    padding: 10px;
 }
 
 .searchIcon{
     position: absolute;
     width: 30px;
     height: 30px;
-    top: 4px;
+    top: 10px;
     right: 12px;
     margin: 0;
 }
 
 .menu_list{
     cursor: pointer;
+}.menu_list:hover{
+    background-color: rgba(191, 208, 242, 0.336);
 }
 
+.top_menu_nouse{
+    color: rgba(126, 130, 130, 0.881);
+}
 .top_menu:hover{
     background-color: rgba(191, 208, 242, 0.336);
 }
