@@ -1,4 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
+
+.searchVar{
+  border: 5px solid rgba(214, 221, 227, 0.512);
+  border-radius: 2%;
+  width: 22%;
+  height: 100vh;
+  margin-top: 10px;
+  margin-left: 10px;
+  overflow: scroll;
+}
+.searchVar::-webkit-scrollbar{
+  width: 7px;
+}
+.searchVar::-webkit-scrollbar-thumb {
+  height: 15%; /* 스크롤바의 길이 */
+  background: #c2c5c8be; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
 /* 
 input[type=text]{
 	width:20%;
@@ -110,5 +129,6 @@ button:hover{
 }
 
 .menu_notice{
-  background-color: rgba(249, 227, 200, 0.829);
+  background-color: rgba(200, 226, 249, 0.576);
+  padding: .8%;
 }

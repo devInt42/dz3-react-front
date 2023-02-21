@@ -77,6 +77,7 @@ function CallMenu(props) {
                   >
                     {menu.menuDepth == 1 ? (
                       <div className={style.level1_item}>&nbsp;&nbsp;&nbsp;&nbsp;
+                      {menu.menuIcons? <img src={process.env.PUBLIC_URL + menu.menuIcons} style={{width: "20px", height: "20px"}}/>:<></>}
                         {menu.menuName}
                         {childMenu.includes(menu.menuSeq) ? (
                           <SlArrowUp style={{float: "right", marginRight: "15px", marginTop:"3px"}}/>
@@ -85,7 +86,9 @@ function CallMenu(props) {
                         )}
                       </div>
                     ) : (
-                      <div className={style.menu_sub}>{menu.menuName}</div>
+                      <div className={style.menu_sub}>
+                        {menu.menuIcons? <img src={process.env.PUBLIC_URL + menu.menuIcons} style={{width: "20px", height: "20px"}}/>:<></>}
+                        {menu.menuName}</div>
                       // <div className={`${focus == menu.menuSeq? style.menu_click : style.menu_sub}`}>{menu.menuName}</div>
                     )}
                   </div>

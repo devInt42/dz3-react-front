@@ -9,21 +9,6 @@ import { FaMoneyCheckAlt, FaBook } from "react-icons/fa";
 import style from "./css/LNB.module.css";
 
 function LNB(props) {
-  // const setParent = () => {
-  //     props.getTest("go to parent");
-  // }
-
-  // return(
-  //     <div>
-  //         {/* <h1>{props.text}</h1> */}
-  //         <a onClick={()=>{setParent()}}>값 보내기</a>
-  //     </div>
-  // )
-
-  // const sendParent = useCallback( (menuName, menuSeq) => {
-  //     props.getMenuInfo(menuName, menuSeq);
-  // }, [])
-
   const sendParent = (menuName, menuSeq) => {
     props.getMenuInfo(menuName, menuSeq);
   };
@@ -67,65 +52,29 @@ function LNB(props) {
                 id={menu.menuSeq}
                 key={menu.menuSeq}
                 className={style.lnb_select}
+                onClick={() => {
+                  sendParent(menu.menuName, menu.menuSeq);
+                }}
               >
-                {menu.menuSeq == 1 ? (
-                  <FiSettings
-                    onClick={() => {
-                      setMenuVisible(!menuVisible);
-                    }}
-                    className={style.lnb_menuIcon}
-                  />
-                ) : menu.menuSeq == 2 ? (
-                  <AiFillAccountBook
-                    onClick={() => {
-                      setMenuVisible(!menuVisible);
-                    }}
-                    className={style.lnb_menuIcon}
-                  />
-                ) : menu.menuSeq == 3 ? (
-                  <BsFillPersonLinesFill
-                    onClick={() => {
-                      setMenuVisible(!menuVisible);
-                    }}
-                    className={style.lnb_menuIcon}
-                  />
-                ) : menu.menuSeq == 4 ? (
-                  <FaMoneyCheckAlt
-                    onClick={() => {
-                      setMenuVisible(!menuVisible);
-                    }}
-                    className={style.lnb_menuIcon}
-                  />
-                ) : menu.menuSeq == 5 ? (
-                  <FaBook
-                    onClick={() => {
-                      setMenuVisible(!menuVisible);
-                    }}
-                    className={style.lnb_menuIcon}
-                  />
-                ) : (
-                  <BiTask
-                    onClick={() => {
-                      setMenuVisible(!menuVisible);
-                    }}
-                    className={style.lnb_menuIcon}
-                  />
-                )}
+                <span>
+                  {menu.menuIcons ? (
+                    <img
+                      src={process.env.PUBLIC_URL + menu.menuIcons}
+                      className={style.lnb_showDetailIcon}
+                      style={{
+                        width: "35px",
+                        height: "35px",
+                        backgroundColor: "aliceblue",
+                      }}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </span>
                 {menuVisible && (
-                  <span
-                    className={
-                      menuVisible
-                        ? style.lnb_callMenu
-                        : style.lnb_callMenu_false
-                    }
-                    onClick={() => {
-                      sendParent(menu.menuName, menu.menuSeq);
-                    }}
-                  >
-                    {" "}
-                    {menu.menuIcons}
-                    {menu.menuName}
-                  </span>
+                  <>
+                    <span className={style.lnb_callMenu}>{menu.menuName}</span>
+                  </>
                 )}
               </div>
             )
@@ -136,3 +85,62 @@ function LNB(props) {
 }
 
 export default React.memo(LNB);
+
+// {menu.menuSeq == 1 ? (
+//   <FiSettings
+//     onClick={() => {
+//       setMenuVisible(!menuVisible);
+//     }}
+//     className={style.lnb_menuIcon}
+//   />
+// ) : menu.menuSeq == 2 ? (
+//   <AiFillAccountBook
+//     onClick={() => {
+//       setMenuVisible(!menuVisible);
+//     }}
+//     className={style.lnb_menuIcon}
+//   />
+// ) : menu.menuSeq == 3 ? (
+//   <BsFillPersonLinesFill
+//     onClick={() => {
+//       setMenuVisible(!menuVisible);
+//     }}
+//     className={style.lnb_menuIcon}
+//   />
+// ) : menu.menuSeq == 4 ? (
+//   <FaMoneyCheckAlt
+//     onClick={() => {
+//       setMenuVisible(!menuVisible);
+//     }}
+//     className={style.lnb_menuIcon}
+//   />
+// ) : menu.menuSeq == 5 ? (
+//   <FaBook
+//     onClick={() => {
+//       setMenuVisible(!menuVisible);
+//     }}
+//     className={style.lnb_menuIcon}
+//   />
+// ) : (
+//   <BiTask
+//     onClick={() => {
+//       setMenuVisible(!menuVisible);
+//     }}
+//     className={style.lnb_menuIcon}
+//   />
+// )}
+// {menuVisible && (
+//   <span
+//     className={
+//       menuVisible
+//         ? style.lnb_callMenu
+//         : style.lnb_callMenu_false
+//     }
+//     onClick={() => {
+//       sendParent(menu.menuName, menu.menuSeq);
+//     }}
+//   >
+//   {menu.menuIcons? <img src={process.env.PUBLIC_URL + menu.menuIcons} style={{width: "20px", height: "20px"}}/>:<></>}
+//     {menu.menuName}
+//   </span>
+// )}

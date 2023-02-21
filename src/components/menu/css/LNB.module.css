@@ -5,6 +5,7 @@
     height: 30px;
     color: aliceblue;
     margin: 8px;
+    margin-bottom: 0px;
 }.lnb_showDetailIcon:hover{
     transition:.3s;
     width: 33px;
@@ -12,6 +13,9 @@
 }
 
 .lnb_select{
+    margin-right: 8px;
+    margin-bottom: 7%;
+    color: aliceblue;
     opacity: 0.5;
     cursor: pointer;
 }.lnb_select:hover{
@@ -67,14 +71,14 @@ h4{
 } */
 
 .lnb_callMenu{
-    background-color: rgba(32, 30, 30, 0.938);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: large;
     color: aliceblue;
     padding: 5px;
     border: none;
     border-radius: 8%;
-    margin: 8px;
 }
-.lnb_callMenu:hover{
+/* .lnb_callMenu:hover{
     background-color: rgba(69, 72, 75, 0.63);
 	transition:.3s;
 	color: aliceblue;
@@ -83,4 +87,4 @@ h4{
     outline-color: transparent;
     outline-style:solid;
     box-shadow: 0 0 0 1px rgba(0, 170, 255);
-}
+} */

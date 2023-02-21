@@ -4,7 +4,7 @@ import style from "./css/MenuSearch.module.css"
 import { Container, Row, Col } from "react-bootstrap";
 
 import { AiFillFolderOpen } from "react-icons/ai";
-import { HiOutlineSearchCircle } from "react-icons/hi";
+import { HiOutlineSearchCircle, HiBan } from "react-icons/hi";
 
 import MenuItems from "./MenuItems";
 
@@ -141,7 +141,7 @@ function MenuSearch(props) {
   useEffect(() => {}, [selectList]);
   return (
     <div className={style.searchWrap}>
-      <Row>
+      <Row className={style.searchTop}>
         {selectList && (
           <select
             onChange={selectedMenu}
@@ -183,9 +183,11 @@ function MenuSearch(props) {
             })
           : subMenu.map((menu, i) => {
               return (
-                <div key={i} className={style.menu_list}>
+                <div key={i} className={menu.useYN == "Y" ? style.menu_list: style.top_menu_nouse}>
                   <div onClick={() => searchInfo(menu)} className={style.top_menu}>
-                    <AiFillFolderOpen />
+                    {menu.useYN != "Y" ? 
+                    (<HiBan style={{color: "rgba(237, 133, 36, 0.95)"}}/>) :
+                    (<AiFillFolderOpen style={{color: "rgba(36, 133, 237, 0.95)"}}/>) }
                     {menu.menuName}
                   </div>
                   <div style={{ paddingLeft: "15px" }}>
