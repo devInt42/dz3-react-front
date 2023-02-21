@@ -35,12 +35,17 @@ function EmployeeSet() {
   const [insertSeqFlag, setInsertSeqFlag] = useState(false);
   const [status, setStatus] = useState(false);
   const [deleteFlag, setDeleteFlag] = useState(false);
+  const [mainSeqsFlag, setMainSeqFlag] = useState(false);
+
   useEffect(() => {
     axios
       .get(`${baseUrl}/company/info`)
       .then((res) => setCompanyList(res.data))
       .catch((error) => console.log(error));
   }, []);
+  useEffect(() => {
+
+  },[groupData])
   useEffect(() => {
     axios
       .get(baseUrl + "/employee/emplist/" + employeeSeq)
@@ -71,6 +76,7 @@ function EmployeeSet() {
     }
     setInsertFlag(false);
     setDeleteFlag(false);
+    setMainSeqFlag(false);
   }, [employeeSeq, deleteFlag]);
 
   const clickEmp = () => {
@@ -92,6 +98,7 @@ function EmployeeSet() {
   const EmpInsertForm = () => {
     setInsertFlag(true);
     setInsertSeqFlag(false);
+    setMainSeqFlag(true);
     setBasicData({
       employeeSeq: 0,
       employeeId: "",
@@ -519,7 +526,7 @@ function EmployeeSet() {
                   aria-label="basic tabs example"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <Tab label="기본정보" {...a11yProps(0)} />
+                  <Tab label="기본정보" {...a11yProps(0)}/>
                   <Tab label="조직정보" {...a11yProps(1)} />
                   <Button
                     variant="outline-success"
@@ -568,6 +575,8 @@ function EmployeeSet() {
                   setNotRequire={setNotRequire}
                   selectDelete={selectDelete}
                   setDeleteFlag={setDeleteFlag}
+                  insertFlag = {insertFlag}
+                  mainSeqsFlag = {mainSeqsFlag}
                 />
               </TabPanel>
             </Box>

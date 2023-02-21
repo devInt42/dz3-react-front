@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import style from "./css/EmpDept.module.css";
 import { Form } from "react-bootstrap";
@@ -11,63 +11,83 @@ function EmpDept(props) {
   const dutyModal = "DUTY";
   //main 회사 구분
   const [mainCompanySeq, setMainCompanySeq] = useState(0);
+  const [mainSeqs, setMainSeqs] = useState([]);
   //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
   const insertData = {
-      employeeSeq: 0,
-      workplaceSeq: 0,
-      departmentSeq: 0,
-      companySeq: 0,
-      companyCode: null,
-      employeeName: null,
-      employeeId: null,
-      employeePh: null,
-      employeePicture: null,
-      employeeCall: null,
-      employeePmail: null,
-      employeeCmail: null,
-      companyName: "",
-      workplaceName: "",
-      departmentName: "",
-      employeeBirth: null,
-      authSeq: 0,
-      duty: "팀원",
-      position: "사원",
-      mainCompany: null,
-      mainDepartment: null,
-      startPgNum: 0,
-      endPgNum: 0,
-      mainCompanyYN: "N",
-      mainDepartmentYN: "N",
-      departmentLoc: "",
-      departmentCall: "",
-      departmentFax: "",
-      departmentDepth: 0,
-      departmentParent: 0,
-      departmentZipCode: "",
-      dutyCode: "1",
-      positionCode: "1",
-      employeeCode: "",
-      employeeJoin: null,
-      employeeLeave: null,
-      employeeClassification: "J01",
-      companyHomepage: null,
-      page: 0,
-      insertData: "Y",
+    employeeSeq: 0,
+    workplaceSeq: 0,
+    departmentSeq: 0,
+    companySeq: 0,
+    companyCode: null,
+    employeeName: null,
+    employeeId: null,
+    employeePh: null,
+    employeePicture: null,
+    employeeCall: null,
+    employeePmail: null,
+    employeeCmail: null,
+    companyName: "",
+    workplaceName: "",
+    departmentName: "",
+    employeeBirth: null,
+    authSeq: 0,
+    duty: "팀원",
+    position: "사원",
+    mainCompany: null,
+    mainDepartment: null,
+    startPgNum: 0,
+    endPgNum: 0,
+    mainCompanyYN: props.data.length > 1 ? "N" : "Y",
+    mainDepartmentYN: props.data.length > 1 ? "N" : "Y",
+    departmentLoc: "",
+    departmentCall: "",
+    departmentFax: "",
+    departmentDepth: 0,
+    departmentParent: 0,
+    departmentZipCode: "",
+    dutyCode: "1",
+    positionCode: "1",
+    employeeCode: "",
+    employeeJoin: null,
+    employeeLeave: null,
+    employeeClassification: "J01",
+    companyHomepage: null,
+    page: 0,
+    insertData: "Y",
   }
+
+  useEffect(() => {
+    console.log(mainSeqs);
+    console.log(mainCompanySeq);
+  },[mainSeqs,mainCompanySeq])
+  useEffect(() => {
+    setMainSeqs([]);
+    setMainCompanySeq(0);
+  }, [props.mainSeqsFlag])
+  //주회사 주부서 구분 
   useEffect(() => {
     props.data.map(data => {
-     data.mainCompanyYN == "Y" &&
-     setMainCompanySeq(data.companySeq); 
-    })
-  }, [])
-  useEffect(() => {
-    const copyGroupList = [...props.data]
-    copyGroupList.map(data => {
       data.mainCompanyYN == "Y" &&
-      setMainCompanySeq(data.companySeq);
+        setMainCompanySeq(data.companySeq);
     })
-    
+    props.data.map(data => {
+      data.departmentYN == "Y" &&
+        setMainSeqs(mainSeqs, {companySeq: data.companySeq, department: data.departmentSeq})
+    })
+    let temp =[];
+    props.data.map((data) => {
+      data.mainCompanyYN == "Y" &&
+        setMainCompanySeq(data.companySeq);
+      data.mainDepartmentYN == "Y" ?
+      temp.push({employeeSeq: data.employeeSeq, companySeq: data.companySeq, 
+        departmentSeq: data.departmentSeq, main: "Y"})
+      :
+      temp.push({employeeSeq: data.employeeSeq, companySeq: data.companySeq, 
+        departmentSeq: data.departmentSeq, main: "N"})
+    })
+    setMainSeqs(temp);
   }, [props.employeeSeq])
+
   //리스트 객체 특정값 변경 함수
   const updateIndexObject = (idx, obj) => {
     let copyGroupList = [...props.data];
@@ -90,12 +110,25 @@ function EmpDept(props) {
     setMainCompanySeq(seq);
     copyGroupList.map((data, key) => {
       data.companySeq == seq ?
-      copyGroupList[key] = {...copyGroupList[key], ...{mainCompanyYN: "Y"}}
-      :
-      copyGroupList[key] = {...copyGroupList[key], ...{mainCompanyYN: "N"}}
+        copyGroupList[key] = { ...copyGroupList[key], ...{ mainCompanyYN: "Y" } }
+        :
+        copyGroupList[key] = { ...copyGroupList[key], ...{ mainCompanyYN: "N" } }
     })
     props.setData(copyGroupList);
   };
+  const updateDepartment = (companySeq, departmentSeq) => {
+    let copyGroupList = [...props.data];
+    mainSeqs.map((seq, key) => {
+      seq.companySeq == companySeq &&
+      seq.departmentSeq == departmentSeq ?
+      console.log(seq.companySeq + " || " + companySeq)
+      //  copyGroupList[key] =  { ...copyGroupList[key], ...{ mainDepartmentYN: "Y"} }
+      :
+      // copyGroupList[key] = { ...copyGroupList[key], ... { mainDepartmentYN: "N"} }
+      console.log(seq.departmentSeq + " department|| " + departmentSeq)
+    })
+    props.setData(copyGroupList);
+  }
   //부서가 선택 되지 않았을 때, 됐지만 조건에 충족하지 않을 때
   const notSelectDepartment = (seq) => {
     seq != 0 ?
@@ -117,7 +150,7 @@ function EmpDept(props) {
             employeeCode: value,
           },
         })
-      .then((res) => props.setDupliCheck(res.data));
+        .then((res) => props.setDupliCheck(res.data));
       return props.dupliCheck;
     }
   };
@@ -142,9 +175,14 @@ function EmpDept(props) {
 
 
   const CreateInsertForm = () => {
-    let copyGroupList = [insertData, ...props.data];
-    props.setData(copyGroupList);
-    props.setFirstData(copyGroupList);
+    if (props.data[0].departmentSeq == 0) {
+      alert("필수값을 입력하고 추가해 주십시오.")
+    }
+    else {
+      let copyGroupList = [insertData, ...props.data];
+      props.setData(copyGroupList);
+      props.setFirstData(copyGroupList);
+    }
   }
 
   const RemoveGroup = (idx) => {
@@ -192,10 +230,6 @@ function EmpDept(props) {
       }
     }
   }
-  useEffect(() => {
-    console.log(props.data);
-    console.log(mainCompanySeq);
-  }, [props.data])
   return (
     <div id={style.empdept}>
       {/* <button onClick={AllCheck}>저장</button> */}
@@ -207,10 +241,10 @@ function EmpDept(props) {
               <div>
                 <button onClick={() => {
                   group.insertData == "Y" ?
-                  props.setNotRequire(<EmpAlert title = "취소하시겠습니까?" icon= "question" successButton="확인" functionText="취소" cancleButton = "true" Cancle = {RemoveGroup} idx = {idx} />)
-                  : props.setNotRequire(<EmpAlert title = "삭제하시겠습니까?" icon= "warning" successButton="확인" functionText="삭제" cancleButton = "true" Delete = {props.selectDelete} idx = {idx} 
-                  data = {props.firstData[idx]} setDeleteFlag = {props.setDeleteFlag} setStatus = {props.setStatus}/>)
-                  }}>삭제</button>
+                    props.setNotRequire(<EmpAlert title="취소하시겠습니까?" icon="question" successButton="확인" functionText="취소" cancleButton="true" Cancle={RemoveGroup} idx={idx} />)
+                    : props.setNotRequire(<EmpAlert title="삭제하시겠습니까?" icon="warning" successButton="확인" functionText="삭제" cancleButton="true" Delete={props.selectDelete} idx={idx}
+                      data={props.firstData[idx]} setDeleteFlag={props.setDeleteFlag} setStatus={props.setStatus} />)
+                }}>삭제</button>
                 <table className={style.dept_tbl} key={idx}>
                   <thead></thead>
                   <tbody>
@@ -219,11 +253,14 @@ function EmpDept(props) {
                       <td>
                         <select value={group.companySeq} name="companylist" onChange={
                           (e) => {
-                            e.target.value == mainCompanySeq ?
-                            updateObject(group.departmentSeq, { companySeq: e.target.value, workplaceSeq: 0, departmentSeq: 0, workplaceName: "", departmentName: "", mainCompanyYN: "Y", mainDepartmentYN: "N" })
+                            mainCompanySeq == 0?
+                            updateObject(group.departmentSeq, { companySeq: e.target.value, workplaceSeq: 0, departmentSeq: 0, workplaceName: "", departmentName: "", mainCompanyYN: "Y", mainDepartmentYN: "Y", employeeCode: ""})
                             :
-                            updateObject(group.departmentSeq, { companySeq: e.target.value, workplaceSeq: 0, departmentSeq: 0, workplaceName: "", departmentName: "", mainCompanyYN: "N", mainDepartmentYN: "Y" })
-                        }
+                            e.target.value == mainCompanySeq ?
+                              updateObject(group.departmentSeq, { companySeq: e.target.value, workplaceSeq: 0, departmentSeq: 0, workplaceName: "", departmentName: "", mainCompanyYN: "Y", mainDepartmentYN: "", employeeCode: ""})
+                              :
+                              updateObject(group.departmentSeq, { companySeq: e.target.value, workplaceSeq: 0, departmentSeq: 0, workplaceName: "", departmentName: "", mainCompanyYN: "N", mainDepartmentYN: "", employeeCode: ""})
+                          }
                         }>
                           <option value={0}>회사 선택</option>
                           {props.companyList.map(company => {
@@ -238,31 +275,31 @@ function EmpDept(props) {
                       </td>
                       <th>부서</th>
                       <td>
-                      <Form.Group>
-                        <div className="content-have-button">
-                          <Form.Control
-                            className={style.emp_input}
-                            value={group.departmentName}
-                            placeholder="부서를 선택해 주십시오."
-                            style={{
-                              zIndex: "0",
-                              backgroundColor: "rgba(241, 199, 199, 0.328)",
-                            }}
-                            isValid={
-                              group.departmentName == undefined || group.departmentName == "" ?
-                                false :
-                                firstDepartmentCheck(group.companySeq)
-                                  ? ""
-                                  : (group.departmentName != null ||
-                                    group.departmentName != undefined
-                                  )
-                            }
-                            isInvalid={
-                              group.departmentName == ""
-                            }
-                          />
-                          <ManageModal companySeq={group.companySeq} updateIndexObject={updateIndexObject} idx={idx} />
-                        </div>
+                        <Form.Group>
+                          <div className="content-have-button">
+                            <Form.Control
+                              className={style.emp_input}
+                              value={group.departmentName}
+                              placeholder="부서를 선택해 주십시오."
+                              style={{
+                                zIndex: "0",
+                                backgroundColor: "rgba(241, 199, 199, 0.328)",
+                              }}
+                              isValid={
+                                group.departmentName == undefined || group.departmentName == "" ?
+                                  false :
+                                  firstDepartmentCheck(group.companySeq)
+                                    ? ""
+                                    : (group.departmentName != null ||
+                                      group.departmentName != undefined
+                                    )
+                              }
+                              isInvalid={
+                                group.departmentName == ""
+                              }
+                            />
+                            <ManageModal companySeq={group.companySeq} updateIndexObject={updateIndexObject} idx={idx} />
+                          </div>
                         </Form.Group>
                       </td>
                     </tr>
@@ -270,45 +307,39 @@ function EmpDept(props) {
                       <th>사번</th>
                       <td colSpan={3}>
                         <Form.Group>
-                        <Form.Control
-                          className={style.emp_input}
-                          onChange={(e) => {
-                            !group.employeeCode || firstCodeCheck(group.companySeq)
-                              ? props.setDupliCheck(0)
-                              : codeDupliCheck(group.companySeq, e.target.value);
-                            updateObject(group.departmentSeq, {
-                              employeeCode: e.target.value,
-                            });
-                          }}
-                          value={group.employeeCode}
-                          placeholder="사번을 입력해 주십시오."
-                          style={{
-                            zIndex: "0",
-                            backgroundColor: "rgba(241, 199, 199, 0.328)",
-                          }}
-                          isValid={
-                            firstCodeCheck(group.companySeq)
-                              ? ""
-                              : props.dupliCheck == 0
-                                ? true
-                                : false
-                          }
-                          isInvalid={
-                            firstCodeCheck(group.companySeq)
-                              ? ""
-                              : props.dupliCheck == 1 ||
-                                group.employeeCode == null ||
-                                group.employeeCode == ""
-                                ? true
-                                : false
-                          }
-                        />
-                        <Form.Control.Feedback type="valid">
-                          사용 가능한 사번 입니다.
-                        </Form.Control.Feedback>
-                        <Form.Control.Feedback type="invalid">
-                          중복되었습니다.
-                        </Form.Control.Feedback>
+                          <Form.Control
+                            className={style.emp_input}
+                            onChange={(e) => {
+                              !group.employeeCode || firstCodeCheck(group.companySeq)
+                                ? props.setDupliCheck(0)
+                                : codeDupliCheck(group.companySeq, e.target.value);
+                              updateObject(group.departmentSeq, {
+                                employeeCode: e.target.value,
+                              });
+                            }}
+                            value={group.employeeCode}
+                            placeholder="사번을 입력해 주십시오."
+                            style={{
+                              zIndex: "0",
+                              backgroundColor: "rgba(241, 199, 199, 0.328)",
+                            }}
+                            isValid={
+                              firstCodeCheck(group.companySeq)
+                                ? ""
+                                : props.dupliCheck == 0
+                                  ? true
+                                  : false
+                            }
+                            isInvalid={
+                              firstCodeCheck(group.companySeq)
+                                ? ""
+                                : props.dupliCheck == 1 ||
+                                  group.employeeCode == null ||
+                                  group.employeeCode == ""
+                                  ? true
+                                  : false
+                            }
+                          />
                         </Form.Group>
                       </td>
                     </tr>
@@ -322,7 +353,7 @@ function EmpDept(props) {
                           onChange={() => {
                             group.companySeq != 0 ?
                               updateMain(group.companySeq)
-                               :
+                              :
                               alert("부서가 선택되지 않았습니다.")
                           }}
                           checked={group.mainCompanyYN == "Y" ? true : false}
@@ -348,10 +379,9 @@ function EmpDept(props) {
                           value="Y"
                           onChange={() => {
                             group.departmentSeq != 0 ?
-                              updateMain(
-                                group.departmentSeq,
-                                { mainDepartmentYN: "N" },
-                                { mainDepartmentYN: "Y" }
+                              updateDepartment(
+                                group.companySeq,
+                                group.departmentSeq
                               ) :
                               alert("부서가 선택되지 않았습니다.")
                           }}
@@ -375,10 +405,7 @@ function EmpDept(props) {
                     <tr>
                       <th>직급</th>
                       <td>
-                        <input
-                          type="text"
-                          value={`${group.positionCode}.${group.position}`}
-                        />
+                        {`${group.positionCode}.${group.position}`}
                         <EmpPositionModal
                           type={positionModal}
                           updateObject={updateObject}
@@ -387,10 +414,7 @@ function EmpDept(props) {
                       </td>
                       <th>직책</th>
                       <td>
-                        <input
-                          type="text"
-                          value={`${group.dutyCode}.${group.duty}`}
-                        />
+                        {`${group.dutyCode}.${group.duty}`}
                         <EmpPositionModal
                           departmentSeq={group.departmentSeq}
                           type={dutyModal}
@@ -405,14 +429,14 @@ function EmpDept(props) {
                           name="emp-classfication"
                           onChange={(e) =>
                             e.target.value == "J05" ?
-                            updateObject(group.departmentSeq, {
-                              employeeClassification: e.target.value,
-                            })
-                            :
-                            updateObject(group.departmentSeq, {
-                              employeeClassification: e.target.value,
-                              employeeLeave: "",
-                            })
+                              updateObject(group.departmentSeq, {
+                                employeeClassification: e.target.value,
+                              })
+                              :
+                              updateObject(group.departmentSeq, {
+                                employeeClassification: e.target.value,
+                                employeeLeave: "",
+                              })
                           }
                         >
                           <option
@@ -468,7 +492,7 @@ function EmpDept(props) {
                     <tr>
                       <th>주소</th>
                       <td colSpan={3}>
-                        {group.departmentZipCode || `${group.departmentZipCode} | ${group.departmentLoc}`}
+                        {`${group.departmentZipCode} | ${group.departmentLoc}`}
                       </td>
                     </tr>
                   </tbody>
