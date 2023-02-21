@@ -56,7 +56,7 @@ function LNB(props) {
                   sendParent(menu.menuName, menu.menuSeq);
                 }}>
                 <span>
-                  {menu.menuIcons ? <img src={process.env.PUBLIC_URL + menu.menuIcons} className={style.lnb_showDetailIcon} style={{ width: "35px", height: "35px", backgroundColor: "aliceblue"}} /> : <></>}
+                  {menu.menuIcons ? <img src={process.env.PUBLIC_URL + menu.menuIcons} className={style.lnb_showDetailIcon} style={{ width: "35px", height: "35px"}} /> : <></>}
                 </span>
                 {menuVisible && <>
                   <span className={style.lnb_callMenu}>
