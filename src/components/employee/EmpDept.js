@@ -367,7 +367,7 @@ function EmpDept(props) {
                           name={`main-company-yn${group.departmentSeq || `insertCompanyForm${idx}`}`}
                           value="N"
                           onChange={() => {
-                            notSelectDepartment(group.departmentSeq);
+                            alert("주회사는 존재 해야 됩니다.")
                           }}
                           checked={group.mainCompanyYN == "N" ? true : false}
                         />

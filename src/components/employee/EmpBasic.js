@@ -13,10 +13,11 @@ function EmpBasic(props) {
   const baseUrl = "http://localhost:8080";
   const [empSelected, setEmpSelected] = useState([]);
   useEffect(() => {
-    axios
-      .get(baseUrl + "/employee/emplist/" + props.employeeSeq)
-      .then((response) => setEmpSelected(response.data[0]))
-      .catch((error) => console.log(error));
+      setPmailId('');
+      setPmailDomain('');
+      setAddrCode('');
+      setFirstAddr('');
+      setDetailedAddr('');
   }, [props.employeeSeq]);
 
   const [lang, setLang] = useState([]);
@@ -26,66 +27,14 @@ function EmpBasic(props) {
       .then((response) => setLang(response.data))
       .catch((error) => console.log(error));
   }, []);
-  const [employeeCode, setEmployeeCode] = useState("");
-  const [employeeId, setEmployeeId] = useState("");
-  const [employeeName, setEmployeeName] = useState("");
-  const [employeeBirth, setEmployeeBirth] = useState("");
-  const [employeePwd, setEmployeePwd] = useState("");
-  const [employeePh, setEmployeePh] = useState("");
-  const [employeePmail, setEmployeePmail] = useState("");
-  const [pmailDomain, setPmailDomain] = useState("");
-  const [pmailId, setPmailId] = useState("");
-  const [employeeCmail, setEmployeeCmail] = useState("");
-  const [employeeAddr, setEmployeeAddr] = useState("");
+
   const [firstAddr, setFirstAddr] = useState("");
   const [addrCode, setAddrCode] = useState("");
   const [detailedAddr, setDetailedAddr] = useState("");
-  const [employeeJoin, setEmployeeJoin] = useState("");
-  const [employeeLeave, setEmployeeLeave] = useState(null);
-  const [employeeGender, setEmployeeGender] = useState("");
-  const [employeeLanguage, setEmployeeLanguage] = useState("");
-  const [useYN, setUseYN] = useState(true);
-  const [employeeHcall, setEmployeeHcall] = useState("");
-  const [approvalPwd, setApprovalPwd] = useState("");
-  const [firstId, setFirstId] = useState("");
-  const [FirstMail, setFirstMail] = useState("");
-  const [zipcodeIsOpen, setZipcodeIsOpen] = useState();
-  // employee값 불러와서 세팅
-  useEffect(() => {
-    if (props.data) {
-      setFirstId(props.data.employeeId);
-      setFirstMail(props.data.employeeCmail);
-      if (props.data.useYN == "Y") {
-        setUseYN(true);
-      } else {
-        setUseYN(false);
-      }
-      if (
-        props.data.employeePmail != "" &&
-        props.data.employeePmail != undefined
-      ) {
-        let emailtmp = props.data.employeePmail.split("@");
-        setPmailId(emailtmp[0]);
-        setPmailDomain(emailtmp[1]);
-      }
-      if (
-        props.data.employeeAddr != "" &&
-        props.data.employeeAddr != undefined
-      ) {
-        let addrtmp = props.data.employeeAddr.split("/");
-        setAddrCode(addrtmp[0]);
-        setFirstAddr(addrtmp[1]);
-        setDetailedAddr(addrtmp[2]);
-        if (addrtmp[1] == undefined) {
-          setFirstAddr("");
-        }
-        if (addrtmp[2] == undefined) {
-          setDetailedAddr("");
-        }
-      }
-    }
-  }, [empSelected]);
-
+  const [useYN, setUseYN] = useState(false);
+  const [pmailId, setPmailId] = useState("");
+  const [pmailDomain, setPmailDomain] = useState("");
+  const [zipcodeIsOpen, setZipcodeIsOpen] = useState(false);
   useEffect(() => {
     updateObject({ employeeAddr: `${addrCode}/${firstAddr}/${detailedAddr}` });
   }, [addrCode, firstAddr, detailedAddr]);
@@ -100,7 +49,6 @@ function EmpBasic(props) {
     });
   };
   // 계정 사용 미사용 여부
-  const [useEmp, setUseEmp] = useState("");
   useEffect(() => {
     if (useYN) {
       updateObject({ useYN: "Y" });
@@ -121,7 +69,7 @@ function EmpBasic(props) {
       console.log(error);
     }
   };
-
+ 
   const cmailCheck = async (mail) => {
     try {
       let cmailRes = await axios.get(`${baseUrl}/employee/emplist/checkcmail`, {
@@ -133,6 +81,18 @@ function EmpBasic(props) {
     }
   };
 
+  const addr = (idx) => {
+    if (props.data.employeeAddr != "" && props.data.employeeAddr != undefined) {
+      let temp = props.data.employeeAddr.split("/");
+      return temp[idx];
+    }
+  }
+  const mailId = (idx) => {
+    if (props.data.employeePmail != "" && props.data.employeeAddr != undefined) {
+      let temp = props.data.employeePmail.split("@");
+      return temp[idx];
+    }
+  }
   return props.data ? (
     <div>
       <h5 style={{ display: "inline" }}>사원 상세</h5>
@@ -203,8 +163,8 @@ function EmpBasic(props) {
                       ? props.firstData.employeeId == props.data.employeeId
                         ? true
                         : props.returnId.length > 0
-                        ? false
-                        : true
+                          ? false
+                          : true
                       : false
                   }
                   isInvalid={
@@ -212,8 +172,8 @@ function EmpBasic(props) {
                       ? props.firstData.employeeId == props.data.employeeId
                         ? false
                         : props.returnId.length > 0
-                        ? true
-                        : false
+                          ? true
+                          : false
                       : true
                   }
                   disabled={props.data.insertData != "Y"}
@@ -259,8 +219,8 @@ function EmpBasic(props) {
                         props.data.employeeCmail
                         ? true
                         : props.returnCmail.length > 0
-                        ? false
-                        : true
+                          ? false
+                          : true
                       : false
                   }
                   isInvalid={
@@ -269,8 +229,8 @@ function EmpBasic(props) {
                         props.data.employeeCmail
                         ? false
                         : props.returnCmail.length > 0
-                        ? true
-                        : false
+                          ? true
+                          : false
                       : true
                   }
                   disabled={props.data.insertData != "Y"}
@@ -373,7 +333,7 @@ function EmpBasic(props) {
                 className={style.emp_input}
                 style={{ width: "45%" }}
                 // value={employeePmail || ""}
-                value={pmailId || ""}
+                value={mailId(0) || ""}
                 onChange={(e) => {
                   setPmailId(e.target.value);
                 }}
@@ -384,7 +344,7 @@ function EmpBasic(props) {
               <Form.Select
                 size="sm"
                 style={{ width: "45%", display: "inline" }}
-                value={pmailDomain || ""}
+                value={mailId(1) || ""}
                 onChange={(e) => setPmailDomain(e.target.value)}
               >
                 <option value="naver.com">naver.com</option>
@@ -433,7 +393,7 @@ function EmpBasic(props) {
                 type="text"
                 className={style.emp_input}
                 style={{ width: "20%" }}
-                value={addrCode || ""}
+                value={addr(0) || ""}
                 onChange={(e) => {
                   setAddrCode(e.target.value);
                 }}
@@ -443,7 +403,7 @@ function EmpBasic(props) {
                 type="text"
                 className={style.emp_input}
                 style={{ width: "50%" }}
-                value={firstAddr || ""}
+                value={addr(1) || ""}
                 onChange={(e) => {
                   setFirstAddr(e.target.value);
                 }}
@@ -469,7 +429,7 @@ function EmpBasic(props) {
               <input
                 type="text"
                 className={style.emp_input}
-                value={detailedAddr || ""}
+                value={addr(2) || ""}
                 onChange={(e) => {
                   setDetailedAddr(e.target.value);
                 }}
@@ -533,75 +493,6 @@ function EmpBasic(props) {
     <div>사원을 선택해 주십시오.</div>
   );
 
-  async function insertEmp() {
-    const url = baseUrl + "/employee";
-    const data = {
-      employeeCode: employeeCode,
-      employeeId: employeeId,
-      employeeName: employeeName,
-      employeeBirth: employeeBirth,
-      employeePwd: employeePwd,
-      employeePh: employeePh,
-      employeePmail: pmailId + "@" + pmailDomain,
-      employeeCmail: employeeCmail,
-      employeeAddr: addrCode + " / " + firstAddr + " / " + detailedAddr,
-      employeeJoin: employeeJoin,
-      employeeLeave: employeeLeave,
-      employeeGender: employeeGender,
-      employeeLanguage: employeeLanguage,
-      useYN: useEmp,
-      employeeHcall: employeeHcall,
-      approvalPwd: approvalPwd,
-    };
-    axios({
-      method: "post",
-      url: url,
-      data: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
-
-  async function updateEmp() {
-    const url = baseUrl + "/employee/emplist/update/" + props.employeeSeq;
-    const data = {
-      employeeCode: employeeCode,
-      employeeId: employeeId,
-      employeeName: employeeName,
-      employeeBirth: employeeBirth,
-      employeePwd: employeePwd,
-      employeePh: employeePh,
-      employeePmail: pmailId + "@" + pmailDomain,
-      employeeCmail: employeeCmail,
-      employeeAddr: addrCode + " / " + firstAddr + " / " + detailedAddr,
-      employeeJoin: employeeJoin,
-      employeeLeave: employeeLeave,
-      employeeGender: employeeGender,
-      employeeLanguage: employeeLanguage,
-      useYN: useEmp,
-      employeeHcall: employeeHcall,
-      approvalPwd: approvalPwd,
-    };
-    axios({
-      method: "patch",
-      url: url,
-      data: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
-
-  async function deleteEmp() {
-    const url = baseUrl + "/employee/emplist/delete/" + props.employeeSeq;
-    axios({
-      method: "delete",
-      url: url,
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
   //자동으로 하이픈 삽입
   function PhoneNumber(value) {
     if (!value) {
