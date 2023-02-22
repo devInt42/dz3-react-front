@@ -31,7 +31,7 @@ function Icons(props) {
   const handleClose = () => setOpen(false);
 
   return (
-    <div>
+    <div style={{ backgroundColor: "rgba(211, 214, 221, 0.494)" }}>
       <Button onClick={handleOpen}>찾기</Button>
       <Button onClick={() => props.setImgFile("")}>지우기</Button>
       <Modal
@@ -52,7 +52,9 @@ function Icons(props) {
                     <TableCell>Icons</TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody
+                  style={{ backgroundColor: "rgba(154, 161, 161, 0.423)" }}
+                >
                   <TableRow>
                     <TableCell
                       onClick={() => {
@@ -140,6 +142,30 @@ function Icons(props) {
                         src={process.env.PUBLIC_URL + "/menuIcons/icon8.png"}
                         className={styles.icons}
                         onClick={() => props.setImgFile("/menuIcons/icon8.png")}
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/gear.svg"}
+                        className={styles.icons}
+                        onClick={() => props.setImgFile("/menuIcons/gear.svg")}
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/trello.svg"}
+                        className={styles.icons}
+                        onClick={() =>
+                          props.setImgFile("/menuIcons/trello.svg")
+                        }
                       />
                     </TableCell>
                   </TableRow>
@@ -243,6 +269,32 @@ function Icons(props) {
                         className={styles.icons}
                         onClick={() =>
                           props.setImgFile("/menuIcons/icon18.png")
+                        }
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/building.svg"}
+                        className={styles.icons}
+                        onClick={() =>
+                          props.setImgFile("/menuIcons/building.svg")
+                        }
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/calend.svg"}
+                        className={styles.icons}
+                        onClick={() =>
+                          props.setImgFile("/menuIcons/calend.svg")
                         }
                       />
                     </TableCell>
@@ -365,8 +417,175 @@ function Icons(props) {
                         }
                       />
                     </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/card.svg"}
+                        className={styles.icons}
+                        onClick={() => props.setImgFile("/menuIcons/card.svg")}
+                      />
+                    </TableCell>
                   </TableRow>
                   <TableRow>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/gear2.svg"}
+                        className={styles.icons}
+                        onClick={() => props.setImgFile("/menuIcons/gear2.svg")}
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/money.svg"}
+                        className={styles.icons}
+                        onClick={() => props.setImgFile("/menuIcons/money.svg")}
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/work.svg"}
+                        className={styles.icons}
+                        onClick={() => props.setImgFile("/menuIcons/work.svg")}
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/bagFill.svg"}
+                        className={styles.icons}
+                        onClick={() =>
+                          props.setImgFile("/menuIcons/bagFill.svg")
+                        }
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={
+                          process.env.PUBLIC_URL + "/menuIcons/personFill.svg"
+                        }
+                        className={styles.icons}
+                        onClick={() =>
+                          props.setImgFile("/menuIcons/personFill.svg")
+                        }
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={
+                          process.env.PUBLIC_URL + "/menuIcons/calenFill.svg"
+                        }
+                        className={styles.icons}
+                        onClick={() =>
+                          props.setImgFile("/menuIcons/calenFill.svg")
+                        }
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/docFill.svg"}
+                        className={styles.icons}
+                        onClick={() =>
+                          props.setImgFile("/menuIcons/docFill.svg")
+                        }
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/grid.svg"}
+                        className={styles.icons}
+                        onClick={() => props.setImgFile("/menuIcons/grid.svg")}
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/folder.svg"}
+                        className={styles.icons}
+                        onClick={() =>
+                          props.setImgFile("/menuIcons/folder.svg")
+                        }
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/terminal.svg"}
+                        className={styles.icons}
+                        onClick={() =>
+                          props.setImgFile("/menuIcons/terminal.svg")
+                        }
+                      />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={
+                          process.env.PUBLIC_URL + "/menuIcons/statistics.png"
+                        }
+                        className={styles.icons}
+                        onClick={() =>
+                          props.setImgFile("/menuIcons/statistics.png")
+                        }
+                      />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      <img
+                        src={process.env.PUBLIC_URL + "/menuIcons/script.png"}
+                        className={styles.icons}
+                        onClick={() =>
+                          props.setImgFile("/menuIcons/script.png")
+                        }
+                      />
+                    </TableCell>
                     <TableCell
                       onClick={() => {
                         handleClose();
@@ -466,36 +685,6 @@ function Icons(props) {
                         className={styles.icons}
                         onClick={() =>
                           props.setImgFile("/menuIcons/printer.png")
-                        }
-                      />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell
-                      onClick={() => {
-                        handleClose();
-                      }}
-                    >
-                      <img
-                        src={process.env.PUBLIC_URL + "/menuIcons/script.png"}
-                        className={styles.icons}
-                        onClick={() =>
-                          props.setImgFile("/menuIcons/script.png")
-                        }
-                      />
-                    </TableCell>
-                    <TableCell
-                      onClick={() => {
-                        handleClose();
-                      }}
-                    >
-                      <img
-                        src={
-                          process.env.PUBLIC_URL + "/menuIcons/statistics.png"
-                        }
-                        className={styles.icons}
-                        onClick={() =>
-                          props.setImgFile("/menuIcons/statistics.png")
                         }
                       />
                     </TableCell>

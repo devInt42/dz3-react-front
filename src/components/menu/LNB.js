@@ -59,11 +59,7 @@ function LNB(props) {
                     <img
                       src={process.env.PUBLIC_URL + menu.menuIcons}
                       className={style.lnb_showDetailIcon}
-                      style={{
-                        width: "35px",
-                        height: "35px",
-                        backgroundColor: "aliceblue",
-                      }}
+                      style={{ width: "35px", height: "35px" }}
                     />
                   ) : (
                     <></>
