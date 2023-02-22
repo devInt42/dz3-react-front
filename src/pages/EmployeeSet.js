@@ -35,6 +35,7 @@ function EmployeeSet() {
   const [insertSeqFlag, setInsertSeqFlag] = useState(false);
   const [status, setStatus] = useState(false);
   const [deleteFlag, setDeleteFlag] = useState(false);
+  const [mainSeqsFlag, setMainSeqFlag] = useState(false);
   useEffect(() => {
     axios
       .get(`${baseUrl}/company/info`)
@@ -71,6 +72,7 @@ function EmployeeSet() {
     }
     setInsertFlag(false);
     setDeleteFlag(false);
+    setMainSeqFlag(false);
   }, [employeeSeq, deleteFlag]);
 
   const clickEmp = () => {
@@ -92,6 +94,7 @@ function EmployeeSet() {
   const EmpInsertForm = () => {
     setInsertFlag(true);
     setInsertSeqFlag(false);
+    setMainSeqFlag(true);
     setBasicData({
       employeeSeq: 0,
       employeeId: "",
@@ -567,6 +570,8 @@ function EmployeeSet() {
                   setNotRequire={setNotRequire}
                   selectDelete={selectDelete}
                   setDeleteFlag={setDeleteFlag}
+                  insertFlag = {insertFlag}
+                  mainSeqsFlag = {mainSeqsFlag}
                 />
               </TabPanel>
             </Box>
