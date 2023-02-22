@@ -41,6 +41,7 @@ const EmployeeDetail = (props) => {
       let EmplData = {
         employeeSeq: selectEmp.employeeSeq,
         companySeq: selectEmp.companySeq,
+        departmentSeq: selectEmp.departmentSeq,
       };
       try {
         const EmplDataResult = await axios.get(
