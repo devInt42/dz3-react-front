@@ -89,7 +89,7 @@ function EmployeeSet() {
   };
 
   // 검색결과에 해당하는 사원 불러오기
-  useEffect(() => {}, [searchRes]);
+  useEffect(() => { }, [searchRes]);
 
   // 입사처리
   const EmpInsertForm = () => {
@@ -524,19 +524,23 @@ function EmployeeSet() {
                 >
                   <Tab label="기본정보" {...a11yProps(0)} />
                   <Tab label="조직정보" {...a11yProps(1)} />
-                  <Button
-                    variant="outline-success"
-                    onClick={() => EmpInsertForm()}
-                    style={{}}
-                  >
-                    사원 추가
-                  </Button>
+                  {
+                    !insertFlag && <Button
+                      variant="outline-success"
+                      onClick={() => EmpInsertForm()}
+                      style={{}}
+                    >
+                      사원 추가
+                    </Button>}
                   <Button variant="outline-primary" onClick={() => AllCheck()}>
                     저장
                   </Button>
-                  <Button variant="outline-danger " onClick={() => delEmp()}>
-                    삭제
-                  </Button>
+                  {
+                    employeeSeq && !insertFlag && 
+                    <Button variant="outline-danger " onClick={() => delEmp()}>
+                      삭제
+                    </Button>
+                  }
                 </Tabs>
               </Box>
 
