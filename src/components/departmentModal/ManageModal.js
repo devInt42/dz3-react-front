@@ -3,15 +3,16 @@ import DepartmentModal from "./DepartmentModal";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Button } from "react-bootstrap";
+import axios from "axios";
 const ManageModal = (props) => {
   const [companySeq, setCompanySeq] = useState(null);
+  const baseUrl = "http://localhost:8080";
   useEffect(() => {
     setCompanySeq(props.companySeq);
   }, [props]);
   useEffect(() => {}, [companySeq]);
   //modal
   const [modalOpen, setModalOpen] = useState(false);
-
   const openModal = () => {
     setModalOpen(true);
   };
@@ -34,10 +35,17 @@ const ManageModal = (props) => {
         Swal.fire("저장이 완료되었습니다.", "", "success", "#3085d6");
         setModalOpen(false);
         console.log(obj);
+        
         props.updateIndexObject(props.idx, {
+          companySeq: obj.companySeq,
           workplaceSeq: obj.workplaceSeq,
           departmentSeq: obj.departmentSeq,
           departmentName: obj.departmentName,
+          departmentLoc: obj.departmentLoc,
+          departmentCall: obj.departmentCall,
+          departmentFax: obj.departmentFax,
+          workplaceName: obj.workplaceName,
+          companyName: obj.companyName,
         });
       }
     });

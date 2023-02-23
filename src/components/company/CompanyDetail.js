@@ -14,10 +14,7 @@ import { Button } from "react-bootstrap";
 const CompanyDetail = (props) => {
   const [isOndata, setIsOndata] = useState("N");
   const [companyDetailData, setCompanyDetailData] = useState([]);
-  const [insertFlag, setInsertFlag] = useState(false);
-  useEffect(() => {
-    props.sendInsertFlag(insertFlag);
-  }, [insertFlag]);
+
   useEffect(() => {
     setIsOndata("N");
     setNotRequire("");
@@ -156,12 +153,14 @@ const CompanyDetail = (props) => {
           },
         }
       );
-      if (insertCom.status === 200) {
-        setInsertFlag(true);
-      }
     } catch {}
   }
 
+  //삭제
+  function Delete(seq) {
+    const baseUrl = "http://localhost:8080";
+    axios.get(`${baseUrl}/company/delete/${seq}`);
+  }
   ///////////////////////////////////////////////////////////////////////////////////////
 
   //클래스 이름을 바꾸기 위함(css 동적으로 변경)
@@ -371,7 +370,7 @@ const CompanyDetail = (props) => {
                     ? true
                     : false
                 }
-                defaultValue={companyCode}
+                value={companyCode || ""}
                 style={{ zIndex: 0, backgroundColor: "#ffe9e9" }}
               />
             </td>
@@ -476,9 +475,7 @@ const CompanyDetail = (props) => {
                   onChange={(e) => {
                     setCompanyCall(PhoneNumber(areaCode + e.target.value));
                   }}
-                  defaultValue={
-                    `${companyCall}`.substring(areaCode.length) || ""
-                  }
+                  value={`${companyCall}`.substring(areaCode.length)}
                   isValid={callStyle}
                   isInvalid={
                     `${companyCall}`.length < 1 ? "" : callStyle ? false : true
@@ -494,7 +491,7 @@ const CompanyDetail = (props) => {
                 onChange={(e) => {
                   setCompanyFax(FaxNumber(e.target.value));
                 }}
-                defaultValue={companyFax}
+                value={companyFax || ""}
                 isValid={faxStyle}
                 isInvalid={
                   `${companyFax}`.length < 1 ? "" : faxStyle ? false : true
@@ -509,7 +506,7 @@ const CompanyDetail = (props) => {
               <Form.Control
                 placeholder="사업자 등록번호를 입력해 주십시오."
                 onChange={(e) => setCompanyRegist(registNumber(e.target.value))}
-                defaultValue={companyRegist}
+                value={companyRegist || ""}
                 isValid={registStyle}
                 isInvalid={
                   `${companyRegist}`.length < 1
@@ -540,7 +537,7 @@ const CompanyDetail = (props) => {
                   onChange={(e) =>
                     setCompanyCorporate(corporateNumber(e.target.value))
                   }
-                  defaultValue={companyCorporate}
+                  value={companyCorporate || ""}
                   isValid={corporateStyle}
                   isInvalid={
                     `${companyCorporate}`.length < 1
@@ -844,12 +841,6 @@ function registNumberCheck(value) {
 function corporateNumberCheck(value) {
   const check = /^[0-9]{6}-[0-9]{7}$/;
   return check.test(value);
-}
-
-//삭제
-function Delete(seq) {
-  const baseUrl = "http://localhost:8080";
-  axios.get(`${baseUrl}/company/delete/${seq}`);
 }
 
 export default CompanyDetail;

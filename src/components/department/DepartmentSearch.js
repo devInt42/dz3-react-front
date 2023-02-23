@@ -15,6 +15,7 @@ const DepartmentSearch = (props) => {
       .then((res) => {
         setCompany(res.data[0]);
         setCompanyList(res.data);
+        props.setCompanySeq(res.data[0].companySeq);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -22,10 +23,7 @@ const DepartmentSearch = (props) => {
   function FindDepartment() {
     const param = {
       searchName: searchName,
-      searchCompanySeq:
-        props.companySeq != 0 && props.companySeq != undefined
-          ? props.companySeq
-          : JSON.parse(window.sessionStorage.getItem("empInfo")).companySeq,
+      searchCompanySeq: props.companySeq
     };
     console.log(param);
     axios

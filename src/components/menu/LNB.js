@@ -1,15 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { Nav } from "react-bootstrap";
-import { FiSettings } from "react-icons/fi";
-import { BsFillPersonLinesFill, BsFillGrid3X3GapFill } from "react-icons/bs";
-import { AiFillAccountBook } from "react-icons/ai";
-import { BiTask } from "react-icons/bi";
-import { FaMoneyCheckAlt, FaBook } from "react-icons/fa";
+import { BsFillGrid3X3GapFill } from "react-icons/bs";
+
 import style from "./css/LNB.module.css";
 
 function LNB(props) {
-
   const sendParent = (menuName, menuSeq) => {
     props.getMenuInfo(menuName, menuSeq);
   };
@@ -26,6 +21,7 @@ function LNB(props) {
           Authorization: window.sessionStorage.getItem("empInfo"),
         },
       });
+      console.log(apiResult.data);
       setLmenu(apiResult.data);
     } catch (error) {
       console.log(error);
@@ -50,18 +46,30 @@ function LNB(props) {
         Lmenu.map((menu) => {
           return (
             menu.menuDepth == 0 && (
-              <div id={menu.menuSeq} key={menu.menuSeq}
+              <div
+                id={menu.menuSeq}
+                key={menu.menuSeq}
                 className={style.lnb_select}
                 onClick={() => {
                   sendParent(menu.menuName, menu.menuSeq);
-                }}>
+                }}
+              >
                 <span>
-                  {menu.menuIcons ? <img src={process.env.PUBLIC_URL + menu.menuIcons} className={style.lnb_showDetailIcon} style={{ width: "35px", height: "35px"}} /> : <></>}
+                  {menu.menuIcons ? (
+                    <img
+                      src={process.env.PUBLIC_URL + menu.menuIcons}
+                      className={style.lnb_showDetailIcon}
+                      style={{ width: "35px", height: "35px" }}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </span>
-                {menuVisible && <>
-                  <span className={style.lnb_callMenu}>
-                    {menu.menuName}
-                  </span></>}
+                {menuVisible && (
+                  <>
+                    <span className={style.lnb_callMenu}>{menu.menuName}</span>
+                  </>
+                )}
               </div>
             )
           );

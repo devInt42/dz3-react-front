@@ -41,6 +41,7 @@ const EmployeeDetail = (props) => {
       let EmplData = {
         employeeSeq: selectEmp.employeeSeq,
         companySeq: selectEmp.companySeq,
+        departmentSeq: selectEmp.departmentSeq,
       };
       try {
         const EmplDataResult = await axios.get(
@@ -75,7 +76,6 @@ const EmployeeDetail = (props) => {
         }
       );
       setDeptDetail(LoginDataResult.data[0]);
-      console.log(LoginDataResult.data[0]);
     } catch (error) {
       console.log(error);
     }
@@ -112,7 +112,8 @@ const EmployeeDetail = (props) => {
                 display: "flex",
                 alignContent: "center",
                 justifyContent: "center",
-              }}>
+              }}
+            >
               <span className="Searchcenter">
                 {deptDetail.employeeName}&nbsp;
                 {deptDetail.position}

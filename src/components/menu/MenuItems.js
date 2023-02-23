@@ -21,9 +21,11 @@ function MenuItems(props) {
     setDeleteFlag(props.deleteFlag);
     setUpdateFlag(props.updateFlag);
   }, [props]);
+  // 삽입후 초기화
   useEffect(() => {
     setInsertFlag(false);
   }, [insertFlag]);
+  // 삭제후 초기화
   useEffect(() => {
     setDeleteFlag(false);
   }, [deleteFlag]);

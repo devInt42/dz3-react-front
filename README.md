@@ -1,70 +1,110 @@
-# Getting Started with Create React App
+# 그룹웨어 공통 - React Front-end
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+KOSA 더존비즈온3기 파이널 백엔드 프로젝트
 
-## Available Scripts
+- 류정수 (팀장)
+- 정명구 (부팀장)
+- 박태규 (팀원)
+- 전지현 (팀원)
 
-In the project directory, you can run:
+# 1. 프로젝트 개요
 
-### `npm start`
+## 1-1 개요
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 메뉴/권한/조직 관리를 통해 그룹웨어의 공통 기능을 이해한다.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 1-2 프로젝트 기간 (9주)
 
-### `npm test`
+- 기획 및 설계 22/12/28 ~ 23/01
+- 개발 23/01~23/02
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# 2. 프로젝트 종속성 라이브러리
 
-### `npm run build`
+## React
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- react 18.2.0
+- react-dom 18.2.0
+- react-router-dom 6.4.5
+- axios 1.2.2
+- react-bootstrap 2.7.0
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# 3. 주요 기능 및 역할
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 메뉴관리 (정명구)
 
-### `npm run eject`
+### 메뉴사용설정 개발
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- 메뉴 트리조회/추가/삭제
+- 메뉴 아이콘 업로드 (모든 메뉴는 아이콘 업로드 가능, 업로드시 GNB/LNB 영역에 해당아이콘 표시)
+- 메뉴 정렬 등
+- 무한 depth 구조
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. 시스템설정 하위 LNB : 메뉴사용설정/권한그룹설정/사용자권한설정/회사/부서/사원관리
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- GNB/LNB 개발
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. 로그인한 사용자 권한(세션에 저장된 권한)에 따른 GNB / LNB 노출
+2. LNB 클릭시, 해당 메뉴와 관련된 컴포넌트로 이동 처리
 
-## Learn More
+## 권한관리 (류정수)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 팀장 역할 (메뉴/권한/조직 구조 전체 이해 필요)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 최종적으로 로그인한 사용자가 갖고 있는 권한에 맞는 메뉴에만 접근 가능 하도록 확인.
+- 회사변경 프로필 팝업에서 회사/부서 정보 변경시에도, 해당 회사/부서/사용자가 갖고 있는 권한에 맞는 메뉴에만 접근 가능 하도록 최종 확인.
+- 권한그룹설정 개발
 
-### Code Splitting
+1. 권한-메뉴 매핑 저장
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- 사용자권한설정 개발
 
-### Analyzing the Bundle Size
+1. 권한-조직 매핑 저장
+2. 권한-회사, 권한-부서, 권한-사원 매핑
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- admin 계정만, 시스템설정 모듈 접근가능
+- 시스템설정 모듈 이외 나머지 모듈은 전체 계정 접근 가능
+- 개발자D(전지현)가 개발한 [공통 조직도 팝업]을 호출하여 해당 팝업에서 리턴 받은 조직 데이터와 매핑 하여 저장
 
-### Making a Progressive Web App
+## 회사관리 (박태규)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- 회사 목록
+- 회사 정보
+- 회사 등록/삭제
 
-### Advanced Configuration
+## 부서관리 (박태규)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- 부서트리
+- 부서 정보
+- 부서원 정보
+- 부서 등록/삭제
 
-### Deployment
+## 메인 조직도 팝업 (전지현)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- 조직도 트리 / 사원 목록 / 사원 상세
 
-### `npm run build` fails to minify
+## 공통 조직도 팝업 (전지현)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 조직도 트리 / 부서사원 목록 / 선택된 부서 사원 정보
+- 사용자 선택(복수 선택 가능), 선택된 사원정보(회사/부서/사원 정보) 콜백처리
+
+## 사원관리
+
+### 사원 목록 (류정수)
+
+- 사원 정보 (로그인 아이디/비밀번호)
+
+1. 로그인 완료시, 해당 사원이 갖고 있는 모든 권한 세션에 저장
+
+- 회사변경 프로필 팝업
+- 변경시 변경된 회사/부서에 대한 권한처리에 의해 메뉴(GNB/LNB) 노출 필요.
+- 회사/부서 변경 기능
+
+### 사원 등록 / 삭제 (정명구)
+
+- 프로필 등록
+
+### 사원 조직정보 (박태규)
+
+- 회사-사원 매핑
+- 부서-사원 매핑
+- (주/부)회사 (주/부)부서 설정

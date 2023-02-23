@@ -4,17 +4,13 @@ import GNB from "../components/menu/GNB";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import style from "./Layout.module.css";
-
 import React, { useState, useCallback, useEffect } from "react";
 import CallMenu from "./CallMenu";
-import Main from "./Main";
-import { PropaneSharp } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 function Layout() {
   const baseUrl = "http://localhost:8080";
   const [menuSeq, setMenuSeq] = useState(0);
   const [menuName, setMenuName] = useState("");
-  const [authResult, setAuthResult] = useState(null);
   const location = useLocation();
   const getMenuInfo = useCallback(
     (menuName, menuSeq) => {
@@ -74,8 +70,8 @@ function Layout() {
             {menuName == "" ? (
               <></>
             ) : (
-              <Col md="auto" className={style.layout_callmenu} >
-                <CallMenu menuSeq={menuSeq}/>
+              <Col md="auto" className={style.layout_callmenu}>
+                <CallMenu menuSeq={menuSeq} />
               </Col>
             )}
             <Col>

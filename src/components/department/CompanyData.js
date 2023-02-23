@@ -14,8 +14,9 @@ const CompanyData = (props) => {
         .get(`${baseUrl}/department/list/company`, {
           headers: { Authorization: window.sessionStorage.getItem("empInfo") },
         })
-        .then((res) => setCompany(res.data))
+        .then((res) => setCompany(res.data[0]))
         .catch((error) => console.log(error));
+        
     }
   }, []);
 
@@ -23,7 +24,7 @@ const CompanyData = (props) => {
     if (props.companySeq != "" && props.companySeq != undefined) {
       axios
         .get(`${baseUrl}/department/list/company/${props.companySeq}`)
-        .then((res) => setCompany(res.data))
+        .then((res) => setCompany(res.data[0]))
         .catch((error) => console.log(error));
     }
   }, [props.companySeq]);
@@ -37,45 +38,43 @@ const CompanyData = (props) => {
   return (
     <div>
       {company &&
-        company.map((companydata) => {
-          return (
-            <div key={companydata.companySeq}>
+            <div key={company.companySeq}>
               <div
                 className={`${
-                  companydata.companySeq === focus
+                  company.companySeq === focus
                     ? "active-item"
                     : "company-item"
                 }`}
                 onClick={() => {
-                  companyIsOpen.includes(companydata.companySeq)
+                  companyIsOpen.includes(company.companySeq)
                     ? setCompanyIsOpen(
                         companyIsOpen.filter(
-                          (company) => company !== companydata.companySeq
+                          (company) => company !== company.companySeq
                         )
                       )
                     : setCompanyIsOpen([
                         ...companyIsOpen,
-                        companydata.companySeq,
+                        company.companySeq,
                       ]);
                   props.setSearch(false);
                   props.setDetailFlag(false);
                   props.setDepartmentSeq(0);
                   props.setWorkplaceSeq(0);
-                  setFocus(companydata.companySeq);
+                  setFocus(company.companySeq);
                 }}
               >
                 <HiOutlineBuildingOffice2 className="companylist-icon" />
-                {companydata.companyCode}.{companydata.companyName}
-                {toggleIcon.includes(companydata.companySeq) ? (
+                {company.companyCode}.{company.companyName}
+                {toggleIcon.includes(company.companySeq) ? (
                   <HiChevronDown />
                 ) : (
                   <HiChevronUp />
                 )}
               </div>
-              {companyIsOpen.includes(companydata.companySeq) && (
+              {companyIsOpen.includes(company.companySeq) && (
                 <WorkplaceData
-                  companySeq={companydata.companySeq}
-                  key={companydata.companySeq}
+                  companySeq={company.companySeq}
+                  key={company.companySeq}
                   setDepartmentSeq={props.setDepartmentSeq}
                   setWorkplaceSeq={props.setWorkplaceSeq}
                   setCompanySeq={props.setCompanySeq}
@@ -86,8 +85,8 @@ const CompanyData = (props) => {
                 />
               )}
             </div>
-          );
-        })}
+}
+        
     </div>
   );
 };
