@@ -541,10 +541,10 @@ function EmployeeSet() {
                       >
                         사원 추가
                       </Button>
-                    )}{" "}
+                    )}
                     {employeeSeq && !insertFlag && (
                       <Button
-                        variant="outline-danger "
+                        variant="outline-danger"
                         onClick={() => delEmp()}
                         style={{ marginRight: "10px" }}
                       >
