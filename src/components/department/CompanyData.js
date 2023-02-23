@@ -8,6 +8,8 @@ const CompanyData = (props) => {
   const [company, setCompany] = useState([]);
   const [companyIsOpen, setCompanyIsOpen] = useState([]);
   const [focus, setFocus] = useState("");
+  const [workplaceFocus, setWorkplaceFocus] = useState("");
+  const [departmentFocus, setDepartmentFocus] = useState("");
   useEffect(() => {
     if (props.companySeq != undefined) {
       axios
@@ -16,7 +18,6 @@ const CompanyData = (props) => {
         })
         .then((res) => setCompany(res.data[0]))
         .catch((error) => console.log(error));
-        
     }
   }, []);
 
@@ -82,11 +83,12 @@ const CompanyData = (props) => {
                   setSearch={props.setSearch}
                   setDetailFlag={props.setDetailFlag}
                   setFocus={setFocus}
+                  setWorkplaceFocus = {setWorkplaceFocus}
+                  setDepartmentFocus = {setDepartmentFocus}
                 />
               )}
             </div>
 }
-        
     </div>
   );
 };

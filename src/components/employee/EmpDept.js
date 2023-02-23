@@ -13,6 +13,7 @@ function EmpDept(props) {
   //main 회사 구분
   const [mainCompanySeq, setMainCompanySeq] = useState(0);
   const [mainSeqs, setMainSeqs] = useState([]);
+  const [companySeq, setCompanySeq] = useState(0);
   //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
   const insertData = {
     employeeSeq: 0,
@@ -69,7 +70,7 @@ function EmpDept(props) {
     });
   }, [props.data]);
 
-  useEffect(() => {}, [mainSeqs]);
+
   useEffect(() => {
     setMainSeqs([]);
     setMainCompanySeq(0);
@@ -79,19 +80,6 @@ function EmpDept(props) {
     let temp = [];
     props.data.map((data) => {
       data.mainCompanyYN == "Y" && setMainCompanySeq(data.companySeq);
-      data.mainDepartmentYN == "Y"
-        ? temp.push({
-            employeeSeq: data.employeeSeq,
-            companySeq: data.companySeq,
-            departmentSeq: data.departmentSeq,
-            main: "Y",
-          })
-        : temp.push({
-            employeeSeq: data.employeeSeq,
-            companySeq: data.companySeq,
-            departmentSeq: data.departmentSeq,
-            main: "N",
-          });
     });
     setMainSeqs(temp);
   }, [props.employeeSeq]);
@@ -131,7 +119,6 @@ function EmpDept(props) {
   };
   const updateDepartment = (companySeq, departmentSeq) => {
     let copyGroupList = [...props.data];
-    console.log(copyGroupList);
     props.data.map((seq, key) => {
       seq.departmentSeq == departmentSeq
         ? (copyGroupList[key] = {
@@ -147,6 +134,29 @@ function EmpDept(props) {
     });
     props.setData(copyGroupList);
   };
+  useEffect(() => {
+    employeeCodeSetting(companySeq)
+  }, [companySeq])
+    const employeeCodeSetting = (companySeq) => {
+      let copyGroupList = [...props.data];
+      let employeeCode = [];
+       props.data.map((seq) => {
+        seq.companySeq == companySeq &&
+        seq.employeeCode != "" &&
+        employeeCode.push(seq.employeeCode);
+      })
+      props.data.map((seq,key) => {
+        seq.companySeq == companySeq &&
+        (copyGroupList[key] = {
+          ...copyGroupList[key],
+          ...{employeeCode: employeeCode}
+        })
+      })
+      props.setData(copyGroupList);
+    }
+    useEffect(() => {
+      console.log(props.data);
+    }, [props.data])
   //부서가 선택 되지 않았을 때, 됐지만 조건에 충족하지 않을 때
   const notSelectDepartment = (seq) => {
     seq != 0
@@ -179,17 +189,6 @@ function EmpDept(props) {
     return (
       props.firstData[findIndex].employeeCode ==
       props.data[findIndex].employeeCode
-    );
-  };
-
-  //첫 데이터와 비교 (중복체크 전)
-  const firstDepartmentCheck = (seq) => {
-    const findIndex = props.data.findIndex(
-      (element) => element.companySeq == seq
-    );
-    return (
-      props.firstData[findIndex].departmentName ==
-      props.data[findIndex].departmentName
     );
   };
 
@@ -242,9 +241,6 @@ function EmpDept(props) {
       }
     }
   };
-  useEffect(() => {
-    console.log(mainCompanySeq);
-  }, [props.data])
   return (
     <div id={style.empdept}>
       {/* <button onClick={AllCheck}>저장</button> */}
@@ -306,6 +302,7 @@ function EmpDept(props) {
                           value={group.companySeq}
                           name="companylist"
                           onChange={(e) => {
+                            setCompanySeq(e.target.value);
                             props.data.length < 2
                               ? function(){
                                 updateObject(group.departmentSeq, {
@@ -329,7 +326,7 @@ function EmpDept(props) {
                                   workplaceName: "",
                                   departmentName: "",
                                   mainCompanyYN: "Y",
-                                  mainDepartmentYN: "",
+                                  mainDepartmentYN: "N",
                                   employeeCode: "",
                                 })
                               
@@ -369,8 +366,6 @@ function EmpDept(props) {
                                 zIndex: "0",
                                 backgroundColor: "rgba(241, 199, 199, 0.328)",
                               }}
-                              
-                              
                             />
                             <ManageModal
                               companySeq={group.companySeq}
@@ -422,6 +417,8 @@ function EmpDept(props) {
                                 ? true
                                 : false
                             }
+                            readOnly = {(group.insertData == null || group.insertData == "" || group.insertData == undefined)
+                                        || group.mainDepartmentYN == "N" || group.departmentSeq == 0}
                           />
                         </Form.Group>
                       </td>
