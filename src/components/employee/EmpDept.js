@@ -242,6 +242,9 @@ function EmpDept(props) {
       }
     }
   };
+  useEffect(() => {
+    console.log(mainCompanySeq);
+  }, [props.data])
   return (
     <div id={style.empdept}>
       {/* <button onClick={AllCheck}>저장</button> */}
@@ -303,19 +306,23 @@ function EmpDept(props) {
                           value={group.companySeq}
                           name="companylist"
                           onChange={(e) => {
-                            (mainCompanySeq == 0 && props.data.length < 1)
-                              ? updateObject(group.departmentSeq, {
+                            props.data.length < 2
+                              ? function(){
+                                updateObject(group.departmentSeq, {
                                   companySeq: e.target.value,
                                   workplaceSeq: 0,
                                   departmentSeq: 0,
                                   workplaceName: "",
                                   departmentName: "",
                                   mainCompanyYN: "Y",
-                                  mainDepartmentYN: "",
+                                  mainDepartmentYN: "Y",
                                   employeeCode: "",
-                                })
+                                });
+                                setMainCompanySeq(e.target.value);
+                              }()
                               : e.target.value == mainCompanySeq
-                              ? updateObject(group.departmentSeq, {
+                              ?
+                                updateObject(group.departmentSeq, {
                                   companySeq: e.target.value,
                                   workplaceSeq: 0,
                                   departmentSeq: 0,
@@ -325,6 +332,7 @@ function EmpDept(props) {
                                   mainDepartmentYN: "",
                                   employeeCode: "",
                                 })
+                              
                               : updateObject(group.departmentSeq, {
                                   companySeq: e.target.value,
                                   workplaceSeq: 0,
