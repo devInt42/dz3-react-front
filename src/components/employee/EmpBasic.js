@@ -29,15 +29,18 @@ function EmpBasic(props) {
   const [zipcodeIsOpen, setZipcodeIsOpen] = useState(false);
 
   useEffect(() => {
+    setAddrCode("");
+    setFirstAddr("");
     setPmailId("");
     setDetailedAddr("");
   }, [props.employeeSeq]);
   useEffect(() => {
-    updateObject({ employeeAddr: `${addrCode}/${addr(1)}/${addr(2)}` });
+    updateObject({ employeeAddr: `${addrCode}/` });
   }, [addrCode]);
 
   useEffect(() => {
-    updateObject({ employeeAddr: `${addr(0)}/${firstAddr}/${addr(2)}` });
+
+    updateObject({ employeeAddr: `${addr(0)}/${firstAddr}/` });
   }, [firstAddr]);
 
   useEffect(() => {
@@ -407,26 +410,18 @@ function EmpBasic(props) {
                 type="text"
                 className={style.emp_input}
                 style={{ width: "20%" }}
-                value={addr(0) || ""}
+                value={addrCode || addr(0)}
                 onChange={(e) => {
-                  updateObject({
-                    employeeAddr: `${addr(0)}${e.target.value}/${addr(
-                      1
-                    )}/${addr(2)}`,
-                  });
+                  setAddrCode(e.target.value);
                 }}
               />
               <input
                 type="text"
                 className={style.emp_input}
                 style={{ width: "50%" }}
-                value={addr(1) || ""}
+                value={firstAddr || addr(1)}
                 onChange={(e) => {
-                  updateObject({
-                    employeeAddr: `${addr(0)}/${addr(1)}${
-                      e.target.value
-                    }/${addr(2)}`,
-                  });
+                  setFirstAddr(e.target.value);
                 }}
               />
               <button

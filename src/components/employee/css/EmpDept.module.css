@@ -30,7 +30,7 @@
 }
 
 #empdept {
-    width: 1100px;
+    width: 1000px;
     height: 700px;
     overflow-y: scroll;
 }
@@ -47,5 +47,5 @@
     background: rgba(33, 122, 244, .1);
 }
 #box {
-    width: 1070px;
+    width: 960px;
 }

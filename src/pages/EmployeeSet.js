@@ -541,8 +541,8 @@ function EmployeeSet() {
                       >
                         사원 추가
                       </Button>
-                    )}
-                    {employeeSeq && !insertFlag && (
+                    )}{" "}
+                    {employeeSeq && !insertFlag ? (
                       <Button
                         variant="outline-danger"
                         onClick={() => delEmp()}
@@ -550,6 +550,8 @@ function EmployeeSet() {
                       >
                         삭제
                       </Button>
+                    ) : (
+                      <></>
                     )}
                     <Button
                       variant="outline-primary"
@@ -594,6 +596,7 @@ function EmployeeSet() {
                   setDeleteFlag={setDeleteFlag}
                   insertFlag={insertFlag}
                   mainSeqsFlag={mainSeqsFlag}
+                  setStatus={setStatus}
                 />
               </TabPanel>
             </Box>

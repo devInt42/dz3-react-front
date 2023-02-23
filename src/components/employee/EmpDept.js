@@ -67,7 +67,7 @@ function EmpDept(props) {
           department: data.departmentSeq,
         });
     });
-  }, []);
+  }, [props.data]);
 
   useEffect(() => {}, [mainSeqs]);
   useEffect(() => {
@@ -242,6 +242,9 @@ function EmpDept(props) {
       }
     }
   };
+  useEffect(() => {
+    console.log(mainCompanySeq);
+  }, [props.data])
   return (
     <div id={style.empdept}>
       {/* <button onClick={AllCheck}>저장</button> */}
@@ -303,19 +306,23 @@ function EmpDept(props) {
                           value={group.companySeq}
                           name="companylist"
                           onChange={(e) => {
-                            mainCompanySeq == 0
-                              ? updateObject(group.departmentSeq, {
+                            props.data.length < 2
+                              ? function(){
+                                updateObject(group.departmentSeq, {
                                   companySeq: e.target.value,
                                   workplaceSeq: 0,
                                   departmentSeq: 0,
                                   workplaceName: "",
                                   departmentName: "",
                                   mainCompanyYN: "Y",
-                                  mainDepartmentYN: "",
+                                  mainDepartmentYN: "Y",
                                   employeeCode: "",
-                                })
+                                });
+                                setMainCompanySeq(e.target.value);
+                              }()
                               : e.target.value == mainCompanySeq
-                              ? updateObject(group.departmentSeq, {
+                              ?
+                                updateObject(group.departmentSeq, {
                                   companySeq: e.target.value,
                                   workplaceSeq: 0,
                                   departmentSeq: 0,
@@ -325,6 +332,7 @@ function EmpDept(props) {
                                   mainDepartmentYN: "",
                                   employeeCode: "",
                                 })
+                              
                               : updateObject(group.departmentSeq, {
                                   companySeq: e.target.value,
                                   workplaceSeq: 0,
@@ -361,21 +369,14 @@ function EmpDept(props) {
                                 zIndex: "0",
                                 backgroundColor: "rgba(241, 199, 199, 0.328)",
                               }}
-                              isValid={
-                                group.departmentName == undefined ||
-                                group.departmentName == ""
-                                  ? false
-                                  : firstDepartmentCheck(group.companySeq)
-                                  ? ""
-                                  : group.departmentName != null ||
-                                    group.departmentName != undefined
-                              }
-                              isInvalid={group.departmentName == ""}
+                              
+                              
                             />
                             <ManageModal
                               companySeq={group.companySeq}
                               updateIndexObject={updateIndexObject}
                               idx={idx}
+                              updateDepartment = {updateDepartment}
                             />
                           </div>
                         </Form.Group>
@@ -584,7 +585,7 @@ function EmpDept(props) {
                     <tr>
                       <th>주소</th>
                       <td colSpan={3}>
-                        {`${group.departmentZipCode} | ${group.departmentLoc}`}
+                        {group.departmentZipCode ? `${group.departmentZipCode} | ${group.departmentLoc}` : "-"}
                       </td>
                     </tr>
                   </tbody>
