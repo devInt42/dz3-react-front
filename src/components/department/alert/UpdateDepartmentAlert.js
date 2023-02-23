@@ -7,7 +7,6 @@ const UpdateDepartmentAlert = (props) => {
     MySwal.fire({
         title: '수정 하시겠습니까?',
         icon: 'warning',
-
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -17,7 +16,7 @@ const UpdateDepartmentAlert = (props) => {
     }).then(result => {
         if(result.isConfirmed) {
             Swal.fire('수정이 완료되었습니다.', '', 'success','#3085d6');
-            props.Update(props.seq);
+            props.Update();
             props.setAllCheck(false);
             props.setRefresh(props.refresh + 1);
             props.setInsertForm(false);

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { Row, Container } from "react-bootstrap";
-import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
+import { Row, Container, Col } from "react-bootstrap";
 import { FaBirthdayCake } from "react-icons/fa";
 import { RxPerson } from "react-icons/rx";
 
@@ -42,6 +41,7 @@ const EmployeeDetail = (props) => {
       let EmplData = {
         employeeSeq: selectEmp.employeeSeq,
         companySeq: selectEmp.companySeq,
+        departmentSeq: selectEmp.departmentSeq,
       };
       try {
         const EmplDataResult = await axios.get(
@@ -86,29 +86,46 @@ const EmployeeDetail = (props) => {
     getLoginInfo();
   }, []);
 
+  //정규식
+  const regexMail = (e) => {
+    if (e != null) {
+      let text = e.replace(/^(www\.)?/, "");
+      return text;
+    }
+  };
   return (
     <div className="SearchDetail">
       {deptDetail && (
         <Container>
-          <Row>
-            <BsFillFileEarmarkPersonFill
-              size="100"
-              style={{ paddingTop: "15px", paddingLeft: "20px" }}
+          <Row style={{ display: "flex", justifyContent: "center" }}>
+            <img
+              src={process.env.PUBLIC_URL + "/empimg.png"}
+              style={{ paddingTop: "15px", width: "30%" }}
+              alt=""
             />
           </Row>
           <br />
 
-          <Row>
-            <span className="Searchcenter">{deptDetail.employeeName}</span>
+          <Row style={{ display: "flex" }}>
+            <Col
+              style={{
+                display: "flex",
+                alignContent: "center",
+                justifyContent: "center",
+              }}
+            >
+              <span className="Searchcenter">
+                {deptDetail.employeeName}&nbsp;
+                {deptDetail.position}
+              </span>
+            </Col>
           </Row>
           <Row>
-            {" "}
             <span className="Searchcenter">
               <RxPerson size="16" /> {deptDetail.employeeId}
             </span>
           </Row>
           <Row>
-            {" "}
             <span className="Searchcenter">
               <FaBirthdayCake size="13" /> {deptDetail.employeeBirth}{" "}
             </span>
@@ -123,7 +140,8 @@ const EmployeeDetail = (props) => {
                 전화번호 : {deptDetail.employeePh}
               </li>
               <li className="list-group-item">
-                회사메일 : {deptDetail.employeeCmail}
+                회사메일 : {deptDetail.employeeCmail}&#64;
+                {regexMail(deptDetail.companyHomepage)}
               </li>
               <li className="list-group-item">
                 개인메일 : {deptDetail.employeePmail}

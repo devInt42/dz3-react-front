@@ -1,16 +1,27 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Table, Row } from "react-bootstrap";
 import axios from "axios";
-
+import DepartmentTree from "./DepartmentTree";
 const AuthEmployeeList = (props) => {
   const baseUrl = "http://localhost:8080";
   const [authSeq, setAuthSeq] = useState(null);
   const [resList, setResList] = useState([]);
   const [pointCompanySeq, setPointCompanySeq] = useState(null);
+  const [insertComplete, setInsertComplete] = useState(false);
+  const [deleteComplete, setDeleteComplete] = useState(false);
+
   useEffect(() => {
     setAuthSeq(props.authSeq);
     setPointCompanySeq(props.pointCompanySeq);
+    setInsertComplete(props.insertComplete);
+    setDeleteComplete(props.deleteComplete);
   }, [props]);
+  useEffect(() => {
+    setInsertComplete(false);
+  }, [insertComplete]);
+  useEffect(() => {
+    setDeleteComplete(false);
+  }, [deleteComplete]);
 
   const authEmployeeApiList = useCallback(async () => {
     let sendData = {
@@ -33,11 +44,11 @@ const AuthEmployeeList = (props) => {
     } catch (error) {
       console.log(error);
     }
-  }, [authSeq]);
+  }, [authSeq, deleteComplete, insertComplete]);
 
   useEffect(() => {
     authEmployeeApiList();
-  }, [authSeq, pointCompanySeq]);
+  }, [authSeq, pointCompanySeq, deleteComplete, insertComplete]);
 
   return (
     <>
@@ -54,9 +65,12 @@ const AuthEmployeeList = (props) => {
             {resList &&
               resList.map((eList) => (
                 <tr key={eList.employeeSeq} id={eList.employeeSeq}>
-                  <td className="authEmployeeList">
-                    {eList.companyName}&gt;{eList.workplaceName}&gt;
-                    {eList.departmentName}
+                  <td
+                    className="authEmployeeList"
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
+                    {eList.companyName}&gt;{eList.workplaceName}
+                    <DepartmentTree departmentSeq={eList.departmentSeq} />
                   </td>
                   <td>
                     {eList.position}&#47;{eList.duty}

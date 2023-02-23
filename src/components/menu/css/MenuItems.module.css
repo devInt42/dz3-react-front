@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
+
+.menu_item{
+    cursor: pointer;
+}.menu_item:hover{
+    background-color: rgba(191, 208, 242, 0.336);
+}.menu_item:focus{
+    background-color: rgba(161, 189, 244, 0.336);
+}
+
+.menu_item_nouse{
+    color: rgba(126, 130, 130, 0.881);
+}

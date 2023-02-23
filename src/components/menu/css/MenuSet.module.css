@@ -1,4 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
+
+.searchVar{
+  border: 5px solid rgba(214, 221, 227, 0.512);
+  border-radius: 2%;
+  width: 22%;
+  height: 100vh;
+  margin-top: 10px;
+  margin-left: 10px;
+  overflow: scroll;
+}
+.searchVar::-webkit-scrollbar{
+  width: 7px;
+}
+.searchVar::-webkit-scrollbar-thumb {
+  height: 15%; /* 스크롤바의 길이 */
+  background: #c2c5c8be; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
 /* 
 input[type=text]{
 	width:20%;
@@ -35,7 +54,7 @@ button:hover{
 } */
 
 .wrap {
-  margin: 30px;
+  margin: 20px;
   font-family: "Noto Sans KR", sans-serif;
 }
 
@@ -57,7 +76,7 @@ button:hover{
 
 .setTable td {
   border: 1px solid rgb(8, 8, 8);
-  padding: 10px;
+  padding: 8px;
 }
 
 .menu_btn {
@@ -81,19 +100,28 @@ button:hover{
 }
 
 .menu_btn_input[type="text"] {
-  width: 100%;
+  /* width: 100%;
   border: 3px solid #aaa;
   border-radius: 4px;
   outline: none;
   padding: 8px;
   box-sizing: border-box;
   transition: 0.3s;
-  text-align: center;
+  text-align: center; */
+    width: 100%;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: 0.3s;
+    font-size: 15px;
+    text-align: center;
 }
 
 .menu_btn_input[type="text"]:focus {
   border-color: rgb(100, 173, 247);
-  box-shadow: 0 0 10px 0.2px rgb(100, 173, 247);
+  box-shadow: 0 0 5px 0.1px rgb(100, 173, 247);
 }
 
 .menu_select {
@@ -101,5 +129,6 @@ button:hover{
 }
 
 .menu_notice{
-  background-color: rgba(249, 227, 200, 0.829);
+  background-color: rgba(200, 226, 249, 0.576);
+  padding: .8%;
 }

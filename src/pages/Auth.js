@@ -17,6 +17,8 @@ const Auth = () => {
   const [originList, setOriginList] = useState([]);
   const [insertList, setInsertList] = useState(null);
   const [deleteList, setDeleteList] = useState(null);
+  const [insertComplete, setInsertComplete] = useState(false);
+  const [deleteComplete, setDeleteComplete] = useState(false);
 
   const sendAuthSeq = (authSeq) => {
     setAuthSeq(authSeq);
@@ -43,6 +45,7 @@ const Auth = () => {
             headers,
           }
         );
+        setInsertComplete(true);
       } catch (error) {
         console.log(error);
       }
@@ -64,6 +67,7 @@ const Auth = () => {
             headers,
           }
         );
+        setDeleteComplete(true);
       } catch (error) {
         console.log(error);
       }
@@ -145,9 +149,10 @@ const Auth = () => {
   }, [modalRes]);
   useEffect(() => {
     sendInsertRes();
+  }, [insertList]);
+  useEffect(() => {
     sendDeleteRes();
-  }, [insertList, deleteList]);
-
+  }, [deleteList]);
   //현재 권한-사원 리스트 불러오기
   const loadOrigin = useCallback(async () => {
     let send = {
@@ -194,54 +199,65 @@ const Auth = () => {
   }
 
   function getInfo(obj) {
-    // setModalRes(obj);
-    console.log(obj);
+    setModalRes(obj);
     SaveCompanyAlert();
   }
-  return (
-    <Container fluid="true" className="Auth" id="AuthPage">
-      <Row>
-        <Col xs={2} style={{ padding: 0 }}>
-          <AuthLnb
-            sendAuthSeq={sendAuthSeq}
-            sendSelectCompanySeq={sendSelectCompanySeq}
-            sendPointCompanySeq={sendPointCompanySeq}
-          />
-        </Col>
-        <Col xs={10}>
-          <Row
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              marginBottom: "10px",
-            }}
-          >
-            <Button
-              variant="outline-secondary"
-              style={{ width: "5%" }}
-              onClick={openModal}
-            >
-              편집
-            </Button>
 
-            <CommonModal
-              open={modalOpen}
-              close={closeModal}
-              getInfoCaLLback={getInfo}
-              header="사용자 권한 설정"
+  useEffect(() => {
+    setInsertComplete(false);
+  }, [insertComplete]);
+  useEffect(() => {
+    setDeleteComplete(false);
+  }, [deleteComplete]);
+  return (
+    <>
+      <h2>사용자 권한설정</h2>
+      <Container fluid="true" className="Auth" id="AuthPage">
+        <Row>
+          <Col xs={2} style={{ padding: 0 }}>
+            <AuthLnb
+              sendAuthSeq={sendAuthSeq}
+              sendSelectCompanySeq={sendSelectCompanySeq}
+              sendPointCompanySeq={sendPointCompanySeq}
+            />
+          </Col>
+          <Col xs={10}>
+            <Row
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                marginBottom: "10px",
+              }}
+            >
+              <Button
+                variant="outline-secondary"
+                style={{ width: "5%" }}
+                onClick={openModal}
+              >
+                편집
+              </Button>
+
+              <CommonModal
+                open={modalOpen}
+                close={closeModal}
+                getInfoCaLLback={getInfo}
+                header="사용자 권한 설정"
+                authSeq={authSeq}
+                pointCompanySeq={pointCompanySeq}
+                selectCompanySeq={selectCompanySeq}
+              ></CommonModal>
+            </Row>
+            <AuthEmployeeList
               authSeq={authSeq}
               pointCompanySeq={pointCompanySeq}
-              selectCompanySeq={selectCompanySeq}
-            ></CommonModal>
-          </Row>
-          <AuthEmployeeList
-            authSeq={authSeq}
-            pointCompanySeq={pointCompanySeq}
-          />
-        </Col>
-      </Row>
-    </Container>
+              insertComplete={insertComplete}
+              deleteComplete={deleteComplete}
+            />
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

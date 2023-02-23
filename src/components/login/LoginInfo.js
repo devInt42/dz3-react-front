@@ -11,7 +11,7 @@ const LoginInfo = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [sessionRes, setSessionRes] = useState(null);
   const [mainInfo, setMainInfo] = useState(null);
-
+  const [complete, setComplete] = useState(false);
   const baseUrl = "http://localhost:8080";
   const navigate = useNavigate();
 
@@ -22,7 +22,12 @@ const LoginInfo = () => {
   useEffect(() => {
     initCheck();
   }, []);
-
+  useEffect(() => {
+    initCheck();
+  }, [complete]);
+  useEffect(() => {
+    setComplete(false);
+  }, [complete]);
   // 유저인포 부르기
   const callUserInfo = async () => {
     try {
@@ -66,6 +71,10 @@ const LoginInfo = () => {
     navigate("/login");
   };
 
+  // 새로 고침
+  const sendComplete = (e) => {
+    setComplete(e);
+  };
   // 팝오버
   const popover = (
     <Popover id="popover-basic" style={{ maxWidth: "500px" }}>
@@ -74,7 +83,11 @@ const LoginInfo = () => {
         <Logout onClick={() => navLogoutPage()} style={{ cursor: "pointer" }} />
       </Popover.Header>
       <Popover.Body>
-        <PopInfo userInfo={userInfo} sessionRes={sessionRes} />
+        <PopInfo
+          userInfo={userInfo}
+          sessionRes={sessionRes}
+          sendComplete={sendComplete}
+        />
       </Popover.Body>
     </Popover>
   );

@@ -17,6 +17,7 @@ const CommonModal = (props) => {
   const [pointCompanySeq, setPointCompanySeq] = useState();
   const [selectCompanySeq, setSelectCompanySeq] = useState();
   const [checkCount, setCheckCount] = useState([]);
+  const [checkSeq, setCheckSeq] = useState();
 
   //값 받아오기
   useEffect(() => {
@@ -37,7 +38,10 @@ const CommonModal = (props) => {
   };
   const sendCheckLength = (i) => {
     setCheckCount(i);
-    // console.log(checkCount);
+  };
+
+  const sendDeleteELement = (i) => {
+    setCheckSeq(i);
   };
 
   //버튼 누르면 값 이동
@@ -52,6 +56,7 @@ const CommonModal = (props) => {
   //처음에 실행하고 바뀔때만 렌더링
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
   const changeCheckedList = useCallback(() => {}, [checkItem]);
+  const changeDeleteElement = useCallback(() => {}, [setCheckSeq]);
 
   //부서Seq가 바뀔때마다 실행
   useEffect(() => {
@@ -59,11 +64,16 @@ const CommonModal = (props) => {
     changeCheckedList();
   }, [departmentSeq]);
 
+  useEffect(() => {
+    changeDeleteElement();
+  }, [checkSeq]);
+
   //초기화
   const reset = () => {
     setText("");
   };
 
+  // console.log(checkSeq);
   return (
     <div className={open ? "openModal modal" : "modal"}>
       {open ? (
@@ -74,7 +84,8 @@ const CommonModal = (props) => {
               onClick={() => {
                 close();
                 reset();
-              }}>
+              }}
+            >
               X
             </button>
           </header>
@@ -84,7 +95,8 @@ const CommonModal = (props) => {
                 <Col sm={3}>
                   <select
                     className="form-select"
-                    aria-label="Default select example">
+                    aria-label="Default select example"
+                  >
                     <option>사원명</option>
                   </select>
                 </Col>
@@ -95,14 +107,17 @@ const CommonModal = (props) => {
                       className="form-control"
                       placeholder="검색어를 입력하세요."
                       onChange={onChange}
-                      value={text || ""}></input>
+                      value={text || ""}
+                    ></input>
                   </div>
                 </Col>
                 <Col sm={1}>
                   <button
+                    style={{ width: "60px" }}
                     type="button"
                     className="btn btn-secondary"
-                    onClick={sendInputText}>
+                    onClick={sendInputText}
+                  >
                     검색
                   </button>
                 </Col>
@@ -123,18 +138,31 @@ const CommonModal = (props) => {
                       employeeName={employeeName}
                       authSeq={authSeq}
                       pointCompanySeq={pointCompanySeq}
+                      checkSeq={checkSeq}
                     />
                   </Row>
                   <Row>
                     <div>
-                      <span className="CommonBtn">• 선택목록 {checkCount}</span>
-                      <button onClick={SelelctEmplList}>확인 </button>
+                      <span className="CommonBtn">
+                        • 선택목록{" "}
+                        <span style={{ fontWeight: "bolder" }}>
+                          {checkCount}
+                        </span>
+                      </span>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={SelelctEmplList}
+                      >
+                        확인
+                      </button>
                     </div>
                   </Row>
                   <Row sm={4} className="AllChoiceEmp">
                     <AllSelectList
                       checkItem={checkItem}
                       sendCheckLength={sendCheckLength}
+                      sendDeleteELement={sendDeleteELement}
                     />
                   </Row>
                 </Col>

@@ -18,7 +18,6 @@ const WorkplaceGroup = (props) => {
   }, [companySeq]);
 
   //선택된 회사에 사업장 받아오기
-
   const getWorkplace = useCallback(async () => {
     if (companySeq != null) {
       let workplaceData = {

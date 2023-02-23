@@ -37,7 +37,7 @@ body{
 }
 
 .emp_pwd {
-    width: 35%;
+    width: 100%;
     border: 1px solid #aaa;
     border-radius: 4px;
     outline: none;
@@ -71,6 +71,20 @@ body{
 }.menu_btn button:hover {
     background-color: rgba(9, 132, 247, 0.63);
     transition: 0.3s;
+    color: aliceblue;
+    font-weight: bold;
+}
+
+.emp_addr_input{
+    margin-right: 10px;
+    margin-left: 10px;
+    text-align: center;
+    border-radius: 10%;
+    border-color: rgb(73, 137, 231);
+    height: 30px;
+}.emp_addr_input:hover{
+    background-color: rgba(9, 132, 247, 0.63);
+    transition: 0.2s;
     color: aliceblue;
     font-weight: bold;
 }

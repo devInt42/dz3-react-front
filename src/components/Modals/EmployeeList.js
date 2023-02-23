@@ -1,15 +1,14 @@
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import { Row, Col } from "react-bootstrap";
-import { BsTelephonePlus, BsFillFileEarmarkPersonFill } from "react-icons/bs";
-
+import { BsTelephonePlus } from "react-icons/bs";
+import DepartmentTree from "../auth/DepartmentTree";
 const EmployeeList = (props) => {
   const baseUrl = "http://localhost:8080";
   const [companySeq, setCompanySeq] = useState();
   const [departmentSeq, setDepartmentSeq] = useState();
   const [workplaceSeq, setWorkplaceSeq] = useState();
   const [deptList, setDeptList] = useState([]);
-  const [employeeSeq, setEmployeeSeq] = useState();
   const [countEmployee, setCountEmployee] = useState(null);
   const [companyName, setCompanyName] = useState();
   const [employeeName, setEmployeeName] = useState();
@@ -140,10 +139,20 @@ const EmployeeList = (props) => {
               sendPointEmpList(dList);
             }}
           >
-            <Col sm={3} className="image">
-              <div style={{ padding: "25px" }}>
-                <BsFillFileEarmarkPersonFill size="70" />
-              </div>
+            <Col
+              sm={3}
+              className="image"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src={process.env.PUBLIC_URL + "/empimg.png"}
+                style={{ width: "60%" }}
+                alt=""
+              />
             </Col>
             <Col sm={9}>
               <Row className="Searchname">
@@ -162,16 +171,23 @@ const EmployeeList = (props) => {
                   &#40;&nbsp; {dList.employeeId}&nbsp;&#41;
                 </span>
               </Row>
-              <Row className="Searchstage">
-                {dList.companyName} &gt; {dList.workplaceName} &gt;
-                {dList.departmentName}
+              <Row className="Searchstage" style={{ display: "flex" }}>
+                <div style={{ margin: "0", padding: "0", display: "flex" }}>
+                  {dList.companyName}&gt;
+                  {dList.workplaceName}
+                  <DepartmentTree
+                    key={`${dList.companyName}${dList.employeeSeq}`}
+                    departmentSeq={dList.departmentSeq}
+                  />
+                </div>
               </Row>
               <Row className="Searchphnum">
-                <div style={{ width: "35px" }}>
+                <div style={{ width: "35px", margin: "0" }}>
                   <BsTelephonePlus />
                 </div>
                 {dList.employeePh}
-              </Row>
+              </Row>{" "}
+              <br />
             </Col>
             <hr className="Searchhr" />
           </Row>

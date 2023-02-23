@@ -16,6 +16,8 @@ const OrganizationChart = (props) => {
   const [pointList, setPointList] = useState([]);
   const [selectEmp, setSelectEmp] = useState(null);
 
+  // console.log(workplaceSeq);
+
   // emplist에서 선택한 사원의 모든 정보 받아오기
   const sendPointEmpList = (i) => {
     setSelectEmp(i);
@@ -47,12 +49,12 @@ const OrganizationChart = (props) => {
   const changeDeptSeq = useCallback(() => {}, [departmentSeq]);
   const changeWorkSeq = useCallback(() => {}, [workplaceSeq]);
   const changeEmplSeq = useCallback(() => {}, [employeeSeq]);
-  const changeComSeq = useCallback(() => {}, [departmentSeq]);
 
   useEffect(() => {
     setWorkplaceSeq(pointList.workplaceSeq);
     setDepartmentSeq(pointList.departmentSeq);
   }, [pointList]);
+
   useEffect(() => {
     changeDeptSeq();
   }, [departmentSeq]);
@@ -64,10 +66,6 @@ const OrganizationChart = (props) => {
   useEffect(() => {
     changeEmplSeq();
   }, [employeeSeq]);
-
-  useEffect(() => {
-    changeComSeq();
-  }, [departmentSeq]);
 
   return (
     <div className={open ? "openModal modal" : "modal"}>
@@ -106,6 +104,7 @@ const OrganizationChart = (props) => {
                   </Col>
                   <Col sm={1}>
                     <button
+                      style={{ width: "90px" }}
                       className="btn btn-secondary"
                       onClick={sendInputText}>
                       검색

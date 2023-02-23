@@ -1,14 +1,22 @@
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function DeleteMenuAlert(props) {
   const menuSequence = props.menuSeq;
+  const [deleteMenu, setDeleteMenu] = useState([]);
+  
+  useEffect(()=> {
+    axios.get("http://localhost:8080/menu/menulist/selectmenu/" + menuSequence)
+    .then((response) => setDeleteMenu(response.data[0]))
+    .catch((error) => console.log(error))
+  }, [props.menuSeq]);
+
   const MySwal = withReactContent(Swal);
   MySwal.fire({
     title: "삭제하시겠습니까?",
-    text: "삭제할 메뉴 : " + props.menuName,
+    text: "삭제할 메뉴 : " + deleteMenu.menuName,
     icon: "info",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -22,7 +30,6 @@ function DeleteMenuAlert(props) {
         .get("http://localhost:8080/menu/menulist/" + menuSequence)
         .then((response) => {
           if (response.data == 0) {
-            console.log(response.data);
             props.deleteMenu(menuSequence);
             Swal.fire("삭제가 완료되었습니다.", "", "success", "#3085d6");
           } else {
@@ -32,7 +39,6 @@ function DeleteMenuAlert(props) {
               "error",
               "#3085d6"
             );
-            console.log(response.data);
           }
         })
         .catch((error) => console.log(error));
