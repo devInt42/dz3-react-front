@@ -89,7 +89,7 @@ function EmployeeSet() {
   };
 
   // 검색결과에 해당하는 사원 불러오기
-  useEffect(() => { }, [searchRes]);
+  useEffect(() => {}, [searchRes]);
 
   // 입사처리
   const EmpInsertForm = () => {
@@ -524,23 +524,40 @@ function EmployeeSet() {
                 >
                   <Tab label="기본정보" {...a11yProps(0)} />
                   <Tab label="조직정보" {...a11yProps(1)} />
-                  {
-                    !insertFlag && <Button
-                      variant="outline-success"
-                      onClick={() => EmpInsertForm()}
-                      style={{}}
+                  <div
+                    style={{
+                      width: "78%",
+                      display: "flex",
+                      flexDirection: "row",
+                      marginRight: "10px",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    {!insertFlag && (
+                      <Button
+                        variant="outline-success"
+                        onClick={() => EmpInsertForm()}
+                        style={{ marginRight: "10px" }}
+                      >
+                        사원 추가
+                      </Button>
+                    )}{" "}
+                    {employeeSeq && !insertFlag && (
+                      <Button
+                        variant="outline-danger "
+                        onClick={() => delEmp()}
+                        style={{ marginRight: "10px" }}
+                      >
+                        삭제
+                      </Button>
+                    )}
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => AllCheck()}
                     >
-                      사원 추가
-                    </Button>}
-                  <Button variant="outline-primary" onClick={() => AllCheck()}>
-                    저장
-                  </Button>
-                  {
-                    employeeSeq && !insertFlag && 
-                    <Button variant="outline-danger " onClick={() => delEmp()}>
-                      삭제
+                      저장
                     </Button>
-                  }
+                  </div>
                 </Tabs>
               </Box>
 
