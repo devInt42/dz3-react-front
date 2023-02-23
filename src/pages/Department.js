@@ -4,6 +4,7 @@ import Alert from "react-bootstrap/Alert";
 import "../components/department/css/Department.css";
 import { IoInformationCircleOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 import DepartmentNotSelect from "../components/department/DepartmentNotSelect";
 import DepartmentSearch from "../components/department/DepartmentSearch";
 import SearchResult from "../components/department/SearchResult";
@@ -81,14 +82,15 @@ const Department = () => {
         {workplaceSeq !== 0 && !search && !detailFlag && (
           <div id="companynotselectform">
             <div>
-              <button
+              <Button
+                variant="outline-success"
                 onClick={() => {
                   setDetailFlag(true);
                   setInsertForm(true);
                 }}
               >
                 부서 추가
-              </button>
+              </Button>
             </div>
           </div>
         )}
