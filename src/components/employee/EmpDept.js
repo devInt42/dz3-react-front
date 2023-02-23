@@ -577,7 +577,7 @@ function EmpDept(props) {
                     <tr>
                       <th>주소</th>
                       <td colSpan={3}>
-                        {`${group.departmentZipCode} | ${group.departmentLoc}`}
+                        {group.departmentZipCode ? `${group.departmentZipCode} | ${group.departmentLoc}` : "-"}
                       </td>
                     </tr>
                   </tbody>
