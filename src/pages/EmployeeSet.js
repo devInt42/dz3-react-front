@@ -42,6 +42,7 @@ function EmployeeSet() {
       .then((res) => setCompanyList(res.data))
       .catch((error) => console.log(error));
   }, []);
+
   useEffect(() => {
     axios
       .get(baseUrl + "/employee/emplist/" + employeeSeq)
@@ -570,8 +571,8 @@ function EmployeeSet() {
                   setNotRequire={setNotRequire}
                   selectDelete={selectDelete}
                   setDeleteFlag={setDeleteFlag}
-                  insertFlag = {insertFlag}
-                  mainSeqsFlag = {mainSeqsFlag}
+                  insertFlag={insertFlag}
+                  mainSeqsFlag={mainSeqsFlag}
                 />
               </TabPanel>
             </Box>

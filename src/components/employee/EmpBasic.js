@@ -50,6 +50,9 @@ function EmpBasic(props) {
   const [firstId, setFirstId] = useState("");
   const [FirstMail, setFirstMail] = useState("");
   const [zipcodeIsOpen, setZipcodeIsOpen] = useState();
+
+  useEffect(() => {}, [props.data]);
+  useEffect(() => {}, [pmailId]);
   // employee값 불러와서 세팅
   useEffect(() => {
     if (props.data) {

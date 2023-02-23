@@ -247,7 +247,7 @@ const AuthMenu = (props) => {
           defaultCollapseIcon={<FolderOpen />}
           defaultExpandIcon={<Folder />}
           sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-          defaultExpanded={["1", "2", "3", "4", "5", "6"]}
+          defaultExpanded={["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]}
         >
           {menuList &&
             menuList.map((menuItem) => (
