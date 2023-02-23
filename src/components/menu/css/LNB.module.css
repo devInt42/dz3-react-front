@@ -18,6 +18,7 @@
     color: aliceblue;
     opacity: 0.5;
     cursor: pointer;
+
 }.lnb_select:hover{
     opacity: 1;
     background-color: rgba(69, 72, 75, 0.63);
