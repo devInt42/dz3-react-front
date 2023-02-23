@@ -11,15 +11,7 @@ import Switch from "@mui/material/Switch";
 
 function EmpBasic(props) {
   const baseUrl = "http://localhost:8080";
-  const [empSelected, setEmpSelected] = useState([]);
-  useEffect(() => {
-      setPmailId('');
-      setPmailDomain('');
-      setAddrCode('');
-      setFirstAddr('');
-      setDetailedAddr('');
-  }, [props.employeeSeq]);
-
+  
   const [lang, setLang] = useState([]);
   useEffect(() => {
     axios
@@ -35,12 +27,29 @@ function EmpBasic(props) {
   const [pmailId, setPmailId] = useState("");
   const [pmailDomain, setPmailDomain] = useState("");
   const [zipcodeIsOpen, setZipcodeIsOpen] = useState(false);
+
   useEffect(() => {
-    updateObject({ employeeAddr: `${addrCode}/${firstAddr}/${detailedAddr}` });
-  }, [addrCode, firstAddr, detailedAddr]);
+    setPmailId('');
+    setDetailedAddr('');
+  }, [props.employeeSeq])
   useEffect(() => {
-    updateObject({ employeePmail: `${pmailId}@${pmailDomain}` });
-  }, [pmailId, pmailDomain]);
+    updateObject({employeeAddr: `${addrCode}/${addr(1)}/${addr(2)}`})
+  },[addrCode])
+
+  useEffect(() => {
+    updateObject({employeeAddr: `${addr(0)}/${firstAddr}/${addr(2)}`})
+  },[firstAddr])
+
+  useEffect(() => {
+    updateObject({employeeAddr: `${addr(0)}/${addr(1)}/${detailedAddr}`});
+  }, [detailedAddr])
+
+  useEffect(() => {
+    updateObject({employeePmail: `${pmailId}@${mailId(1)}`})
+  }, [pmailId])
+  useEffect(() => {
+    updateObject({employeePmail: `${mailId(0)}@${pmailDomain}`})
+  }, [pmailDomain])
   // 객체 업데이트
   const updateObject = (obj) => {
     props.setData({
@@ -84,12 +93,16 @@ function EmpBasic(props) {
   const addr = (idx) => {
     if (props.data.employeeAddr != "" && props.data.employeeAddr != undefined) {
       let temp = props.data.employeeAddr.split("/");
+      if(temp[idx] == undefined) 
+      return "";
       return temp[idx];
     }
   }
-  const mailId = (idx) => {
+  const mailId =  (idx) => {
     if (props.data.employeePmail != "" && props.data.employeeAddr != undefined) {
-      let temp = props.data.employeePmail.split("@");
+      let temp =  props.data.employeePmail.split("@");
+      if(temp[idx] == undefined) 
+      return "";
       return temp[idx];
     }
   }
@@ -333,7 +346,7 @@ function EmpBasic(props) {
                 className={style.emp_input}
                 style={{ width: "45%" }}
                 // value={employeePmail || ""}
-                value={mailId(0) || ""}
+                value={pmailId || mailId(0)}
                 onChange={(e) => {
                   setPmailId(e.target.value);
                 }}
@@ -395,9 +408,9 @@ function EmpBasic(props) {
                 style={{ width: "20%" }}
                 value={addr(0) || ""}
                 onChange={(e) => {
-                  setAddrCode(e.target.value);
+                  updateObject({employeeAddr: `${addr(0)}${e.target.value}/${addr(1)}/${addr(2)}`});
                 }}
-                readOnly
+                
               />
               <input
                 type="text"
@@ -405,9 +418,9 @@ function EmpBasic(props) {
                 style={{ width: "50%" }}
                 value={addr(1) || ""}
                 onChange={(e) => {
-                  setFirstAddr(e.target.value);
+                  updateObject({employeeAddr: `${addr(0)}/${addr(1)}${e.target.value}/${addr(2)}`});
                 }}
-                readOnly
+                
               />
               <button
                 className={style.emp_addr_input}
@@ -429,7 +442,7 @@ function EmpBasic(props) {
               <input
                 type="text"
                 className={style.emp_input}
-                value={addr(2) || ""}
+                value={detailedAddr || addr(2)}
                 onChange={(e) => {
                   setDetailedAddr(e.target.value);
                 }}
@@ -444,6 +457,7 @@ function EmpBasic(props) {
                 type="date"
                 value={props.data.employeeJoin || ""}
                 onChange={(e) => {
+                  
                   updateObject({ employeeJoin: e.target.value });
                 }}
                 style={{ backgroundColor: "rgba(241, 199, 199, 0.328)" }}
@@ -470,14 +484,14 @@ function EmpBasic(props) {
               <Switch
                 {...label}
                 size="small"
-                checked={useYN || false}
-                onChange={() => {
-                  setUseYN(!useYN);
+                checked={props.data.useYN == "Y"}
+                onChange={(e) => {
+                  updateObject({useYN: props.data.useYN == "Y" ? "N" :"Y"})
                 }}
                 inputProps={{ "aria-label": "controlled" }}
               />
               &nbsp;
-              {useYN ? (
+              {props.data.useYN == "Y" ? (
                 <span style={{ fontSize: "12px", fontWeight: "bold" }}>
                   사용
                 </span>
