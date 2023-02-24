@@ -342,10 +342,6 @@ const DepartmentDetail = (props) => {
                 </div>
                 {notRequire}
                 <hr />
-                <div id="department-detail-menu-form">
-                    <div className="department-detail-menu department-detail-basicmenu">기본 정보</div>
-                    <div className="department-detail-menu">부서원 정보</div>
-                </div>
                 <table id="department-table">
                     <thead></thead>
                     <tbody>
