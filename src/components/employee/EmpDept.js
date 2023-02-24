@@ -70,6 +70,7 @@ function EmpDept(props) {
     });
   }, [props.data]);
 
+  
 
   useEffect(() => {
     setMainSeqs([]);
