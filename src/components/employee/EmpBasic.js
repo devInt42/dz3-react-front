@@ -13,13 +13,6 @@ function EmpBasic(props) {
   const baseUrl = "http://localhost:8080";
 
   const [lang, setLang] = useState([]);
-  useEffect(() => {
-    axios
-      .get(baseUrl + "/employee/emplang")
-      .then((response) => setLang(response.data))
-      .catch((error) => console.log(error));
-  }, []);
-
   const [firstAddr, setFirstAddr] = useState("");
   const [addrCode, setAddrCode] = useState("");
   const [detailedAddr, setDetailedAddr] = useState("");
@@ -29,11 +22,25 @@ function EmpBasic(props) {
   const [zipcodeIsOpen, setZipcodeIsOpen] = useState(false);
 
   useEffect(() => {
+    axios
+      .get(baseUrl + "/employee/emplang")
+      .then((response) => setLang(response.data))
+      .catch((error) => console.log(error));
+  }, []);
+
+  useEffect(() => {
     setAddrCode("");
     setFirstAddr("");
     setPmailId("");
     setDetailedAddr("");
   }, [props.employeeSeq]);
+  useEffect(() => {
+      setAddrCode("");
+      setFirstAddr("");
+      setPmailId("");
+      setDetailedAddr("");
+      console.log("비워")
+  }, [props.insertFlag])
   useEffect(() => {
     updateObject({ employeeAddr: `${addrCode}/` });
   }, [addrCode]);
@@ -350,7 +357,7 @@ function EmpBasic(props) {
                 className={style.emp_input}
                 style={{ width: "45%" }}
                 // value={employeePmail || ""}
-                value={pmailId || mailId(0)}
+                value={pmailId || mailId(0) || ""}
                 onChange={(e) => {
                   setPmailId(e.target.value);
                 }}
@@ -410,7 +417,7 @@ function EmpBasic(props) {
                 type="text"
                 className={style.emp_input}
                 style={{ width: "20%" }}
-                value={addrCode || addr(0)}
+                value={addrCode || addr(0) || ""}
                 onChange={(e) => {
                   setAddrCode(e.target.value);
                 }}
@@ -419,8 +426,9 @@ function EmpBasic(props) {
                 type="text"
                 className={style.emp_input}
                 style={{ width: "50%" }}
-                value={firstAddr || addr(1)}
+                value={firstAddr || addr(1) || ""}
                 onChange={(e) => {
+                  console.log(addr(1));
                   setFirstAddr(e.target.value);
                 }}
               />
@@ -444,7 +452,7 @@ function EmpBasic(props) {
               <input
                 type="text"
                 className={style.emp_input}
-                value={detailedAddr || addr(2)}
+                value={detailedAddr || addr(2) || ""}
                 onChange={(e) => {
                   setDetailedAddr(e.target.value);
                 }}

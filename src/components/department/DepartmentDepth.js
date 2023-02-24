@@ -11,6 +11,9 @@ const DepartmentDepth = (props) => {
     const [count, setCount] = useState(0);
     const [index, setIndex] = useState([]);
     useEffect(() => {
+        console.log(props.departmentFocus);
+    },[props.departmentFocus])
+    useEffect(() => {
         setDepth(props.depth + 1);
         setSeq(props.seq);
     }, [props])
