@@ -445,6 +445,7 @@ function EmployeeSet() {
   const Update = async () => {
     const data = { ...basicData, groupData };
     const empData = { ...data, groupFirstData };
+    console.log(empData);
     await axios.post(`${baseUrl}/department-employee/addupdateemp`, empData);
   };
   const selectDelete = async (obj) => {

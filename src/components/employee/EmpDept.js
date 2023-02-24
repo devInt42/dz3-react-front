@@ -150,7 +150,7 @@ function EmpDept(props) {
         seq.companySeq == companySeq &&
         (copyGroupList[key] = {
           ...copyGroupList[key],
-          ...{employeeCode: employeeCode}
+          ...{employeeCode: employeeCode[0]}
         })
       })
       props.setData(copyGroupList);
