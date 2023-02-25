@@ -16,7 +16,6 @@ function EmpBasic(props) {
   const [firstAddr, setFirstAddr] = useState("");
   const [addrCode, setAddrCode] = useState("");
   const [detailedAddr, setDetailedAddr] = useState("");
-  const [useYN, setUseYN] = useState(false);
   const [pmailId, setPmailId] = useState("");
   const [pmailDomain, setPmailDomain] = useState("");
   const [zipcodeIsOpen, setZipcodeIsOpen] = useState(false);
@@ -69,15 +68,6 @@ function EmpBasic(props) {
       ...obj,
     });
   };
-  // 계정 사용 미사용 여부
-  useEffect(() => {
-    if (useYN) {
-      updateObject({ useYN: "Y" });
-    } else {
-      updateObject({ useYN: "N" });
-    }
-  }, [useYN]);
-
   const label = { inputProps: { "aria-label": "Size switch demo" } };
 
   const idCheck = async (id) => {
@@ -498,7 +488,7 @@ function EmpBasic(props) {
                 {...label}
                 size="small"
                 checked={props.data.useYN == "Y"}
-                onChange={(e) => {
+                onChange={() => {
                   updateObject({ useYN: props.data.useYN == "Y" ? "N" : "Y" });
                 }}
                 inputProps={{ "aria-label": "controlled" }}
