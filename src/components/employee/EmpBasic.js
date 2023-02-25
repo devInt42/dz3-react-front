@@ -46,8 +46,7 @@ function EmpBasic(props) {
   }, [addrCode]);
 
   useEffect(() => {
-
-    updateObject({ employeeAddr: `${addr(0)}/${firstAddr}/` });
+    updateObject({ employeeAddr: `${addrCode}/${firstAddr}/` });
   }, [firstAddr]);
 
   useEffect(() => {
@@ -60,6 +59,10 @@ function EmpBasic(props) {
   useEffect(() => {
     updateObject({ employeePmail: `${mailId(0)}@${pmailDomain}` });
   }, [pmailDomain]);
+
+  useEffect(() => {
+    console.log(props.data);
+  }, [props.data])
   // 객체 업데이트
   const updateObject = (obj) => {
     props.setData({
@@ -428,7 +431,6 @@ function EmpBasic(props) {
                 style={{ width: "50%" }}
                 value={firstAddr || addr(1) || ""}
                 onChange={(e) => {
-                  console.log(addr(1));
                   setFirstAddr(e.target.value);
                 }}
               />
