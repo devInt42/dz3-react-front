@@ -347,7 +347,7 @@ function EmpDept(props) {
                                   workplaceName: "",
                                   departmentName: "",
                                   mainCompanyYN: "N",
-                                  mainDepartmentYN: "",
+                                  mainDepartmentYN: "N",
                                   employeeCode: "",
                                 });
                           }}
