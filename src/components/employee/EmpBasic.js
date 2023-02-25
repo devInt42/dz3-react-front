@@ -102,7 +102,8 @@ function EmpBasic(props) {
   const mailId = (idx) => {
     if (
       props.data.employeePmail != "" &&
-      props.data.employeeAddr != undefined
+      props.data.employeePmail != undefined &&
+      props.data.employeePmail != "undefined@"
     ) {
       let temp = props.data.employeePmail.split("@");
       if (temp[idx] == undefined) return "";
@@ -352,7 +353,7 @@ function EmpBasic(props) {
                 className={style.emp_input}
                 style={{ width: "45%" }}
                 // value={employeePmail || ""}
-                value={pmailId || mailId(0) || ""}
+                value={pmailId || mailId(0) ||  ""}
                 onChange={(e) => {
                   setPmailId(e.target.value);
                 }}
