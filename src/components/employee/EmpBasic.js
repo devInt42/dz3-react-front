@@ -39,7 +39,6 @@ function EmpBasic(props) {
       setFirstAddr("");
       setPmailId("");
       setDetailedAddr("");
-      console.log("비워")
   }, [props.insertFlag])
   useEffect(() => {
     updateObject({ employeeAddr: `${addrCode}/` });
@@ -120,6 +119,9 @@ function EmpBasic(props) {
       return temp[idx];
     }
   };
+  useEffect(() => {
+    console.log(props.data)
+  }, [props.data])
   return props.data ? (
     <div>
       <h5 style={{ display: "inline" }}>사원 상세</h5>
@@ -405,9 +407,9 @@ function EmpBasic(props) {
               <input
                 type="text"
                 className={style.emp_input}
-                value={props.data.employeeHcall || ""}
+                value={props.data.employeeHCall || ""}
                 onChange={(e) => {
-                  updateObject({ employeeHcall: PhoneNumber(e.target.value) });
+                  updateObject({ employeeHCall: PhoneNumber(e.target.value) });
                 }}
                 maxLength={13}
               />

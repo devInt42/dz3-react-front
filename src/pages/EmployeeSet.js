@@ -49,6 +49,7 @@ function EmployeeSet() {
       .then((response) => {
         setBasicData(response.data[0]);
         setBasicFirstData(response.data[0]);
+        console.log(response.data[0]);
       })
       .catch((error) => console.log(error));
 
@@ -113,7 +114,7 @@ function EmployeeSet() {
       useYN: "Y",
       employeeGender: "",
       employeeLanguage: "",
-      employeeHcall: "",
+      employeeHCall: "",
       approvalPwd: "",
       insertData: "Y",
     });
@@ -134,7 +135,7 @@ function EmployeeSet() {
       useYN: "Y",
       employeeGender: "",
       employeeLanguage: "",
-      employeeHcall: "",
+      employeeHCall: "",
       approvalPwd: "",
       insertData: "Y",
     });
