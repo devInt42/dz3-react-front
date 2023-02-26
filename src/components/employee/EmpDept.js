@@ -273,6 +273,15 @@ function EmpDept(props) {
                             idx={idx}
                           />
                         )
+                      : group.mainCompanyYN == "Y" &&
+                        group.mainDepartmentYN == "Y"
+                      ? props.setNotRequire(
+                          <EmpAlert
+                            title="주회사의 주부서는 삭제할 수 없습니다."
+                            icon="error"
+                            successButton="확인"
+                          />
+                        )
                       : props.setNotRequire(
                           <EmpAlert
                             title="제거하시겠습니까?"
@@ -334,7 +343,7 @@ function EmpDept(props) {
                                   workplaceName: "",
                                   departmentName: "",
                                   mainCompanyYN: "N",
-                                  mainDepartmentYN: "",
+                                  mainDepartmentYN: "N",
                                   employeeCode: "",
                                 });
                           }}

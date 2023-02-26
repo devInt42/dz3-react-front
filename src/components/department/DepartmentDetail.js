@@ -615,46 +615,201 @@ const DepartmentDetail = (props) => {
                     readOnly
                   />
                 </div>
-                <div className="company-table-td-address-input">
-                  <Form.Control
-                    className="department-input"
-                    placeholder="상세 주소를 입력해 주십시오."
-                    onChange={(e) => {
-                      setDetailAddr(e.target.value);
-                    }}
-                    value={detailAddr || ""}
-                    onBlur={() =>
-                      setDepartmentLoc(address + " / " + detailAddr)
-                    }
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th className="department-table-title">사용여부</th>
-            <td className="department-table-content">
-              <div className="department-table-content-flex">
-                <Form.Check
-                  className="department-input"
-                  type="switch"
-                  id="custom-switch"
-                  onChange={() => {
-                    useYN === "N" ? setUseYN("Y") : setUseYN("N");
-                  }}
-                  checked={useYN == "Y" ? true : false}
-                />
-                {useYN == "Y" ? <b>사 용</b> : <b>미사용</b>}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
-  function codeNumber(value) {
-    if (!value) {
-      return "";
+                {notRequire}
+                <hr />
+                <table id="department-table">
+                    <thead></thead>
+                    <tbody>
+                        <tr>
+                            <th className="department-table-title">회사</th>
+                            <td className="department-table-content">{cWData?.companyName}</td>
+                        </tr>
+                        <tr>
+                            <th className="department-table-title">사업장</th>
+                            <td className="department-table-content">{cWData?.workplaceName}</td>
+                        </tr>
+                        <tr>
+                            <th className="department-table-title">상위 부서</th>
+                            <td className="department-table-content">
+                                <div className="content-have-button">
+                                    <Form.Control
+                                        style={{ zIndex: "0" }}
+                                        onChange={e => setDepartmentName(e.target.value)}
+                                        value={departmentParentName || "-"}
+                                        readOnly
+                                    />
+                                    <DepartmentParentModal setDepartmentParentName={setDepartmentParentName}
+                                        workplaceSeq={props.workplaceSeq} companyName={cWData.companyName}
+                                        workplaceName={cWData.workplaceName}
+                                        setDepartmentParentSeq={setDepartmentParentSeq}
+                                        setDepartmentParentDepth={setDepartmentParentDepth}
+                                    />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th className="department-table-title">부서코드</th>
+                            <td className="department-table-content"><Form.Control
+                                placeholder="부서 코드를 입력해주세요"
+                                style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
+                                onChange={e => setDepartmentCode(codeNumber(e.target.value))}
+                                value={departmentCode || ''}
+                                isValid={`${departmentCode}`.length < 1 || firstCode === departmentCode ?
+                                    false : codeDupliCheck === 1 ? false : true}
+                                isInvalid={`${departmentCode}`.length < 1 || firstCode === departmentCode ?
+                                    false : codeDupliCheck === 1 ? true : false}
+                            /></td>
+                        </tr>
+                        <tr>
+                            <th className="department-table-title">부서명</th>
+                            <td colSpan={3} className="department-table-content"><Form.Control
+                                placeholder="부서 이름을 입력해주세요"
+                                style={{ zIndex: "0", backgroundColor: "#ffe9e9" }}
+                                onChange={e => setDepartmentName(e.target.value)}
+                                value={departmentName || ''}
+                                isValid={`${departmentName}`.length < 1 || firstName === departmentName ?
+                                    false : nameDupliCheck === 1 ? false : true}
+                                isInvalid={`${departmentName}`.length < 1 || firstName === departmentName ?
+                                    false : nameDupliCheck === 1 ? true : false}
+                            /></td>
+                        </tr>
+                        <tr>
+                            <td className="department-table-title">전화 번호</td>
+                            <td className="department-table-content">
+                                <div className="company-table-td-twocontent">
+                                    <select name="area-code" className="company-select-option"
+                                        onChange={(e) => {
+                                            setDepartmentCall("");
+                                            setAreaCode(e.target.value)
+                                        }}>
+                                        <option value="">직접 입력</option>
+                                        <option value="010-">010</option>
+                                        <option value="02-">02</option>
+                                        <option value="031-">031</option>
+                                        <option value="032-">032</option>
+                                        <option value="033-">033</option>
+                                        <option value="041-">041</option>
+                                        <option value="042-">042</option>
+                                        <option value="043-">043</option>
+                                        <option value="044-">044</option>
+                                        <option value="051-">051</option>
+                                        <option value="052-">052</option>
+                                        <option value="053-">053</option>
+                                        <option value="054-">054</option>
+                                        <option value="055-">055</option>
+                                        <option value="061-">061</option>
+                                        <option value="062-">062</option>
+                                        <option value="063-">063</option>
+                                        <option value="064-">064</option>
+                                    </select>
+                                    <Form.Control
+                                        placeholder="대표 전화를 입력해 주십시오."
+                                        onChange={e => { setDepartmentCall(CallNumber(areaCode + e.target.value)) }}
+                                        value={`${departmentCall}`.substring(areaCode.length) || ""}
+                                        isValid={callStyle}
+                                        isInvalid={`${departmentCall}`.length < 1 ? '' : callStyle ? false : true}
+                                        style={{ zIndex: 0 }}
+                                    />
+                                </div>
+                            </td>
+                            <td className="department-table-title">대표 팩스</td>
+                            <td className="department-table-content"><Form.Control
+                                placeholder="대표 팩스를 입력해 주십시오."
+                                onChange={e => { setDepartmentFax(FaxNumber(e.target.value)); }}
+                                value={departmentFax || ""}
+                                isValid={faxStyle}
+                                isInvalid={`${departmentFax}`.length < 1 ? '' : faxStyle ? false : true}
+                                style={{ zIndex: 0 }}
+                            />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th className="department-table-title">부서주소</th>
+                            <td colSpan={3} className="company-table-content">
+                                <div className="company-table-td-twocontent">
+                                    <Form.Control
+                                        value={departmentZipCode || ""}
+                                        onFocus={() => {
+                                            `${departmentZipCode}`.length > 0 ? setZipcodeIsOpen(false) : setZipcodeIsOpen(true);
+                                        }}
+                                        isValid={(checked > 0 && `${departmentZipCode}`.length > 0 && departmentZipCode != null && departmentZipCode != undefined)
+                                         ? true : false}
+                                        isInvalid={checked < 1 ? false : `${departmentZipCode}`.length > 0 ? false : true}
+                                        style= {{zIndex:0, backgroundColor:"#ffe9e9", width: "200px"}}  
+                                    />
+                                    <button className="addressnumbtn" type="button" onClick={() => setZipcodeIsOpen(true)}>우편번호 검색
+                                    </button>
+                                </div>
+
+                                <div id="zippopupdom">
+                                    {
+                                        zipcodeIsOpen && (
+                                            <ZippopupDom>
+                                                <ZippopupPostCode
+                                                    onClose={setZipcodeIsOpen}
+                                                    setDepartmentZipCode={setDepartmentZipCode}
+                                                    setAddress={setAddress}
+                                                />
+                                            </ZippopupDom>
+                                        )
+                                    }
+                                </div>
+                                <div className="company-table-td-address">
+                                    <div className="company-table-td-address-input">
+
+                                        <Form.Control
+                                            className = "department-input"
+                                            onFocus={() =>
+                                                address.length === 0 && setZipcodeIsOpen(true)
+                                            }
+                                            value={address || ""}
+                                            onChange={(e) => { setAddress(e.target.value); setDetailAddr("")}}
+                                            style= {{zIndex:0, backgroundColor:"#ffe9e9"}}
+                                            isValid={checked > 0 ? true : false}
+                                            isInvalid={checked < 1 ? false : address.length > 0 ? false : true}
+                                            readOnly
+                                        />
+                                    </div>
+                                    <div className="company-table-td-address-input">
+                                        <Form.Control
+                                            className = "department-input"
+                                            placeholder="상세 주소를 입력해 주십시오."
+                                            onChange={e => { setDetailAddr(e.target.value) }}
+                                            value={detailAddr || ""}
+                                            onBlur = {() => setDepartmentLoc(address + " / " + detailAddr)}
+                                        />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th className="department-table-title">사용여부</th>
+                            <td className="department-table-content">
+                                <div className="department-table-content-flex">
+                                    <Form.Check
+                                        className = "department-input"
+                                        type="switch"
+                                        id="custom-switch"
+                                        onChange={() => { useYN === "N" ? setUseYN("Y") : setUseYN("N"); }}
+                                        checked={useYN == "Y" ? true : false}
+                                    />
+                                    {useYN == "Y" ? (<b>사    용</b>) : (<b>미사용</b>)}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+    )
+    function codeNumber(value) {
+        if (!value) { return ""; }
+
+        value = value.replace(/[^0-9]/g, "");
+        let result = "";
+        result = value.substring(0, 4);
+        return result;
     }
 
     value = value.replace(/[^0-9]/g, "");

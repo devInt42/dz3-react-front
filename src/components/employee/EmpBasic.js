@@ -16,7 +16,6 @@ function EmpBasic(props) {
   const [firstAddr, setFirstAddr] = useState("");
   const [addrCode, setAddrCode] = useState("");
   const [detailedAddr, setDetailedAddr] = useState("");
-  const [useYN, setUseYN] = useState(false);
   const [pmailId, setPmailId] = useState("");
   const [pmailDomain, setPmailDomain] = useState("");
   const [zipcodeIsOpen, setZipcodeIsOpen] = useState(false);
@@ -39,15 +38,13 @@ function EmpBasic(props) {
       setFirstAddr("");
       setPmailId("");
       setDetailedAddr("");
-      console.log("비워")
   }, [props.insertFlag])
   useEffect(() => {
     updateObject({ employeeAddr: `${addrCode}/` });
   }, [addrCode]);
 
   useEffect(() => {
-
-    updateObject({ employeeAddr: `${addr(0)}/${firstAddr}/` });
+    updateObject({ employeeAddr: `${addrCode}/${firstAddr}/` });
   }, [firstAddr]);
 
   useEffect(() => {
@@ -60,6 +57,10 @@ function EmpBasic(props) {
   useEffect(() => {
     updateObject({ employeePmail: `${mailId(0)}@${pmailDomain}` });
   }, [pmailDomain]);
+
+  useEffect(() => {
+    console.log(props.data);
+  }, [props.data])
   // 객체 업데이트
   const updateObject = (obj) => {
     props.setData({
@@ -67,15 +68,6 @@ function EmpBasic(props) {
       ...obj,
     });
   };
-  // 계정 사용 미사용 여부
-  useEffect(() => {
-    if (useYN) {
-      updateObject({ useYN: "Y" });
-    } else {
-      updateObject({ useYN: "N" });
-    }
-  }, [useYN]);
-
   const label = { inputProps: { "aria-label": "Size switch demo" } };
 
   const idCheck = async (id) => {
@@ -110,13 +102,17 @@ function EmpBasic(props) {
   const mailId = (idx) => {
     if (
       props.data.employeePmail != "" &&
-      props.data.employeeAddr != undefined
+      props.data.employeePmail != undefined &&
+      props.data.employeePmail != "undefined@"
     ) {
       let temp = props.data.employeePmail.split("@");
       if (temp[idx] == undefined) return "";
       return temp[idx];
     }
   };
+  useEffect(() => {
+    console.log(props.data)
+  }, [props.data])
   return props.data ? (
     <div>
       <h5 style={{ display: "inline" }}>사원 상세</h5>
@@ -357,7 +353,7 @@ function EmpBasic(props) {
                 className={style.emp_input}
                 style={{ width: "45%" }}
                 // value={employeePmail || ""}
-                value={pmailId || mailId(0) || ""}
+                value={pmailId || mailId(0) ||  ""}
                 onChange={(e) => {
                   setPmailId(e.target.value);
                 }}
@@ -402,9 +398,9 @@ function EmpBasic(props) {
               <input
                 type="text"
                 className={style.emp_input}
-                value={props.data.employeeHcall || ""}
+                value={props.data.employeeHCall || ""}
                 onChange={(e) => {
-                  updateObject({ employeeHcall: PhoneNumber(e.target.value) });
+                  updateObject({ employeeHCall: PhoneNumber(e.target.value) });
                 }}
                 maxLength={13}
               />
@@ -428,7 +424,6 @@ function EmpBasic(props) {
                 style={{ width: "50%" }}
                 value={firstAddr || addr(1) || ""}
                 onChange={(e) => {
-                  console.log(addr(1));
                   setFirstAddr(e.target.value);
                 }}
               />
@@ -494,7 +489,7 @@ function EmpBasic(props) {
                 {...label}
                 size="small"
                 checked={props.data.useYN == "Y"}
-                onChange={(e) => {
+                onChange={() => {
                   updateObject({ useYN: props.data.useYN == "Y" ? "N" : "Y" });
                 }}
                 inputProps={{ "aria-label": "controlled" }}
