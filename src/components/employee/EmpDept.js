@@ -61,28 +61,7 @@ function EmpDept(props) {
     props.data.map((data) => {
       data.mainCompanyYN == "Y" && setMainCompanySeq(data.companySeq);
     });
-    props.data.map((data) => {
-      data.departmentYN == "Y" &&
-        setMainSeqs(mainSeqs, {
-          companySeq: data.companySeq,
-          department: data.departmentSeq,
-        });
-    });
   }, [props.data]);
-
-  useEffect(() => {
-    setMainSeqs([]);
-    setMainCompanySeq(0);
-  }, [props.mainSeqsFlag]);
-  //주회사 주부서 구분
-  useEffect(() => {
-    let temp = [];
-    props.data.map((data) => {
-      data.mainCompanyYN == "Y" && setMainCompanySeq(data.companySeq);
-    });
-    setMainSeqs(temp);
-  }, [props.employeeSeq]);
-
   //리스트 객체 특정값 변경 함수
   const updateIndexObject = (idx, obj) => {
     let copyGroupList = [...props.data];
@@ -153,9 +132,7 @@ function EmpDept(props) {
     });
     props.setData(copyGroupList);
   };
-  useEffect(() => {
-    console.log(props.data);
-  }, [props.data]);
+
   //부서가 선택 되지 않았을 때, 됐지만 조건에 충족하지 않을 때
   const notSelectDepartment = (seq) => {
     seq != 0
@@ -343,7 +320,7 @@ function EmpDept(props) {
                                   workplaceName: "",
                                   departmentName: "",
                                   mainCompanyYN: "N",
-                                  mainDepartmentYN: "N",
+                                  mainDepartmentYN: "",
                                   employeeCode: "",
                                 });
                           }}
