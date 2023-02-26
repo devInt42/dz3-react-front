@@ -3,7 +3,7 @@ import axios from "axios";
 import { TreeView, TreeItem } from "@mui/lab";
 import { ReactComponent as Folder } from "../authGroup/folder.svg";
 import { ReactComponent as FolderOpen } from "../authGroup/folderopen.svg";
-import DepartmentParent from "./DepartmentParent";
+import DepartmentParent from "../modals/DepartmentParent";
 const WorkplaceGroup = (props) => {
   const baseUrl = "http://localhost:8080";
   const [companySeq, setCompanySeq] = useState(0);
@@ -53,16 +53,19 @@ const WorkplaceGroup = (props) => {
         defaultCollapseIcon={<FolderOpen />}
         defaultExpandIcon={<Folder />}
         sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-        multiSelect>
+        multiSelect
+      >
         {workplaceNameList &&
           workplaceNameList.map((workplaceItem) => (
             <div
               key={`W${workplaceItem.workplaceSeq}`}
-              style={{ display: "flex", alignItems: "flex-start" }}>
+              style={{ display: "flex", alignItems: "flex-start" }}
+            >
               <TreeItem
                 key={`W${workplaceItem.workplaceSeq}`}
                 nodeId={workplaceItem.workplaceSeq.toString()}
-                label={workplaceItem.workplaceName}>
+                label={workplaceItem.workplaceName}
+              >
                 <DepartmentParent
                   companySeq={workplaceItem.companySeq}
                   workplaceSeq={workplaceItem.workplaceSeq}

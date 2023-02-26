@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { TreeView, TreeItem } from "@mui/lab";
 import { ReactComponent as Folder } from "../authGroup/folder.svg";
 import { ReactComponent as FolderOpen } from "../authGroup/folderopen.svg";
-import WorkplaceGroup from "./WorkplaceGroup";
+import WorkplaceGroup from "../modals/WorkplaceGroup";
 
 const CompanyList = (props) => {
   const baseUrl = "http://localhost:8080";
@@ -61,17 +61,20 @@ const CompanyList = (props) => {
       aria-label="file system navigator"
       defaultCollapseIcon={<FolderOpen />}
       defaultExpandIcon={<Folder />}
-      sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}>
+      sx={{ flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+    >
       {companyNameList &&
         companyNameList.map((companyItem) => (
           <div
             key={`C${companyItem.companySeq}`}
-            style={{ display: "flex", alignItems: "flex-start" }}>
+            style={{ display: "flex", alignItems: "flex-start" }}
+          >
             <TreeItem
               key={`C${companyItem.companySeq}`}
               nodeId={companyItem.companySeq.toString()}
               label={companyItem.companyName}
-              id={companyItem.companySeq.toString()}>
+              id={companyItem.companySeq.toString()}
+            >
               <WorkplaceGroup
                 companySeq={companyItem.companySeq}
                 sendPointList={sendPointList}
