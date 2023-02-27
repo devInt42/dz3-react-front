@@ -1,5 +1,6 @@
 import { BsDot } from "react-icons/bs";
 import { TfiClose } from "react-icons/tfi";
+import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "./css/DepartmentDetail.css";
 import { React, useEffect, useState } from "react";
@@ -10,7 +11,6 @@ import SaveDepartmentAlert from "./alert/SaveDepartmentAlert";
 import UpdateDepartmentAlert from "./alert/UpdateDepartmentAlert";
 import DeleteDepartmentAlert from "./alert/DeleteDepartmentAlert";
 import ZippopupDom from "./zipcode/ZippopupDom";
-import { Button } from "react-bootstrap";
 import ZippopupPostCode from "./zipcode/ZippopupZipCode";
 const DepartmentDetail = (props) => {
   const baseUrl = "http://localhost:8080";
@@ -322,12 +322,20 @@ const DepartmentDetail = (props) => {
         </b>
         <div>
           {props.departmentSeq !== 0 && !props.insertForm && (
-            <Button variant="outline-success" onClick={() => InsertForm()}>
+            <Button
+              variant="outline-success"
+              style={{ marginRight: "10px" }}
+              onClick={() => InsertForm()}
+            >
               추가
             </Button>
           )}
           {(props.departmentSeq !== 0 || props.workplaceSeq !== 0) && (
-            <Button variant="outline-primary" onClick={() => AllCheck()}>
+            <Button
+              variant="outline-primary"
+              style={{ marginRight: "10px" }}
+              onClick={() => AllCheck()}
+            >
               저장
             </Button>
           )}
@@ -366,7 +374,6 @@ const DepartmentDetail = (props) => {
           {props.departmentSeq !== 0 && !props.insertForm && (
             <Button
               variant="outline-danger"
-              type="button"
               onClick={() => setCheckDelete(true)}
             >
               삭제
@@ -387,12 +394,6 @@ const DepartmentDetail = (props) => {
       </div>
       {notRequire}
       <hr />
-      <div id="department-detail-menu-form">
-        <div className="department-detail-menu department-detail-basicmenu">
-          기본 정보
-        </div>
-        <div className="department-detail-menu">부서원 정보</div>
-      </div>
       <table id="department-table">
         <thead></thead>
         <tbody>

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Row, Col, OverlayTrigger, Popover } from "react-bootstrap";
 import PopInfo from "./PopInfo";
 import style from "../menu/css/GNB.module.css";

@@ -1,10 +1,9 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
-import AllCompanyList from "./AllCompanyList";
-import AllSelectList from "./AllSelectList";
-import AllEmployeeList from "./AllEmployeeList";
-import "../modals/OrganizationChart";
+import AllCompanyList from "../commonModal/AllCompanyList";
+import AllSelectList from "../commonModal/AllSelectList";
+import AllEmployeeList from "../commonModal/AllEmployeeList";
 import "../modals/SearchModal.css";
 
 const CommonModal = (props) => {
