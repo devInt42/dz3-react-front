@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
-import { Container, Row, Col} from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { VscExpandAll } from "react-icons/vsc";
 import { GrCircleAlert } from "react-icons/gr";
 import { FcPlus } from "react-icons/fc";
-import Icons from "../components/menu/Icons"
+import Icons from "../components/menu/Icons";
 
 import style from "../components/menu/css/MenuSet.module.css";
 import Switch from "@mui/material/Switch";
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 import MenuSearch from "../components/menu/MenuSearch";
 import SaveMenuAlert from "../components/alert/SaveMenuAlert";
@@ -32,10 +32,14 @@ function MenuSet() {
   const listMenu = async () => {
     try {
       let list = await axios.get(baseUrl + "/menu/menulist");
-      setMenu(list.data)
-    } catch (error) { console.log(error) }
+      setMenu(list.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  useEffect(() => { listMenu(); }, [])
+  useEffect(() => {
+    listMenu();
+  }, []);
 
   const [menuSeq, setMenuSeq] = useState(0);
   const [menuCode, setMenuCode] = useState("");
@@ -155,15 +159,20 @@ function MenuSet() {
 
   const [allChildMenu, setAllChildMenu] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8080/menu/tree/" + menuSeq)
-      .then((response) => { setAllChildMenu(response.data); })
-      .catch((error) => console.log(error))
+    axios
+      .get("http://localhost:8080/menu/tree/" + menuSeq)
+      .then((response) => {
+        setAllChildMenu(response.data);
+      })
+      .catch((error) => console.log(error));
   }, [menuSeq]);
 
   // 상위 메뉴 선택 시 본인 제외
   const exceptMenu = menu.filter((item) => item.menuSeq != menuSeq);
   // 부모가 자신의 자손으로 들어갈 수 없으므로 상위메뉴 선택에서 본인의 자손 메뉴들 제외
-  const exceptChildMenu = exceptMenu.filter((item) => { return !allChildMenu.some(other => other.menuParent === item.menuParent) })
+  const exceptChildMenu = exceptMenu.filter((item) => {
+    return !allChildMenu.some((other) => other.menuParent === item.menuParent);
+  });
 
   //메뉴 새로 저장
   const [selectActive, setSelectActive] = useState(true);
@@ -247,10 +256,7 @@ function MenuSet() {
           있습니다.
         </div>
         <Row>
-          <Col
-            md="auto"
-            className={style.searchVar}
-            >
+          <Col md="auto" className={style.searchVar}>
             <MenuSearch
               getSearchInfo={getSearchInfo}
               insertFlag={insertFlag}
@@ -292,8 +298,8 @@ function MenuSet() {
                               ? firstCode == menuCode
                                 ? true
                                 : returnCode.length > 0
-                                  ? false
-                                  : true
+                                ? false
+                                : true
                               : false
                           }
                           isInvalid={
@@ -301,8 +307,8 @@ function MenuSet() {
                               ? firstCode == menuCode
                                 ? false
                                 : returnCode.length > 0
-                                  ? true
-                                  : false
+                                ? true
+                                : false
                               : true
                           }
                         />
@@ -343,8 +349,8 @@ function MenuSet() {
                               ? firstName == menuName
                                 ? true
                                 : returnName.length > 0
-                                  ? false
-                                  : true
+                                ? false
+                                : true
                               : false
                           }
                           isInvalid={
@@ -352,8 +358,8 @@ function MenuSet() {
                               ? firstName == menuName
                                 ? false
                                 : returnName.length > 0
-                                  ? true
-                                  : false
+                                ? true
+                                : false
                               : true
                           }
                         />
@@ -381,13 +387,14 @@ function MenuSet() {
                   <tr>
                     <th>상위 메뉴</th>
                     <td>
-                      {['left'].map((placement) => (
+                      {["left"].map((placement) => (
                         <OverlayTrigger
                           key={placement}
                           placement={placement}
                           overlay={
                             <Tooltip id={`tooltip-${placement}`}>
-                              상위 메뉴에는 <strong>본인</strong>을 포함한 <strong>자손 메뉴</strong>들이 포함되지 않습니다.
+                              상위 메뉴에는 <strong>본인</strong>을 포함한{" "}
+                              <strong>자손 메뉴</strong>들이 포함되지 않습니다.
                               {/* <strong>{placement}</strong>. */}
                             </Tooltip>
                           }
@@ -401,15 +408,15 @@ function MenuSet() {
                             {/* {menu.map((menu, i) => ( */}
                             {selectActive == true
                               ? menu.map((menu, i) => (
-                                <option value={menu.menuSeq} key={i}>
-                                  {menu.menuName}
-                                </option>
-                              ))
+                                  <option value={menu.menuSeq} key={i}>
+                                    {menu.menuName}
+                                  </option>
+                                ))
                               : exceptChildMenu.map((menu, i) => (
-                                <option value={menu.menuSeq} key={i}>
-                                  {menu.menuName}
-                                </option>
-                              ))}
+                                  <option value={menu.menuSeq} key={i}>
+                                    {menu.menuName}
+                                  </option>
+                                ))}
                           </select>
                         </OverlayTrigger>
                       ))}
@@ -456,10 +463,13 @@ function MenuSet() {
                     <td>
                       {/* <img src={imgFile ? imgFile : ""} style={{width: "30px", height: "30px"}}/>
                       <button onClick={()=> deleteImg()}>delete</button> */}
-                      {imgFile&&
-                      <img src={process.env.PUBLIC_URL + imgFile} style={{width:"30px", height:"30px"}}/>
-                    }
-                      <Icons setImgFile={setImgFile}/>
+                      {imgFile && (
+                        <img
+                          src={process.env.PUBLIC_URL + imgFile}
+                          style={{ width: "30px", height: "30px" }}
+                        />
+                      )}
+                      <Icons setImgFile={setImgFile} />
                     </td>
                   </tr>
                 </tbody>
@@ -559,7 +569,8 @@ function MenuSet() {
     })
       .then((res) => {
         setInsertFlag(true);
-        newInsert(); listMenu();
+        newInsert();
+        listMenu();
       })
       .catch((error) => {
         console.log(error);
@@ -575,7 +586,8 @@ function MenuSet() {
     })
       .then((res) => {
         setDeleteFlag(true);
-        newInsert(); listMenu();
+        newInsert();
+        listMenu();
       })
       .catch((error) => {
         console.log(error);
@@ -599,7 +611,8 @@ function MenuSet() {
       headers: { "Content-Type": "application/json" },
     })
       .then((res) => {
-        setUpdateFlag(true); listMenu();
+        setUpdateFlag(true);
+        listMenu();
       })
       .catch((error) => {
         console.log(error);
