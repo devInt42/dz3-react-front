@@ -1,9 +1,9 @@
 import { Row, Col } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
 import "./SearchModal.css";
-import CompanyList from "./CompanyList";
-import EmployeeList from "./EmployeeList";
-import EmployeeDetail from "./EmployeeDetail";
+import CompanyList from "../modals/CompanyList";
+import EmployeeList from "../modals/EmployeeList";
+import EmployeeDetail from "../modals/EmployeeDetail";
 
 const OrganizationChart = (props) => {
   const { open, close, header } = props;
@@ -79,7 +79,8 @@ const OrganizationChart = (props) => {
               onClick={() => {
                 close();
                 reset();
-              }}>
+              }}
+            >
               X
             </button>
           </header>
@@ -90,7 +91,8 @@ const OrganizationChart = (props) => {
                   <Col sm={3}>
                     <select
                       className="form-select"
-                      aria-label="Default select example">
+                      aria-label="Default select example"
+                    >
                       <option>사원명</option>
                     </select>
                   </Col>
@@ -100,13 +102,15 @@ const OrganizationChart = (props) => {
                       className="form-control"
                       placeholder="검색어를 입력하세요."
                       onChange={onChange}
-                      value={text || ""}></input>
+                      value={text || ""}
+                    ></input>
                   </Col>
                   <Col sm={1}>
                     <button
                       style={{ width: "90px" }}
                       className="btn btn-secondary"
-                      onClick={sendInputText}>
+                      onClick={sendInputText}
+                    >
                       검색
                     </button>
                   </Col>

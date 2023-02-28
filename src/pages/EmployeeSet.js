@@ -49,6 +49,7 @@ function EmployeeSet() {
       .then((response) => {
         setBasicData(response.data[0]);
         setBasicFirstData(response.data[0]);
+        console.log(response.data[0]);
       })
       .catch((error) => console.log(error));
 
@@ -113,7 +114,7 @@ function EmployeeSet() {
       useYN: "Y",
       employeeGender: "",
       employeeLanguage: "",
-      employeeHcall: "",
+      employeeHCall: "",
       approvalPwd: "",
       insertData: "Y",
     });
@@ -134,7 +135,7 @@ function EmployeeSet() {
       useYN: "Y",
       employeeGender: "",
       employeeLanguage: "",
-      employeeHcall: "",
+      employeeHCall: "",
       approvalPwd: "",
       insertData: "Y",
     });
@@ -445,6 +446,7 @@ function EmployeeSet() {
   const Update = async () => {
     const data = { ...basicData, groupData };
     const empData = { ...data, groupFirstData };
+    console.log(empData);
     await axios.post(`${baseUrl}/department-employee/addupdateemp`, empData);
   };
   const selectDelete = async (obj) => {
@@ -542,14 +544,16 @@ function EmployeeSet() {
                         사원 추가
                       </Button>
                     )}{" "}
-                    {employeeSeq && !insertFlag && (
+                    {employeeSeq && !insertFlag ? (
                       <Button
-                        variant="outline-danger "
+                        variant="outline-danger"
                         onClick={() => delEmp()}
                         style={{ marginRight: "10px" }}
                       >
                         삭제
                       </Button>
+                    ) : (
+                      <></>
                     )}
                     <Button
                       variant="outline-primary"
@@ -574,6 +578,7 @@ function EmployeeSet() {
                   setReturnId={setReturnId}
                   returnCmail={returnCmail}
                   setReturnCmail={setReturnCmail}
+                  insertFlag = {insertFlag}
                 />
               </TabPanel>
               <TabPanel value={value} index={1}>
@@ -594,6 +599,7 @@ function EmployeeSet() {
                   setDeleteFlag={setDeleteFlag}
                   insertFlag={insertFlag}
                   mainSeqsFlag={mainSeqsFlag}
+                  setStatus={setStatus}
                 />
               </TabPanel>
             </Box>

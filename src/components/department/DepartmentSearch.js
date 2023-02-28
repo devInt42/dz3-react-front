@@ -1,6 +1,7 @@
+import { margin } from "@mui/system";
 import axios from "axios";
 import { useState, useEffect } from "react";
-
+import { Button } from "react-bootstrap";
 const DepartmentSearch = (props) => {
   const baseUrl = "http://localhost:8080";
 
@@ -23,7 +24,7 @@ const DepartmentSearch = (props) => {
   function FindDepartment() {
     const param = {
       searchName: searchName,
-      searchCompanySeq: props.companySeq
+      searchCompanySeq: props.companySeq,
     };
     console.log(param);
     axios
@@ -36,42 +37,54 @@ const DepartmentSearch = (props) => {
 
   return (
     companyList && (
-      <div>
-        회사{" "}
-        <input
-          type="text"
-          placeholder="코드/사업장/부서명을 입력하세요."
-          onChange={(e) => {
-            setSearchName(e.target.value);
-          }}
-        />
-        <select
-          onChange={(e) => {
-            props.setCompanySeq(e.target.value);
-          }}
-        >
-          <option disabled>-회사 선택-</option>
-          {companyList.length > 0
-            ? companyList.map((company, idx) => {
-                return (
-                  <option key={idx} value={company.companySeq}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ marginLeft: "10px" }}>회사</div>
+        <div style={{ marginLeft: "10px" }}>
+          <select
+            onChange={(e) => {
+              props.setCompanySeq(e.target.value);
+            }}
+          >
+            <option disabled>-회사 선택-</option>
+            {companyList.length > 0
+              ? companyList.map((company, idx) => {
+                  return (
+                    <option key={idx} value={company.companySeq}>
+                      {company.companyName}
+                    </option>
+                  );
+                })
+              : company && (
+                  <option value={company.companySeq}>
                     {company.companyName}
                   </option>
-                );
-              })
-            : company && (
-                <option value={company.companySeq}>
-                  {company.companyName}
-                </option>
-              )}
-        </select>
-        <button
-          onClick={() => {
-            FindDepartment();
-          }}
-        >
-          찾기
-        </button>
+                )}
+          </select>
+        </div>
+        <div style={{ marginLeft: "10px" }}>
+          <input
+            type="text"
+            placeholder="코드/사업장/부서명을 입력하세요."
+            onChange={(e) => {
+              setSearchName(e.target.value);
+            }}
+          />
+        </div>{" "}
+        <div style={{ marginLeft: "10px" }}>
+          <Button
+            variant="outline-secondary"
+            onClick={() => {
+              FindDepartment();
+            }}
+          >
+            찾기
+          </Button>
+        </div>
       </div>
     )
   );

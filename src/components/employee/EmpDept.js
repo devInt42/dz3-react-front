@@ -13,6 +13,7 @@ function EmpDept(props) {
   //main 회사 구분
   const [mainCompanySeq, setMainCompanySeq] = useState(0);
   const [mainSeqs, setMainSeqs] = useState([]);
+  const [companySeq, setCompanySeq] = useState(0);
   //추가를 눌렸을 때 초기화된 객체를 추가하기 위한 데이터
   const insertData = {
     employeeSeq: 0,
@@ -60,42 +61,7 @@ function EmpDept(props) {
     props.data.map((data) => {
       data.mainCompanyYN == "Y" && setMainCompanySeq(data.companySeq);
     });
-    props.data.map((data) => {
-      data.departmentYN == "Y" &&
-        setMainSeqs(mainSeqs, {
-          companySeq: data.companySeq,
-          department: data.departmentSeq,
-        });
-    });
-  }, []);
-
-  useEffect(() => {}, [mainSeqs]);
-  useEffect(() => {
-    setMainSeqs([]);
-    setMainCompanySeq(0);
-  }, [props.mainSeqsFlag]);
-  //주회사 주부서 구분
-  useEffect(() => {
-    let temp = [];
-    props.data.map((data) => {
-      data.mainCompanyYN == "Y" && setMainCompanySeq(data.companySeq);
-      data.mainDepartmentYN == "Y"
-        ? temp.push({
-            employeeSeq: data.employeeSeq,
-            companySeq: data.companySeq,
-            departmentSeq: data.departmentSeq,
-            main: "Y",
-          })
-        : temp.push({
-            employeeSeq: data.employeeSeq,
-            companySeq: data.companySeq,
-            departmentSeq: data.departmentSeq,
-            main: "N",
-          });
-    });
-    setMainSeqs(temp);
-  }, [props.employeeSeq]);
-
+  }, [props.data]);
   //리스트 객체 특정값 변경 함수
   const updateIndexObject = (idx, obj) => {
     let copyGroupList = [...props.data];
@@ -131,7 +97,6 @@ function EmpDept(props) {
   };
   const updateDepartment = (companySeq, departmentSeq) => {
     let copyGroupList = [...props.data];
-    console.log(copyGroupList);
     props.data.map((seq, key) => {
       seq.departmentSeq == departmentSeq
         ? (copyGroupList[key] = {
@@ -147,6 +112,27 @@ function EmpDept(props) {
     });
     props.setData(copyGroupList);
   };
+  useEffect(() => {
+    employeeCodeSetting(companySeq);
+  }, [companySeq]);
+  const employeeCodeSetting = (companySeq) => {
+    let copyGroupList = [...props.data];
+    let employeeCode = [];
+    props.data.map((seq) => {
+      seq.companySeq == companySeq &&
+        seq.employeeCode != "" &&
+        employeeCode.push(seq.employeeCode);
+    });
+    props.data.map((seq, key) => {
+      seq.companySeq == companySeq &&
+        (copyGroupList[key] = {
+          ...copyGroupList[key],
+          ...{ employeeCode: employeeCode[0] },
+        });
+    });
+    props.setData(copyGroupList);
+  };
+
   //부서가 선택 되지 않았을 때, 됐지만 조건에 충족하지 않을 때
   const notSelectDepartment = (seq) => {
     seq != 0
@@ -179,17 +165,6 @@ function EmpDept(props) {
     return (
       props.firstData[findIndex].employeeCode ==
       props.data[findIndex].employeeCode
-    );
-  };
-
-  //첫 데이터와 비교 (중복체크 전)
-  const firstDepartmentCheck = (seq) => {
-    const findIndex = props.data.findIndex(
-      (element) => element.companySeq == seq
-    );
-    return (
-      props.firstData[findIndex].departmentName ==
-      props.data[findIndex].departmentName
     );
   };
 
@@ -275,6 +250,15 @@ function EmpDept(props) {
                             idx={idx}
                           />
                         )
+                      : group.mainCompanyYN == "Y" &&
+                        group.mainDepartmentYN == "Y"
+                      ? props.setNotRequire(
+                          <EmpAlert
+                            title="주회사의 주부서는 삭제할 수 없습니다."
+                            icon="error"
+                            successButton="확인"
+                          />
+                        )
                       : props.setNotRequire(
                           <EmpAlert
                             title="제거하시겠습니까?"
@@ -303,17 +287,21 @@ function EmpDept(props) {
                           value={group.companySeq}
                           name="companylist"
                           onChange={(e) => {
-                            mainCompanySeq == 0
-                              ? updateObject(group.departmentSeq, {
-                                  companySeq: e.target.value,
-                                  workplaceSeq: 0,
-                                  departmentSeq: 0,
-                                  workplaceName: "",
-                                  departmentName: "",
-                                  mainCompanyYN: "Y",
-                                  mainDepartmentYN: "",
-                                  employeeCode: "",
-                                })
+                            setCompanySeq(e.target.value);
+                            props.data.length < 2
+                              ? (function () {
+                                  updateObject(group.departmentSeq, {
+                                    companySeq: e.target.value,
+                                    workplaceSeq: 0,
+                                    departmentSeq: 0,
+                                    workplaceName: "",
+                                    departmentName: "",
+                                    mainCompanyYN: "Y",
+                                    mainDepartmentYN: "Y",
+                                    employeeCode: "",
+                                  });
+                                  setMainCompanySeq(e.target.value);
+                                })()
                               : e.target.value == mainCompanySeq
                               ? updateObject(group.departmentSeq, {
                                   companySeq: e.target.value,
@@ -322,7 +310,7 @@ function EmpDept(props) {
                                   workplaceName: "",
                                   departmentName: "",
                                   mainCompanyYN: "Y",
-                                  mainDepartmentYN: "",
+                                  mainDepartmentYN: "N",
                                   employeeCode: "",
                                 })
                               : updateObject(group.departmentSeq, {
@@ -361,21 +349,12 @@ function EmpDept(props) {
                                 zIndex: "0",
                                 backgroundColor: "rgba(241, 199, 199, 0.328)",
                               }}
-                              isValid={
-                                group.departmentName == undefined ||
-                                group.departmentName == ""
-                                  ? false
-                                  : firstDepartmentCheck(group.companySeq)
-                                  ? ""
-                                  : group.departmentName != null ||
-                                    group.departmentName != undefined
-                              }
-                              isInvalid={group.departmentName == ""}
                             />
                             <ManageModal
                               companySeq={group.companySeq}
                               updateIndexObject={updateIndexObject}
                               idx={idx}
+                              updateDepartment={updateDepartment}
                             />
                           </div>
                         </Form.Group>
@@ -420,6 +399,13 @@ function EmpDept(props) {
                                   group.employeeCode == ""
                                 ? true
                                 : false
+                            }
+                            readOnly={
+                              group.insertData == null ||
+                              group.insertData == "" ||
+                              group.insertData == undefined ||
+                              group.mainDepartmentYN == "N" ||
+                              group.departmentSeq == 0
                             }
                           />
                         </Form.Group>
@@ -584,7 +570,9 @@ function EmpDept(props) {
                     <tr>
                       <th>주소</th>
                       <td colSpan={3}>
-                        {`${group.departmentZipCode} | ${group.departmentLoc}`}
+                        {group.departmentZipCode
+                          ? `${group.departmentZipCode} | ${group.departmentLoc}`
+                          : "-"}
                       </td>
                     </tr>
                   </tbody>

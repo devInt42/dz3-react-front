@@ -108,12 +108,14 @@ const SubDepartment = (props) => {
         departmentNameList.map((departmentNameItem) => (
           <div
             key={`D${departmentNameItem.departmentSeq}`}
-            style={{ display: "flex", alignItems: "flex-start" }}>
+            style={{ display: "flex", alignItems: "flex-start" }}
+          >
             <TreeItem
               key={`D${departmentNameItem.departmentSeq}`}
               nodeId={departmentNameItem.departmentSeq.toString()}
               label={departmentNameItem.departmentName}
-              onClick={getDeptSeq}>
+              onClick={getDeptSeq}
+            >
               <SubDepartment
                 companySeq={departmentNameItem.companySeq}
                 workplaceSeq={departmentNameItem.workplaceSeq}
