@@ -8,11 +8,17 @@ const AllSelectList = (props) => {
   //modal에서 값 받아오기
   useEffect(() => {
     async function getEmplName() {
-      const result = await JSON.parse(props.checkItem);
-      setCheckItem(result);
+      if (props.checkItem) {
+        try {
+          const result = JSON.parse(props.checkItem);
+          setCheckItem(result);
+        } catch (error) {
+          console.error("Invalid JSON input:", props.checkItem);
+        }
+      }
     }
     getEmplName();
-  }, [props]);
+  }, [props.checkItem]);
 
   const checklength = useCallback(async () => {
     props.sendCheckLength(checkItem.length);
